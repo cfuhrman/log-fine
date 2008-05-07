@@ -1,0 +1,23 @@
+Changes
+MANIFEST
+META.yml # Will be created by "make dist"
+Makefile.PL
+README
+LICENSE
+lib/Log/BSDLog.pm
+lib/Log/BSDLog/Formatter.pm
+lib/Log/BSDLog/Formatter/Basic.pm
+lib/Log/BSDLog/Formatter/Detailed.pm
+lib/Log/BSDLog/Handle.pm
+lib/Log/BSDLog/Handle/File.pm
+lib/Log/BSDLog/Handle/Output.pm
+lib/Log/BSDLog/Handle/Syslog.pm
+lib/Log/BSDLog/Handle/Test.pm
+lib/Log/BSDLog/Logger.pm
+t/00-load.t
+t/01-getLogger.t
+t/02-Handle.t
+t/03-File.t
+t/boilerplate.t
+t/pod-coverage.t
+t/pod.t

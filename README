@@ -1,0 +1,140 @@
+NAME
+    Log::BSDLog - Yet another logging framework
+
+SYNOPSIS
+    Provides fine-grained logging and tracing.
+
+        use Log::BSDLog;
+        use Log::BSDLog qw( :masks );          # log masks
+        use Log::BSDLog qw( :macros :masks );  # everything
+
+        # grab our logger object
+        my $log = Log::BSDLog->getLogger("foo");
+
+        # register a handle, in this case a handle that logs to console.
+        $log->registerHandle( Log::BSDLog::Handler::Output->new() );
+
+        # log a message
+        $log->log(INFO, "Log object successfully initialized");
+
+DESCRIPTION
+    Log::BSDLog provides a logging framework for application developers who
+    need a fine-grained logging mechanism in their program(s). By itself,
+    Log::BSDLog provides a mechanism to get one or more logging objects
+    (called *loggers*) from its stored namespace. Most logging is then done
+    through a logger object that is specific to the application.
+
+  Handlers
+    Handlers provides a means to output log messages in one or more ways.
+    Currently, the following handles are provided:
+
+    Log::BSDLog::Handler::Output
+        Provides logging to "STDERR" or "STDOUT".
+
+    Log::BSDLog::Handler::File
+        Provides logging to a file.
+
+    Log::BSDLog::Handler::Syslog
+        Provides logging to syslog
+
+    Additional Handlers can be defined to the user's taste.
+
+  Log Levels
+    Log::BSDLog bases its log levels on those found in the Sys::Syslog
+    module. For convenience, the following shorthand macros are exported.
+
+    EMER
+    ALRT
+    CRIT
+    ERR
+    WARN
+    NOTI
+    INFO
+    DEBG
+
+    Each of these corresponds to the appropriate logging level.
+
+  Masks
+    Log masks can be exported for use in setting up individual handles (see
+    Log::BSDLog::Handler). Log::BSDLog exports the following masks
+    corresponding to their log level:
+
+    "LOGMASK_EMERG"
+    "LOGMASK_ALERT"
+    "LOGMASK_CRIT"
+    "LOGMASK_ERR"
+    "LOGMASK_WARNING"
+    "LOGMASK_NOTICE"
+    "LOGMASK_INFO"
+    "LOGMASK_DEBUG"
+
+    See Log::BSDLog::Handler for more information.
+
+  Logging Formats
+    By default, log messages are formatted as follows using the Basic
+    formatter object.
+
+         [<time>] <LEVEL> <MESSAGE>\n
+
+    For more information on the customization of log messages, please see
+    Log::BSDLog::Formatter.
+
+METHODS
+    The Log::BSDLog module, by itself, simply exports a few constants, and
+    allows the developer to get a new logger. After a logger is created,
+    further actions are done through the logger object. The following two
+    constructors are defined:
+
+  new($hash)
+    Creates a new Log::BSDLog object.
+
+  getLogger($name)
+    Creates a logger with the given name. This method can also be used as a
+    constructor for a Log::BSDLog object
+
+AUTHOR
+    Christopher M. Fuhrman, "<cfuhrman at panix.com>"
+
+BUGS
+    Please report any bugs or feature requests to "bug-log-bsdlog at
+    rt.cpan.org", or through the web interface at
+    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-BSDLog>. I will be
+    notified, and then you'll automatically be notified of progress on your
+    bug as I make changes.
+
+SUPPORT
+    You can find documentation for this module with the perldoc command.
+
+        perldoc Log::BSDLog
+
+    You can also look for information at:
+
+    *   AnnoCPAN: Annotated CPAN documentation
+
+        <http://annocpan.org/dist/Log-BSDLog>
+
+    *   CPAN Ratings
+
+        <http://cpanratings.perl.org/d/Log-BSDLog>
+
+    *   RT: CPAN's request tracker
+
+        <http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-BSDLog>
+
+    *   Search CPAN
+
+        <http://search.cpan.org/dist/Log-BSDLog>
+
+COPYRIGHT & LICENSE
+    Copyright (c) 2008 Christopher M. Fuhrman, All rights reserved.
+
+    This program is free software licensed under the...
+
+            The BSD License
+
+    The full text of the license can be found in the LICENSE file included
+    with this module.
+
+SEE ALSO
+    perl, syslog, Sys::Syslog
+
