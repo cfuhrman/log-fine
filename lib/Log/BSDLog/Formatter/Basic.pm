@@ -61,19 +61,19 @@ Returns the formatted message as follows:
 sub format
 {
 
-    my $self = shift;
-    my $lvl  = shift;
-    my $msg  = shift;
-    my $skip = shift;                         # NOT USED
-    my $lvls = Log::BSDLog->LOG_LEVELS;
+        my $self = shift;
+        my $lvl  = shift;
+        my $msg  = shift;
+        my $skip = shift;                           # NOT USED
+        my $lvls = Log::BSDLog->LOG_LEVELS;
 
-    # return the formatted string
-    return
-        sprintf("[%s] %-4s %s\n",
-                strftime($self->{timestamp_format}, localtime(time)),
-                $lvls->[$lvl], $msg);
+        # return the formatted string
+        return
+                sprintf("[%s] %-4s %s\n",
+                        strftime($self->{timestamp_format}, localtime(time)),
+                        $lvls->[$lvl], $msg);
 
-}        # format()
+}          # format()
 
 =head1 AUTHOR
 
@@ -133,4 +133,4 @@ LICENSE file included with this module.
 
 =cut
 
-1;        # End of Log::BSDLog::Formatter::Basic
+1;          # End of Log::BSDLog::Formatter::Basic

@@ -49,27 +49,27 @@ See L<Log::BSDLog::Handle>
 sub msgWrite
 {
 
-    my $self = shift;
-    my $lvl  = shift;
-    my $msg  = shift;
-    my $skip = shift;
+        my $self = shift;
+        my $lvl  = shift;
+        my $msg  = shift;
+        my $skip = shift;
 
-    # if we have a formatter defined, then use that, otherwise, just
-    # print the raw message
-    $msg = $self->{formatter}->format($lvl, $msg, $skip)
-        if defined $self->{formatter};
+        # if we have a formatter defined, then use that, otherwise, just
+        # print the raw message
+        $msg = $self->{formatter}->format($lvl, $msg, $skip)
+                if defined $self->{formatter};
 
-    # where do we send the message to?
-    if (defined $self->{use_stderr}) {
-        print STDERR $msg;
-    } else {
-        print STDOUT $msg;
-    }
+        # where do we send the message to?
+        if (defined $self->{use_stderr}) {
+                print STDERR $msg;
+        } else {
+                print STDOUT $msg;
+        }
 
-    # Victory!
-    return $self;
+        # Victory!
+        return $self;
 
-}        # msgWrite()
+}          # msgWrite()
 
 # --------------------------------------------------------------------
 
@@ -79,19 +79,19 @@ sub msgWrite
 sub _init
 {
 
-    my $self = shift;
+        my $self = shift;
 
-    # call the super object
-    $self->SUPER::_init();
+        # call the super object
+        $self->SUPER::_init();
 
-    # by default, we print messages to STDOUT
-    $self->{use_stderr} = undef
-        unless (exists $self->{use_stderr});
+        # by default, we print messages to STDOUT
+        $self->{use_stderr} = undef
+                unless (exists $self->{use_stderr});
 
-    # Victory!
-    return $self;
+        # Victory!
+        return $self;
 
-}        # _init()
+}          # _init()
 
 =head1 AUTHOR
 
@@ -151,4 +151,4 @@ LICENSE file included with this module.
 
 =cut
 
-1;        # End of Log::BSDLog::Handle::Output
+1;          # End of Log::BSDLog::Handle::Output

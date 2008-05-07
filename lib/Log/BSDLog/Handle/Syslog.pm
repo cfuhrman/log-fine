@@ -82,19 +82,19 @@ handled by the syslog facility.
 sub msgWrite
 {
 
-    my $self = shift;
-    my $lvl  = shift;
-    my $msg  = shift;
-    my $skip = shift;             # NOT USED
-    my $map  = LOG_MAPPING;
+        my $self = shift;
+        my $lvl  = shift;
+        my $msg  = shift;
+        my $skip = shift;               # NOT USED
+        my $map  = LOG_MAPPING;
 
-    # write to syslog
-    syslog($map->{$lvl}, $msg);
+        # write to syslog
+        syslog($map->{$lvl}, $msg);
 
-    # Victory!
-    return $self;
+        # Victory!
+        return $self;
 
-}        # msgWrite()
+}          # msgWrite()
 
 # --------------------------------------------------------------------
 
@@ -104,29 +104,30 @@ sub msgWrite
 sub _init
 {
 
-    my $self = shift;
+        my $self = shift;
 
-    # call the super object
-    $self->SUPER::_init();
+        # call the super object
+        $self->SUPER::_init();
 
-    # set ident
-    $self->{ident} = basename $0;
+        # set ident
+        $self->{ident} = basename $0;
 
-    # set the default logopts (to be passed to Sys::Syslog::openlog()
-    $self->{logopts} = "pid"
-        unless (defined $self->{logopts} and $self->{logopts} =~ /\w+/);
+        # set the default logopts (to be passed to Sys::Syslog::openlog()
+        $self->{logopts} = "pid"
+                unless (defined $self->{logopts} and $self->{logopts} =~ /\w+/);
 
-    # set the default facility
-    $self->{facility} = LOG_LOCAL0
-        unless (defined $self->{faciity} and $self->{facility} =~ /\w+/);
+        # set the default facility
+        $self->{facility} = LOG_LOCAL0
+                unless (defined $self->{faciity}
+                        and $self->{facility} =~ /\w+/);
 
-    # open the syslog connection
-    openlog($self->{ident}, $self->{logopts}, $self->{facility});
+        # open the syslog connection
+        openlog($self->{ident}, $self->{logopts}, $self->{facility});
 
-    # Victory!
-    return $self;
+        # Victory!
+        return $self;
 
-}        # _init()
+}          # _init()
 
 =head1 AUTHOR
 
@@ -192,4 +193,4 @@ L<perl>, L<syslog>, L<Sys::Syslog>
 
 =cut
 
-1;        # End of Log::BSDLog::Handle::Syslog
+1;          # End of Log::BSDLog::Handle::Syslog

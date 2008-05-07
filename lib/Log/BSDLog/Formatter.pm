@@ -46,19 +46,19 @@ use constant LOG_TIMESTAMP_FORMAT => "%c";
 sub _init
 {
 
-    my $self = shift;
+        my $self = shift;
 
-    # make sure we load in the logger object
-    require Log::BSDLog::Logger;
+        # make sure we load in the logger object
+        require Log::BSDLog::Logger;
 
-    # set timestamp_format to the default if necessary
-    $self->{timestamp_format} = LOG_TIMESTAMP_FORMAT
-        unless (defined $self->{timestamp_format}
-                and $self->{timestamp_format} =~ /\w+/);
+        # set timestamp_format to the default if necessary
+        $self->{timestamp_format} = LOG_TIMESTAMP_FORMAT
+                unless (defined $self->{timestamp_format}
+                        and $self->{timestamp_format} =~ /\w+/);
 
-    return $self;
+        return $self;
 
-}        # _init()
+}          # _init()
 
 =head1 AUTHOR
 
@@ -118,5 +118,5 @@ LICENSE file included with this module.
 
 =cut
 
-1;        # End of Log::BSDLog::Formatter
+1;          # End of Log::BSDLog::Formatter
 

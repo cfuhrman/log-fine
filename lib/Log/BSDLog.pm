@@ -132,7 +132,7 @@ See L<Log::BSDLog::Handle> for more information.
 
 # Log Masks
 use constant LOG_MASKS => [
-    qw( LOGMASK_EMERG LOGMASK_ALERT LOGMASK_CRIT LOGMASK_ERR LOGMASK_WARNING LOGMASK_NOTICE LOGMASK_INFO LOGMASK_DEBUG )
+        qw( LOGMASK_EMERG LOGMASK_ALERT LOGMASK_CRIT LOGMASK_ERR LOGMASK_WARNING LOGMASK_NOTICE LOGMASK_INFO LOGMASK_DEBUG )
 ];
 
 =head2 Logging Formats
@@ -159,9 +159,9 @@ our @EXPORT_OK = (@{ $EXPORT_TAGS{masks} });
 # --------------------------------------------------------------------
 
 {
-    my $loggers = {};
+        my $loggers = {};
 
-    sub _getLoggers { return $loggers }
+        sub _getLoggers { return $loggers }
 }
 
 # Initializations
@@ -169,14 +169,14 @@ our @EXPORT_OK = (@{ $EXPORT_TAGS{masks} });
 
 BEGIN {
 
-    my $lvls  = LOG_LEVELS;
-    my $masks = LOG_MASKS;
+        my $lvls  = LOG_LEVELS;
+        my $masks = LOG_MASKS;
 
-    # define some convenience functions
-    for (my $i = 0; $i < scalar @{$lvls}; $i++) {
-        eval "sub $lvls->[$i] { return $i; }";
-        eval "sub $masks->[$i] { return 2 << $i; }";
-    }
+        # define some convenience functions
+        for (my $i = 0; $i < scalar @{$lvls}; $i++) {
+                eval "sub $lvls->[$i] { return $i; }";
+                eval "sub $masks->[$i] { return 2 << $i; }";
+        }
 
 }
 
@@ -196,22 +196,22 @@ Creates a new Log::BSDLog object.
 sub new
 {
 
-    my $class = shift;
-    my $hash = shift || {};
+        my $class = shift;
+        my $hash = shift || {};
 
-    # if $class is already an object, then return the object
-    return $class if (ref $class);
+        # if $class is already an object, then return the object
+        return $class if (ref $class);
 
-    # bless the hash into a class
-    my $self = bless $hash, ref $class || $class;
+        # bless the hash into a class
+        my $self = bless $hash, ref $class || $class;
 
-    # perform any necessary initializations
-    $self->_init();
+        # perform any necessary initializations
+        $self->_init();
 
-    # return the bless'd object
-    return $self;
+        # return the bless'd object
+        return $self;
 
-}        # new()
+}          # new()
 
 =head2 getLogger($name)
 
@@ -223,24 +223,24 @@ a constructor for a Log::BSDLog object
 sub getLogger
 {
 
-    my $self    = shift->new();
-    my $name    = shift;
-    my $loggers = _getLoggers();
+        my $self    = shift->new();
+        my $name    = shift;
+        my $loggers = _getLoggers();
 
-    # validate name
-    confess "Loggers need names!\n"
-        unless (defined $name and $name =~ /\w+/);
+        # validate name
+        confess "Loggers need names!\n"
+                unless (defined $name and $name =~ /\w+/);
 
-    # if the requested logger is found, then return it, otherwise
-    # return a newly created logger object.
-    if (defined $loggers->{$name}) {
-        return $loggers->{$name};
-    } else {
-        require Log::BSDLog::Logger;
-        return Log::BSDLog::Logger->new({ name => $name });
-    }
+        # if the requested logger is found, then return it, otherwise
+        # return a newly created logger object.
+        if (defined $loggers->{$name}) {
+                return $loggers->{$name};
+        } else {
+                require Log::BSDLog::Logger;
+                return Log::BSDLog::Logger->new({ name => $name });
+        }
 
-}        # getLogger()
+}          # getLogger()
 
 # --------------------------------------------------------------------
 
@@ -250,11 +250,11 @@ sub getLogger
 sub _init
 {
 
-    my $self = shift;
+        my $self = shift;
 
-    return $self;
+        return $self;
 
-}        # _init()
+}          # _init()
 
 =head1 AUTHOR
 
@@ -318,4 +318,4 @@ L<perl>, L<syslog>, L<Sys::Syslog>
 
 =cut
 
-1;        # End of Log::BSDLog
+1;          # End of Log::BSDLog

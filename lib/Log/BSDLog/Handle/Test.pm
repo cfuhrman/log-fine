@@ -48,23 +48,23 @@ Returns the formatted message rather than the object.
 sub msgWrite
 {
 
-    my $self = shift;
-    my $lvl  = shift;
-    my $msg  = shift;
-    my $skip = shift;        # NOT USED
+        my $self = shift;
+        my $lvl  = shift;
+        my $msg  = shift;
+        my $skip = shift;          # NOT USED
 
-    # make sure we load the appropriate formatter
-    eval "require " . ref $self->{formatter};
+        # make sure we load the appropriate formatter
+        eval "require " . ref $self->{formatter};
 
-    # if we have a formatter defined, then use that, otherwise, just
-    # print the raw message
-    $msg = $self->{formatter}->format($lvl, $msg, $skip)
-        if defined $self->{formatter};
+        # if we have a formatter defined, then use that, otherwise, just
+        # print the raw message
+        $msg = $self->{formatter}->format($lvl, $msg, $skip)
+                if defined $self->{formatter};
 
-    # Victory!
-    return $msg;
+        # Victory!
+        return $msg;
 
-}        # msgWrite()
+}          # msgWrite()
 
 =head1 AUTHOR
 
@@ -124,4 +124,4 @@ LICENSE file included with this module.
 
 =cut
 
-1;        # End of Log::BSDLog::Handle::Test
+1;          # End of Log::BSDLog::Handle::Test

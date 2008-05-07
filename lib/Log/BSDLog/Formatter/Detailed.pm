@@ -74,49 +74,64 @@ or
 sub format
 {
 
-    my $self = shift;
-    my $lvl  = shift;
-    my $msg  = shift;
-    my $skip = shift || Log::BSDLog::Logger->LOG_SKIP_DEFAULT;
-    my $lvls = Log::BSDLog->LOG_LEVELS;
+        my $self = shift;
+        my $lvl  = shift;
+        my $msg  = shift;
+        my $skip = shift || Log::BSDLog::Logger->LOG_SKIP_DEFAULT;
+        my $lvls = Log::BSDLog->LOG_LEVELS;
 
-    # get the caller
-    my @c = caller($skip);
+        # get the caller
+        my @c = caller($skip);
 
-    # did our call to caller() come up empty?
-    if (scalar @c == 0) {
+        # did our call to caller() come up empty?
+        if (scalar @c == 0) {
 
-        # just include the script name
-        return
-            sprintf("[%s] %-4s (%s) %s\n",
-                    strftime($self->{timestamp_format}, localtime(time)),
-                    $lvls->[$lvl], basename($0), $msg);
+                # just include the script name
+                return
+                        sprintf("[%s] %-4s (%s) %s\n",
+                                strftime($self->{timestamp_format},
+                                         localtime(time)
+                                ),
+                                $lvls->[$lvl],
+                                basename($0),
+                                $msg
+                        );
 
-    } elsif (defined $c[0] and $c[0] eq "main") {
+        } elsif (defined $c[0] and $c[0] eq "main") {
 
-        # just include the script name and line number
-        return
-            sprintf("[%s] %-4s (%s:%d) %s\n",
-                    strftime($self->{timestamp_format}, localtime(time)),
-                    $lvls->[$lvl], basename($c[1]), $c[2], $msg);
+                # just include the script name and line number
+                return
+                        sprintf("[%s] %-4s (%s:%d) %s\n",
+                                strftime($self->{timestamp_format},
+                                         localtime(time)
+                                ),
+                                $lvls->[$lvl],
+                                basename($c[1]),
+                                $c[2],
+                                $msg
+                        );
 
-    } else {
+        } else {
 
-        # log package, subroutine, and line number
-        return
-            sprintf("[%s] %-4s (%s():%d) %s\n",
-                    strftime($self->{timestamp_format}, localtime(time)),
-                    $lvls->[$lvl],
-                    $c[3] || "{undef}",
-                    $c[2] || 0, $msg);
+                # log package, subroutine, and line number
+                return
+                        sprintf("[%s] %-4s (%s():%d) %s\n",
+                                strftime($self->{timestamp_format},
+                                         localtime(time)
+                                ),
+                                $lvls->[$lvl],
+                                $c[3] || "{undef}",
+                                $c[2] || 0,
+                                $msg
+                        );
 
-    }
+        }
 
-    #
-    # NOT REACHED
-    #
+        #
+        # NOT REACHED
+        #
 
-}        # format()
+}          # format()
 
 =head1 AUTHOR
 
@@ -176,4 +191,4 @@ LICENSE file included with this module.
 
 =cut
 
-1;        # End of Log::BSDLog::Formatter::Detailed
+1;          # End of Log::BSDLog::Formatter::Detailed

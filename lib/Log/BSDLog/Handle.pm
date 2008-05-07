@@ -33,8 +33,8 @@ our $VERSION = '0.01';
 #
 # Default log mask.  Basically everything
 use constant DEFAULT_LOGMASK => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT |
-    LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO |
-    LOGMASK_DEBUG;
+        LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO |
+        LOGMASK_DEBUG;
 
 =head1 METHODS
 
@@ -46,10 +46,10 @@ Returns the formatter for this object
 
 sub getFormatter
 {
-    my $self = shift;
+        my $self = shift;
 
-    return $self->{formatter};
-}        # getFormatter()
+        return $self->{formatter};
+}          # getFormatter()
 
 =head2 isLoggable($lvl)
 
@@ -61,16 +61,16 @@ Specifies whether the handle is loggable at the given level.  Returns
 sub isLoggable
 {
 
-    my $self = shift;
-    my $lvl  = shift;
+        my $self = shift;
+        my $lvl  = shift;
 
-    croak "No Level :$lvl\n"
-        unless (defined $lvl and $lvl =~ /\d+/);
+        croak "No Level :$lvl\n"
+                unless (defined $lvl and $lvl =~ /\d+/);
 
-    # bitand the level and the mask to see if we're loggable
-    return (($self->{mask} & $lvl) == $lvl) ? 1 : undef;
+        # bitand the level and the mask to see if we're loggable
+        return (($self->{mask} & $lvl) == $lvl) ? 1 : undef;
 
-}        # isLoggable()
+}          # isLoggable()
 
 =head2 msgWrite($lvl, $msg, $skip)
 
@@ -82,15 +82,15 @@ parameter, $skip, is passed to caller() for accurate method logging.
 sub msgWrite
 {
 
-    my $self  = shift;
-    my $class = ref $self;
+        my $self  = shift;
+        my $class = ref $self;
 
-    croak "someone used an (abstract) Handler object"
-        if $class eq 'Log::BSDLog::Handle';
+        croak "someone used an (abstract) Handler object"
+                if $class eq 'Log::BSDLog::Handle';
 
-    croak "call to abstract method ${class}::msgWrite()";
+        croak "call to abstract method ${class}::msgWrite()";
 
-}        # msgWrite()
+}          # msgWrite()
 
 =head2 setFormatter( <Log::BSDLog::Formatter> )
 
@@ -101,17 +101,17 @@ Sets the formatter for this object
 sub setFormatter
 {
 
-    my $self      = shift;
-    my $formatter = shift;
+        my $self      = shift;
+        my $formatter = shift;
 
-    # validate formatter
-    croak "First argument must be a valid formatter object!\n"
-        unless (defined $formatter
-                and $formatter->isa("Log::BSDLog::Formatter"));
+        # validate formatter
+        croak "First argument must be a valid formatter object!\n"
+                unless (defined $formatter
+                        and $formatter->isa("Log::BSDLog::Formatter"));
 
-    $self->{formatter} = $formatter;
+        $self->{formatter} = $formatter;
 
-}        # setFormatter()
+}          # setFormatter()
 
 # --------------------------------------------------------------------
 
@@ -121,25 +121,25 @@ sub setFormatter
 sub _init
 {
 
-    my $self = shift;
+        my $self = shift;
 
-    # set default bitmask
-    $self->{mask} = DEFAULT_LOGMASK
-        unless defined $self->{mask};
+        # set default bitmask
+        $self->{mask} = DEFAULT_LOGMASK
+                unless defined $self->{mask};
 
-    # by default, set the level to DEBG
-    $self->{level} = DEBG
-        unless defined $self->{level};
+        # by default, set the level to DEBG
+        $self->{level} = DEBG
+                unless defined $self->{level};
 
-    # set the default formatter
-    $self->{formatter} = Log::BSDLog::Formatter::Basic->new()
-        unless (defined $self->{formatter}
-                and $self->{formatter}->isa("Log::BSDLog::Formatter"));
+        # set the default formatter
+        $self->{formatter} = Log::BSDLog::Formatter::Basic->new()
+                unless (defined $self->{formatter}
+                        and $self->{formatter}->isa("Log::BSDLog::Formatter"));
 
-    # Victory!
-    return $self;
+        # Victory!
+        return $self;
 
-}        # _init()
+}          # _init()
 
 =head1 AUTHOR
 
@@ -199,4 +199,4 @@ LICENSE file included with this module.
 
 =cut
 
-1;        # End of Log::BSDLog::Handle
+1;          # End of Log::BSDLog::Handle

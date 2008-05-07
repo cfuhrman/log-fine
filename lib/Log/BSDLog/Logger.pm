@@ -73,21 +73,21 @@ Constructor for this object.
 sub new
 {
 
-    my $class = shift;
-    my $hash  = shift;
+        my $class = shift;
+        my $hash  = shift;
 
-    # set default name if necessary
-    $hash->{name} = "default"
-        unless (defined $hash->{name} and $hash->{name} =~ /\w+/);
+        # set default name if necessary
+        $hash->{name} = "default"
+                unless (defined $hash->{name} and $hash->{name} =~ /\w+/);
 
-    # set logskip if necessary
-    $hash->{skip} = LOG_SKIP_DEFAULT
-        unless ($hash->{skip} and $hash->{skip} =~ /\d+/);
+        # set logskip if necessary
+        $hash->{skip} = LOG_SKIP_DEFAULT
+                unless ($hash->{skip} and $hash->{skip} =~ /\d+/);
 
-    # return the bless'd object
-    return bless $hash, $class;
+        # return the bless'd object
+        return bless $hash, $class;
 
-}        # new()
+}          # new()
 
 =head2 log($lvl, $msg)
 
@@ -103,24 +103,24 @@ Parameters:
 sub log
 {
 
-    my $self = shift;
-    my $lvl  = shift;
-    my $msg  = shift;
+        my $self = shift;
+        my $lvl  = shift;
+        my $msg  = shift;
 
-    # see if we have any handles defined
-    croak "No handles defined!\n"
-        unless (scalar @{ $self->{_handles} } > 0);
+        # see if we have any handles defined
+        croak "No handles defined!\n"
+                unless (scalar @{ $self->{_handles} } > 0);
 
-    # iterate through each handle, logging as appropriate
-    foreach my $handle (@{ $self->{_handles} }) {
-        $handle->msgWrite($lvl, $msg, $self->{skip})
-            if $handle->isLoggable($lvl);
-    }
+        # iterate through each handle, logging as appropriate
+        foreach my $handle (@{ $self->{_handles} }) {
+                $handle->msgWrite($lvl, $msg, $self->{skip})
+                        if $handle->isLoggable($lvl);
+        }
 
-    # Victory
-    return $self;
+        # Victory
+        return $self;
 
-}        # log()
+}          # log()
 
 =head2 registerHandle(<handle>)
 
@@ -132,23 +132,25 @@ facility.
 sub registerHandle
 {
 
-    my $self   = shift;
-    my $handle = shift;
+        my $self   = shift;
+        my $handle = shift;
 
-    # validate handle
-    croak "first argument must be a valid Log::BSDLog::Handle object\n"
-        unless (defined $handle and $handle->isa("Log::BSDLog::Handle"));
+        # validate handle
+        croak "first argument must be a valid Log::BSDLog::Handle object\n"
+                unless (defined $handle
+                        and $handle->isa("Log::BSDLog::Handle"));
 
-    # initialize handles if we haven't already
-    $self->{_handles} = []
-        unless (defined $self->{_handles} and ref $self->{_handles} eq "ARRAY");
+        # initialize handles if we haven't already
+        $self->{_handles} = []
+                unless (defined $self->{_handles}
+                        and ref $self->{_handles} eq "ARRAY");
 
-    # save the handle
-    push @{ $self->{_handles} }, $handle;
+        # save the handle
+        push @{ $self->{_handles} }, $handle;
 
-    return $self;
+        return $self;
 
-}        # registerHandle()
+}          # registerHandle()
 
 # --------------------------------------------------------------------
 
@@ -214,4 +216,4 @@ L<perl>, L<Log::BSDLog>, L<Log::BSDLog::Handle>
 
 =cut
 
-1;        # End of Log::BSDLog::Logger
+1;          # End of Log::BSDLog::Logger

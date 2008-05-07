@@ -63,29 +63,29 @@ to support features such as time-stamped and/or rotating files.
 sub getFileHandle
 {
 
-    my $self = shift;
+        my $self = shift;
 
-    # if we already have a file handle defined, return it
-    return $self->{_filehandle}
-        if (defined $self->{_filehandle}
-            and $self->{_filehandle}->isa("IO::File"));
+        # if we already have a file handle defined, return it
+        return $self->{_filehandle}
+                if (defined $self->{_filehandle}
+                    and $self->{_filehandle}->isa("IO::File"));
 
-    # generate file name
-    my $filename = catdir($self->{dir}, $self->{file});
+        # generate file name
+        my $filename = catdir($self->{dir}, $self->{file});
 
-    # otherwise create a new one
-    $self->{_filehandle} = FileHandle->new(">> " . $filename);
+        # otherwise create a new one
+        $self->{_filehandle} = FileHandle->new(">> " . $filename);
 
-    croak "Unable to open log file $filename : $!\n"
-        unless defined $self->{_filehandle};
+        croak "Unable to open log file $filename : $!\n"
+                unless defined $self->{_filehandle};
 
-    # set autoflush if necessary
-    $self->{_filehandle}->autoflush($self->{autoflush});
+        # set autoflush if necessary
+        $self->{_filehandle}->autoflush($self->{autoflush});
 
-    # return the newly created file handle
-    return $self->{_filehandle};
+        # return the newly created file handle
+        return $self->{_filehandle};
 
-}        # getFileHandle()
+}          # getFileHandle()
 
 =head2 msgWrite($lvl, $msg, $skip)
 
@@ -96,26 +96,26 @@ See L<Log::BSDLog::Handle>
 sub msgWrite
 {
 
-    my $self = shift;
-    my $lvl  = shift;
-    my $msg  = shift;
-    my $skip = shift;
+        my $self = shift;
+        my $lvl  = shift;
+        my $msg  = shift;
+        my $skip = shift;
 
-    # grab a ref to our file handle
-    my $fh = $self->getFileHandle();
+        # grab a ref to our file handle
+        my $fh = $self->getFileHandle();
 
-    # if we have a formatter defined, then use that, otherwise, just
-    # print the raw message
-    $msg = $self->{formatter}->format($lvl, $msg, $skip)
-        if defined $self->{formatter};
+        # if we have a formatter defined, then use that, otherwise, just
+        # print the raw message
+        $msg = $self->{formatter}->format($lvl, $msg, $skip)
+                if defined $self->{formatter};
 
-    # print the message to the log file
-    print $fh $msg;
+        # print the message to the log file
+        print $fh $msg;
 
-    # Victory!
-    return $self;
+        # Victory!
+        return $self;
 
-}        # msgWrite()
+}          # msgWrite()
 
 # --------------------------------------------------------------------
 
@@ -125,23 +125,23 @@ sub msgWrite
 sub _init
 {
 
-    my $self = shift;
+        my $self = shift;
 
-    # call the super object
-    $self->SUPER::_init();
+        # call the super object
+        $self->SUPER::_init();
 
-    # set the default directory
-    $self->{dir} = "./"
-        unless (defined $self->{dir} and -d $self->{dir});
+        # set the default directory
+        $self->{dir} = "./"
+                unless (defined $self->{dir} and -d $self->{dir});
 
-    # set the default file name
-    $self->{file} = basename $0 . ".log"
-        unless defined $self->{file};
+        # set the default file name
+        $self->{file} = basename $0 . ".log"
+                unless defined $self->{file};
 
-    # Victory!
-    return $self;
+        # Victory!
+        return $self;
 
-}        # _init()
+}          # _init()
 
 =head1 AUTHOR
 
@@ -201,4 +201,4 @@ LICENSE file included with this module.
 
 =cut
 
-1;        # End of Log::BSDLog::Handle::File
+1;          # End of Log::BSDLog::Handle::File
