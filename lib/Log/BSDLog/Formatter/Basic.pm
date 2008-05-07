@@ -117,7 +117,7 @@ L<http://search.cpan.org/dist/Log-BSDLog>
 
 =head1 REVISION INFORMATION
 
-  $Id: Basic.pm 45 2008-05-07 22:06:40Z cfuhrman $
+  $Id$
 
 =head1 COPYRIGHT & LICENSE
 

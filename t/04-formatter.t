@@ -1,7 +1,7 @@
 #!perl -T
 
 #
-# $Id: 04-formatter.t 33 2008-05-07 19:50:55Z cfuhrman $
+# $Id$
 #
 
 use Test::Simple tests => 7;

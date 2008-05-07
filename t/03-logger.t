@@ -1,7 +1,7 @@
 #!perl -T
 
 #
-# $Id: 03-logger.t 45 2008-05-07 22:06:40Z cfuhrman $
+# $Id$
 #
 
 use Test::Simple tests => 4;

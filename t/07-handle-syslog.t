@@ -1,7 +1,7 @@
 #!perl -T
 
 #
-# $Id: 07-handle-syslog.t 45 2008-05-07 22:06:40Z cfuhrman $
+# $Id$
 #
 
 use Test::Simple tests => 8;

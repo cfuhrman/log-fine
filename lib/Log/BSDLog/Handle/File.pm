@@ -185,7 +185,7 @@ L<http://search.cpan.org/dist/Log-BSDLog>
 
 =head1 REVISION INFORMATION
 
-  $Id: File.pm 45 2008-05-07 22:06:40Z cfuhrman $
+  $Id$
 
 =head1 COPYRIGHT & LICENSE
 

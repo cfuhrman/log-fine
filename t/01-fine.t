@@ -1,7 +1,7 @@
 #!perl -T
 
 #
-# $Id: 01-fine.t 32 2008-05-07 19:48:34Z cfuhrman $
+# $Id$
 #
 
 use Test::Simple tests => 11;
