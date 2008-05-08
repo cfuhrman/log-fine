@@ -149,6 +149,10 @@ sub _init
 
 }          # _init()
 
+=head1 SEE ALSO
+
+L<perl>, L<Log::Fine>, L<Log::Fine::Handle>
+
 =head1 AUTHOR
 
 Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
@@ -204,10 +208,6 @@ This program is free software licensed under the...
 
 The full text of the license can be found in the
 LICENSE file included with this module.
-
-=head1 SEE ALSO
-
-L<perl>, L<Log::Fine>, L<Log::Fine::Handle>
 
 =cut
 

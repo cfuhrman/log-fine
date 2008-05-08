@@ -15,14 +15,12 @@ Provides logging to syslog()
     my $log = Log::Fine->getLogger("foo");
 
     # register a syslog handle
-    my $handle = Log::Fine::Handle::Syslog->new(
-        {
-             name  => 'myname',
-             mask  => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT | LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO,
-             ident => $0,
-             logopts => 'pid',
-             facility => LOG_LEVEL0,
-        } );
+    my $handle = Log::Fine::Handle::Syslog
+        ->new( name  => 'syslog0',
+               mask  => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT | LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO,
+               ident => $0,
+               logopts => 'pid',
+               facility => LOG_LEVEL0 );
 
     # register the handle
     $log->registerHandle($handle);
@@ -129,6 +127,10 @@ sub _init
 
 }          # _init()
 
+=head1 SEE ALSO
+
+L<perl>, L<syslog>, L<Sys::Syslog>
+
 =head1 AUTHOR
 
 Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
@@ -184,12 +186,6 @@ This program is free software licensed under the...
 
 The full text of the license can be found in the
 LICENSE file included with this module.
-
-=cut
-
-=head1 SEE ALSO
-
-L<perl>, L<syslog>, L<Sys::Syslog>
 
 =cut
 

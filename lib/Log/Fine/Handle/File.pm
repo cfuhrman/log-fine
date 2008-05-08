@@ -13,14 +13,12 @@ Provides logging to a file
     # Get a new logger
     my $log = Log::Fine->getLogger("foo");
 
-    # register a file handle
-    my $handle = Log::Fine::Handle::File->new(
-        {
-             name => 'myname',
-             mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT | LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO,
-             dir  => "/var/log",
-             file => "myapp.log",
-        } );
+    # register a file handle (default values shown)
+    my $handle = Log::Fine::Handle::File
+        ->new( name => 'file0',
+               mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT | LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO,
+               dir  => "/var/log",
+               file => "myapp.log" );
 
     # register the handle
     $log->registerHandle($handle);
@@ -142,6 +140,10 @@ sub _init
         return $self;
 
 }          # _init()
+
+=head1 SEE ALSO
+
+L<perl>, L<Log::Fine>, L<Log::Fine::Handle>
 
 =head1 AUTHOR
 

@@ -8,30 +8,27 @@ Log::Fine::Formatter::Basic - Default logging formatter
 Formats log messages for output in a basic format, suitable for most
 applications.
 
-    use Log::Fine;
     use Log::Fine::Formatter::Basic;
     use Log::Fine::Handle::Output;
-    use Log::Fine::Logger;
 
-    # Create log object, logger
-    ...
+    # instantiate a handle
+    my $handle = Log::Fine::Handle::Output->new();
 
-    my $formatter = Log::Fine::Formatter::Basic->new();
+    # instantiate a formatter
+    my $formatter = Log::Fine::Formatter::Basic
+        ->new( name             => 'basic0',
+               timestamp_format => "%y-%m-%d %h:%m:%s" );
 
-    my $handle = Log::Fine::Handle::Output->new( {
-                                                      formatter => $formatter,
-                                                      ...
-                                                    })
-
-    $logger->registerHandle($handle);
-
-    $logger->log(DEBG, "Test log message");
+    # set the formatter
+    $handle->setFormatter( formatter => $formatter );
 
 =head1 DESCRIPTION
 
 The basic formatter provides logging in the following format:
 
-    C<[TIMESTAMP] <LEVEL> <MESSAGE>]>
+    <[TIMESTAMP] <LEVEL> <MESSAGE>>
+
+Please note that this is the default format.
 
 =cut
 
@@ -45,8 +42,6 @@ use base qw( Log::Fine::Formatter );
 use Log::Fine;
 use Log::Fine::Formatter;
 use POSIX qw( strftime );
-
-our $VERSION = '0.01';
 
 =head1 METHODS
 
@@ -64,7 +59,7 @@ sub format
         my $self = shift;
         my $lvl  = shift;
         my $msg  = shift;
-        my $skip = shift;                           # NOT USED
+        my $skip = shift;                         # NOT USED
         my $lvls = Log::Fine->LOG_LEVELS;
 
         # return the formatted string
@@ -74,6 +69,10 @@ sub format
                         $lvls->[$lvl], $msg);
 
 }          # format()
+
+=head1 SEE ALSO
+
+L<perl>, L<Log::Fine::Formatter>
 
 =head1 AUTHOR
 

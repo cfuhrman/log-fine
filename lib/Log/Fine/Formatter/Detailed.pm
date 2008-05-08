@@ -7,24 +7,19 @@ Log::Fine::Formatter::Detailed - Formatter for detailed logging
 
 Formats log messages for output in a detailed format.
 
-    use Log::Fine;
     use Log::Fine::Formatter::Detailed;
     use Log::Fine::Handle::Output;
-    use Log::Fine::Logger;
 
-    # Create log object, logger
-    ...
+    # instantiate a handle
+    my $handle = Log::Fine::Handle::Output->new();
 
-    my $formatter = Log::Fine::Formatter::Detailed->new();
+    # instantiate a formatter
+    my $formatter = Log::Fine::Formatter::Detailed
+        ->new( name             => 'detail0',
+               timestamp_format => "%y-%m-%d %h:%m:%s" );
 
-    my $handle = Log::Fine::Handle::Output->new( {
-                                                      formatter => $formatter,
-                                                      ...
-                                                    })
-
-    $logger->registerHandle($handle);
-
-    $logger->log(DEBG, "Test log message");
+    # set the formatter
+    $handle->setFormatter( formatter => $formatter );
 
 =head1 DESCRIPTION
 
@@ -132,6 +127,10 @@ sub format
         #
 
 }          # format()
+
+=head1 SEE ALSO
+
+L<perl>, L<Log::Fine::Formatter>
 
 =head1 AUTHOR
 

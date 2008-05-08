@@ -76,21 +76,21 @@ macros are exported.
 
 =over 4
 
-=item EMER
+=item * EMER
 
-=item ALRT
+=item * ALRT
 
-=item CRIT
+=item * CRIT
 
-=item ERR
+=item * ERR
 
-=item WARN
+=item * WARN
 
-=item NOTI
+=item * NOTI
 
-=item INFO
+=item * INFO
 
-=item DEBG
+=item * DEBG
 
 =back
 
@@ -108,21 +108,21 @@ masks corresponding to their log level:
 
 =over 4
 
-=item C<LOGMASK_EMERG>
+=item * C<LOGMASK_EMERG>
 
-=item C<LOGMASK_ALERT>
+=item * C<LOGMASK_ALERT>
 
-=item C<LOGMASK_CRIT>
+=item * C<LOGMASK_CRIT>
 
-=item C<LOGMASK_ERR>
+=item * C<LOGMASK_ERR>
 
-=item C<LOGMASK_WARNING>
+=item * C<LOGMASK_WARNING>
 
-=item C<LOGMASK_NOTICE>
+=item * C<LOGMASK_NOTICE>
 
-=item C<LOGMASK_INFO>
+=item * C<LOGMASK_INFO>
 
-=item C<LOGMASK_DEBUG>
+=item * C<LOGMASK_DEBUG>
 
 =back
 
@@ -140,7 +140,7 @@ use constant LOG_MASKS => [
 By default, log messages are formatted as follows using the
 L<Basic|Log::Fine::Formatter::Basic> formatter object.
 
-     [<time>] <LEVEL> <MESSAGE>\n
+     [<time>] <LEVEL> <MESSAGE>
 
 For more information on the customization of log messages, please see
 L<Log::Fine::Formatter>.
@@ -240,6 +240,10 @@ sub getLogger
                 return Log::Fine::Logger->new(name => $name);
         }
 
+        #
+        # NOT REACHED
+        #
+
 }          # getLogger()
 
 # --------------------------------------------------------------------
@@ -272,6 +276,10 @@ sub _init
         return $self;
 
 }          # _init()
+
+=head1 SEE ALSO
+
+L<perl>, L<syslog>, L<Sys::Syslog>
 
 =head1 AUTHOR
 
@@ -328,10 +336,6 @@ This program is free software licensed under the...
 
 The full text of the license can be found in the
 LICENSE file included with this module.
-
-=head1 SEE ALSO
-
-L<perl>, L<syslog>, L<Sys::Syslog>
 
 =cut
 

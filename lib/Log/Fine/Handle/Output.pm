@@ -11,12 +11,10 @@ Provides logging to either C<STDERR> or C<STDOUT>.
     my $log = Log::Fine->getLogger("foo");
 
     # register a file handle
-    my $handle = Log::Fine::Handle::Output->new(
-        {
-             name => 'myname',
-             mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT | LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO,
-             use_stderr => undef,
-        } );
+    my $handle = Log::Fine::Handle::Output
+        ->new( name => 'myname',
+               mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT | LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO,
+               use_stderr => undef );
 
     # you can set logging to STDERR per preference
     $handle->{use_stderr} = 1;
@@ -92,6 +90,10 @@ sub _init
         return $self;
 
 }          # _init()
+
+=head1 SEE ALSO
+
+L<perl>, L<Log::Fine::Handle>
 
 =head1 AUTHOR
 

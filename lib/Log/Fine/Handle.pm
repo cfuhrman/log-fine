@@ -5,14 +5,29 @@ Log::Fine::Handle - Controls where to send logging output
 
 =head1 SYNOPSIS
 
-A handle controls I<where> to send formatted log messages.  The
-destination can be a file, syslog, a database table, or simply to
-output.
+Sets up an output handle for log messages
 
+    use Log::Fine;
     use Log::Fine::Handle;
 
-    my $foo = Log::Fine::Handle->new();
-    ...
+    # instantiate the handle (default values shown)
+    my $handle = Log::Fine::Handle::Foo
+        ->new( name      => "foo0",
+               mask      => Log::Fine::Handle->DEFAULT_LOGMASK,
+               level     => DEBG,
+               formatter => Log::Fine::Formatter:Basic->new() );
+
+    # see if a handle is loggable at a given level
+    my $rc = $handle->isLoggable(INFO);
+
+    # write a message
+    $handle->msgWrite(INFO, "Informational message", 1);
+
+=head1 DESCRIPTION
+
+A Log::Fine::Handle object controls I<where> to send formatted log
+messages.  The destination can be a file, syslog, a database table, or
+simply to output.
 
 =cut
 
@@ -27,8 +42,6 @@ use Carp;
 use Log::Fine qw( :macros :masks );
 use Log::Fine::Formatter::Basic;
 
-our $VERSION = '0.01';
-
 # Constant: DEFAULT_LOG_MASK
 #
 # Default log mask.  Basically everything
@@ -37,19 +50,6 @@ use constant DEFAULT_LOGMASK => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT |
         LOGMASK_DEBUG;
 
 =head1 METHODS
-
-=head2 getFormatter()
-
-Returns the formatter for this object
-
-=cut
-
-sub getFormatter
-{
-        my $self = shift;
-
-        return $self->{formatter};
-}          # getFormatter()
 
 =head2 isLoggable($lvl)
 
@@ -75,7 +75,8 @@ sub isLoggable
 =head2 msgWrite($lvl, $msg, $skip)
 
 Tells the handle to output the given log message.  The third
-parameter, $skip, is passed to caller() for accurate method logging.
+parameter, C<$skip>, is passed to caller() for accurate method
+logging.
 
 =cut
 
@@ -92,7 +93,7 @@ sub msgWrite
 
 }          # msgWrite()
 
-=head2 setFormatter( <Log::Fine::Formatter> )
+=head2 setFormatter($formatter)
 
 Sets the formatter for this object
 
@@ -123,6 +124,9 @@ sub _init
 
         my $self = shift;
 
+        # perform super initializations
+        $self->SUPER::_init();
+
         # set default bitmask
         $self->{mask} = DEFAULT_LOGMASK
                 unless defined $self->{mask};
@@ -140,6 +144,10 @@ sub _init
         return $self;
 
 }          # _init()
+
+=head1 SEE ALSO
+
+L<perl>, L<Log::Fine>, L<Log::Fine::Formatter>
 
 =head1 AUTHOR
 

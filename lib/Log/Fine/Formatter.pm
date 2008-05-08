@@ -10,13 +10,20 @@ Provides a formatting facility for log messages
     use Log::Fine::Handle;
     use Log::Fine::Formatter;
 
-    my $handle   = Log::Fine::Handle::Output->new();
+    my $handle    = Log::Fine::Handle::Output->new();
     my $formatter = Log::Fine::Formatter::Detailed->new();
 
     # by default, the handle will set its formatter to
     # Log::Fine::Formatter::Basic.  If that's not what you want,
     # reset it to preference.
     $handle->setFormatter($formatter);
+
+    # You can also adjust the timestamp in the log message to your own
+    # strftime(3) compatible string without having to write your own
+    # formatter.  By default, the timestamp format is "%c"
+
+    # YYYY-MM-DD HH:MM:SS
+    $formatter->{"%Y-%m-%d %H:%M:%S"};
 
 =head1 DESCRIPTION
 
@@ -34,8 +41,9 @@ use base qw( Log::Fine );
 
 use Carp;
 
-our $VERSION = '0.01';
-
+# Constant: LOG_TIMESTAMP_FORMAT
+#
+# strftime(3)-compatible format string
 use constant LOG_TIMESTAMP_FORMAT => "%c";
 
 # --------------------------------------------------------------------
@@ -48,6 +56,9 @@ sub _init
 
         my $self = shift;
 
+        # perform super initializations
+        $self->SUPER::_init();
+
         # make sure we load in the logger object
         require Log::Fine::Logger;
 
@@ -59,6 +70,10 @@ sub _init
         return $self;
 
 }          # _init()
+
+=head1 SEE ALSO
+
+L<perl>, L<strftime>, L<Log::Fine>
 
 =head1 AUTHOR
 
