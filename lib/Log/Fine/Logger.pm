@@ -64,31 +64,6 @@ our $VERSION = '0.01';
 
 # --------------------------------------------------------------------
 
-=head2 new([<hash ref>])
-
-Constructor for this object.
-
-=cut
-
-sub new
-{
-
-        my $class = shift;
-        my $hash  = shift;
-
-        # set default name if necessary
-        $hash->{name} = "default"
-                unless (defined $hash->{name} and $hash->{name} =~ /\w+/);
-
-        # set logskip if necessary
-        $hash->{skip} = LOG_SKIP_DEFAULT
-                unless ($hash->{skip} and $hash->{skip} =~ /\d+/);
-
-        # return the bless'd object
-        return bless $hash, $class;
-
-}          # new()
-
 =head2 log($lvl, $msg)
 
 Log a message to one or more handles
@@ -153,6 +128,26 @@ sub registerHandle
 }          # registerHandle()
 
 # --------------------------------------------------------------------
+
+##
+# Initializes our object
+
+sub _init
+{
+
+        my $self = shift;
+
+        # validate name
+        croak "Loggers need names!"
+                unless (defined $self->{name} and $self->{name} =~ /\w+/);
+
+        # set logskip if necessary
+        $self->{skip} = LOG_SKIP_DEFAULT
+                unless ($self->{skip} and $self->{skip} =~ /\d+/);
+
+        return $self;
+
+}          # _init()
 
 =head1 AUTHOR
 

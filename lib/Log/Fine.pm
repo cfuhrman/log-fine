@@ -159,9 +159,13 @@ our @EXPORT_OK = (@{ $EXPORT_TAGS{masks} });
 # --------------------------------------------------------------------
 
 {
-        my $loggers = {};
+        my $loggers  = {};
+        my $objcount = 0;
 
-        sub _getLoggers { return $loggers }
+        sub _getLoggers      { return $loggers }
+        sub _getObjectCount  { return $objcount }
+        sub _incrObjectCount { $objcount++ }
+        sub _setObjectCount  { $objcount = shift }
 }
 
 # Initializations
@@ -197,13 +201,13 @@ sub new
 {
 
         my $class = shift;
-        my $hash = shift || {};
+        my %h     = @_;
 
         # if $class is already an object, then return the object
         return $class if (ref $class);
 
         # bless the hash into a class
-        my $self = bless $hash, ref $class || $class;
+        my $self = bless \%h, ref $class || $class;
 
         # perform any necessary initializations
         $self->_init();
@@ -227,17 +231,13 @@ sub getLogger
         my $name    = shift;
         my $loggers = _getLoggers();
 
-        # validate name
-        confess "Loggers need names!\n"
-                unless (defined $name and $name =~ /\w+/);
-
         # if the requested logger is found, then return it, otherwise
         # return a newly created logger object.
         if (defined $loggers->{$name}) {
                 return $loggers->{$name};
         } else {
                 require Log::Fine::Logger;
-                return Log::Fine::Logger->new({ name => $name });
+                return Log::Fine::Logger->new(name => $name);
         }
 
 }          # getLogger()
@@ -252,6 +252,23 @@ sub _init
 
         my $self = shift;
 
+        # increment object count
+        _incrObjectCount();
+
+        # we set the object's name unless it is already set for us
+        unless (defined $self->{name} and $self->{name} =~ /\w+/) {
+
+                # grab the class name
+                $_ = ref $self;
+
+                # now grab the last name in that class
+                /\:\:(\w+)$/;
+
+                # and set name
+                $self->{name} = lc($1) . _getObjectCount();
+        }
+
+        # Victory!
         return $self;
 
 }          # _init()

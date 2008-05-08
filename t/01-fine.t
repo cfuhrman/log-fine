@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 11;
+use Test::Simple tests => 12;
 
 use Log::Fine;
 
@@ -14,6 +14,9 @@ use Log::Fine;
         my $fine = Log::Fine->new();
 
         ok(ref $fine eq "Log::Fine");
+
+        # all objects should have names
+        ok($fine->{name} =~ /\w+\d+/);
 
         # test retrieving a logging object
         my $log = $fine->getLogger("com0");

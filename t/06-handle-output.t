@@ -20,7 +20,7 @@ use Log::Fine::Handle::Output;
         ok(ref $log eq "Log::Fine::Logger");
 
         # add a handle.  Note we use the default formatter.
-        my $handle = Log::Fine::Handle::Output->new({ use_stderr => 1, });
+        my $handle = Log::Fine::Handle::Output->new(use_stderr => 1);
 
         # do some validation
         ok($handle->isa("Log::Fine::Handle"));

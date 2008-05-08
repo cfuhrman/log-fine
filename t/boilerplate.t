@@ -47,10 +47,10 @@ sub module_boilerplate_ok
 }
 
 module_boilerplate_ok('lib/Log/Fine.pm');
-module_boilerplate_ok('lib/Log/Fine/Handler.pm');
-module_boilerplate_ok('lib/Log/Fine/Handler/File.pm');
-module_boilerplate_ok('lib/Log/Fine/Handler/Output.pm');
-module_boilerplate_ok('lib/Log/Fine/Handler/Syslog.pm');
+module_boilerplate_ok('lib/Log/Fine/Handle.pm');
+module_boilerplate_ok('lib/Log/Fine/Handle/File.pm');
+module_boilerplate_ok('lib/Log/Fine/Handle/Output.pm');
+module_boilerplate_ok('lib/Log/Fine/Handle/Syslog.pm');
 module_boilerplate_ok('lib/Log/Fine/Logger.pm');
 module_boilerplate_ok('lib/Log/Fine/Formatter.pm');
 module_boilerplate_ok('lib/Log/Fine/Formatter/Basic.pm');
