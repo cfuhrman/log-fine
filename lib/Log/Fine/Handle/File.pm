@@ -47,8 +47,6 @@ use File::Spec::Functions;
 use FileHandle;
 use Log::Fine;
 
-our $VERSION = '0.01';
-
 =head1 METHODS
 
 =head2 getFileHandle()

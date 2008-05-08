@@ -50,8 +50,6 @@ use Log::Fine::Formatter;
 use Log::Fine::Logger;
 use POSIX qw( strftime );
 
-our $VERSION = '0.01';
-
 =head1 METHODS
 
 =head2 format($lvl, $msg, $skip)

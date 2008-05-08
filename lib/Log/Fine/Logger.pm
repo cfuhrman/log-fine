@@ -52,15 +52,11 @@ use Carp;
 use Exporter;
 use Log::Fine;
 
-use vars qw(@ISA @EXPORT);
-
 # Constant: LOG_SKIP_DEFAULT
 #
 # By default, calls to caller() will be given a stack frame of 2.
 
 use constant LOG_SKIP_DEFAULT => 2;
-
-our $VERSION = '0.01';
 
 # --------------------------------------------------------------------
 
