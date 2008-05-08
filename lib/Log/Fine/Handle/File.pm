@@ -1,20 +1,20 @@
 
 =head1 NAME
 
-Log::BSDLog::Handle::File - Output log messages to a file
+Log::Fine::Handle::File - Output log messages to a file
 
 =head1 SYNOPSIS
 
 Provides logging to a file
 
-    use Log::BSDLog;
-    use Log::BSDLog::Handle::File;
+    use Log::Fine;
+    use Log::Fine::Handle::File;
 
     # Get a new logger
-    my $log = Log::BSDLog->getLogger("foo");
+    my $log = Log::Fine->getLogger("foo");
 
     # register a file handle
-    my $handle = Log::BSDLog::Handle::File->new(
+    my $handle = Log::Fine::Handle::File->new(
         {
              name => 'myname',
              mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT | LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO,
@@ -30,7 +30,7 @@ Provides logging to a file
 
 =head1 DESCRIPTION
 
-Log::BSDLog::Handle::File provides logging to a file.  Note that this
+Log::Fine::Handle::File provides logging to a file.  Note that this
 module will log messages to a specific file.  At present, it does not
 support file timestamps or log rotation.
 
@@ -39,15 +39,15 @@ support file timestamps or log rotation.
 use strict;
 use warnings;
 
-package Log::BSDLog::Handle::File;
+package Log::Fine::Handle::File;
 
-use base qw( Log::BSDLog::Handle );
+use base qw( Log::Fine::Handle );
 
 use Carp;
 use File::Basename;
 use File::Spec::Functions;
 use FileHandle;
-use Log::BSDLog;
+use Log::Fine;
 
 our $VERSION = '0.01';
 
@@ -89,7 +89,7 @@ sub getFileHandle
 
 =head2 msgWrite($lvl, $msg, $skip)
 
-See L<Log::BSDLog::Handle>
+See L<Log::Fine::Handle>
 
 =cut
 
@@ -150,8 +150,8 @@ Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to
-C<bug-log-bsdlog-handle-file at rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-BSDLog>.
+C<bug-log-fine-handle-file at rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-Fine>.
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
 
@@ -159,7 +159,7 @@ your bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Log::BSDLog
+    perldoc Log::Fine
 
 You can also look for information at:
 
@@ -167,19 +167,19 @@ You can also look for information at:
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
-L<http://annocpan.org/dist/Log-BSDLog>
+L<http://annocpan.org/dist/Log-Fine>
 
 =item * CPAN Ratings
 
-L<http://cpanratings.perl.org/d/Log-BSDLog>
+L<http://cpanratings.perl.org/d/Log-Fine>
 
 =item * RT: CPAN's request tracker
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-BSDLog>
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-Fine>
 
 =item * Search CPAN
 
-L<http://search.cpan.org/dist/Log-BSDLog>
+L<http://search.cpan.org/dist/Log-Fine>
 
 =back
 
@@ -201,4 +201,4 @@ LICENSE file included with this module.
 
 =cut
 
-1;          # End of Log::BSDLog::Handle::File
+1;          # End of Log::Fine::Handle::File

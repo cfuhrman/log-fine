@@ -6,8 +6,8 @@
 
 use Test::Simple tests => 6;
 
-use Log::BSDLog;
-use Log::BSDLog::Handle::Output;
+use Log::Fine;
+use Log::Fine::Handle::Output;
 
 {
 
@@ -15,20 +15,20 @@ use Log::BSDLog::Handle::Output;
                 "This output is expected as part of the test.  Please ignore.";
 
         # get a logger
-        my $log = Log::BSDLog->getLogger("handleoutput0");
+        my $log = Log::Fine->getLogger("handleoutput0");
 
-        ok(ref $log eq "Log::BSDLog::Logger");
+        ok(ref $log eq "Log::Fine::Logger");
 
         # add a handle.  Note we use the default formatter.
-        my $handle = Log::BSDLog::Handle::Output->new({ use_stderr => 1, });
+        my $handle = Log::Fine::Handle::Output->new({ use_stderr => 1, });
 
         # do some validation
-        ok($handle->isa("Log::BSDLog::Handle"));
+        ok($handle->isa("Log::Fine::Handle"));
 
         # these should be set to their default values
-        ok($handle->{mask} == Log::BSDLog::Handle->DEFAULT_LOGMASK);
+        ok($handle->{mask} == Log::Fine::Handle->DEFAULT_LOGMASK);
         ok($handle->{level} == DEBG);
-        ok($handle->{formatter}->isa("Log::BSDLog::Formatter::Basic"));
+        ok($handle->{formatter}->isa("Log::Fine::Formatter::Basic"));
 
         # Output-specific attributes
         ok($handle->{use_stderr});

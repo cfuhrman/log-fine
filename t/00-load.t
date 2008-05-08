@@ -3,13 +3,13 @@
 use Test::More tests => 7;
 
 BEGIN {
-        use_ok('Log::BSDLog');
-        use_ok('Log::BSDLog::Handle');
-        use_ok('Log::BSDLog::Handle::File');
-        use_ok('Log::BSDLog::Handle::Output');
-        use_ok('Log::BSDLog::Handle::Syslog');
-        use_ok('Log::BSDLog::Logger');
-        use_ok('Log::BSDLog::Formatter');
+        use_ok('Log::Fine');
+        use_ok('Log::Fine::Handle');
+        use_ok('Log::Fine::Handle::File');
+        use_ok('Log::Fine::Handle::Output');
+        use_ok('Log::Fine::Handle::Syslog');
+        use_ok('Log::Fine::Logger');
+        use_ok('Log::Fine::Formatter');
 }
 
-diag("Testing Log::BSDLog $Log::BSDLog::VERSION, Perl $], $^X");
+diag("Testing Log::Fine $Log::Fine::VERSION, Perl $], $^X");

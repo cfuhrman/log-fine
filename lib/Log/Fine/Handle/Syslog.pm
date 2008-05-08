@@ -1,21 +1,21 @@
 
 =head1 NAME
 
-Log::BSDLog::Handle::Syslog - Output log messages to syslog
+Log::Fine::Handle::Syslog - Output log messages to syslog
 
 =head1 SYNOPSIS
 
 Provides logging to syslog()
 
-    use Log::BSDLog;
-    use Log::BSDLog::Handle::Syslog;
+    use Log::Fine;
+    use Log::Fine::Handle::Syslog;
     use Sys::Syslog;
 
     # Get a new logger
-    my $log = Log::BSDLog->getLogger("foo");
+    my $log = Log::Fine->getLogger("foo");
 
     # register a syslog handle
-    my $handle = Log::BSDLog::Handle::Syslog->new(
+    my $handle = Log::Fine::Handle::Syslog->new(
         {
              name  => 'myname',
              mask  => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT | LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO,
@@ -32,7 +32,7 @@ Provides logging to syslog()
 
 =head1 DESCRIPTION
 
-Log::BSDLog::Handle::Syslog provides logging via the standard UNIX
+Log::Fine::Handle::Syslog provides logging via the standard UNIX
 syslog facility.  For more information, it is I<highly> recommended
 that you read the L<Sys::Syslog> documentation.
 
@@ -41,19 +41,19 @@ that you read the L<Sys::Syslog> documentation.
 use strict;
 use warnings;
 
-package Log::BSDLog::Handle::Syslog;
+package Log::Fine::Handle::Syslog;
 
-use base qw( Log::BSDLog::Handle );
+use base qw( Log::Fine::Handle );
 
 use File::Basename;
-use Log::BSDLog;
+use Log::Fine;
 use Sys::Syslog qw( :standard :macros );
 
 our $VERSION = '0.01';
 
 # Constant: LOG_MAPPING
 #
-# Maps Log::BSDLog LOG_LEVELS to Sys::Syslog equivalents
+# Maps Log::Fine LOG_LEVELS to Sys::Syslog equivalents
 
 use constant LOG_MAPPING => {
                               0 => LOG_EMERG,
@@ -72,7 +72,7 @@ use constant LOG_MAPPING => {
 
 =head2 msgWrite($lvl, $msg, $skip)
 
-See L<Log::BSDLog::Handle>
+See L<Log::Fine::Handle>
 
 Note that this method B<does not> make use of a formatter as this is
 handled by the syslog facility.
@@ -136,8 +136,8 @@ Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to
-C<bug-log-bsdlog-handle-syslog at rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-BSDLog>.
+C<bug-log-fine-handle-syslog at rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-Fine>.
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
 
@@ -145,7 +145,7 @@ your bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Log::BSDLog
+    perldoc Log::Fine
 
 You can also look for information at:
 
@@ -153,19 +153,19 @@ You can also look for information at:
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
-L<http://annocpan.org/dist/Log-BSDLog>
+L<http://annocpan.org/dist/Log-Fine>
 
 =item * CPAN Ratings
 
-L<http://cpanratings.perl.org/d/Log-BSDLog>
+L<http://cpanratings.perl.org/d/Log-Fine>
 
 =item * RT: CPAN's request tracker
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-BSDLog>
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-Fine>
 
 =item * Search CPAN
 
-L<http://search.cpan.org/dist/Log-BSDLog>
+L<http://search.cpan.org/dist/Log-Fine>
 
 =back
 
@@ -193,4 +193,4 @@ L<perl>, L<syslog>, L<Sys::Syslog>
 
 =cut
 
-1;          # End of Log::BSDLog::Handle::Syslog
+1;          # End of Log::Fine::Handle::Syslog

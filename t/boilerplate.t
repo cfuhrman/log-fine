@@ -46,12 +46,12 @@ sub module_boilerplate_ok
         );
 }
 
-module_boilerplate_ok('lib/Log/BSDLog.pm');
-module_boilerplate_ok('lib/Log/BSDLog/Handler.pm');
-module_boilerplate_ok('lib/Log/BSDLog/Handler/File.pm');
-module_boilerplate_ok('lib/Log/BSDLog/Handler/Output.pm');
-module_boilerplate_ok('lib/Log/BSDLog/Handler/Syslog.pm');
-module_boilerplate_ok('lib/Log/BSDLog/Logger.pm');
-module_boilerplate_ok('lib/Log/BSDLog/Formatter.pm');
-module_boilerplate_ok('lib/Log/BSDLog/Formatter/Basic.pm');
-module_boilerplate_ok('lib/Log/BSDLog/Formatter/Detailed.pm');
+module_boilerplate_ok('lib/Log/Fine.pm');
+module_boilerplate_ok('lib/Log/Fine/Handler.pm');
+module_boilerplate_ok('lib/Log/Fine/Handler/File.pm');
+module_boilerplate_ok('lib/Log/Fine/Handler/Output.pm');
+module_boilerplate_ok('lib/Log/Fine/Handler/Syslog.pm');
+module_boilerplate_ok('lib/Log/Fine/Logger.pm');
+module_boilerplate_ok('lib/Log/Fine/Formatter.pm');
+module_boilerplate_ok('lib/Log/Fine/Formatter/Basic.pm');
+module_boilerplate_ok('lib/Log/Fine/Formatter/Detailed.pm');

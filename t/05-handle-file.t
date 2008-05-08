@@ -8,10 +8,10 @@ use Test::Simple tests => 12;
 
 use File::Spec::Functions;
 use FileHandle;
-use Log::BSDLog;
-use Log::BSDLog::Handle;
-use Log::BSDLog::Handle::File;
-use Log::BSDLog::Logger;
+use Log::Fine;
+use Log::Fine::Handle;
+use Log::Fine::Handle::File;
+use Log::Fine::Logger;
 
 {
 
@@ -19,24 +19,24 @@ use Log::BSDLog::Logger;
         my $msg  = "We're so miserable it's stunning";
 
         # get a logger
-        my $log = Log::BSDLog->getLogger("handlefile0");
+        my $log = Log::Fine->getLogger("handlefile0");
 
-        ok(ref $log eq "Log::BSDLog::Logger");
+        ok(ref $log eq "Log::Fine::Logger");
 
         # add a handle.  Note we use the default formatter.
         my $handle =
-                Log::BSDLog::Handle::File->new({
+                Log::Fine::Handle::File->new({
                                                  file      => $file,
                                                  autoflush => 1,
                 });
 
         # do some validation
-        ok($handle->isa("Log::BSDLog::Handle"));
+        ok($handle->isa("Log::Fine::Handle"));
 
         # these should be set to their default values
-        ok($handle->{mask} == Log::BSDLog::Handle->DEFAULT_LOGMASK);
+        ok($handle->{mask} == Log::Fine::Handle->DEFAULT_LOGMASK);
         ok($handle->{level} == DEBG);
-        ok($handle->{formatter}->isa("Log::BSDLog::Formatter::Basic"));
+        ok($handle->{formatter}->isa("Log::Fine::Formatter::Basic"));
 
         # File-specific attributes
         ok($handle->{file} eq $file);

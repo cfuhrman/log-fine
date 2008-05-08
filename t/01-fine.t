@@ -6,29 +6,29 @@
 
 use Test::Simple tests => 11;
 
-use Log::BSDLog;
+use Log::Fine;
 
 {
 
         # test construction
-        my $bsdlog = Log::BSDLog->new();
+        my $fine = Log::Fine->new();
 
-        ok(ref $bsdlog eq "Log::BSDLog");
+        ok(ref $fine eq "Log::Fine");
 
         # test retrieving a logging object
-        my $log = $bsdlog->getLogger("com0");
+        my $log = $fine->getLogger("com0");
 
-        ok(ref $log eq "Log::BSDLog::Logger");
+        ok(ref $log eq "Log::Fine::Logger");
 
         # now test construction through getLogger()
         undef $log;
 
-        $log = Log::BSDLog->getLogger("com1");
+        $log = Log::Fine->getLogger("com1");
 
-        ok(ref $log eq "Log::BSDLog::Logger");
+        ok(ref $log eq "Log::Fine::Logger");
 
         # test to make sure each level is exported correctly
-        my $lvls = Log::BSDLog->LOG_LEVELS;
+        my $lvls = Log::Fine->LOG_LEVELS;
 
         for (my $i = 0; $i < scalar @{$lvls}; $i++) {
                 print STDERR eval "$lvls->[$i]\n";

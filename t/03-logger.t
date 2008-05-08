@@ -6,33 +6,33 @@
 
 use Test::Simple tests => 4;
 
-use Log::BSDLog;
-use Log::BSDLog::Handle::Test;
-use Log::BSDLog::Logger;
+use Log::Fine;
+use Log::Fine::Handle::Test;
+use Log::Fine::Logger;
 
 {
 
         # first we create a logger object
-        my $log = Log::BSDLog->getLogger("logger0");
+        my $log = Log::Fine->getLogger("logger0");
 
-        ok($log->isa("Log::BSDLog::Logger"));
+        ok($log->isa("Log::Fine::Logger"));
 
         # create a handle for the logger
-        my $handle = Log::BSDLog::Handle::Test->new();
+        my $handle = Log::Fine::Handle::Test->new();
 
         # validate handle
-        ok($handle->isa("Log::BSDLog::Handle"));
+        ok($handle->isa("Log::Fine::Handle"));
 
         # now register the handle
         my $result = $log->registerHandle($handle);
 
         # validate result (should be a Logger)
-        ok($result->isa("Log::BSDLog::Logger"));
+        ok($result->isa("Log::Fine::Logger"));
 
         # Log something (won't do anything)
         my $logrc = $log->log(DEBG, "This is a test message");
 
         # just make sure the object returned is a Logger object
-        ok($logrc->isa("Log::BSDLog::Logger"));
+        ok($logrc->isa("Log::Fine::Logger"));
 
 }

@@ -1,7 +1,7 @@
 
 =head1 NAME
 
-Log::BSDLog::Handle - Controls where to send logging output
+Log::Fine::Handle - Controls where to send logging output
 
 =head1 SYNOPSIS
 
@@ -9,9 +9,9 @@ A handle controls I<where> to send formatted log messages.  The
 destination can be a file, syslog, a database table, or simply to
 output.
 
-    use Log::BSDLog::Handle;
+    use Log::Fine::Handle;
 
-    my $foo = Log::BSDLog::Handle->new();
+    my $foo = Log::Fine::Handle->new();
     ...
 
 =cut
@@ -19,13 +19,13 @@ output.
 use strict;
 use warnings;
 
-package Log::BSDLog::Handle;
+package Log::Fine::Handle;
 
-use base qw( Log::BSDLog );
+use base qw( Log::Fine );
 
 use Carp;
-use Log::BSDLog qw( :macros :masks );
-use Log::BSDLog::Formatter::Basic;
+use Log::Fine qw( :macros :masks );
+use Log::Fine::Formatter::Basic;
 
 our $VERSION = '0.01';
 
@@ -86,13 +86,13 @@ sub msgWrite
         my $class = ref $self;
 
         croak "someone used an (abstract) Handler object"
-                if $class eq 'Log::BSDLog::Handle';
+                if $class eq 'Log::Fine::Handle';
 
         croak "call to abstract method ${class}::msgWrite()";
 
 }          # msgWrite()
 
-=head2 setFormatter( <Log::BSDLog::Formatter> )
+=head2 setFormatter( <Log::Fine::Formatter> )
 
 Sets the formatter for this object
 
@@ -107,7 +107,7 @@ sub setFormatter
         # validate formatter
         croak "First argument must be a valid formatter object!\n"
                 unless (defined $formatter
-                        and $formatter->isa("Log::BSDLog::Formatter"));
+                        and $formatter->isa("Log::Fine::Formatter"));
 
         $self->{formatter} = $formatter;
 
@@ -132,9 +132,9 @@ sub _init
                 unless defined $self->{level};
 
         # set the default formatter
-        $self->{formatter} = Log::BSDLog::Formatter::Basic->new()
+        $self->{formatter} = Log::Fine::Formatter::Basic->new()
                 unless (defined $self->{formatter}
-                        and $self->{formatter}->isa("Log::BSDLog::Formatter"));
+                        and $self->{formatter}->isa("Log::Fine::Formatter"));
 
         # Victory!
         return $self;
@@ -148,8 +148,8 @@ Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to
-C<bug-log-bsdlog-handle at rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-BSDLog>.
+C<bug-log-fine-handle at rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-Fine>.
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
 
@@ -157,7 +157,7 @@ your bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Log::BSDLog
+    perldoc Log::Fine
 
 You can also look for information at:
 
@@ -165,19 +165,19 @@ You can also look for information at:
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
-L<http://annocpan.org/dist/Log-BSDLog>
+L<http://annocpan.org/dist/Log-Fine>
 
 =item * CPAN Ratings
 
-L<http://cpanratings.perl.org/d/Log-BSDLog>
+L<http://cpanratings.perl.org/d/Log-Fine>
 
 =item * RT: CPAN's request tracker
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-BSDLog>
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-Fine>
 
 =item * Search CPAN
 
-L<http://search.cpan.org/dist/Log-BSDLog>
+L<http://search.cpan.org/dist/Log-Fine>
 
 =back
 
@@ -199,4 +199,4 @@ LICENSE file included with this module.
 
 =cut
 
-1;          # End of Log::BSDLog::Handle
+1;          # End of Log::Fine::Handle

@@ -6,19 +6,19 @@
 
 use Test::Simple tests => 7;
 
-use Log::BSDLog;
-use Log::BSDLog::Formatter;
-use Log::BSDLog::Formatter::Basic;
-use Log::BSDLog::Formatter::Detailed;
+use Log::Fine;
+use Log::Fine::Formatter;
+use Log::Fine::Formatter::Basic;
+use Log::Fine::Formatter::Detailed;
 
 {
 
         # create a basic formatter
-        my $basic = Log::BSDLog::Formatter::Basic->new();
+        my $basic = Log::Fine::Formatter::Basic->new();
 
-        ok(ref $basic                 eq "Log::BSDLog::Formatter::Basic");
+        ok(ref $basic                 eq "Log::Fine::Formatter::Basic");
         ok($basic->{timestamp_format} eq
-            Log::BSDLog::Formatter->LOG_TIMESTAMP_FORMAT);
+            Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
 
         # format a message
         my $msg = "Stop by this disaster town";
@@ -28,11 +28,11 @@ use Log::BSDLog::Formatter::Detailed;
         ok($log0 =~ /^\[.*?\] \w+ $msg/);
 
         # now create a detailed formatter
-        my $detailed = Log::BSDLog::Formatter::Detailed->new();
+        my $detailed = Log::Fine::Formatter::Detailed->new();
 
-        ok(ref $detailed                 eq "Log::BSDLog::Formatter::Detailed");
+        ok(ref $detailed                 eq "Log::Fine::Formatter::Detailed");
         ok($detailed->{timestamp_format} eq
-            Log::BSDLog::Formatter->LOG_TIMESTAMP_FORMAT);
+            Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
 
         # format a message
         my $log1 = $detailed->format(INFO, $msg, 1);

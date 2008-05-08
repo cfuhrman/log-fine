@@ -1,23 +1,23 @@
 
 =head1 NAME
 
-Log::BSDLog::Formatter::Detailed - Formatter for detailed logging
+Log::Fine::Formatter::Detailed - Formatter for detailed logging
 
 =head1 SYNOPSIS
 
 Formats log messages for output in a detailed format.
 
-    use Log::BSDLog;
-    use Log::BSDLog::Formatter::Detailed;
-    use Log::BSDLog::Handle::Output;
-    use Log::BSDLog::Logger;
+    use Log::Fine;
+    use Log::Fine::Formatter::Detailed;
+    use Log::Fine::Handle::Output;
+    use Log::Fine::Logger;
 
     # Create log object, logger
     ...
 
-    my $formatter = Log::BSDLog::Formatter::Detailed->new();
+    my $formatter = Log::Fine::Formatter::Detailed->new();
 
-    my $handle = Log::BSDLog::Handle::Output->new( {
+    my $handle = Log::Fine::Handle::Output->new( {
                                                       formatter => $formatter,
                                                       ...
                                                     })
@@ -45,14 +45,14 @@ Otherwise, the formatter will return a slightly more basic format:
 use strict;
 use warnings;
 
-package Log::BSDLog::Formatter::Detailed;
+package Log::Fine::Formatter::Detailed;
 
-use base qw( Log::BSDLog::Formatter );
+use base qw( Log::Fine::Formatter );
 
 use File::Basename;
-use Log::BSDLog;
-use Log::BSDLog::Formatter;
-use Log::BSDLog::Logger;
+use Log::Fine;
+use Log::Fine::Formatter;
+use Log::Fine::Logger;
 use POSIX qw( strftime );
 
 our $VERSION = '0.01';
@@ -77,8 +77,8 @@ sub format
         my $self = shift;
         my $lvl  = shift;
         my $msg  = shift;
-        my $skip = shift || Log::BSDLog::Logger->LOG_SKIP_DEFAULT;
-        my $lvls = Log::BSDLog->LOG_LEVELS;
+        my $skip = shift || Log::Fine::Logger->LOG_SKIP_DEFAULT;
+        my $lvls = Log::Fine->LOG_LEVELS;
 
         # get the caller
         my @c = caller($skip);
@@ -140,8 +140,8 @@ Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to
-C<bug-log-bsdlog-record at rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-BSDLog>.
+C<bug-log-fine-record at rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-Fine>.
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
 
@@ -149,7 +149,7 @@ your bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Log::BSDLog
+    perldoc Log::Fine
 
 You can also look for information at:
 
@@ -157,19 +157,19 @@ You can also look for information at:
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
-L<http://annocpan.org/dist/Log-BSDLog>
+L<http://annocpan.org/dist/Log-Fine>
 
 =item * CPAN Ratings
 
-L<http://cpanratings.perl.org/d/Log-BSDLog>
+L<http://cpanratings.perl.org/d/Log-Fine>
 
 =item * RT: CPAN's request tracker
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-BSDLog>
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-Fine>
 
 =item * Search CPAN
 
-L<http://search.cpan.org/dist/Log-BSDLog>
+L<http://search.cpan.org/dist/Log-Fine>
 
 =back
 
@@ -191,4 +191,4 @@ LICENSE file included with this module.
 
 =cut
 
-1;          # End of Log::BSDLog::Formatter::Detailed
+1;          # End of Log::Fine::Formatter::Detailed

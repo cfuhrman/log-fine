@@ -1,28 +1,28 @@
 
 =head1 NAME
 
-Log::BSDLog::Logger - Main logging object
+Log::Fine::Logger - Main logging object
 
 =head1 SYNOPSIS
 
 Provides an object through which to log.
 
-    use Log::BSDLog;
-    use Log::BSDLog::Logger;
+    use Log::Fine;
+    use Log::Fine::Logger;
 
     # get a new logging object
-    my $log = Log::BSDLog->getLogger("mylogger");
+    my $log = Log::Fine->getLogger("mylogger");
 
     # register a handle
-    $log->registerHandle( Log::BSDLog::Handle::Output->new() );
+    $log->registerHandle( Log::Fine::Handle::Output->new() );
 
     # log a message
     $log->log(DEBG, "This is a really cool module!");
 
     # illustrate use of the logskip attribute
-    package Some::Package::That::Overrides::Log::BSDLog::Logger;
+    package Some::Package::That::Overrides::Log::Fine::Logger;
 
-    use base qw( Log::BSDLog::Logger );
+    use base qw( Log::Fine::Logger );
 
     sub log
     {
@@ -44,13 +44,13 @@ Provides an object through which to log.
 use strict;
 use warnings;
 
-package Log::BSDLog::Logger;
+package Log::Fine::Logger;
 
-use base qw( Log::BSDLog );
+use base qw( Log::Fine );
 
 use Carp;
 use Exporter;
-use Log::BSDLog;
+use Log::Fine;
 
 use vars qw(@ISA @EXPORT);
 
@@ -124,7 +124,7 @@ sub log
 
 =head2 registerHandle(<handle>)
 
-Registers the given L<Log::BSDLog::Handle> object with the logging
+Registers the given L<Log::Fine::Handle> object with the logging
 facility.
 
 =cut
@@ -136,9 +136,9 @@ sub registerHandle
         my $handle = shift;
 
         # validate handle
-        croak "first argument must be a valid Log::BSDLog::Handle object\n"
+        croak "first argument must be a valid Log::Fine::Handle object\n"
                 unless (defined $handle
-                        and $handle->isa("Log::BSDLog::Handle"));
+                        and $handle->isa("Log::Fine::Handle"));
 
         # initialize handles if we haven't already
         $self->{_handles} = []
@@ -161,8 +161,8 @@ Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to
-C<bug-log-bsdlog-logger at rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-BSDLog>.
+C<bug-log-fine-logger at rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-Fine>.
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
 
@@ -170,7 +170,7 @@ your bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Log::BSDLog
+    perldoc Log::Fine
 
 You can also look for information at:
 
@@ -178,19 +178,19 @@ You can also look for information at:
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
-L<http://annocpan.org/dist/Log-BSDLog>
+L<http://annocpan.org/dist/Log-Fine>
 
 =item * CPAN Ratings
 
-L<http://cpanratings.perl.org/d/Log-BSDLog>
+L<http://cpanratings.perl.org/d/Log-Fine>
 
 =item * RT: CPAN's request tracker
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-BSDLog>
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-Fine>
 
 =item * Search CPAN
 
-L<http://search.cpan.org/dist/Log-BSDLog>
+L<http://search.cpan.org/dist/Log-Fine>
 
 =back
 
@@ -212,8 +212,8 @@ LICENSE file included with this module.
 
 =head1 SEE ALSO
 
-L<perl>, L<Log::BSDLog>, L<Log::BSDLog::Handle>
+L<perl>, L<Log::Fine>, L<Log::Fine::Handle>
 
 =cut
 
-1;          # End of Log::BSDLog::Logger
+1;          # End of Log::Fine::Logger

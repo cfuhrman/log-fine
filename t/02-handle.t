@@ -6,22 +6,22 @@
 
 use Test::More tests => 5;
 
-use Log::BSDLog;
-use Log::BSDLog::Handle;
-use Log::BSDLog::Handle::Test;
+use Log::Fine;
+use Log::Fine::Handle;
+use Log::Fine::Handle::Test;
 
 {
 
         # first we create a handle
-        my $handle = Log::BSDLog::Handle::Test->new();
+        my $handle = Log::Fine::Handle::Test->new();
 
         # validate handle
-        ok($handle->isa("Log::BSDLog::Handle"));
+        ok($handle->isa("Log::Fine::Handle"));
 
         # validate default attributes
-        ok($handle->{mask} == Log::BSDLog::Handle->DEFAULT_LOGMASK);
+        ok($handle->{mask} == Log::Fine::Handle->DEFAULT_LOGMASK);
         ok($handle->{level} == DEBG);
-        ok($handle->{formatter}->isa("Log::BSDLog::Formatter"));
-        ok(ref $handle->{formatter} eq "Log::BSDLog::Formatter::Basic");
+        ok($handle->{formatter}->isa("Log::Fine::Formatter"));
+        ok(ref $handle->{formatter} eq "Log::Fine::Formatter::Basic");
 
 }

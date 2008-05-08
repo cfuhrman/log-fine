@@ -1,17 +1,17 @@
 
 =head1 NAME
 
-Log::BSDLog::Handle::Output - Output messages to C<STDERR> or C<STDOUT>
+Log::Fine::Handle::Output - Output messages to C<STDERR> or C<STDOUT>
 
 =head1 SYNOPSIS
 
 Provides logging to either C<STDERR> or C<STDOUT>.
 
     # Get a new logger
-    my $log = Log::BSDLog->getLogger("foo");
+    my $log = Log::Fine->getLogger("foo");
 
     # register a file handle
-    my $handle = Log::BSDLog::Handle::Output->new(
+    my $handle = Log::Fine::Handle::Output->new(
         {
              name => 'myname',
              mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT | LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO,
@@ -32,9 +32,9 @@ Provides logging to either C<STDERR> or C<STDOUT>.
 use strict;
 use warnings;
 
-package Log::BSDLog::Handle::Output;
+package Log::Fine::Handle::Output;
 
-use base qw( Log::BSDLog::Handle );
+use base qw( Log::Fine::Handle );
 
 our $VERSION = '0.01';
 
@@ -42,7 +42,7 @@ our $VERSION = '0.01';
 
 =head2 msgWrite($lvl, $msg, $skip)
 
-See L<Log::BSDLog::Handle>
+See L<Log::Fine::Handle>
 
 =cut
 
@@ -100,8 +100,8 @@ Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to
-C<bug-log-bsdlog-handle-output at rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-BSDLog>.
+C<bug-log-fine-handle-output at rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-Fine>.
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
 
@@ -109,7 +109,7 @@ your bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Log::BSDLog
+    perldoc Log::Fine
 
 You can also look for information at:
 
@@ -117,19 +117,19 @@ You can also look for information at:
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
-L<http://annocpan.org/dist/Log-BSDLog>
+L<http://annocpan.org/dist/Log-Fine>
 
 =item * CPAN Ratings
 
-L<http://cpanratings.perl.org/d/Log-BSDLog>
+L<http://cpanratings.perl.org/d/Log-Fine>
 
 =item * RT: CPAN's request tracker
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-BSDLog>
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-Fine>
 
 =item * Search CPAN
 
-L<http://search.cpan.org/dist/Log-BSDLog>
+L<http://search.cpan.org/dist/Log-Fine>
 
 =back
 
@@ -151,4 +151,4 @@ LICENSE file included with this module.
 
 =cut
 
-1;          # End of Log::BSDLog::Handle::Output
+1;          # End of Log::Fine::Handle::Output

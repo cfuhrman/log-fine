@@ -1,20 +1,20 @@
 
 =head1 NAME
 
-Log::BSDLog::Handle::Test - formatted output
+Log::Fine::Handle::Test - formatted output
 
 =head1 SYNOPSIS
 
 Returns the formatted string for testing purposes.
 
-    use Log::BSDLog;
-    use Log::BSDLog::Handle::Test;
+    use Log::Fine;
+    use Log::Fine::Handle::Test;
 
     # Get a new logger
-    my $log = Log::BSDLog->getLogger("foo");
+    my $log = Log::Fine->getLogger("foo");
 
     # register a file handle
-    my $handle = Log::BSDLog::Handle::Test->new();
+    my $handle = Log::Fine::Handle::Test->new();
 
     # get a formatted message
     my $formatted_message = $log->(INFO, "Opened new log handle");
@@ -29,9 +29,9 @@ general-purpose testing and verification.
 use strict;
 use warnings;
 
-package Log::BSDLog::Handle::Test;
+package Log::Fine::Handle::Test;
 
-use base qw( Log::BSDLog::Handle );
+use base qw( Log::Fine::Handle );
 
 our $VERSION = '0.01';
 
@@ -39,7 +39,7 @@ our $VERSION = '0.01';
 
 =head2 msgWrite($lvl, $msg, $skip)
 
-See L<Log::BSDLog::Handle>
+See L<Log::Fine::Handle>
 
 Returns the formatted message rather than the object.
 
@@ -73,8 +73,8 @@ Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to
-C<bug-log-bsdlog-handle-file at rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-BSDLog>.
+C<bug-log-fine-handle-file at rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-Fine>.
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
 
@@ -82,7 +82,7 @@ your bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Log::BSDLog
+    perldoc Log::Fine
 
 You can also look for information at:
 
@@ -90,19 +90,19 @@ You can also look for information at:
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
-L<http://annocpan.org/dist/Log-BSDLog>
+L<http://annocpan.org/dist/Log-Fine>
 
 =item * CPAN Ratings
 
-L<http://cpanratings.perl.org/d/Log-BSDLog>
+L<http://cpanratings.perl.org/d/Log-Fine>
 
 =item * RT: CPAN's request tracker
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-BSDLog>
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-Fine>
 
 =item * Search CPAN
 
-L<http://search.cpan.org/dist/Log-BSDLog>
+L<http://search.cpan.org/dist/Log-Fine>
 
 =back
 
@@ -124,4 +124,4 @@ LICENSE file included with this module.
 
 =cut
 
-1;          # End of Log::BSDLog::Handle::Test
+1;          # End of Log::Fine::Handle::Test

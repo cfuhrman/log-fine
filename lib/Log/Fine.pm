@@ -1,30 +1,30 @@
 
 =head1 NAME
 
-Log::BSDLog - Yet another logging framework
+Log::Fine - Yet another logging framework
 
 =head1 SYNOPSIS
 
 Provides fine-grained logging and tracing.
 
-    use Log::BSDLog;
-    use Log::BSDLog qw( :masks );          # log masks
-    use Log::BSDLog qw( :macros :masks );  # everything
+    use Log::Fine;
+    use Log::Fine qw( :masks );          # log masks
+    use Log::Fine qw( :macros :masks );  # everything
 
     # grab our logger object
-    my $log = Log::BSDLog->getLogger("foo");
+    my $log = Log::Fine->getLogger("foo");
 
     # register a handle, in this case a handle that logs to console.
-    $log->registerHandle( Log::BSDLog::Handle::Output->new() );
+    $log->registerHandle( Log::Fine::Handle::Output->new() );
 
     # log a message
     $log->log(INFO, "Log object successfully initialized");
 
 =head1 DESCRIPTION
 
-Log::BSDLog provides a logging framework for application developers
+Log::Fine provides a logging framework for application developers
 who need a fine-grained logging mechanism in their program(s).  By
-itself, Log::BSDLog provides a mechanism to get one or more logging
+itself, Log::Fine provides a mechanism to get one or more logging
 objects (called I<loggers>) from its stored namespace.  Most logging
 is then done through a logger object that is specific to the
 application.
@@ -36,15 +36,15 @@ ways. Currently, the following handles are provided:
 
 =over 4
 
-=item L<Log::BSDLog::Handle::Output>
+=item L<Log::Fine::Handle::Output>
 
 Provides logging to C<STDERR> or C<STDOUT>.
 
-=item L<Log::BSDLog::Handle::File>
+=item L<Log::Fine::Handle::File>
 
 Provides logging to a file.
 
-=item L<Log::BSDLog::Handle::Syslog>
+=item L<Log::Fine::Handle::Syslog>
 
 Provides logging to L<syslog>
 
@@ -60,7 +60,7 @@ use warnings;
 require 5.006;
 require Exporter;
 
-package Log::BSDLog;
+package Log::Fine;
 
 use Carp;
 use Sys::Syslog qw( :macros );
@@ -70,7 +70,7 @@ our @ISA     = qw( Exporter );
 
 =head2 Log Levels
 
-Log::BSDLog bases its log levels on those found in the
+Log::Fine bases its log levels on those found in the
 L<Sys::Syslog> module.  For convenience, the following shorthand
 macros are exported.
 
@@ -103,7 +103,7 @@ use constant LOG_LEVELS => [qw( EMER ALRT CRIT ERR WARN NOTI INFO DEBG )];
 =head2 Masks
 
 Log masks can be exported for use in setting up individual handles
-(see L<Log::BSDLog::Handle>).  Log::BSDLog exports the following
+(see L<Log::Fine::Handle>).  Log::Fine exports the following
 masks corresponding to their log level:
 
 =over 4
@@ -126,7 +126,7 @@ masks corresponding to their log level:
 
 =back
 
-See L<Log::BSDLog::Handle> for more information.
+See L<Log::Fine::Handle> for more information.
 
 =cut
 
@@ -138,12 +138,12 @@ use constant LOG_MASKS => [
 =head2 Logging Formats
 
 By default, log messages are formatted as follows using the
-L<Basic|Log::BSDLog::Formatter::Basic> formatter object.
+L<Basic|Log::Fine::Formatter::Basic> formatter object.
 
      [<time>] <LEVEL> <MESSAGE>\n
 
 For more information on the customization of log messages, please see
-L<Log::BSDLog::Formatter>.
+L<Log::Fine::Formatter>.
 
 =cut
 
@@ -182,14 +182,14 @@ BEGIN {
 
 =head1 METHODS
 
-The Log::BSDLog module, by itself, simply exports a few constants, and
+The Log::Fine module, by itself, simply exports a few constants, and
 allows the developer to get a new logger.  After a logger is created,
 further actions are done through the logger object.  The following two
 constructors are defined:
 
 =head2 new($hash)
 
-Creates a new Log::BSDLog object.
+Creates a new Log::Fine object.
 
 =cut
 
@@ -216,7 +216,7 @@ sub new
 =head2 getLogger($name)
 
 Creates a logger with the given name.  This method can also be used as
-a constructor for a Log::BSDLog object
+a constructor for a Log::Fine object
 
 =cut
 
@@ -236,8 +236,8 @@ sub getLogger
         if (defined $loggers->{$name}) {
                 return $loggers->{$name};
         } else {
-                require Log::BSDLog::Logger;
-                return Log::BSDLog::Logger->new({ name => $name });
+                require Log::Fine::Logger;
+                return Log::Fine::Logger->new({ name => $name });
         }
 
 }          # getLogger()
@@ -263,8 +263,8 @@ Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to
-C<bug-log-bsdlog at rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-BSDLog>.
+C<bug-log-fine at rt.cpan.org>, or through the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-Fine>.
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
 
@@ -272,7 +272,7 @@ your bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Log::BSDLog
+    perldoc Log::Fine
 
 You can also look for information at:
 
@@ -280,19 +280,19 @@ You can also look for information at:
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
-L<http://annocpan.org/dist/Log-BSDLog>
+L<http://annocpan.org/dist/Log-Fine>
 
 =item * CPAN Ratings
 
-L<http://cpanratings.perl.org/d/Log-BSDLog>
+L<http://cpanratings.perl.org/d/Log-Fine>
 
 =item * RT: CPAN's request tracker
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-BSDLog>
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-Fine>
 
 =item * Search CPAN
 
-L<http://search.cpan.org/dist/Log-BSDLog>
+L<http://search.cpan.org/dist/Log-Fine>
 
 =back
 
@@ -318,4 +318,4 @@ L<perl>, L<syslog>, L<Sys::Syslog>
 
 =cut
 
-1;          # End of Log::BSDLog
+1;          # End of Log::Fine
