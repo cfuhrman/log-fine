@@ -33,8 +33,6 @@ package Log::Fine::Handle::Test;
 
 use base qw( Log::Fine::Handle );
 
-our $VERSION = '0.01';
-
 =head1 METHODS
 
 =head2 msgWrite($lvl, $msg, $skip)
@@ -65,6 +63,10 @@ sub msgWrite
         return $msg;
 
 }          # msgWrite()
+
+=head1 SEE ALSO
+
+L<perl>, L<Log::Fine>, L<Log::Fine::Handle>
 
 =head1 AUTHOR
 
