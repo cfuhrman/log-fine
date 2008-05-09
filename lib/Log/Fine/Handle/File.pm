@@ -139,6 +139,21 @@ sub _init
 
 }          # _init()
 
+##
+# called when this object is destroyed
+
+sub DESTROY
+{
+
+        my $self = shift;
+
+        # close our filehandle if necessary.
+        $self->{_filehandle}->close()
+                if (defined $self->{_filehandle}
+                    and $self->{_filehandle}->isa("IO::File"));
+
+}          # DESTROY
+
 =head1 SEE ALSO
 
 L<perl>, L<Log::Fine>, L<Log::Fine::Handle>

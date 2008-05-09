@@ -125,6 +125,11 @@ sub _init
 
 }          # _init()
 
+##
+# called when this object is destroyed
+
+sub DESTROY { closelog(); }
+
 =head1 SEE ALSO
 
 L<perl>, L<syslog>, L<Sys::Syslog>
