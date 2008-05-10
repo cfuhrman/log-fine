@@ -4,9 +4,9 @@
 # $Id$
 #
 
-use Test::Simple tests => 12;
+use Test::Simple tests => 36;
 
-use Log::Fine;
+use Log::Fine qw( :macros :masks );
 
 {
 
@@ -30,12 +30,16 @@ use Log::Fine;
 
         ok(ref $log eq "Log::Fine::Logger");
 
-        # test to make sure each level is exported correctly
-        my $lvls = Log::Fine->LOG_LEVELS;
+        # test to make sure each level and mask is exported correctly
+        my $lvls  = Log::Fine->LOG_LEVELS;
+        my $masks = Log::Fine->LOG_MASKS;
 
+        # test levels, levels as methods, and logmasks.
         for (my $i = 0; $i < scalar @{$lvls}; $i++) {
-                print STDERR eval "$lvls->[$i]\n";
-                ok(eval "$lvls->[$i]" eq $i);
+                ok(eval "$lvls->[$i]"  eq $i);
+                ok(eval "$masks->[$i]" eq (2 << $i));
+                ok($fine->can($lvls->[$i]));
+                ok($fine->can($masks->[$i]));
         }
 
 }
