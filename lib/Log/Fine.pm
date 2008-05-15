@@ -63,6 +63,7 @@ require Exporter;
 package Log::Fine;
 
 use Carp;
+use Log::Fine::Logger;
 use Sys::Syslog qw( :macros );
 
 our $VERSION = '0.02';
@@ -204,10 +205,10 @@ sub new
         my %h     = @_;
 
         # if $class is already an object, then return the object
-        return $class if (ref $class);
+        return $class if (ref $class and $class->isa("Log::Fine"));
 
         # bless the hash into a class
-        my $self = bless \%h, ref $class || $class;
+        my $self = bless \%h, $class;
 
         # perform any necessary initializations
         $self->_init();
@@ -231,18 +232,18 @@ sub getLogger
         my $name    = shift;
         my $loggers = _getLoggers();
 
-        # if the requested logger is found, then return it, otherwise
-        # return a newly created logger object.
-        if (defined $loggers->{$name}) {
-                return $loggers->{$name};
-        } else {
-                require Log::Fine::Logger;
-                return Log::Fine::Logger->new(name => $name);
-        }
+        # validate name
+        croak "First parameter must be a valid name!\n"
+                unless (defined $name and $name =~ /\w/);
 
-        #
-        # NOT REACHED
-        #
+        # if the requested logger is found, then return it, otherwise
+        # store and return a newly created logger object.
+        $loggers->{$name} = Log::Fine::Logger->new(name => $name)
+                unless (defined $loggers->{$name}
+                        and $loggers->{$name}->isa("Log::Fine::Logger"));
+
+        # return the logger
+        return $loggers->{$name};
 
 }          # getLogger()
 
@@ -260,7 +261,7 @@ sub _init
         _incrObjectCount();
 
         # we set the object's name unless it is already set for us
-        unless (defined $self->{name} and $self->{name} =~ /\w+/) {
+        unless (defined $self->{name} and $self->{name} =~ /\w/) {
 
                 # grab the class name
                 $_ = ref $self;

@@ -16,7 +16,7 @@ use Log::Fine qw( :macros :masks );
         ok(ref $fine eq "Log::Fine");
 
         # all objects should have names
-        ok($fine->{name} =~ /\w+\d+/);
+        ok($fine->{name} =~ /\w\d+$/);
 
         # test retrieving a logging object
         my $log = $fine->getLogger("com0");

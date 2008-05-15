@@ -29,8 +29,9 @@ Provides logging to a file
 =head1 DESCRIPTION
 
 Log::Fine::Handle::File provides logging to a file.  Note that this
-module will log messages to a specific file.  At present, it does not
-support file timestamps or log rotation.
+module will log messages to a specific file.  By itself, it does not
+support file timestamps (see L<Log::Fine::Handle::File::Timestamp>) or
+log rotation.
 
 =cut
 
