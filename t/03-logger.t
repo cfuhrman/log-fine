@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 4;
+use Test::Simple tests => 8;
 
 use Log::Fine;
 use Log::Fine::Handle::Test;
@@ -34,5 +34,20 @@ use Log::Fine::Logger;
 
         # just make sure the object returned is a Logger object
         ok($logrc->isa("Log::Fine::Logger"));
+
+        # make sure skip is set to our default
+        my $num = $log->getSkip();
+        ok($num == Log::Fine::Logger->LOG_SKIP_DEFAULT);
+
+        # set the skip level to 5
+        $log->setSkip(5);
+
+        # check to see if it's okay
+        $num = $log->getSkip();
+        ok($num == 5);
+
+        # okay, now increment and decrement
+        ok($log->incrSkip() == 6);
+        ok($log->decrSkip() == 5);
 
 }

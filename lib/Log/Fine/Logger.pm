@@ -30,12 +30,12 @@ Provides an object through which to log.
         my $lvl  = shift;
         my $msg  = shift;
 
-        # do some custom stuff ...
+        # do some custom stuff to message
 
         # make sure the formatter logs the correct calling method.
-        $self->{skip}++;
-        $self->log($lvl, $msg);
-        $self->{skip}--;
+        $self->incrSkip();
+        $self->SUPER::log($lvl, $msg);
+        $self->decrSkip();
 
     } # log()
 
@@ -59,6 +59,39 @@ use Log::Fine;
 use constant LOG_SKIP_DEFAULT => 2;
 
 # --------------------------------------------------------------------
+
+=head2 decrSkip()
+
+Decrements the value of {_skip} by one, returning the new value.
+
+=cut
+
+sub decrSkip
+{
+        return --$_[0]->{_skip};
+}          # decrSkip()
+
+=head2 getSkip()
+
+Returns the value of {_skip}
+
+=cut
+
+sub getSkip
+{
+        return $_[0]->{_skip};
+}          # getSkip()
+
+=head2 incrSkip()
+
+Increments the value of {_skip}, returning the new value
+
+=cut
+
+sub incrSkip
+{
+        return ++$_[0]->{_skip};
+}          # incrSkip()
 
 =head2 log($lvl, $msg)
 
@@ -84,7 +117,7 @@ sub log
 
         # iterate through each handle, logging as appropriate
         foreach my $handle (@{ $self->{_handles} }) {
-                $handle->msgWrite($lvl, $msg, $self->{skip})
+                $handle->msgWrite($lvl, $msg, $self->{_skip})
                         if $handle->isLoggable($lvl);
         }
 
@@ -93,7 +126,7 @@ sub log
 
 }          # log()
 
-=head2 registerHandle(<handle>)
+=head2 registerHandle($handle)
 
 Registers the given L<Log::Fine::Handle> object with the logging
 facility.
@@ -123,6 +156,19 @@ sub registerHandle
 
 }          # registerHandle()
 
+=head2 setSkip($skip)
+
+Sets the value passed to L<perlfunc/caller>().   Note this
+only applies to loggers that include caller information in their log
+files.
+
+=cut
+
+sub setSkip
+{
+        $_[0]->{_skip} = $_[1];
+}          # setSkip()
+
 # --------------------------------------------------------------------
 
 ##
@@ -138,8 +184,8 @@ sub _init
                 unless (defined $self->{name} and $self->{name} =~ /\w+/);
 
         # set logskip if necessary
-        $self->{skip} = LOG_SKIP_DEFAULT
-                unless ($self->{skip} and $self->{skip} =~ /\d+/);
+        $self->{_skip} = LOG_SKIP_DEFAULT
+                unless ($self->{_skip} and $self->{_skip} =~ /\d+/);
 
         return $self;
 
