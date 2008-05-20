@@ -45,9 +45,7 @@ use Log::Fine::Formatter::Basic;
 # Constant: DEFAULT_LOG_MASK
 #
 # Default log mask.  Basically everything
-use constant DEFAULT_LOGMASK => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT |
-        LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO |
-        LOGMASK_DEBUG;
+use constant DEFAULT_LOGMASK => Log::Fine->LOGMASK_ALL;
 
 =head1 METHODS
 

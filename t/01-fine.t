@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 36;
+use Test::Simple tests => 38;
 
 use Log::Fine qw( :macros :masks );
 
@@ -35,11 +35,23 @@ use Log::Fine qw( :macros :masks );
         my $masks = Log::Fine->LOG_MASKS;
 
         # test levels, levels as methods, and logmasks.
+        my $all = 0;
+        my $err = 0;
         for (my $i = 0; $i < scalar @{$lvls}; $i++) {
                 ok(eval "$lvls->[$i]"  eq $i);
                 ok(eval "$masks->[$i]" eq (2 << $i));
+
+                # bitmask all and err for later testing
+                $all |= eval "$masks->[$i]";
+                $err |= eval "$masks->[$i]"
+                        if ($i <= ERR);
+
                 ok($fine->can($lvls->[$i]));
                 ok($fine->can($masks->[$i]));
         }
+
+        # test shorthand logmasks
+        ok(eval Log::Fine->LOGMASK_ALL == $all);
+        ok(eval Log::Fine->LOGMASK_ERROR == $err);
 
 }

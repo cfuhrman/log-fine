@@ -129,6 +129,45 @@ masks corresponding to their log level:
 
 See L<Log::Fine::Handle> for more information.
 
+=head2 Mask Shorthands
+
+In addition to the above Log Masks, the following "shorthand" values
+are provided:
+
+=over 4
+
+=item * C<LOGMASK_ALL>
+
+Shorthand for ALL log levels
+
+=item * C<LOGMASK_ERROR>
+
+Shorthand for C<LOGMASK_ERR>, C<LOGMASK_CRIT>, C<LOGMASK_ALERT>, and
+C<LOGMASK_EMERG>.  Not to be confused with C<LOGMASK_ERR>.
+
+=back
+
+In addition, the following shortcut constants are provided.  Note that
+these are not exported by default:
+
+=over 4
+
+=item * C<Log::Fine->LOGMASK_ALL>
+
+Shorthand constant for B<all> log masks.
+
+=item * C<Log::Fine->LOGMASK_ERROR>
+
+Shorthand constant for C<LOGMASK_EMERG> through C<LOGMASK_ERR>.  This
+is not to be confused with C<LOGMASK_ERR>.
+
+=back
+
+In addition, you can specify your own customized masks as shown below:
+
+    # we want to log all error masks plus warning masks
+    my $mask = LOGMASK_ERROR | LOGMASK_WARNING;
+
 =cut
 
 # Log Masks
@@ -184,6 +223,13 @@ BEGIN {
         }
 
 }
+
+# define some convenient mask shorthands
+use constant LOGMASK_ALL => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT |
+        LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO |
+        LOGMASK_DEBUG;
+use constant LOGMASK_ERROR => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT |
+        LOGMASK_ERR;
 
 =head1 METHODS
 
