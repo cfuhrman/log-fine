@@ -7,20 +7,19 @@
 use Test::Simple tests => 6;
 
 use Log::Fine;
-use Log::Fine::Handle::Output;
+use Log::Fine::Handle::Console;
 
 {
-
         my $msg =
                 "This output is expected as part of the test.  Please ignore.";
 
         # get a logger
-        my $log = Log::Fine->getLogger("handleoutput0");
+        my $log = Log::Fine->getLogger("handleconsole0");
 
         ok(ref $log eq "Log::Fine::Logger");
 
         # add a handle.  Note we use the default formatter.
-        my $handle = Log::Fine::Handle::Output->new(use_stderr => 1);
+        my $handle = Log::Fine::Handle::Console->new(use_stderr => 1);
 
         # do some validation
         ok($handle->isa("Log::Fine::Handle"));
@@ -30,7 +29,7 @@ use Log::Fine::Handle::Output;
         ok($handle->{level} == DEBG);
         ok($handle->{formatter}->isa("Log::Fine::Formatter::Basic"));
 
-        # Output-specific attributes
+        # Console-specific attributes
         ok($handle->{use_stderr});
 
         # write a test message

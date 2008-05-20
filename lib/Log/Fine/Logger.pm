@@ -14,7 +14,7 @@ Provides an object through which to log.
     my $log = Log::Fine->getLogger("mylogger");
 
     # register a handle
-    $log->registerHandle( Log::Fine::Handle::Output->new() );
+    $log->registerHandle( Log::Fine::Handle::Console->new() );
 
     # log a message
     $log->log(DEBG, "This is a really cool module!");

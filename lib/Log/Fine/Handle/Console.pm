@@ -1,7 +1,7 @@
 
 =head1 NAME
 
-Log::Fine::Handle::Output - Output messages to C<STDERR> or C<STDOUT>
+Log::Fine::Handle::Console - Output messages to C<STDERR> or C<STDOUT>
 
 =head1 SYNOPSIS
 
@@ -11,7 +11,7 @@ Provides logging to either C<STDERR> or C<STDOUT>.
     my $log = Log::Fine->getLogger("foo");
 
     # register a file handle
-    my $handle = Log::Fine::Handle::Output
+    my $handle = Log::Fine::Handle::Console
         ->new( name => 'myname',
                mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT | LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO,
                use_stderr => undef );
@@ -30,7 +30,7 @@ Provides logging to either C<STDERR> or C<STDOUT>.
 use strict;
 use warnings;
 
-package Log::Fine::Handle::Output;
+package Log::Fine::Handle::Console;
 
 use base qw( Log::Fine::Handle );
 
@@ -151,4 +151,4 @@ LICENSE file included with this module.
 
 =cut
 
-1;          # End of Log::Fine::Handle::Output
+1;          # End of Log::Fine::Handle::Console

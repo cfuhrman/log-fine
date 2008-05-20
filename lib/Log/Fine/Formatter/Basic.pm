@@ -9,10 +9,10 @@ Formats log messages for output in a basic format, suitable for most
 applications.
 
     use Log::Fine::Formatter::Basic;
-    use Log::Fine::Handle::Output;
+    use Log::Fine::Handle::Console;
 
     # instantiate a handle
-    my $handle = Log::Fine::Handle::Output->new();
+    my $handle = Log::Fine::Handle::Console->new();
 
     # instantiate a formatter
     my $formatter = Log::Fine::Formatter::Basic

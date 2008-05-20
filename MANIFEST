@@ -11,7 +11,7 @@ lib/Log/Fine/Formatter/Detailed.pm
 lib/Log/Fine/Handle.pm
 lib/Log/Fine/Handle/File.pm
 lib/Log/Fine/Handle/File/Timestamp.pm
-lib/Log/Fine/Handle/Output.pm
+lib/Log/Fine/Handle/Console.pm
 lib/Log/Fine/Handle/Syslog.pm
 lib/Log/Fine/Handle/Test.pm
 lib/Log/Fine/Logger.pm

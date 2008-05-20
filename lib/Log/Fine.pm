@@ -15,7 +15,7 @@ Provides fine-grained logging and tracing.
     my $log = Log::Fine->getLogger("foo");
 
     # register a handle, in this case a handle that logs to console.
-    $log->registerHandle( Log::Fine::Handle::Output->new() );
+    $log->registerHandle( Log::Fine::Handle::Console->new() );
 
     # log a message
     $log->log(INFO, "Log object successfully initialized");
@@ -36,7 +36,7 @@ ways. Currently, the following handles are provided:
 
 =over 4
 
-=item L<Log::Fine::Handle::Output>
+=item L<Log::Fine::Handle::Console>
 
 Provides logging to C<STDERR> or C<STDOUT>.
 

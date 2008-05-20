@@ -49,7 +49,7 @@ sub module_boilerplate_ok
 module_boilerplate_ok('lib/Log/Fine.pm');
 module_boilerplate_ok('lib/Log/Fine/Handle.pm');
 module_boilerplate_ok('lib/Log/Fine/Handle/File.pm');
-module_boilerplate_ok('lib/Log/Fine/Handle/Output.pm');
+module_boilerplate_ok('lib/Log/Fine/Handle/Console.pm');
 module_boilerplate_ok('lib/Log/Fine/Handle/Syslog.pm');
 module_boilerplate_ok('lib/Log/Fine/Logger.pm');
 module_boilerplate_ok('lib/Log/Fine/Formatter.pm');

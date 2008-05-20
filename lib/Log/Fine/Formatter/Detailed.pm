@@ -8,10 +8,10 @@ Log::Fine::Formatter::Detailed - Formatter for detailed logging
 Formats log messages for output in a detailed format.
 
     use Log::Fine::Formatter::Detailed;
-    use Log::Fine::Handle::Output;
+    use Log::Fine::Handle::Console;
 
     # instantiate a handle
-    my $handle = Log::Fine::Handle::Output->new();
+    my $handle = Log::Fine::Handle::Console->new();
 
     # instantiate a formatter
     my $formatter = Log::Fine::Formatter::Detailed

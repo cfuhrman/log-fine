@@ -10,7 +10,7 @@ Provides a formatting facility for log messages
     use Log::Fine::Handle;
     use Log::Fine::Formatter;
 
-    my $handle    = Log::Fine::Handle::Output->new();
+    my $handle    = Log::Fine::Handle::Console->new();
     my $formatter = Log::Fine::Formatter::Detailed->new();
 
     # by default, the handle will set its formatter to
