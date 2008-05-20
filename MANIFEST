@@ -21,7 +21,7 @@ t/02-handle.t
 t/03-logger.t
 t/04-formatter.t
 t/05-handle-file.t
-t/06-handle-output.t
+t/06-handle-console.t
 t/07-handle-syslog.t
 t/boilerplate.t
 t/pod-coverage.t
