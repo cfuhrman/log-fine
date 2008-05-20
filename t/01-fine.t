@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 38;
+use Test::Simple tests => 40;
 
 use Log::Fine qw( :macros :masks );
 
@@ -53,5 +53,12 @@ use Log::Fine qw( :macros :masks );
         # test shorthand logmasks
         ok(eval Log::Fine->LOGMASK_ALL == $all);
         ok(eval Log::Fine->LOGMASK_ERROR == $err);
+
+        # test cloning
+        my $clone1 = $fine->clone();
+        my $clone2 = $fine->clone($log);
+
+        ok($clone1->isa("Log::Fine"));
+        ok($clone2->isa("Log::Fine"));
 
 }

@@ -20,6 +20,10 @@ Provides fine-grained logging and tracing.
     # log a message
     $log->log(INFO, "Log object successfully initialized");
 
+    # create a clone.  These two lines do exactly the same thing.
+    my $clone1 = $log->clone();
+    my $clone2 = $log->clone($log);
+
 =head1 DESCRIPTION
 
 Log::Fine provides a logging framework for application developers
@@ -64,9 +68,10 @@ package Log::Fine;
 
 use Carp;
 use Log::Fine::Logger;
+use Storable qw( dclone );
 use Sys::Syslog qw( :macros );
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 our @ISA     = qw( Exporter );
 
 =head2 Log Levels
@@ -292,6 +297,32 @@ sub getLogger
         return $loggers->{$name};
 
 }          # getLogger()
+
+=head2 clone([$obj])
+
+Clone the given Log::Fine object, returning the newly cloned object.
+If not given an object, then returns a clone of the calling object.
+
+=cut
+
+sub clone
+{
+
+        my $self = shift;
+        my $obj  = shift;
+
+        # if we weren't given any additional arguments, assume we wish
+        # to clone ourself.
+        return dclone($self) unless scalar @_;
+
+        # validate object
+        croak "First argument must be valid Log::Fine object!\n"
+                unless obj->isa("Log::Fine");
+
+        # return the cloned object
+        return dclone($obj);
+
+}          # clone()
 
 # --------------------------------------------------------------------
 
