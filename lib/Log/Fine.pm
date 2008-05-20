@@ -66,7 +66,7 @@ use Carp;
 use Log::Fine::Logger;
 use Sys::Syslog qw( :macros );
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 our @ISA     = qw( Exporter );
 
 =head2 Log Levels

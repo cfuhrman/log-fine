@@ -1,5 +1,12 @@
 Revision history for Log-Fine
 
-0.01    2008-05-08/15:00:00
-        First version, released on an unsuspecting world.
-
+0.01    2008-05-08
+  	* First version, released on an unsuspecting world.
+0.02    2008-05-09
+	* Syslog and file handles will now clean up after themselves
+	  when they are destroyed   
+0.03	2008-05-20
+	* skip API implemented
+	* LOGMASK_ALL and LOGMASK_ERROR constants added as convenience
+	  constants
+	* Renamed Output handle to Console handle
