@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 12;
+use Test::Simple tests => 11;
 
 use File::Spec::Functions;
 use Log::Fine;
@@ -16,11 +16,6 @@ use POSIX qw( strftime );
 
         my $base = "fine.%y%m%d.log";
         my $msg  = "We're so miserable it's stunning";
-
-        # get a logger
-        my $log = Log::Fine->getLogger("handlefile1");
-
-        ok(ref $log eq "Log::Fine::Logger");
 
         # add a handle.  Note we use the default formatter.
         my $handle =
