@@ -22,7 +22,7 @@ Provides fine-grained logging and tracing.
     $log->log(INFO, "Log object successfully initialized");
 
     # create a clone of a Logger object and a handle object
-    my $clone1 = $log->clone();
+    my $clone1 = $log->clone();          # <-- clone of $log
     my $clone2 = $log->clone($handle);
 
 =head1 DESCRIPTION
@@ -135,24 +135,6 @@ masks corresponding to their log level:
 
 See L<Log::Fine::Handle> for more information.
 
-=head2 Mask Shorthands
-
-In addition to the above Log Masks, the following "shorthand" values
-are provided:
-
-=over 4
-
-=item * C<LOGMASK_ALL>
-
-Shorthand for ALL log levels
-
-=item * C<LOGMASK_ERROR>
-
-Shorthand for C<LOGMASK_ERR>, C<LOGMASK_CRIT>, C<LOGMASK_ALERT>, and
-C<LOGMASK_EMERG>.  Not to be confused with C<LOGMASK_ERR>.
-
-=back
-
 In addition, the following shortcut constants are provided.  Note that
 these are not exported by default:
 
@@ -171,7 +153,7 @@ is not to be confused with C<LOGMASK_ERR>.
 
 In addition, you can specify your own customized masks as shown below:
 
-    # we want to log all error masks plus warning masks
+    # we want to log all error masks plus the warning mask
     my $mask = LOGMASK_ERROR | LOGMASK_WARNING;
 
 =cut
