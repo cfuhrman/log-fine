@@ -14,7 +14,7 @@ use POSIX qw( strftime );
 
 {
 
-        my $base = "autotest.%y%m%d.log";
+        my $base = "fine.%y%m%d.log";
         my $msg  = "We're so miserable it's stunning";
 
         # get a logger
