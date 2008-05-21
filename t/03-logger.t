@@ -7,7 +7,7 @@
 use Test::Simple tests => 8;
 
 use Log::Fine;
-use Log::Fine::Handle::Test;
+use Log::Fine::Handle::String;
 use Log::Fine::Logger;
 
 {
@@ -18,7 +18,7 @@ use Log::Fine::Logger;
         ok($log->isa("Log::Fine::Logger"));
 
         # create a handle for the logger
-        my $handle = Log::Fine::Handle::Test->new();
+        my $handle = Log::Fine::Handle::String->new();
 
         # validate handle
         ok($handle->isa("Log::Fine::Handle"));
