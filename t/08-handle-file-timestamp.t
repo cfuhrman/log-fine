@@ -46,22 +46,19 @@ use POSIX qw( strftime );
         # write a test message
         $handle->msgWrite(INFO, $msg, 1);
 
-        # grab a ref to our filehandle
-        my $fh = $handle->getFileHandle();
-
         # construct the full name of the file
         my $file = strftime($base, localtime(time));
 
         # see if a file handle was properly constructed
-        ok($fh->isa("IO::File"));
+        ok($handle->{_filehandle}->isa("IO::File"));
 
         # now check the file
         ok(-e $file);
 
         # close the file handle and reopen
-        $fh->close();
+        $handle->{_filehandle}->close();
 
-        $fh = FileHandle->new(catdir($handle->{dir}, $file));
+        my $fh = FileHandle->new(catdir($handle->{dir}, $file));
 
         # see if a file handle was properly constructed
         ok($fh->isa("IO::File"));
