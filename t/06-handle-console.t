@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 9;
+use Test::More;
 
 use Log::Fine;
 use Log::Fine::Handle::Console;
@@ -18,11 +18,16 @@ my $handle = Log::Fine::Handle::Console->new();
 
 {
 
+        # see if we have Test::Output installed
         eval "use Test::Output 0.10";
 
-        plan skip_all =>
-                "Test::Output 0.10 or above required for testing Console output"
-                if $@;
+        if ($@) {
+                plan skip_all =>
+"Test::Output 0.10 or above required for testing Console output"
+                        if $@;
+        } else {
+                plan tests => 9;
+        }
 
         # get a logger
         my $log = Log::Fine->getLogger("handleconsole0");
