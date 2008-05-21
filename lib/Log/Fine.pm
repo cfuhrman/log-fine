@@ -15,14 +15,15 @@ Provides fine-grained logging and tracing.
     my $log = Log::Fine->getLogger("foo");
 
     # register a handle, in this case a handle that logs to console.
-    $log->registerHandle( Log::Fine::Handle::Console->new() );
+    my $handle = Log::Fine::Handle::Console->new();
+    $log->registerHandle( $handle );
 
     # log a message
     $log->log(INFO, "Log object successfully initialized");
 
-    # create a clone.  These two lines do exactly the same thing.
+    # create a clone of a Logger object and a handle object
     my $clone1 = $log->clone();
-    my $clone2 = $log->clone($log);
+    my $clone2 = $log->clone($handle);
 
 =head1 DESCRIPTION
 
