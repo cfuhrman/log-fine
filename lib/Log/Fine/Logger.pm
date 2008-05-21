@@ -181,7 +181,7 @@ sub _init
 
         # validate name
         croak "Loggers need names!"
-                unless (defined $self->{name} and $self->{name} =~ /\w+/);
+                unless (defined $self->{name} and $self->{name} =~ /^\w+$/);
 
         # set logskip if necessary
         $self->{_skip} = LOG_SKIP_DEFAULT
