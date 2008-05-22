@@ -12,10 +12,15 @@ SYNOPSIS
         my $log = Log::Fine->getLogger("foo");
 
         # register a handle, in this case a handle that logs to console.
-        $log->registerHandle( Log::Fine::Handle::Output->new() );
+        my $handle = Log::Fine::Handle::Console->new();
+        $log->registerHandle( $handle );
 
         # log a message
         $log->log(INFO, "Log object successfully initialized");
+
+        # create a clone of a Logger object and a handle object
+        my $clone1 = $log->clone();          # <-- clone of $log
+        my $clone2 = $log->clone($handle);
 
 DESCRIPTION
     Log::Fine provides a logging framework for application developers who
@@ -24,11 +29,11 @@ DESCRIPTION
     (called *loggers*) from its stored namespace. Most logging is then done
     through a logger object that is specific to the application.
 
-  Handlers
+  Handles
     Handlers provides a means to output log messages in one or more ways.
     Currently, the following handles are provided:
 
-    Log::Fine::Handle::Output
+    Log::Fine::Handle::Console
         Provides logging to "STDERR" or "STDOUT".
 
     Log::Fine::Handle::File
@@ -37,20 +42,20 @@ DESCRIPTION
     Log::Fine::Handle::Syslog
         Provides logging to syslog
 
-    Additional Handlers can be defined to the user's taste.
+    Additional handlers can be defined to the user's taste.
 
   Log Levels
     Log::Fine bases its log levels on those found in the Sys::Syslog module.
     For convenience, the following shorthand macros are exported.
 
-    EMER
-    ALRT
-    CRIT
-    ERR
-    WARN
-    NOTI
-    INFO
-    DEBG
+    * EMER
+    * ALRT
+    * CRIT
+    * ERR
+    * WARN
+    * NOTI
+    * INFO
+    * DEBG
 
     Each of these corresponds to the appropriate logging level.
 
@@ -59,22 +64,37 @@ DESCRIPTION
     Log::Fine::Handle). Log::Fine exports the following masks corresponding
     to their log level:
 
-    "LOGMASK_EMERG"
-    "LOGMASK_ALERT"
-    "LOGMASK_CRIT"
-    "LOGMASK_ERR"
-    "LOGMASK_WARNING"
-    "LOGMASK_NOTICE"
-    "LOGMASK_INFO"
-    "LOGMASK_DEBUG"
+    * "LOGMASK_EMERG"
+    * "LOGMASK_ALERT"
+    * "LOGMASK_CRIT"
+    * "LOGMASK_ERR"
+    * "LOGMASK_WARNING"
+    * "LOGMASK_NOTICE"
+    * "LOGMASK_INFO"
+    * "LOGMASK_DEBUG"
 
     See Log::Fine::Handle for more information.
+
+    In addition, the following shortcut constants are provided. Note that
+    these *are not* exported by default:
+
+    * "Log::Fine-"LOGMASK_ALL>
+        Shorthand constant for all log masks.
+
+    * "Log::Fine-"LOGMASK_ERROR>
+        Shorthand constant for "LOGMASK_EMERG" through "LOGMASK_ERR". This
+        is not to be confused with "LOGMASK_ERR".
+
+    In addition, you can specify your own customized masks as shown below:
+
+        # we want to log all error masks plus the warning mask
+        my $mask = LOGMASK_ERROR | LOGMASK_WARNING;
 
   Logging Formats
     By default, log messages are formatted as follows using the Basic
     formatter object.
 
-         [<time>] <LEVEL> <MESSAGE>\n
+         [<time>] <LEVEL> <MESSAGE>
 
     For more information on the customization of log messages, please see
     Log::Fine::Formatter.
@@ -85,12 +105,25 @@ METHODS
     further actions are done through the logger object. The following two
     constructors are defined:
 
-  new($hash)
+  new()
     Creates a new Log::Fine object.
 
   getLogger($name)
     Creates a logger with the given name. This method can also be used as a
     constructor for a Log::Fine object
+
+  clone([$obj])
+    Clone the given Log::Fine object, returning the newly cloned object. If
+    not given an object, then returns a clone of the calling object.
+
+INSPIRATION
+    Log::Fine was inspired by work done by Dan Boger, Josh Glover as well as
+    the Log::Dispatch module, the Sun Java "java.util.logging" package, and
+    the Python logging package.
+
+SEE ALSO
+    perl, syslog, Log::Fine::Handle, Log::Fine::Formatter,
+    Log::Fine::Logger, Sys::Syslog,
 
 AUTHOR
     Christopher M. Fuhrman, "<cfuhrman at panix.com>"
@@ -109,20 +142,16 @@ SUPPORT
 
     You can also look for information at:
 
-    *   AnnoCPAN: Annotated CPAN documentation
-
+    * AnnoCPAN: Annotated CPAN documentation
         <http://annocpan.org/dist/Log-Fine>
 
-    *   CPAN Ratings
-
+    * CPAN Ratings
         <http://cpanratings.perl.org/d/Log-Fine>
 
-    *   RT: CPAN's request tracker
-
+    * RT: CPAN's request tracker
         <http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-Fine>
 
-    *   Search CPAN
-
+    * Search CPAN
         <http://search.cpan.org/dist/Log-Fine>
 
 REVISION INFORMATION
@@ -137,7 +166,4 @@ COPYRIGHT & LICENSE
 
     The full text of the license can be found in the LICENSE file included
     with this module.
-
-SEE ALSO
-    perl, syslog, Sys::Syslog
 
