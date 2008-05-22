@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 7;
+use Test::Simple tests => 8;
 
 use Log::Fine;
 use Log::Fine::Formatter;
@@ -16,8 +16,8 @@ use Log::Fine::Formatter::Detailed;
         # create a basic formatter
         my $basic = Log::Fine::Formatter::Basic->new();
 
-        ok(ref $basic                 eq "Log::Fine::Formatter::Basic");
-        ok($basic->{timestamp_format} eq
+        ok(ref $basic             eq "Log::Fine::Formatter::Basic");
+        ok($basic->getTimestamp() eq
             Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
 
         # format a message
@@ -27,21 +27,29 @@ use Log::Fine::Formatter::Detailed;
         # see if the format is correct
         ok($log0 =~ /^\[.*?\] \w+ $msg/);
 
+        # make sure we can change the timestamp format
+        $basic->setTimestamp("%Y%m%d%H%M%S");
+
+        my $log1 = $basic->format(INFO, $msg, 1);
+
+        # see if the format is correct
+        ok($log1 =~ /^\[\d{14,14}\] \w+ $msg/);
+
         # now create a detailed formatter
         my $detailed = Log::Fine::Formatter::Detailed->new();
 
-        ok(ref $detailed                 eq "Log::Fine::Formatter::Detailed");
-        ok($detailed->{timestamp_format} eq
+        ok(ref $detailed             eq "Log::Fine::Formatter::Detailed");
+        ok($detailed->getTimestamp() eq
             Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
 
         # format a message
-        my $log1 = $detailed->format(INFO, $msg, 1);
+        my $log2 = $detailed->format(INFO, $msg, 1);
 
-        ok($log1 =~ /^\[.*?\] \w+ \(.*?\) $msg/);
+        ok($log2 =~ /^\[.*?\] \w+ \(.*?\) $msg/);
 
-        my $log2 = myfunc($detailed, $msg);
+        my $log3 = myfunc($detailed, $msg);
 
-        ok($log2 =~ /^\[.*?\] \w+ \(.*?\:\d+\) $msg/);
+        ok($log3 =~ /^\[.*?\] \w+ \(.*?\:\d+\) $msg/);
 
 }
 

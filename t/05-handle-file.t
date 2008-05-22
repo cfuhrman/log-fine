@@ -15,7 +15,7 @@ use Log::Fine::Logger;
 
 {
 
-        my $file = "autotest.log";
+        my $file = "fine.log";
         my $msg  = "We're so miserable it's stunning";
 
         # get a logger

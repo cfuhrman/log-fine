@@ -13,7 +13,7 @@ lib/Log/Fine/Handle/File.pm
 lib/Log/Fine/Handle/File/Timestamp.pm
 lib/Log/Fine/Handle/Console.pm
 lib/Log/Fine/Handle/Syslog.pm
-lib/Log/Fine/Handle/Test.pm
+lib/Log/Fine/Handle/String.pm
 lib/Log/Fine/Logger.pm
 t/00-load.t
 t/01-fine.t

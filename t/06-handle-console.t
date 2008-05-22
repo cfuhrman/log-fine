@@ -4,22 +4,35 @@
 # $Id$
 #
 
-use Test::Simple tests => 6;
+use Test::More;
 
 use Log::Fine;
 use Log::Fine::Handle::Console;
 
+# set message
+my $msg =
+"Stop by this disaster town, we put our eyes to the sun and say 'Hello!'";
+
+# add a handle.  Note we use the default formatter.
+my $handle = Log::Fine::Handle::Console->new();
+
 {
-        my $msg =
-                "This output is expected as part of the test.  Please ignore.";
+
+        # see if we have Test::Output installed
+        eval "use Test::Output 0.10";
+
+        if ($@) {
+                plan skip_all =>
+"Test::Output 0.10 or above required for testing Console output"
+                        if $@;
+        } else {
+                plan tests => 9;
+        }
 
         # get a logger
         my $log = Log::Fine->getLogger("handleconsole0");
 
         ok(ref $log eq "Log::Fine::Logger");
-
-        # add a handle.  Note we use the default formatter.
-        my $handle = Log::Fine::Handle::Console->new(use_stderr => 1);
 
         # do some validation
         ok($handle->isa("Log::Fine::Handle"));
@@ -30,8 +43,18 @@ use Log::Fine::Handle::Console;
         ok($handle->{formatter}->isa("Log::Fine::Formatter::Basic"));
 
         # Console-specific attributes
-        ok($handle->{use_stderr});
+        ok(!$handle->{use_stderr});
+        stdout_like(\&writer, qr/$msg/, 'Test STDOUT');
 
-        # write a test message
-        $handle->msgWrite(INFO, "\n\n$msg\n\n", 1);
+        # test STDOUT
+        $handle->{use_stderr} = 1;
+
+        ok($handle->{use_stderr});
+        stderr_like(\&writer, qr/$msg/, 'Test STDERR');
+
+}
+
+sub writer
+{
+        $handle->msgWrite(INFO, $msg);
 }

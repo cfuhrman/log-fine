@@ -27,7 +27,8 @@ Sets up an output handle for log messages
 
 A Log::Fine::Handle object controls I<where> to send formatted log
 messages.  The destination can be a file, syslog, a database table, or
-simply to output.
+simply to output.  Message formatting is then handled by a
+L<Log::Fine::Formatter|formatter> object.
 
 =cut
 
@@ -76,6 +77,10 @@ Tells the handle to output the given log message.  The third
 parameter, C<$skip>, is passed to caller() for accurate method
 logging.
 
+B<Note:> msgWrite() is an I<internal> method to the Log::Fine
+framework, meant to be sub-classed.  Use
+L<Log::Fine::Logger/"log($lvl, $msg)"> for actual logging.
+
 =cut
 
 sub msgWrite
@@ -84,7 +89,7 @@ sub msgWrite
         my $self  = shift;
         my $class = ref $self;
 
-        croak "someone used an (abstract) Handler object"
+        croak "someone used an (abstract) Handle object"
                 if $class eq 'Log::Fine::Handle';
 
         croak "call to abstract method ${class}::msgWrite()";

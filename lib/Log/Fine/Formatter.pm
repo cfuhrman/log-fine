@@ -14,8 +14,8 @@ Provides a formatting facility for log messages
     my $formatter = Log::Fine::Formatter::Detailed->new();
 
     # by default, the handle will set its formatter to
-    # Log::Fine::Formatter::Basic.  If that's not what you want,
-    # reset it to preference.
+    # Log::Fine::Formatter::Basic.  If that's not what you want, set
+    # it to preference.
     $handle->setFormatter($formatter);
 
     # You can also adjust the timestamp in the log message to your own
@@ -23,7 +23,7 @@ Provides a formatting facility for log messages
     # formatter.  By default, the timestamp format is "%c"
 
     # YYYY-MM-DD HH:MM:SS
-    $formatter->{"%Y-%m-%d %H:%M:%S"};
+    $formatter->setTimestamp("%Y-%m-%d %H:%M:%S");
 
 =head1 DESCRIPTION
 
@@ -45,6 +45,53 @@ use Carp;
 #
 # strftime(3)-compatible format string
 use constant LOG_TIMESTAMP_FORMAT => "%c";
+
+=head1 METHODS
+
+=head2 getTimestamp()
+
+Returns the current L<strftime|strftime-compatible> format string for
+timestamped log messages
+
+=cut
+
+sub getTimestamp
+{
+        my $self = shift;
+        return $self->{timestamp_format};
+}          # getTimeStamp
+
+=head2 format($lvl, $msg, $skip)
+
+Returns the formatted message.  B<Must> be sub-classed!
+
+=cut
+
+sub format
+{
+
+        my $self  = shift;
+        my $class = ref $self;
+
+        croak "someone used an (abstract) Formatter object"
+                if $class eq 'Log::Fine::Formatter';
+
+        croak "call to abstract method ${class}::format()";
+
+}          # format()
+
+=head2 setTimestamp($format)
+
+Sets the timestamp format to the given L<strftime|strftime-compatible>
+string.
+
+=cut
+
+sub setTimestamp
+{
+        my $self = shift;
+        $self->{timestamp_format} = shift;
+}          # setTimestamp;
 
 # --------------------------------------------------------------------
 

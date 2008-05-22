@@ -1,27 +1,27 @@
 
 =head1 NAME
 
-Log::Fine::Handle::Test - formatted output
+Log::Fine::Handle::String - formatted output
 
 =head1 SYNOPSIS
 
 Returns the formatted string for testing purposes.
 
     use Log::Fine;
-    use Log::Fine::Handle::Test;
+    use Log::Fine::Handle::String;
 
     # Get a new logger
     my $log = Log::Fine->getLogger("foo");
 
     # register a file handle
-    my $handle = Log::Fine::Handle::Test->new();
+    my $handle = Log::Fine::Handle::String->new();
 
     # get a formatted message
     my $formatted_message = $log->(INFO, "Opened new log handle");
 
 =head1 DESCRIPTION
 
-The test handle returns the formatted message.  This is useful for
+The string handle returns the formatted message.  This is useful for
 general-purpose testing and verification.
 
 =cut
@@ -29,7 +29,7 @@ general-purpose testing and verification.
 use strict;
 use warnings;
 
-package Log::Fine::Handle::Test;
+package Log::Fine::Handle::String;
 
 use base qw( Log::Fine::Handle );
 
@@ -75,7 +75,7 @@ Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to
-C<bug-log-fine-handle-file at rt.cpan.org>, or through the web interface at
+C<bug-log-fine-handle-string at rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-Fine>.
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
@@ -126,4 +126,4 @@ LICENSE file included with this module.
 
 =cut
 
-1;          # End of Log::Fine::Handle::Test
+1;          # End of Log::Fine::Handle::String
