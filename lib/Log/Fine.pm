@@ -34,7 +34,7 @@ objects (called I<loggers>) from its stored namespace.  Most logging
 is then done through a logger object that is specific to the
 application.
 
-=head2 Handlers
+=head2 Handles
 
 Handlers provides a means to output log messages in one or more
 ways. Currently, the following handles are provided:
@@ -55,7 +55,7 @@ Provides logging to L<syslog>
 
 =back
 
-Additional Handlers can be defined to the user's taste.
+Additional handlers can be defined to the user's taste.
 
 =cut
 
@@ -105,6 +105,7 @@ Each of these corresponds to the appropriate logging level.
 
 =cut
 
+# Log Levels
 use constant LOG_LEVELS => [qw( EMER ALRT CRIT ERR WARN NOTI INFO DEBG )];
 
 =head2 Masks
@@ -136,7 +137,7 @@ masks corresponding to their log level:
 See L<Log::Fine::Handle> for more information.
 
 In addition, the following shortcut constants are provided.  Note that
-these are not exported by default:
+these I<are not> exported by default:
 
 =over 4
 
@@ -226,7 +227,7 @@ allows the developer to get a new logger.  After a logger is created,
 further actions are done through the logger object.  The following two
 constructors are defined:
 
-=head2 new($hash)
+=head2 new()
 
 Creates a new Log::Fine object.
 
@@ -300,7 +301,7 @@ sub clone
 
         # validate object
         croak "First argument must be valid Log::Fine object!\n"
-                unless obj->isa("Log::Fine");
+                unless $obj->isa("Log::Fine");
 
         # return the cloned object
         return dclone($obj);
@@ -338,9 +339,18 @@ sub _init
 
 }          # _init()
 
+# is "Python" a dirty word in perl POD documentation?  Oh well.
+
+=head1 INSPIRATION
+
+Log::Fine was inspired by work done by Dan Boger, Josh Glover as well
+as the L<Log::Dispatch> module, the Sun Java C<java.util.logging>
+package, and the Python logging package.
+
 =head1 SEE ALSO
 
-L<perl>, L<syslog>, L<Sys::Syslog>
+L<perl>, L<syslog>, L<Log::Fine::Handle>, L<Log::Fine::Formatter>,
+L<Log::Fine::Logger>, L<Sys::Syslog>,
 
 =head1 AUTHOR
 

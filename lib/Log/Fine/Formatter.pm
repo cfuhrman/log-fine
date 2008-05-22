@@ -14,8 +14,8 @@ Provides a formatting facility for log messages
     my $formatter = Log::Fine::Formatter::Detailed->new();
 
     # by default, the handle will set its formatter to
-    # Log::Fine::Formatter::Basic.  If that's not what you want,
-    # reset it to preference.
+    # Log::Fine::Formatter::Basic.  If that's not what you want, set
+    # it to preference.
     $handle->setFormatter($formatter);
 
     # You can also adjust the timestamp in the log message to your own
