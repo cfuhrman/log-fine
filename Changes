@@ -10,3 +10,8 @@ Revision history for Log-Fine
 	* LOGMASK_ALL and LOGMASK_ERROR constants added as convenience
 	  constants
 	* Renamed Output handle to Console handle
+0.04	2008-05-22
+	* add APIs for skip and timestamp format.
+	* documentation updates
+	* Rename Output Handle to Console.
+	* Add some short-hand constants
