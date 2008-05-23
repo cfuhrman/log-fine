@@ -48,14 +48,21 @@ DESCRIPTION
     Log::Fine bases its log levels on those found in the Sys::Syslog module.
     For convenience, the following shorthand macros are exported.
 
-    * EMER
-    * ALRT
-    * CRIT
-    * ERR
-    * WARN
-    * NOTI
-    * INFO
-    * DEBG
+    *   EMER
+
+    *   ALRT
+
+    *   CRIT
+
+    *   ERR
+
+    *   WARN
+
+    *   NOTI
+
+    *   INFO
+
+    *   DEBG
 
     Each of these corresponds to the appropriate logging level.
 
@@ -64,24 +71,33 @@ DESCRIPTION
     Log::Fine::Handle). Log::Fine exports the following masks corresponding
     to their log level:
 
-    * "LOGMASK_EMERG"
-    * "LOGMASK_ALERT"
-    * "LOGMASK_CRIT"
-    * "LOGMASK_ERR"
-    * "LOGMASK_WARNING"
-    * "LOGMASK_NOTICE"
-    * "LOGMASK_INFO"
-    * "LOGMASK_DEBUG"
+    *   "LOGMASK_EMERG"
+
+    *   "LOGMASK_ALERT"
+
+    *   "LOGMASK_CRIT"
+
+    *   "LOGMASK_ERR"
+
+    *   "LOGMASK_WARNING"
+
+    *   "LOGMASK_NOTICE"
+
+    *   "LOGMASK_INFO"
+
+    *   "LOGMASK_DEBUG"
 
     See Log::Fine::Handle for more information.
 
     In addition, the following shortcut constants are provided. Note that
     these *are not* exported by default:
 
-    * "Log::Fine-"LOGMASK_ALL>
+    *   "Log::Fine->LOGMASK_ALL"
+
         Shorthand constant for all log masks.
 
-    * "Log::Fine-"LOGMASK_ERROR>
+    *   "Log::Fine->LOGMASK_ERROR"
+
         Shorthand constant for "LOGMASK_EMERG" through "LOGMASK_ERR". This
         is not to be confused with "LOGMASK_ERR".
 
@@ -90,14 +106,18 @@ DESCRIPTION
         # we want to log all error masks plus the warning mask
         my $mask = LOGMASK_ERROR | LOGMASK_WARNING;
 
-  Logging Formats
+  Formatters
+    A formatter specifies how Log::Fine displays messages. When a message is
+    logged, it gets passed through a formatter object, which adds any
+    additional information such as a timestamp or caller information.
+
     By default, log messages are formatted as follows using the Basic
     formatter object.
 
          [<time>] <LEVEL> <MESSAGE>
 
-    For more information on the customization of log messages, please see
-    Log::Fine::Formatter.
+    For more information on the customization of log messages, including
+    timestamps, please see Log::Fine::Formatter.
 
 METHODS
     The Log::Fine module, by itself, simply exports a few constants, and
@@ -142,16 +162,20 @@ SUPPORT
 
     You can also look for information at:
 
-    * AnnoCPAN: Annotated CPAN documentation
+    *   AnnoCPAN: Annotated CPAN documentation
+
         <http://annocpan.org/dist/Log-Fine>
 
-    * CPAN Ratings
+    *   CPAN Ratings
+
         <http://cpanratings.perl.org/d/Log-Fine>
 
-    * RT: CPAN's request tracker
+    *   RT: CPAN's request tracker
+
         <http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-Fine>
 
-    * Search CPAN
+    *   Search CPAN
+
         <http://search.cpan.org/dist/Log-Fine>
 
 REVISION INFORMATION
