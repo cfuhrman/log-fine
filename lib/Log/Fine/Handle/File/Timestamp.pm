@@ -32,7 +32,7 @@ Provides logging to a timestamped file
 Log::Fine::Handle::File::Timestamp, aside from having a ridiculously
 long name, provides logging to a timestamped file.  Usage is similar
 to L<Log::Fine::Handle::File> with the exception that the file name
-can take an strftime-compatible string.
+can take an L<strftime(3)-compatible|strftime> string.
 
 =cut
 

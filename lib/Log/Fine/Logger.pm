@@ -19,7 +19,7 @@ Provides an object through which to log.
     # log a message
     $log->log(DEBG, "This is a really cool module!");
 
-    # illustrate use of the logskip attribute
+    # illustrate use of the log skip API
     package Some::Package::That::Overrides::Log::Fine::Logger;
 
     use base qw( Log::Fine::Logger );
@@ -38,6 +38,14 @@ Provides an object through which to log.
         $self->decrSkip();
 
     } # log()
+
+=head1 DESCRIPTION
+
+The Logger class is the main workhorse of the Log::Fine framework,
+providing the main L</"log"> method from which to log.  In addition,
+the Logger class provides means by which the developer can control the
+parameter passed to any caller() call so information regarding the
+correct stack frame is displayed.
 
 =cut
 
@@ -158,7 +166,7 @@ sub registerHandle
 
 =head2 setSkip($skip)
 
-Sets the value passed to L<perlfunc/caller>().   Note this
+Sets the value passed to L<perlfunc/"caller">().   Note this
 only applies to loggers that include caller information in their log
 files.
 

@@ -141,11 +141,11 @@ these I<are not> exported by default:
 
 =over 4
 
-=item * C<Log::Fine->LOGMASK_ALL>
+=item * C<Log::Fine-E<gt>LOGMASK_ALL>
 
 Shorthand constant for B<all> log masks.
 
-=item * C<Log::Fine->LOGMASK_ERROR>
+=item * C<Log::Fine-E<gt>LOGMASK_ERROR>
 
 Shorthand constant for C<LOGMASK_EMERG> through C<LOGMASK_ERR>.  This
 is not to be confused with C<LOGMASK_ERR>.
@@ -164,15 +164,19 @@ use constant LOG_MASKS => [
         qw( LOGMASK_EMERG LOGMASK_ALERT LOGMASK_CRIT LOGMASK_ERR LOGMASK_WARNING LOGMASK_NOTICE LOGMASK_INFO LOGMASK_DEBUG )
 ];
 
-=head2 Logging Formats
+=head2 Formatters
+
+A formatter specifies how Log::Fine displays messages.  When a message
+is logged, it gets passed through a formatter object, which adds any
+additional information such as a timestamp or caller information.
 
 By default, log messages are formatted as follows using the
 L<Basic|Log::Fine::Formatter::Basic> formatter object.
 
      [<time>] <LEVEL> <MESSAGE>
 
-For more information on the customization of log messages, please see
-L<Log::Fine::Formatter>.
+For more information on the customization of log messages, including
+timestamps, please see L<Log::Fine::Formatter>.
 
 =cut
 

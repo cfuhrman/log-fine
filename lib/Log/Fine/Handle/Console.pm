@@ -25,6 +25,11 @@ Provides logging to either C<STDERR> or C<STDOUT>.
     # log something
     $log->(INFO, "Opened new log handle");
 
+=head1 DESCRIPTION
+
+The console handle provides logging to the console, either via
+C<STDOUT> (default) or C<STDERR>.
+
 =cut
 
 use strict;

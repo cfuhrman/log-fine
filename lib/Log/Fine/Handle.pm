@@ -28,7 +28,7 @@ Sets up an output handle for log messages
 A Log::Fine::Handle object controls I<where> to send formatted log
 messages.  The destination can be a file, syslog, a database table, or
 simply to output.  Message formatting is then handled by a
-L<Log::Fine::Formatter|formatter> object.
+L<formatter|Log::Fine::Formatter> object.
 
 =cut
 

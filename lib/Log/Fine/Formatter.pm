@@ -18,17 +18,19 @@ Provides a formatting facility for log messages
     # it to preference.
     $handle->setFormatter($formatter);
 
-    # You can also adjust the timestamp in the log message to your own
-    # strftime(3) compatible string without having to write your own
-    # formatter.  By default, the timestamp format is "%c"
-
-    # YYYY-MM-DD HH:MM:SS
+    # set the timestamp to "YYYY-MM-DD HH:MM:SS"
     $formatter->setTimestamp("%Y-%m-%d %H:%M:%S");
 
 =head1 DESCRIPTION
 
-Base class for all formatters.  This class should not be instantiated
-directly.
+Base ancestral class for all formatters.  All customized formatters
+must inherit from this class.
+
+The base class allows the developer to adjust the timestamp in a log
+message with her own L<strftime|strftime(3)-compatible> string without
+having to write her own formatter.  By default, the timestamp format
+is "%c".  See L</"setTimestamp($format)"> and the strftime man page
+for further details.
 
 =cut
 
@@ -50,7 +52,7 @@ use constant LOG_TIMESTAMP_FORMAT => "%c";
 
 =head2 getTimestamp()
 
-Returns the current L<strftime|strftime-compatible> format string for
+Returns the current L<strftime(3)-compatible|strftime> format string for
 timestamped log messages
 
 =cut
@@ -82,7 +84,7 @@ sub format
 
 =head2 setTimestamp($format)
 
-Sets the timestamp format to the given L<strftime|strftime-compatible>
+Sets the timestamp format to the given L<strftime(3)-compatible|strftime>
 string.
 
 =cut
