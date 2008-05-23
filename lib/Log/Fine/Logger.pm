@@ -103,12 +103,7 @@ sub incrSkip
 
 =head2 log($lvl, $msg)
 
-Log a message to one or more handles
-
-Parameters:
-
-  level - level at which to log
-  msg   - message to log
+Logs the message at the given log level.
 
 =cut
 

@@ -1,11 +1,11 @@
 
 =head1 NAME
 
-Log::Fine::Handle::File::Timestamp - Output log messages to timestamped files
+Log::Fine::Handle::File::Timestamp - Output log messages to time-stamped files
 
 =head1 SYNOPSIS
 
-Provides logging to a timestamped file
+Provides logging to a time-stamped file
 
     use Log::Fine;
     use Log::Fine::Handle::File::Timestamp;
@@ -30,7 +30,7 @@ Provides logging to a timestamped file
 =head1 DESCRIPTION
 
 Log::Fine::Handle::File::Timestamp, aside from having a ridiculously
-long name, provides logging to a timestamped file.  Usage is similar
+long name, provides logging to a time-stamped file.  Usage is similar
 to L<Log::Fine::Handle::File> with the exception that the file name
 can take an L<strftime(3)-compatible|strftime> string.
 
@@ -125,9 +125,10 @@ Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to
-C<bug-log-fine-handle-file-timestamp at rt.cpan.org>, or through the web interface at
-L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-Fine>.
-I will be notified, and then you'll automatically be notified of progress on
+C<bug-log-fine-handle-file-timestamp at rt.cpan.org>, or through the
+web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-Fine>.  I will be
+notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
 
 =head1 SUPPORT

@@ -137,7 +137,8 @@ masks corresponding to their log level:
 See L<Log::Fine::Handle> for more information.
 
 In addition, the following shortcut constants are provided.  Note that
-these I<are not> exported by default:
+these I<are not> exported by default, rather you have to reference
+them explicitly, as shown below.
 
 =over 4
 
@@ -155,7 +156,7 @@ is not to be confused with C<LOGMASK_ERR>.
 In addition, you can specify your own customized masks as shown below:
 
     # we want to log all error masks plus the warning mask
-    my $mask = LOGMASK_ERROR | LOGMASK_WARNING;
+    my $mask = Log::Fine->LOGMASK_ERROR | LOGMASK_WARNING;
 
 =cut
 
@@ -168,15 +169,15 @@ use constant LOG_MASKS => [
 
 A formatter specifies how Log::Fine displays messages.  When a message
 is logged, it gets passed through a formatter object, which adds any
-additional information such as a timestamp or caller information.
+additional information such as a time-stamp or caller information.
 
 By default, log messages are formatted as follows using the
 L<Basic|Log::Fine::Formatter::Basic> formatter object.
 
      [<time>] <LEVEL> <MESSAGE>
 
-For more information on the customization of log messages, including
-timestamps, please see L<Log::Fine::Formatter>.
+For more information on the customization of log messages, see
+L<Log::Fine::Formatter>.
 
 =cut
 
