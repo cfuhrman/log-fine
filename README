@@ -90,7 +90,8 @@ DESCRIPTION
     See Log::Fine::Handle for more information.
 
     In addition, the following shortcut constants are provided. Note that
-    these *are not* exported by default:
+    these *are not* exported by default, rather you have to reference them
+    explicitly, as shown below.
 
     *   "Log::Fine->LOGMASK_ALL"
 
@@ -104,20 +105,20 @@ DESCRIPTION
     In addition, you can specify your own customized masks as shown below:
 
         # we want to log all error masks plus the warning mask
-        my $mask = LOGMASK_ERROR | LOGMASK_WARNING;
+        my $mask = Log::Fine->LOGMASK_ERROR | LOGMASK_WARNING;
 
   Formatters
     A formatter specifies how Log::Fine displays messages. When a message is
     logged, it gets passed through a formatter object, which adds any
-    additional information such as a timestamp or caller information.
+    additional information such as a time-stamp or caller information.
 
     By default, log messages are formatted as follows using the Basic
     formatter object.
 
          [<time>] <LEVEL> <MESSAGE>
 
-    For more information on the customization of log messages, including
-    timestamps, please see Log::Fine::Formatter.
+    For more information on the customization of log messages, see
+    Log::Fine::Formatter.
 
 METHODS
     The Log::Fine module, by itself, simply exports a few constants, and
