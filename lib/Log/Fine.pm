@@ -41,21 +41,22 @@ ways. Currently, the following handles are provided:
 
 =over 4
 
-=item L<Log::Fine::Handle::Console>
+=item  * C<Log::Fine::Handle::Console>
 
 Provides logging to C<STDERR> or C<STDOUT>.
 
-=item L<Log::Fine::Handle::File>
+=item  * C<Log::Fine::Handle::File>
 
 Provides logging to a file.
 
-=item L<Log::Fine::Handle::Syslog>
+=item  * C<Log::Fine::Handle::Syslog>
 
 Provides logging to L<syslog>
 
 =back
 
-Additional handlers can be defined to the user's taste.
+See the relevant perldoc information for more information.  Additional
+handlers can be defined to the user's taste.
 
 =cut
 
@@ -77,27 +78,26 @@ our @ISA     = qw( Exporter );
 
 =head2 Log Levels
 
-Log::Fine bases its log levels on those found in the
-L<Sys::Syslog> module.  For convenience, the following shorthand
-macros are exported.
+Log::Fine bases its log levels on those found in Sys::Syslog.  For
+convenience, the following shorthand macros are exported.
 
 =over 4
 
-=item * EMER
+=item * C<EMER>
 
-=item * ALRT
+=item * C<ALRT>
 
-=item * CRIT
+=item * C<CRIT>
 
-=item * ERR
+=item * C<ERR>
 
-=item * WARN
+=item * C<WARN>
 
-=item * NOTI
+=item * C<NOTI>
 
-=item * INFO
+=item * C<INFO>
 
-=item * DEBG
+=item * C<DEBG>
 
 =back
 
@@ -346,11 +346,34 @@ sub _init
 
 # is "Python" a dirty word in perl POD documentation?  Oh well.
 
-=head1 INSPIRATION
+=head1 ACKNOWLEDGMENTS
 
-Log::Fine was inspired by work done by Dan Boger, Josh Glover as well
-as the L<Log::Dispatch> module, the Sun Java C<java.util.logging>
-package, and the Python logging package.
+I'd like the thank the following people for either inspiration or past
+work on logging: Josh Glover for his work as well as teaching me all I
+know about object-oriented programming in perl.  Dan Boger for taking
+the patience to review this code and offer his own suggestions.  Tom
+Maher for his input into both this perl module and insight into the
+care and maintenance of full beards.
+
+=head2 Related Modules/Frameworks
+
+The following logging frameworks provided inspiration for parts of Log::Fine.
+
+=over 4
+
+=item
+
+Dave Rolsky's L<Log::Dispatch> module
+
+=item
+
+Sun Microsystem's C<java.utils.logging> framework
+
+=item
+
+The Python logging package
+
+=back
 
 =head1 SEE ALSO
 
