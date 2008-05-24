@@ -41,15 +41,19 @@ ways. Currently, the following handles are provided:
 
 =over 4
 
-=item  * C<Log::Fine::Handle::Console>
+=item  * L<Log::Fine::Handle::Console|Log::Fine::Handle::Console>
 
-Provides logging to C<STDERR> or C<STDOUT>.
+Provides logging to C<STDERR> or C<STDOUT>
 
-=item  * C<Log::Fine::Handle::File>
+=item  * L<Log::Fine::Handle::File|Log::Fine::Handle::File>
 
-Provides logging to a file.
+Provides logging to a file
 
-=item  * C<Log::Fine::Handle::Syslog>
+=item * L<Log::Fine::Handle::File::Timestamp|Log::Fine::Handle::File::Timestamp>
+
+Same thing with support for time-stamped files
+
+=item  * L<Log::Fine::Handle::Syslog|Log::Fine::Handle::Syslog>
 
 Provides logging to L<syslog>
 
@@ -78,8 +82,9 @@ our @ISA     = qw( Exporter );
 
 =head2 Log Levels
 
-Log::Fine bases its log levels on those found in Sys::Syslog.  For
-convenience, the following shorthand macros are exported.
+Log::Fine bases its log levels on those found in
+L<Sys::Syslog|Sys::Syslog>.  For convenience, the following shorthand
+macros are exported.
 
 =over 4
 
