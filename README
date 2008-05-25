@@ -33,36 +33,44 @@ DESCRIPTION
     Handlers provides a means to output log messages in one or more ways.
     Currently, the following handles are provided:
 
-    Log::Fine::Handle::Console
-        Provides logging to "STDERR" or "STDOUT".
+    *   Log::Fine::Handle::Console
 
-    Log::Fine::Handle::File
-        Provides logging to a file.
+        Provides logging to "STDERR" or "STDOUT"
 
-    Log::Fine::Handle::Syslog
+    *   Log::Fine::Handle::File
+
+        Provides logging to a file
+
+    *   Log::Fine::Handle::File::Timestamp
+
+        Same thing with support for time-stamped files
+
+    *   Log::Fine::Handle::Syslog
+
         Provides logging to syslog
 
-    Additional handlers can be defined to the user's taste.
+    See the relevant perldoc information for more information. Additional
+    handlers can be defined to the user's taste.
 
   Log Levels
-    Log::Fine bases its log levels on those found in the Sys::Syslog module.
-    For convenience, the following shorthand macros are exported.
+    Log::Fine bases its log levels on those found in Sys::Syslog. For
+    convenience, the following shorthand macros are exported.
 
-    *   EMER
+    *   "EMER"
 
-    *   ALRT
+    *   "ALRT"
 
-    *   CRIT
+    *   "CRIT"
 
-    *   ERR
+    *   "ERR"
 
-    *   WARN
+    *   "WARN"
 
-    *   NOTI
+    *   "NOTI"
 
-    *   INFO
+    *   "INFO"
 
-    *   DEBG
+    *   "DEBG"
 
     Each of these corresponds to the appropriate logging level.
 
@@ -137,10 +145,22 @@ METHODS
     Clone the given Log::Fine object, returning the newly cloned object. If
     not given an object, then returns a clone of the calling object.
 
-INSPIRATION
-    Log::Fine was inspired by work done by Dan Boger, Josh Glover as well as
-    the Log::Dispatch module, the Sun Java "java.util.logging" package, and
-    the Python logging package.
+ACKNOWLEDGMENTS
+    I'd like the thank the following people for either inspiration or past
+    work on logging: Josh Glover for his work as well as teaching me all I
+    know about object-oriented programming in perl. Dan Boger for taking the
+    patience to review this code and offer his own suggestions. Additional
+    thanks to Tom Maher and Chris Joseph for encouragement.
+
+  Related Modules/Frameworks
+    The following logging frameworks provided inspiration for parts of
+    Log::Fine.
+
+    *   Dave Rolsky's Log::Dispatch module
+
+    *   Sun Microsystem's "java.utils.logging" framework
+
+    *   The Python logging package
 
 SEE ALSO
     perl, syslog, Log::Fine::Handle, Log::Fine::Formatter,
