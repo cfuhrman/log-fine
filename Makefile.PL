@@ -2,6 +2,8 @@ use strict;
 use warnings;
 use ExtUtils::MakeMaker;
 
+use Sys::Syslog 0.13;
+
 WriteMakefile(NAME          => 'Log::Fine',
               AUTHOR        => 'Christopher M. Fuhrman <cfuhrman@panix.com>',
               VERSION_FROM  => 'lib/Log/Fine.pm',
