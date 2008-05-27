@@ -3,5 +3,5 @@ Revision history for Log-Fine
 0.10    2008-05-25
   	* First version, released on an unsuspecting world.
 
-0.12    2008-05-27
+0.13    2008-05-27
 	* Require version 0.13 of Sys::Syslog

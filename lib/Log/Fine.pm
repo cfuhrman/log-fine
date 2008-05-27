@@ -77,7 +77,7 @@ use Log::Fine::Logger;
 use Storable qw( dclone );
 use Sys::Syslog qw( :macros );
 
-our $VERSION = '0.12.1';
+our $VERSION = '0.13';
 our @ISA     = qw( Exporter );
 
 =head2 Log Levels
