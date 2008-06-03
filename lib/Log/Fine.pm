@@ -356,8 +356,9 @@ sub _init
 I'd like the thank the following people for either inspiration or past
 work on logging: Josh Glover for his work as well as teaching me all I
 know about object-oriented programming in perl.  Dan Boger for taking
-the patience to review this code and offer his own suggestions.
-Additional thanks to Tom Maher and Chris Joseph for encouragement.
+the time and patience to review this code and offer his own
+suggestions.  Additional thanks to Tom Maher and Chris Josephs for
+encouragement.
 
 =head2 Related Modules/Frameworks
 
