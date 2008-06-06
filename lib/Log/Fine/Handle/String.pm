@@ -57,7 +57,7 @@ sub msgWrite
         # if we have a formatter defined, then use that, otherwise, just
         # print the raw message
         $msg = $self->{formatter}->format($lvl, $msg, $skip)
-                if defined $self->{formatter};
+            if defined $self->{formatter};
 
         # Victory!
         return $msg;

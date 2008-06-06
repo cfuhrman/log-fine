@@ -44,7 +44,7 @@ use Log::Fine qw( :macros :masks );
                 # bitmask all and err for later testing
                 $all |= eval "$masks->[$i]";
                 $err |= eval "$masks->[$i]"
-                        if ($i <= ERR);
+                    if ($i <= ERR);
 
                 ok($fine->can($lvls->[$i]));
                 ok($fine->can($masks->[$i]));

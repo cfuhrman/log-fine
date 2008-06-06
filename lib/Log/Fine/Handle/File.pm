@@ -65,8 +65,8 @@ sub getFileHandle
 
         # if we already have a file handle defined, return it
         return $self->{_filehandle}
-                if (defined $self->{_filehandle}
-                    and $self->{_filehandle}->isa("IO::File"));
+            if (defined $self->{_filehandle}
+                and $self->{_filehandle}->isa("IO::File"));
 
         # generate file name
         my $filename = catdir($self->{dir}, $self->{file});
@@ -75,7 +75,7 @@ sub getFileHandle
         $self->{_filehandle} = FileHandle->new(">> " . $filename);
 
         croak "Unable to open log file $filename : $!\n"
-                unless defined $self->{_filehandle};
+            unless defined $self->{_filehandle};
 
         # set autoflush if necessary
         $self->{_filehandle}->autoflush($self->{autoflush});
@@ -105,7 +105,7 @@ sub msgWrite
         # if we have a formatter defined, then use that, otherwise, just
         # print the raw message
         $msg = $self->{formatter}->format($lvl, $msg, $skip)
-                if defined $self->{formatter};
+            if defined $self->{formatter};
 
         # print the message to the log file
         print $fh $msg;
@@ -130,11 +130,11 @@ sub _init
 
         # set the default directory
         $self->{dir} = "./"
-                unless (defined $self->{dir} and -d $self->{dir});
+            unless (defined $self->{dir} and -d $self->{dir});
 
         # set the default file name
         $self->{file} = basename $0 . ".log"
-                unless defined $self->{file};
+            unless defined $self->{file};
 
         # Victory!
         return $self;
@@ -151,8 +151,8 @@ sub DESTROY
 
         # close our filehandle if necessary.
         $self->{_filehandle}->close()
-                if (defined $self->{_filehandle}
-                    and $self->{_filehandle}->isa("IO::File"));
+            if (defined $self->{_filehandle}
+                and $self->{_filehandle}->isa("IO::File"));
 
 }          # DESTROY
 

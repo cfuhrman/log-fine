@@ -64,9 +64,9 @@ sub format
 
         # return the formatted string
         return
-                sprintf("[%s] %-4s %s\n",
-                        strftime($self->{timestamp_format}, localtime(time)),
-                        $lvls->[$lvl], $msg);
+            sprintf("[%s] %-4s %s\n",
+                    strftime($self->{timestamp_format}, localtime(time)),
+                    $lvls->[$lvl], $msg);
 
 }          # format()
 

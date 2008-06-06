@@ -64,7 +64,7 @@ sub isLoggable
         my $lvl  = shift;
 
         croak "No Level :$lvl\n"
-                unless (defined $lvl and $lvl =~ /\d+/);
+            unless (defined $lvl and $lvl =~ /\d+/);
 
         # bitand the level and the mask to see if we're loggable
         return (($self->{mask} & $lvl) == $lvl) ? 1 : undef;
@@ -90,7 +90,7 @@ sub msgWrite
         my $class = ref $self;
 
         croak "someone used an (abstract) Handle object"
-                if $class eq 'Log::Fine::Handle';
+            if $class eq 'Log::Fine::Handle';
 
         croak "call to abstract method ${class}::msgWrite()";
 
@@ -110,8 +110,8 @@ sub setFormatter
 
         # validate formatter
         croak "First argument must be a valid formatter object!\n"
-                unless (defined $formatter
-                        and $formatter->isa("Log::Fine::Formatter"));
+            unless (defined $formatter
+                    and $formatter->isa("Log::Fine::Formatter"));
 
         $self->{formatter} = $formatter;
 
@@ -132,16 +132,16 @@ sub _init
 
         # set default bitmask
         $self->{mask} = DEFAULT_LOGMASK
-                unless defined $self->{mask};
+            unless defined $self->{mask};
 
         # by default, set the level to DEBG
         $self->{level} = DEBG
-                unless defined $self->{level};
+            unless defined $self->{level};
 
         # set the default formatter
         $self->{formatter} = Log::Fine::Formatter::Basic->new()
-                unless (defined $self->{formatter}
-                        and $self->{formatter}->isa("Log::Fine::Formatter"));
+            unless (defined $self->{formatter}
+                    and $self->{formatter}->isa("Log::Fine::Formatter"));
 
         # Victory!
         return $self;

@@ -75,7 +75,7 @@ sub format
         my $class = ref $self;
 
         croak "someone used an (abstract) Formatter object"
-                if $class eq 'Log::Fine::Formatter';
+            if $class eq 'Log::Fine::Formatter';
 
         croak "call to abstract method ${class}::format()";
 
@@ -112,8 +112,8 @@ sub _init
 
         # set {timestamp_format} to the default if necessary
         $self->{timestamp_format} = LOG_TIMESTAMP_FORMAT
-                unless (defined $self->{timestamp_format}
-                        and $self->{timestamp_format} =~ /\w+/);
+            unless (defined $self->{timestamp_format}
+                    and $self->{timestamp_format} =~ /\w+/);
 
         return $self;
 

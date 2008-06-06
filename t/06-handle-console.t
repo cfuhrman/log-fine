@@ -11,7 +11,7 @@ use Log::Fine::Handle::Console;
 
 # set message
 my $msg =
-"Stop by this disaster town, we put our eyes to the sun and say 'Hello!'";
+    "Stop by this disaster town, we put our eyes to the sun and say 'Hello!'";
 
 # add a handle.  Note we use the default formatter.
 my $handle = Log::Fine::Handle::Console->new();
@@ -24,7 +24,7 @@ my $handle = Log::Fine::Handle::Console->new();
         if ($@) {
                 plan skip_all =>
 "Test::Output 0.10 or above required for testing Console output"
-                        if $@;
+                    if $@;
         } else {
                 plan tests => 9;
         }

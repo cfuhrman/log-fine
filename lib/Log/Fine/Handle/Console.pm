@@ -58,7 +58,7 @@ sub msgWrite
         # if we have a formatter defined, then use that, otherwise, just
         # print the raw message
         $msg = $self->{formatter}->format($lvl, $msg, $skip)
-                if defined $self->{formatter};
+            if defined $self->{formatter};
 
         # where do we send the message to?
         if (defined $self->{use_stderr}) {
@@ -87,7 +87,7 @@ sub _init
 
         # by default, we print messages to STDOUT
         $self->{use_stderr} = undef
-                unless (exists $self->{use_stderr});
+            unless (exists $self->{use_stderr});
 
         # Victory!
         return $self;

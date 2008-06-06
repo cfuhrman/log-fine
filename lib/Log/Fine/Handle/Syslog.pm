@@ -110,12 +110,12 @@ sub _init
 
         # set the default logopts (to be passed to Sys::Syslog::openlog()
         $self->{logopts} = "pid"
-                unless (defined $self->{logopts} and $self->{logopts} =~ /\w+/);
+            unless (defined $self->{logopts} and $self->{logopts} =~ /\w+/);
 
         # set the default facility
         $self->{facility} = LOG_LOCAL0
-                unless (defined $self->{faciity}
-                        and $self->{facility} =~ /\w+/);
+            unless (defined $self->{faciity}
+                    and $self->{facility} =~ /\w+/);
 
         # open the syslog connection
         openlog($self->{ident}, $self->{logopts}, $self->{facility});

@@ -116,12 +116,12 @@ sub log
 
         # see if we have any handles defined
         croak "No handles defined!\n"
-                unless (scalar @{ $self->{_handles} } > 0);
+            unless (scalar @{ $self->{_handles} } > 0);
 
         # iterate through each handle, logging as appropriate
         foreach my $handle (@{ $self->{_handles} }) {
                 $handle->msgWrite($lvl, $msg, $self->{_skip})
-                        if $handle->isLoggable($lvl);
+                    if $handle->isLoggable($lvl);
         }
 
         # Victory
@@ -144,13 +144,13 @@ sub registerHandle
 
         # validate handle
         croak "first argument must be a valid Log::Fine::Handle object\n"
-                unless (defined $handle
-                        and $handle->isa("Log::Fine::Handle"));
+            unless (defined $handle
+                    and $handle->isa("Log::Fine::Handle"));
 
         # initialize handles if we haven't already
         $self->{_handles} = []
-                unless (defined $self->{_handles}
-                        and ref $self->{_handles} eq "ARRAY");
+            unless (defined $self->{_handles}
+                    and ref $self->{_handles} eq "ARRAY");
 
         # save the handle
         push @{ $self->{_handles} }, $handle;
@@ -184,11 +184,11 @@ sub _init
 
         # validate name
         croak "Loggers need names!"
-                unless (defined $self->{name} and $self->{name} =~ /^\w+$/);
+            unless (defined $self->{name} and $self->{name} =~ /^\w+$/);
 
         # set logskip if necessary
         $self->{_skip} = LOG_SKIP_DEFAULT
-                unless ($self->{_skip} and $self->{_skip} =~ /\d+/);
+            unless ($self->{_skip} and $self->{_skip} =~ /\d+/);
 
         return $self;
 

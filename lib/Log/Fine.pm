@@ -225,10 +225,10 @@ BEGIN {
 
 # define some convenient mask shorthands
 use constant LOGMASK_ALL => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT |
-        LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO |
-        LOGMASK_DEBUG;
+    LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO |
+    LOGMASK_DEBUG;
 use constant LOGMASK_ERROR => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT |
-        LOGMASK_ERR;
+    LOGMASK_ERR;
 
 =head1 METHODS
 
@@ -279,13 +279,13 @@ sub getLogger
 
         # validate name
         croak "First parameter must be a valid name!\n"
-                unless (defined $name and $name =~ /\w/);
+            unless (defined $name and $name =~ /\w/);
 
         # if the requested logger is found, then return it, otherwise
         # store and return a newly created logger object.
         $loggers->{$name} = Log::Fine::Logger->new(name => $name)
-                unless (defined $loggers->{$name}
-                        and $loggers->{$name}->isa("Log::Fine::Logger"));
+            unless (defined $loggers->{$name}
+                    and $loggers->{$name}->isa("Log::Fine::Logger"));
 
         # return the logger
         return $loggers->{$name};
@@ -311,7 +311,7 @@ sub clone
 
         # validate object
         croak "First argument must be valid Log::Fine object!\n"
-                unless $obj->isa("Log::Fine");
+            unless $obj->isa("Log::Fine");
 
         # return the cloned object
         return dclone($obj);

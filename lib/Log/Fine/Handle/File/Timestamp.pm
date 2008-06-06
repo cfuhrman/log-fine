@@ -83,25 +83,25 @@ sub getFileHandle
         # return if we have a registered filehandle and the date is
         # still the same
         return $self->{_filehandle}
-                if (    defined $self->{_filehandle}
-                    and $self->{_filehandle}->isa("IO::File")
-                    and defined $today
-                    and strftime(TODAY_FORMAT, localtime(time)) eq $today);
+            if (    defined $self->{_filehandle}
+                and $self->{_filehandle}->isa("IO::File")
+                and defined $today
+                and strftime(TODAY_FORMAT, localtime(time)) eq $today);
 
         # need a new file.  Close our filehandle if it exists
         $self->{_filehandle}->close()
-                if (defined $self->{_filehandle}
-                    and $self->{_filehandle}->isa("IO::File"));
+            if (defined $self->{_filehandle}
+                and $self->{_filehandle}->isa("IO::File"));
 
         # generate file name
         my $filename =
-                catdir($self->{dir}, strftime($self->{file}, localtime(time)));
+            catdir($self->{dir}, strftime($self->{file}, localtime(time)));
 
         # generate a new filehandle
         $self->{_filehandle} = FileHandle->new(">> " . $filename);
 
         croak "Unable to open log file $filename : $!\n"
-                unless defined $self->{_filehandle};
+            unless defined $self->{_filehandle};
 
         # set autoflush if necessary
         $self->{_filehandle}->autoflush($self->{autoflush});

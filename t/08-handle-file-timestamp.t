@@ -19,8 +19,8 @@ use POSIX qw( strftime );
 
         # add a handle.  Note we use the default formatter.
         my $handle =
-                Log::Fine::Handle::File::Timestamp->new(file      => $base,
-                                                        autoflush => 1);
+            Log::Fine::Handle::File::Timestamp->new(file      => $base,
+                                                    autoflush => 1);
 
         # do some validation
         ok($handle->isa("Log::Fine::Handle"));

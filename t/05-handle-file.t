@@ -25,8 +25,8 @@ use Log::Fine::Logger;
 
         # add a handle.  Note we use the default formatter.
         my $handle =
-                Log::Fine::Handle::File->new(file      => $file,
-                                             autoflush => 1);
+            Log::Fine::Handle::File->new(file      => $file,
+                                         autoflush => 1);
 
         # do some validation
         ok($handle->isa("Log::Fine::Handle"));
