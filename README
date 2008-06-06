@@ -149,8 +149,8 @@ ACKNOWLEDGMENTS
     I'd like the thank the following people for either inspiration or past
     work on logging: Josh Glover for his work as well as teaching me all I
     know about object-oriented programming in perl. Dan Boger for taking the
-    patience to review this code and offer his own suggestions. Additional
-    thanks to Tom Maher and Chris Joseph for encouragement.
+    time and patience to review this code and offer his own suggestions.
+    Additional thanks to Tom Maher and Chris Josephs for encouragement.
 
   Related Modules/Frameworks
     The following logging frameworks provided inspiration for parts of
