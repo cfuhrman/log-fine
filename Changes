@@ -5,3 +5,8 @@ Revision history for Log-Fine
 
 0.13    2008-05-27
 	* Require version 0.13 of Sys::Syslog
+
+0.14	2008-06-07
+	* Correct spelling of last name of acknowledgements.  Sorry
+	  Chris!
+
