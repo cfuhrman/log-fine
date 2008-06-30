@@ -335,13 +335,10 @@ sub _init
         unless (defined $self->{name} and $self->{name} =~ /\w/) {
 
                 # grab the class name
-                $_ = ref $self;
+                $self->{name} = ref $self;
+                $self->{name} =~ /\:(\w+)$/;
+                $self->{name} = lc($+) . _getObjectCount();
 
-                # now grab the last name in that class
-                /\:\:(\w+)$/;
-
-                # and set name
-                $self->{name} = lc($1) . _getObjectCount();
         }
 
         # Victory!
