@@ -10,3 +10,7 @@ Revision history for Log-Fine
 	* Correct spelling of last name of acknowledgements.  Sorry
 	  Chris!
 
+0.15    2008-07-02
+	* Fix very embarrasing bitmask error
+	* some minor optimizations
+	* add TODO
