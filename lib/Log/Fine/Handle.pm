@@ -66,8 +66,10 @@ sub isLoggable
         croak "No Level :$lvl\n"
             unless (defined $lvl and $lvl =~ /\d+/);
 
+	my $shifted = 2 << $lvl;
+
         # bitand the level and the mask to see if we're loggable
-        return (($self->{mask} & $lvl) == $lvl) ? 1 : undef;
+        return (($self->{mask} & $shifted) == $shifted) ? 1 : undef;
 
 }          # isLoggable()
 
