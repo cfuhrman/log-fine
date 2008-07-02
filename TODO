@@ -1,0 +1,8 @@
+Last Modified: $Date$
+
+ * properly test bitmask combinations so I don't get egg on my face
+   again.
+
+ * clean up macros.
+
+

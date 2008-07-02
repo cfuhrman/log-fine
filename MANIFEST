@@ -4,6 +4,7 @@ META.yml # Will be created by "make dist"
 Makefile.PL
 README
 LICENSE
+TODO
 lib/Log/Fine.pm
 lib/Log/Fine/Formatter.pm
 lib/Log/Fine/Formatter/Basic.pm
