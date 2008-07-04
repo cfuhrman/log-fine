@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 8;
+use Test::Simple tests => 7;
 
 use File::Basename;
 use Log::Fine;
@@ -29,7 +29,6 @@ use Sys::Syslog qw( :standard :macros );
 
         # these should be set to their default values
         ok($handle->{mask} == Log::Fine::Handle->DEFAULT_LOGMASK);
-        ok($handle->{level} == DEBG);
         ok($handle->{formatter}->isa("Log::Fine::Formatter::Basic"));
 
         # Syslog-specific attributes

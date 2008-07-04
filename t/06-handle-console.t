@@ -26,7 +26,7 @@ my $handle = Log::Fine::Handle::Console->new();
 "Test::Output 0.10 or above required for testing Console output"
                     if $@;
         } else {
-                plan tests => 9;
+                plan tests => 8;
         }
 
         # get a logger
@@ -39,7 +39,6 @@ my $handle = Log::Fine::Handle::Console->new();
 
         # these should be set to their default values
         ok($handle->{mask} == Log::Fine::Handle->DEFAULT_LOGMASK);
-        ok($handle->{level} == DEBG);
         ok($handle->{formatter}->isa("Log::Fine::Formatter::Basic"));
 
         # Console-specific attributes

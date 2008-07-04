@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 12;
+use Test::Simple tests => 11;
 
 use File::Spec::Functions;
 use FileHandle;
@@ -33,7 +33,6 @@ use Log::Fine::Logger;
 
         # these should be set to their default values
         ok($handle->{mask} == Log::Fine::Handle->DEFAULT_LOGMASK);
-        ok($handle->{level} == DEBG);
         ok($handle->{formatter}->isa("Log::Fine::Formatter::Basic"));
 
         # File-specific attributes
