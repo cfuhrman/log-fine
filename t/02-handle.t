@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 76;
+use Test::More tests => 132;
 
 use Data::Dumper;
 use Log::Fine qw( :macros :masks );
@@ -13,7 +13,7 @@ use Log::Fine::Handle::String;
 
 {
 
-        # Log masks are derived from Sys::Syslog module
+        # set up masks
         my $masks = {
                       EMER => LOGMASK_EMERG,
                       ALRT => LOGMASK_ALERT,
@@ -36,6 +36,10 @@ use Log::Fine::Handle::String;
         ok($handle->{formatter}->isa("Log::Fine::Formatter"));
         ok(ref $handle->{formatter} eq "Log::Fine::Formatter::Basic");
 
+        # we need two handles for testing mask combinations
+        my $hand1 = Log::Fine::Handle::String->new();
+        my $hand2 = Log::Fine::Handle::String->new();
+
         # validate different mask combinations
         foreach my $i (keys %{$masks}) {
 
@@ -43,12 +47,24 @@ use Log::Fine::Handle::String;
                 ok(2 << eval "$i" == $masks->{$i});
 
                 # set the level as appropriate
-                $handle->{mask} = $masks->{$i};
+                $hand1->{mask} = $masks->{$i};
+                $hand2->{mask} = 0;
 
                 # perform some other tests
                 foreach my $j (keys %{$masks}) {
-                        $handle->{mask} |= $masks->{$j};
-                        ok($handle->isLoggable(eval "$i"));
+
+                        # test to see if we're properly loggable
+                        $hand1->{mask} |= $masks->{$j};
+                        ok($hand1->isLoggable(eval "$i"));
+
+                        # skip if $i is $j
+                        next if ($i eq $j);
+
+                        # test to make sure we don't log when our mask
+                        # isn't set as appropriate
+                        $hand2->{mask} |= $masks->{$j};
+                        ok(not $hand2->isLoggable(eval "$i"));
+
                 }
         }
 }
