@@ -4,4 +4,6 @@ Last Modified: $Date$
 
  * Narrow down Sys::Syslog requirement
 
+ * Switch to Module::Build?
+
 
