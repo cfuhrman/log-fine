@@ -4,9 +4,8 @@
 # $Id$
 #
 
-use Test::More tests => 132;
+use Test::Simple tests => 132;
 
-use Data::Dumper;
 use Log::Fine qw( :macros :masks );
 use Log::Fine::Handle;
 use Log::Fine::Handle::String;
