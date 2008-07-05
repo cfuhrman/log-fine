@@ -2,4 +2,6 @@ Last Modified: $Date$
 
  * clean up macros.
 
+ * Narrow down Sys::Syslog requirement
+
 
