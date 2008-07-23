@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 132;
+use Test::Simple tests => 112;
 
 use Log::Fine qw( :macros :masks );
 use Log::Fine::Handle;
@@ -35,35 +35,44 @@ use Log::Fine::Handle::String;
         ok($handle->{formatter}->isa("Log::Fine::Formatter"));
         ok(ref $handle->{formatter} eq "Log::Fine::Formatter::Basic");
 
-        # we need two handles for testing mask combinations
+        # we need three handles for testing mask combinations
         my $hand1 = Log::Fine::Handle::String->new();
         my $hand2 = Log::Fine::Handle::String->new();
+        my $hand3 = Log::Fine::Handle::String->new();
 
         # validate different mask combinations
-        foreach my $i (keys %{$masks}) {
+        my @keys = keys %{$masks};
+
+        for (my $i = 0; $i < scalar @keys; $i++) {
 
                 # check to make sure masks line up properly
-                ok(2 << eval "$i" == $masks->{$i});
+                ok(2 << eval "$keys[$i]" == $masks->{ $keys[$i] });
 
                 # set the level as appropriate
-                $hand1->{mask} = $masks->{$i};
-                $hand2->{mask} = 0;
+                $hand1->{mask} = $masks->{ $keys[$i] };
+                $hand3->{mask} = 0;
 
-                # perform some other tests
-                foreach my $j (keys %{$masks}) {
+                # now iterate through subsequent combinations
+                for (my $j = $i; $j < scalar @keys; $j++) {
 
-                        # test to see if we're properly loggable
-                        $hand1->{mask} |= $masks->{$j};
-                        ok($hand1->isLoggable(eval "$i"));
+                        # now test to see if we're properly loggable
+                        $hand1->{mask} |= $masks->{ $keys[$j] };
+                        $hand2->{mask} =
+                            $masks->{ $keys[$i] } | $masks->{ $keys[$j] };
 
-                        # skip if $i is $j
-                        next if ($i eq $j);
+                        ok($hand1->isLoggable(eval "$keys[$i]"));
+                        ok($hand2->isLoggable(eval "$keys[$i]"));
+
+                        # if $i is the same as $j, then move on
+                        next if ($i == $j);
 
                         # test to make sure we don't log when our mask
                         # isn't set as appropriate
-                        $hand2->{mask} |= $masks->{$j};
-                        ok(not $hand2->isLoggable(eval "$i"));
+                        $hand3->{mask} |= $masks->{ $keys[$j] };
+                        ok(not $hand3->isLoggable(eval "$keys[$i]"));
 
                 }
+
         }
+
 }
