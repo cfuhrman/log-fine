@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 112;
+use Test::Simple tests => 96;
 
 use Log::Fine qw( :macros :masks );
 use Log::Fine::Handle;
@@ -53,7 +53,7 @@ use Log::Fine::Handle::String;
                 $hand3->{mask} = 0;
 
                 # now iterate through subsequent combinations
-                for (my $j = $i; $j < scalar @keys; $j++) {
+                for (my $j = $i + 1; $j < scalar @keys; $j++) {
 
                         # now test to see if we're properly loggable
                         $hand1->{mask} |= $masks->{ $keys[$j] };
@@ -62,9 +62,6 @@ use Log::Fine::Handle::String;
 
                         ok($hand1->isLoggable(eval "$keys[$i]"));
                         ok($hand2->isLoggable(eval "$keys[$i]"));
-
-                        # if $i is the same as $j, then move on
-                        next if ($i == $j);
 
                         # test to make sure we don't log when our mask
                         # isn't set as appropriate
