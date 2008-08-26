@@ -6,4 +6,6 @@ Last Modified: $Date$
 
  * Switch to Module::Build?
 
+ * Allow log levels to be loadable.  For instance (FINE, FINER,
+   FINEST, etc)
 
