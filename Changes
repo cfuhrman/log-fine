@@ -17,3 +17,6 @@ Revision history for Log-Fine
 
 0.20	2008-07-05
 	* Properly check bitmask combinations during testing
+
+0.21	2008-12-08
+	* Add functional wrapper via Utils
