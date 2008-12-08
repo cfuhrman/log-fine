@@ -57,10 +57,10 @@ our @EXPORT = qw( Log OpenLog );
 # --------------------------------------------------------------------
 
 {
-	my $logger;
+        my $logger;
 
-	sub _getLogger { return $logger };
-	sub _setLogger { $logger = shift };
+        sub _getLogger { return $logger }
+        sub _setLogger { $logger = shift }
 }
 
 =head1 FUNCTIONS
@@ -76,22 +76,21 @@ Opens the logging subsystem.  Accepts one or more handles as arguments.
 
 sub OpenLog
 {
-	my @handles = @_;
+        my @handles = @_;
 
-	# construct a generic logger
-	my $logger = Log::Fine->getLogger("GENERIC");
+        # construct a generic logger
+        my $logger = Log::Fine->getLogger("GENERIC");
 
-	# Set our handles
-	$logger->registerHandle($_)
-		foreach @handles;
+        # Set our handles
+        $logger->registerHandle($_) foreach @handles;
 
-	# Save the logger
-	_setLogger($logger);
+        # Save the logger
+        _setLogger($logger);
 
-	# Victory!
-	return 1;
+        # Victory!
+        return 1;
 
-} # OpenLog()
+}          # OpenLog()
 
 =head2 Log
 
@@ -102,18 +101,18 @@ Logs the message at the given log level
 sub Log
 {
 
-	my $lvl = shift;
-	my $msg = shift;
-	my $log = _getLogger();
+        my $lvl = shift;
+        my $msg = shift;
+        my $log = _getLogger();
 
-	# make sure we log the correct calling method
-	$log->incrSkip();
-	$log->log($lvl, $msg);
-	$log->decrSkip();
+        # make sure we log the correct calling method
+        $log->incrSkip();
+        $log->log($lvl, $msg);
+        $log->decrSkip();
 
-	return 1;
+        return 1;
 
-} # Log()
+}          # Log()
 
 =head1 SEE ALSO
 
