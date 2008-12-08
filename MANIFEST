@@ -26,7 +26,7 @@ t/05-handle-file.t
 t/06-handle-console.t
 t/07-handle-syslog.t
 t/08-handle-file-timestamp.t
-t/09/utils.t
+t/09-utils.t
 t/boilerplate.t
 t/pod-coverage.t
 t/pod.t
