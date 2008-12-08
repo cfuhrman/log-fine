@@ -16,6 +16,7 @@ lib/Log/Fine/Handle/Console.pm
 lib/Log/Fine/Handle/Syslog.pm
 lib/Log/Fine/Handle/String.pm
 lib/Log/Fine/Logger.pm
+lib/Log/Fine/Utils.pm
 t/00-load.t
 t/01-fine.t
 t/02-handle.t
@@ -24,6 +25,8 @@ t/04-formatter.t
 t/05-handle-file.t
 t/06-handle-console.t
 t/07-handle-syslog.t
+t/08-handle-file-timestamp.t
+t/09/utils.t
 t/boilerplate.t
 t/pod-coverage.t
 t/pod.t
