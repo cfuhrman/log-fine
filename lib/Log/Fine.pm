@@ -34,6 +34,9 @@ objects (called I<loggers>) from its stored namespace.  Most logging
 is then done through a logger object that is specific to the
 application.
 
+For a simple functional interface to the logging sub-system, see
+L<Log::Fine::Utils|Log::Fine::Utils>.
+
 =head2 Handles
 
 Handlers provides a means to output log messages in one or more
@@ -380,7 +383,7 @@ The Python logging package
 =head1 SEE ALSO
 
 L<perl>, L<syslog>, L<Log::Fine::Handle>, L<Log::Fine::Formatter>,
-L<Log::Fine::Logger>, L<Sys::Syslog>,
+L<Log::Fine::Logger>, L<Log::Fine::Utils>, L<Sys::Syslog>
 
 =head1 AUTHOR
 
