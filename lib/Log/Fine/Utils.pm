@@ -48,6 +48,7 @@ package Log::Fine::Utils;
 
 our @ISA = qw( Exporter );
 
+use Carp;
 use Log::Fine;
 
 # Exported functions
