@@ -17,7 +17,7 @@ Provides a functional wrapper around Log::Fine.
     my $handle1 = Log::Fine::Handle::File
         ->new( name      => "file0",
                mask      => Log::Fine::Handler->LOGMASK_ALL,
-               formatter => Log::Fine::Formatter::Basic->new());
+               formatter => Log::Fine::Formatter::Basic->new() );
 
     # and now a handle for syslog
     my $handle2 = Log::Fine::Handle::Syslog
@@ -48,6 +48,7 @@ package Log::Fine::Utils;
 
 our @ISA = qw( Exporter );
 
+use Carp;
 use Log::Fine;
 
 # Exported functions
@@ -78,6 +79,10 @@ sub OpenLog
 {
         my @handles = @_;
 
+        # validate a handle was passed
+        croak "At least one handle must be defined"
+            unless (scalar @handles > 0);
+
         # construct a generic logger
         my $logger = Log::Fine->getLogger("GENERIC");
 
@@ -105,6 +110,11 @@ sub Log
         my $msg = shift;
         my $log = _getLogger();
 
+        # validate logger has been set
+        croak
+"Logging system has not been set up.  (See Log::Fine::Utils::OpenLog()"
+            unless (defined $log and $log->isa("Log::Fine::Logger"));
+
         # make sure we log the correct calling method
         $log->incrSkip();
         $log->log($lvl, $msg);
@@ -113,6 +123,11 @@ sub Log
         return 1;
 
 }          # Log()
+
+=head1 CAVEATS
+
+Log::Fine::Utils defines one and only one generic logger.  Multiple
+loggers via Utils are not currently supported.
 
 =head1 SEE ALSO
 
