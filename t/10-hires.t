@@ -13,20 +13,20 @@ use Log::Fine::Formatter::Detailed;
 
 {
 
-	# See if we have Time::HiRes installed
-	eval "use Time::HiRes";
+        # See if we have Time::HiRes installed
+        eval "use Time::HiRes";
 
-	if ($@) {
-		plan skip_all => "Time::HiRes is not installed.  High precision logging not possible";
-	} else {
-		plan tests => 8;
-	}
-
+        if ($@) {
+                plan skip_all =>
+"Time::HiRes is not installed.  High precision logging not possible";
+        } else {
+                plan tests => 8;
+        }
 
         # create a basic formatter
         my $basic = Log::Fine::Formatter::Basic->new(hires => 1);
 
-        ok(ref $basic             eq "Log::Fine::Formatter::Basic");
+        ok(ref $basic eq "Log::Fine::Formatter::Basic");
         ok($basic->getTimestamp() eq
             Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT_PRECISE);
 
@@ -48,7 +48,7 @@ use Log::Fine::Formatter::Detailed;
         # now create a detailed formatter
         my $detailed = Log::Fine::Formatter::Detailed->new(hires => 1);
 
-        ok(ref $detailed             eq "Log::Fine::Formatter::Detailed");
+        ok(ref $detailed eq "Log::Fine::Formatter::Detailed");
         ok($detailed->getTimestamp() eq
             Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT_PRECISE);
 

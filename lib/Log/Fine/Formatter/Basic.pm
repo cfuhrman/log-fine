@@ -64,8 +64,8 @@ sub format
 
         # return the formatted string
         return
-            sprintf("[%s] %-4s %s\n",
-                    $self->_getFmtTime(), $lvls->[$lvl], $msg);
+            sprintf("[%s] %-4s %s\n", $self->_getFmtTime(), $lvls->[$lvl],
+                    $msg);
 
 }          # format()
 

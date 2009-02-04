@@ -46,7 +46,7 @@ use POSIX qw( strftime );
 # Constant: LOG_TIMESTAMP_FORMAT, LOG_TIMESTAMP_FORMAT_PRECISE
 #
 # strftime(3)-compatible format string
-use constant LOG_TIMESTAMP_FORMAT => "%c";
+use constant LOG_TIMESTAMP_FORMAT         => "%c";
 use constant LOG_TIMESTAMP_FORMAT_PRECISE => "%H:%M:%S.%%millis%%";
 
 =head1 METHODS
@@ -112,29 +112,30 @@ sub _init
         # make sure we load in the logger object
         require Log::Fine::Logger;
 
-	# verify that we can load the Time::HiRes module
-	if ($self->{hires}) {
+        # verify that we can load the Time::HiRes module
+        if ($self->{hires}) {
 
-		eval "use Time::HiRes";
-		croak "Time::HiRes failed to load.  Please install Time::HiRes via CPAN"
-			if $@;
+                eval "use Time::HiRes";
+                croak
+"Time::HiRes failed to load.  Please install Time::HiRes via CPAN"
+                    if $@;
 
-		# set {timestamp_format} to default high precision
-		# format if necessary.
-		$self->{timestamp_format} = LOG_TIMESTAMP_FORMAT_PRECISE
-			unless (defined $self->{timestamp_format}
-				and $self->{timestamp_format} =~ /\w+/);
+                # set {timestamp_format} to default high precision
+                # format if necessary.
+                $self->{timestamp_format} = LOG_TIMESTAMP_FORMAT_PRECISE
+                    unless (defined $self->{timestamp_format}
+                            and $self->{timestamp_format} =~ /\w+/);
 
-	} else {
+        } else {
 
-		# set {timestamp_format} to the default if necessary
-		$self->{timestamp_format} = LOG_TIMESTAMP_FORMAT
-			unless (defined $self->{timestamp_format}
-				and $self->{timestamp_format} =~ /\w+/);
+                # set {timestamp_format} to the default if necessary
+                $self->{timestamp_format} = LOG_TIMESTAMP_FORMAT
+                    unless (defined $self->{timestamp_format}
+                            and $self->{timestamp_format} =~ /\w+/);
 
-	}
+        }
 
-	# Victory!
+        # Victory!
         return $self;
 
 }          # _init()
@@ -144,31 +145,30 @@ sub _init
 
 sub _getFmtTime
 {
-	my $seconds;
+        my $seconds;
 
-	my $self = shift;
-	my $fmt  = $self->{timestamp_format};
+        my $self = shift;
+        my $fmt  = $self->{timestamp_format};
 
-	if ($self->{hires}) {
+        if ($self->{hires}) {
 
-		# use Time::HiRes to get seconds and milliseconds
-		my $time   = sprintf("%.05f", &Time::HiRes::time);
-		my @t      = split /\./, $time;
-		my $millis = $t[1];
+                # use Time::HiRes to get seconds and milliseconds
+                my $time = sprintf("%.05f", &Time::HiRes::time);
+                my @t = split /\./, $time;
+                my $millis = $t[1];
 
-		# and format
-		$fmt     =~ s/%%millis%%/$millis/g;
-		$seconds = $time;
+                # and format
+                $fmt =~ s/%%millis%%/$millis/g;
+                $seconds = $time;
 
-	} else {
-		$seconds = time;
-	}
+        } else {
+                $seconds = time;
+        }
 
-	# return the formatted time
-	return strftime($fmt, localtime($seconds));
+        # return the formatted time
+        return strftime($fmt, localtime($seconds));
 
-} # _getFmtTime()
-
+}          # _getFmtTime()
 
 =head1 SEE ALSO
 

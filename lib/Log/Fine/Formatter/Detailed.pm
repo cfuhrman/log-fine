@@ -82,14 +82,16 @@ sub format
                 # just include the script name
                 return
                     sprintf("[%s] %-4s (%s) %s\n",
-                            $self->_getFmtTime(), $lvls->[$lvl], basename($0), $msg);
+                            $self->_getFmtTime(), $lvls->[$lvl], basename($0),
+                            $msg);
 
         } elsif (defined $c[0] and $c[0] eq "main") {
 
                 # just include the script name and line number
                 return
                     sprintf("[%s] %-4s (%s:%d) %s\n",
-			    $self->_getFmtTime(), $lvls->[$lvl], basename($c[1]), $c[2], $msg);
+                            $self->_getFmtTime(), $lvls->[$lvl],
+                            basename($c[1]), $c[2], $msg);
 
         } else {
 
