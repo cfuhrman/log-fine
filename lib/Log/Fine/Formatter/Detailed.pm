@@ -164,7 +164,7 @@ L<http://search.cpan.org/dist/Log-Fine>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2008 Christopher M. Fuhrman, 
+Copyright (c) 2008, 2009 Christopher M. Fuhrman, 
 All rights reserved.
 
 This program is free software licensed under the...
