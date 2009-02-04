@@ -11,7 +11,9 @@ Provides a formatting facility for log messages
     use Log::Fine::Formatter;
 
     my $handle    = Log::Fine::Handle::Console->new();
-    my $formatter = Log::Fine::Formatter::Detailed->new();
+    my $formatter = Log::Fine::Formatter::Detailed->new(
+      timestamp_format => "%Y-%m-%d %H:%M:%S"
+    );
 
     # by default, the handle will set its formatter to
     # Log::Fine::Formatter::Basic.  If that's not what you want, set
@@ -20,6 +22,14 @@ Provides a formatting facility for log messages
 
     # set the time-stamp to "YYYY-MM-DD HH:MM:SS"
     $formatter->setTimestamp("%Y-%m-%d %H:%M:%S");
+
+    # high resolution timestamps with milliseconds are
+    # supported thus:
+    my $hires_formatter =
+      Log::Fine::Formatter::Basic->new(
+        hires => 1,
+        timestamp_format => "%H:%M:%S.%%millis%%",
+      );
 
 =head1 DESCRIPTION
 
@@ -30,6 +40,25 @@ strftime-compatible string without the tedious mucking about writing a
 formatter sub-class.  By default, the time-stamp format is "%c".  See
 L</"setTimestamp($format)"> and the L<strftime> man page for further
 details.
+
+=head2 High Resolution Timestamps
+
+High Resolution time stamps are generated using the L<Time::HiRes>
+module.  Depending on your distribution of perl, this may or may not
+be installed.  Add the string "%%millis%%" (without the quotes) where
+you would like milliseconds displayed within your format.  For example:
+
+    $formatter->setTimestamp("%H:%M:%S.%%millis%%");
+
+Please note you B<MUST> enable high resolution mode during Formatter
+construction as so:
+
+    my $formatter = Log::Fine::Formatter::Basic->new( hires => 1 );
+
+By default, the time-stamp format for high resolution mode is
+"%H:%M:%S.%%millis%%".  This can be changed via the
+L</"setTimestamp($format)"> method or set during formatter
+construction.
 
 =cut
 
@@ -172,7 +201,7 @@ sub _getFmtTime
 
 =head1 SEE ALSO
 
-L<perl>, L<strftime>, L<Log::Fine>
+L<perl>, L<strftime>, L<Log::Fine>, L<Time::HiRes>
 
 =head1 AUTHOR
 
