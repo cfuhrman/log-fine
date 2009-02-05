@@ -1,11 +1,8 @@
 Last Modified: $Date$
 
- * clean up macros.
-
- * Narrow down Sys::Syslog requirement
-
  * Switch to Module::Build?
 
  * Allow log levels to be loadable.  For instance (FINE, FINER,
-   FINEST, etc)
+   FINEST, etc).  Maybe have a Levels class?
 
+ * Have Utils handle more than one Logger?
