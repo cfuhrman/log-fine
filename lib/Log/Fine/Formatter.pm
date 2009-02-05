@@ -50,7 +50,7 @@ you would like milliseconds displayed within your format.  For example:
 
     $formatter->setTimestamp("%H:%M:%S.%%millis%%");
 
-Please note you B<MUST> enable high resolution mode during Formatter
+Please note you I<must> enable high resolution mode during Formatter
 construction as so:
 
     my $formatter = Log::Fine::Formatter::Basic->new( hires => 1 );
