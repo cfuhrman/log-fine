@@ -29,6 +29,9 @@ DESCRIPTION
     (called *loggers*) from its stored namespace. Most logging is then done
     through a logger object that is specific to the application.
 
+    For a simple functional interface to the logging sub-system, see
+    Log::Fine::Utils.
+
   Handles
     Handlers provides a means to output log messages in one or more ways.
     Currently, the following handles are provided:
@@ -164,7 +167,7 @@ ACKNOWLEDGMENTS
 
 SEE ALSO
     perl, syslog, Log::Fine::Handle, Log::Fine::Formatter,
-    Log::Fine::Logger, Sys::Syslog,
+    Log::Fine::Logger, Log::Fine::Utils, Sys::Syslog
 
 AUTHOR
     Christopher M. Fuhrman, "<cfuhrman at panix.com>"
@@ -203,7 +206,7 @@ REVISION INFORMATION
       $Id$
 
 COPYRIGHT & LICENSE
-    Copyright (c) 2008 Christopher M. Fuhrman, All rights reserved.
+    Copyright (c) 2008, 2009 Christopher M. Fuhrman, All rights reserved.
 
     This program is free software licensed under the...
 
