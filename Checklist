@@ -9,4 +9,7 @@ Last Modified: $Date$
 
 3) Update CHANGES
 
-4) Release unto the world
+4) Regenerate README if necessary (use pod2text)
+
+5) Release unto the world
+
