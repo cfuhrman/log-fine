@@ -80,7 +80,7 @@ use Log::Fine::Logger;
 use Storable qw( dclone );
 use Sys::Syslog qw( :macros );
 
-our $VERSION = '0.21';
+our $VERSION = '0.22';
 our @ISA     = qw( Exporter );
 
 =head2 Log Levels
@@ -431,7 +431,7 @@ L<http://search.cpan.org/dist/Log-Fine>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2008 Christopher M. Fuhrman, 
+Copyright (c) 2008, 2009 Christopher M. Fuhrman, 
 All rights reserved.
 
 This program is free software licensed under the...
