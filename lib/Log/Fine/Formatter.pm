@@ -184,10 +184,9 @@ sub _getFmtTime
                 # use Time::HiRes to get seconds and milliseconds
                 my $time = sprintf("%.05f", &Time::HiRes::time);
                 my @t = split /\./, $time;
-                my $millis = $t[1];
 
                 # and format
-                $fmt =~ s/%%millis%%/$millis/g;
+                $fmt =~ s/%%millis%%/$t[1]/g;
                 $seconds = $time;
 
         } else {
