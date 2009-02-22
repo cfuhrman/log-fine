@@ -23,8 +23,8 @@ package Log::Fine::Levels;
 use Carp;
 
 our $AUTOLOAD;
-our @EXPORT    = qw( getLevels setLevels );
-our @EXPORT_OK = qw( getLvlFromVal getValFromLvl );
+
+use vars qw( %ok_fields );
 
 # Default level-to-value hash
 use constant DEFAULT_LVLTOVAL => {
@@ -81,17 +81,22 @@ sub new
 {
 
         my $class = shift;
-        my %h     = @_;
+        my %data  = @_;
+        my $obj   = {};
 
         # if $class is already an object, then return the object
         return $class if (ref $class and $class->isa("Log::Fine::Levels"));
 
         # bless the hash into a class
-        my $self = bless \%h, $class;
+        my $self = bless $obj, $class;
 
         # check for custom levels
-        $self->setLevels($self->{levels})
-            if (exists $self->{levels} and ref $self->{levels} eq "HASH");
+        $self->setLevels($data{levels})
+            if (defined $data{levels} and ref $data{levels} eq "HASH");
+
+        # populate our ok_to_export hash
+        my $levels = _getLvltoVal;
+        %ok_fields = %{$levels};
 
         # return the bless'd object
         return $self;
@@ -106,8 +111,13 @@ Gets the matching level string from the given numerical value
 
 sub getLvlFromVal
 {
-        my $hash = _getLvltoVal();
-        return $hash->{ $_[0] };
+
+        my $self = shift;
+        my $val  = shift;
+        my $hash = _getValtoLvl();
+
+        return $hash->{$val};
+
 }          # getLvlFromVal()
 
 =head2 getValFromLvl($level)
@@ -118,8 +128,13 @@ Gets the matching numeric value for the given level
 
 sub getValFromLvl
 {
-        my $hash = _getValtoLvl();
-        return $hash->{ $_[0] };
+
+        my $self = shift;
+        my $lvl  = shift;
+        my $hash = _getLvltoVal();
+
+        return $hash->{$lvl};
+
 }          # getValFromLvl()
 
 =head2 getLevels()
@@ -132,7 +147,7 @@ sub getLevels
 {
         my $keys = _getLvltoVal();
         return keys %{$keys};
-}
+}          # getLevels()
 
 =head2 setLevels($levels)
 
@@ -171,11 +186,18 @@ sub setLevels
         }
 
         # warn if we are called more than once
-        carp "setLevels() called more than once!";
+        carp "setLevels() called more than once!"
+            if (_getCallCount() > 0);
 
         # now set appropriate hashes
-        _setLvlToVal($values);
-        _setValToLvl($levels);
+        _setLvltoVal($levels);
+        _setValtoLvl($values);
+
+        # set ok_fields
+        %ok_fields = %{$levels};
+
+        # Bump up callcount
+        _incrCallCount();
 
 }          # setLevels()
 
@@ -186,6 +208,7 @@ sub AUTOLOAD
 {
 
         my $self = shift;
+        my $type = ref $self;
 
         # Get the method name
         my $name = $AUTOLOAD;
@@ -193,12 +216,15 @@ sub AUTOLOAD
         # strip out package prefix
         $name =~ s/.*://;
 
+        # Return on DESTROY
+        return if $name eq 'DESTROY';
+
         # make sure we have a valid function
         croak "Invalid function $name"
-            unless (defined $levels->{$name});
+            unless (exists $ok_fields{$name});
 
         # evaluate and return the appropriate level
-        eval "sub $name { return $levels->{$name }";
+        eval "sub $name { return $ok_fields{$name} }";
         goto &$name;
 
 }          # AUTOLOAD()
@@ -267,4 +293,3 @@ LICENSE file included with this module.
 
 1;          # End of Log::Fine::Formatter
 
-__END__
