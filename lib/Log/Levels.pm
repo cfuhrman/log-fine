@@ -23,23 +23,48 @@ package Log::Fine::Levels;
 use Carp;
 
 our $AUTOLOAD;
-our @EXPORT = qw( getLevels setLevels );
+our @EXPORT    = qw( getLevels setLevels );
 our @EXPORT_OK = qw( getLvlFromVal getValFromLvl );
+
+# Default level-to-value hash
+use constant DEFAULT_LVLTOVAL => {
+                                   EMER => 0,
+                                   ALRT => 1,
+                                   CRIT => 2,
+                                   ERR  => 3,
+                                   WARN => 4,
+                                   NOTI => 5,
+                                   INFO => 6,
+                                   DEBG => 7
+};          # DEFAULT_LVLTOVAL{}
+
+# Default value-to-level hash
+use constant DEFAULT_VALTOLVL => {
+                                   0 => "EMER",
+                                   1 => "ALRT",
+                                   2 => "CRIT",
+                                   3 => "ERR",
+                                   4 => "WARN",
+                                   5 => "NOTI",
+                                   6 => "INFO",
+                                   7 => "DEBG"
+};          # DEFAULT_VALTOLVL{}
 
 # Private Methods
 # --------------------------------------------------------------------
 
 {
-	my $callCount = 0;
-	my $lvltoval = {};
-	my $valtolvl = {};
+        my $callCount = 0;
 
-	sub _getCallCount { return $callCount };
-	sub _getLvltoVal { return $lvltoval }
-	sub _getValtoLvl { return $valtolvl }
-	sub _incrCallCount { $callCount++ };
-	sub _setLvltoVal { $lvltoval = shift }
-	sub _setValtoLvl { $valtolvl = shift }
+        my $lvltoval = DEFAULT_LVLTOVAL;
+        my $valtolvl = DEFAULT_VALTOLVL;
+
+        sub _getCallCount  { return $callCount }
+        sub _getLvltoVal   { return $lvltoval }
+        sub _getValtoLvl   { return $valtolvl }
+        sub _incrCallCount { $callCount++ }
+        sub _setLvltoVal   { $lvltoval = shift }
+        sub _setValtoLvl   { $valtolvl = shift }
 }
 
 # --------------------------------------------------------------------
@@ -55,8 +80,8 @@ Creates a new Log::Fine::Levels object
 sub new
 {
 
-	my $class = shift;
-	my %h     = @_;
+        my $class = shift;
+        my %h     = @_;
 
         # if $class is already an object, then return the object
         return $class if (ref $class and $class->isa("Log::Fine::Levels"));
@@ -64,14 +89,14 @@ sub new
         # bless the hash into a class
         my $self = bless \%h, $class;
 
-	# check for custom levels
-	$self->setLevels($self->{levels})
-		if (exists $self->{levels} and ref $self->{levels} eq "HASH");
+        # check for custom levels
+        $self->setLevels($self->{levels})
+            if (exists $self->{levels} and ref $self->{levels} eq "HASH");
 
-	# return the bless'd object
-	return $self;
+        # return the bless'd object
+        return $self;
 
-} # new()
+}          # new()
 
 =head2 getLvlFromVal($value)
 
@@ -81,9 +106,9 @@ Gets the matching level string from the given numerical value
 
 sub getLvlFromVal
 {
-	my $hash = _getLvltoVal();
-	return $hash->{$_[0]};
-} # getLvlFromVal()
+        my $hash = _getLvltoVal();
+        return $hash->{ $_[0] };
+}          # getLvlFromVal()
 
 =head2 getValFromLvl($level)
 
@@ -93,9 +118,9 @@ Gets the matching numeric value for the given level
 
 sub getValFromLvl
 {
-	my $hash = _getValtoLvl();
-	return $hash->{$_[0]};
-} # getValFromLvl()
+        my $hash = _getValtoLvl();
+        return $hash->{ $_[0] };
+}          # getValFromLvl()
 
 =head2 getLevels()
 
@@ -105,8 +130,8 @@ Returns a list of supported levels
 
 sub getLevels
 {
-	my $keys = _getLvltoVal();
-	return keys %{$keys};
+        my $keys = _getLvltoVal();
+        return keys %{$keys};
 }
 
 =head2 setLevels($levels)
@@ -118,36 +143,41 @@ Set Levels for this class from a hash of level keyword to number pairs.
 sub setLevels
 {
 
-	my $self   = shift;
-	my $levels = shift;
+        my $self   = shift;
+        my $levels = shift;
 
-	# validate levels
-	croak "First parameter must be a valid hash ref"
-		unless(defined $levels and ref $levels eq "HASH" and scalar keys %{$levels} > 0);
+        # validate levels
+        croak "First parameter must be a valid hash ref"
+            unless (    defined $levels
+                    and ref $levels eq "HASH"
+                    and scalar keys %{$levels} > 0);
 
-	# level-to-value hash
-	my $values = {};
+        # level-to-value hash
+        my $values = {};
 
-	# construct ValtoLvl hash
-	foreach my $level (keys %{$levels}) {
+        # construct ValtoLvl hash
+        foreach my $level (keys %{$levels}) {
 
-		# validate level and value
-		croak "Invalid keypair $level -> $levels->{$level}"
-			unless(defined $level and defined $levels->{$level} and $level =~ /\w+/ and $levels->{$level} =~ /\d+/);
+                # validate level and value
+                croak "Invalid keypair $level -> $levels->{$level}"
+                    unless (    defined $level
+                            and defined $levels->{$level}
+                            and $level            =~ /\w+/
+                            and $levels->{$level} =~ /\d+/);
 
-		# set the value
-		$values->{$levels->{$level}} = $level;
+                # set the value
+                $values->{ $levels->{$level} } = $level;
 
-	}
+        }
 
-	# warn if we are called more than once
-	carp "setLevels() called more than once!";
+        # warn if we are called more than once
+        carp "setLevels() called more than once!";
 
-	# now set appropriate hashes
-	_setLvlToVal($values);
-	_setValToLvl($levels);
+        # now set appropriate hashes
+        _setLvlToVal($values);
+        _setValToLvl($levels);
 
-} # setLevels()
+}          # setLevels()
 
 # AutoLoader
 # --------------------------------------------------------------------
@@ -155,27 +185,27 @@ sub setLevels
 sub AUTOLOAD
 {
 
-	my $self = shift;
+        my $self = shift;
 
-	# Get the method name
-	my $name = $AUTOLOAD;
+        # Get the method name
+        my $name = $AUTOLOAD;
 
-	# strip out package prefix
-	$name =~ s/.*://; 
+        # strip out package prefix
+        $name =~ s/.*://;
 
-	# make sure we have a valid function
-	croak "Invalid function $name"
-		unless (defined $levels->{$name});
+        # make sure we have a valid function
+        croak "Invalid function $name"
+            unless (defined $levels->{$name});
 
-	# evaluate and return the appropriate level
-	eval "sub $name { return $levels->{$name }";
-	goto &$name;
-vv
-} # AUTOLOAD()
+        # evaluate and return the appropriate level
+        eval "sub $name { return $levels->{$name }";
+        goto &$name;
+
+}          # AUTOLOAD()
 
 =head1 SEE ALSO
 
-L<perl>, L<strftime>, L<Log::Fine>, L<Time::HiRes>
+L<perl>, L<strftime>, L<Log::Fine>
 
 =head1 AUTHOR
 
