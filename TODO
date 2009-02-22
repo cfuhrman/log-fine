@@ -2,7 +2,15 @@ Last Modified: $Date$
 
  * Switch to Module::Build?
 
- * Allow log levels to be loadable.  For instance (FINE, FINER,
-   FINEST, etc).  Maybe have a Levels class?
+ * Make Log::Fine inherit from Levels
+
+ * Make sure that inheriting levels doesn't break anything
+
+ * Add support for Masks to Levels
+
+ * Replace getLevels() with listLevels() method call ... may make that
+   a functional call as well
 
  * Have Utils handle more than one Logger?
+
+ * Provide dynamic levels in Utils class?
