@@ -7,11 +7,52 @@ Log::Fine::Levels - Define variable logging levels
 
 Provides logging level translations
 
+    use Log::Fine::Levels;
+
+    # instantiate a levels object
+    my $levels = Log::Fine::Levels->new();
+
+    # instantiate a levels object using java.utils.logging log levels
+    my $javalevels = {
+                       "SEVERE"  => 0,
+                       "WARNING" => 1,
+                       "INFO"    => 2,
+                       "CONFIG"  => 3,
+                       "FINE"    => 4,
+                       "FINER"   => 5,
+                       "FINEST"  => 6
+    };
+
+    my $levels = Log::Fine::Levels->new( levels => $javalevels );
+
+    # Using levels with Log::Fine
+    my $logger = Log::Fine->getLogger();
+
+    $logger->log( $lvl->INFO, "No matter where you go, there you are" );
+
+    # Get a list of supported levels
+    my @levels = $levels->getLevels();
+
+    # Get a Level from a Value
+    my $level = $levels->getLvlFromVal(2); # Using the java example
+                                           # above, this would return
+                                           # "INFO"
+
+    # Get a Value from a Level
+    my $level = $levels->getValFromLvl("FINER") # Returns 5
 
 
 =head1 DESCRIPTION
 
+Log::Fine::Levels provides an object-oriented way to access levels.
+Please note that this module I<does not> export given levels
+dynamically, rather they must be accessed via the constructed object
+as so:
 
+    $log->log( $lvl->CRIT, "The angels have my blue box" );
+
+Levels are kept in a shared namespace.  As such, redefining levels on
+the fly is B<strongly> discouraged.
 
 =cut
 
@@ -25,6 +66,32 @@ use Carp;
 our $AUTOLOAD;
 
 use vars qw( %ok_fields );
+
+=head2 Default Levels
+
+Default levels are similar to those found in Log::Fine:
+
+=over 4
+
+=item * C<EMER>
+
+=item * C<ALRT>
+
+=item * C<CRIT>
+
+=item * C<ERR>
+
+=item * C<WARN>
+
+=item * C<NOTI>
+
+=item * C<INFO>
+
+=item * C<DEBG>
+
+=back
+
+=cut
 
 # Default level-to-value hash
 use constant DEFAULT_LVLTOVAL => {
@@ -151,7 +218,9 @@ sub getLevels
 
 =head2 setLevels($levels)
 
-Set Levels for this class from a hash of level keyword to number pairs.
+Set Levels for this class from a hash of level keyword to number
+pairs.  B<NOTE:> Use of C<setLevels()> is highly discouraged outside
+of any class chosing to override Log::Fine::Levels.
 
 =cut
 
@@ -291,5 +360,5 @@ LICENSE file included with this module.
 
 =cut
 
-1;          # End of Log::Fine::Formatter
+1;          # End of Log::Fine::Levels
 
