@@ -149,7 +149,7 @@ sub new
 
         my $class = shift;
         my %data  = @_;
-        my $obj   = {};
+        my $obj   = \%data || {};
 
         # if $class is already an object, then return the object
         return $class if (ref $class and $class->isa("Log::Fine::Levels"));
@@ -158,15 +158,11 @@ sub new
         my $self = bless $obj, $class;
 
         # check for custom levels
-        $self->setLevels($data{levels})
-            if (defined $data{levels} and ref $data{levels} eq "HASH");
+        $self->setLevels($self->{levels})
+            if (defined $self->{levels} and ref $self->{levels} eq "HASH");
 
-        # populate our ok_to_export hash
-        my $levels = _getLvltoVal;
-        %ok_fields = %{$levels};
-
-        # return the bless'd object
-        return $self;
+        # initialize and return the bless'd object
+        return $self->_init();
 
 }          # new()
 
@@ -246,7 +242,7 @@ sub setLevels
                 croak "Invalid keypair $level -> $levels->{$level}"
                     unless (    defined $level
                             and defined $levels->{$level}
-                            and $level            =~ /\w+/
+                            and $level =~ /\w+/
                             and $levels->{$level} =~ /\d+/);
 
                 # set the value
@@ -269,6 +265,25 @@ sub setLevels
         _incrCallCount();
 
 }          # setLevels()
+
+# --------------------------------------------------------------------
+
+##
+# Initializes our object
+
+sub _init
+{
+
+        my $self = shift;
+
+        # populate our ok_to_export hash
+        my $levels = _getLvltoVal;
+        %ok_fields = %{$levels};
+
+        # return the object
+        return $self;
+
+}          # _init()
 
 # AutoLoader
 # --------------------------------------------------------------------

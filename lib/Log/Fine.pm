@@ -81,7 +81,8 @@ use Storable qw( dclone );
 use Sys::Syslog qw( :macros );
 
 our $VERSION = '0.22';
-our @ISA     = qw( Exporter );
+
+use base qw( Exporter Log::Fine::Levels );
 
 =head2 Log Levels
 
@@ -240,31 +241,7 @@ allows the developer to get a new logger.  After a logger is created,
 further actions are done through the logger object.  The following two
 constructors are defined:
 
-=head2 new()
-
-Creates a new Log::Fine object.
-
 =cut
-
-sub new
-{
-
-        my $class = shift;
-        my %h     = @_;
-
-        # if $class is already an object, then return the object
-        return $class if (ref $class and $class->isa("Log::Fine"));
-
-        # bless the hash into a class
-        my $self = bless \%h, $class;
-
-        # perform any necessary initializations
-        $self->_init();
-
-        # return the bless'd object
-        return $self;
-
-}          # new()
 
 =head2 getLogger($name)
 
@@ -330,6 +307,9 @@ sub _init
 {
 
         my $self = shift;
+
+        # perform any initializations required by the super class
+        $self->SUPER::_init();
 
         # increment object count
         _incrObjectCount();
