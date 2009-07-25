@@ -76,33 +76,37 @@ sub logLevels
 
 }          # logLevels()
 
-sub logMasks {
+sub logMasks
+{
 
         my $self = shift;
-        return keys %{$self->MASK_MAP};
+        return keys %{ $self->MASK_MAP };
 
-} # logMasks()
+}          # logMasks()
 
-sub levelToValue {
-
-        my $self = shift;
-        return $self->LVLTOVAL_MAP->{$_[0]};
-
-} # levelToValue()
-
-sub maskToValue {
+sub levelToValue
+{
 
         my $self = shift;
-        return $self->MASK_MAP->{$_[0]};
+        return $self->LVLTOVAL_MAP->{ $_[0] };
 
-}; # maskToValue()
+}          # levelToValue()
 
-sub valueToLevel {
+sub maskToValue
+{
 
         my $self = shift;
-        return $self->VALTOLVL_MAP->{$_[0]}
+        return $self->MASK_MAP->{ $_[0] };
 
-} # valueToLevel()
+};          # maskToValue()
+
+sub valueToLevel
+{
+
+        my $self = shift;
+        return $self->VALTOLVL_MAP->{ $_[0] }
+
+}           # valueToLevel()
 
 # --------------------------------------------------------------------
 

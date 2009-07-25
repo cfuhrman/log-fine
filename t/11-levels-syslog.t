@@ -18,13 +18,13 @@ use Log::Fine::Levels;
 
         my @levels = $levels->logLevels();
         my @masks  = $levels->logMasks();
-        ok( scalar @levels > 0);
-        ok( scalar @masks > 0);
+        ok(scalar @levels > 0);
+        ok(scalar @masks > 0);
 
         for (my $i = 0; $i < scalar @levels; $i++) {
                 ok($i == $levels->levelToValue($levels[$i]));
         }
 
-        ok ($levels->MASK_MAP($_) =~ /\d/) foreach (@masks);
+        ok($levels->MASK_MAP($_) =~ /\d/) foreach (@masks);
 
 }
