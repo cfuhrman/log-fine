@@ -1,4 +1,3 @@
-
 =head1 NAME
 
 Log::Fine - Yet another logging framework
@@ -71,167 +70,110 @@ use strict;
 use warnings;
 
 require 5.006;
-require Exporter;
-
-package Log::Fine;
 
 use Carp;
-use Log::Fine::Logger;
 use Storable qw( dclone );
-use Sys::Syslog qw( :macros );
 
-our $VERSION = '0.22';
+use Log::Fine::Levels;
+
+our $VERSION = '0.22.1';
 our @ISA     = qw( Exporter );
 
-=head2 Log Levels
+# Exporter and Autoload variables
+our (%EXPORT_TAGS, @EXPORT, @EXPORT_OK) = ();
 
-Log::Fine bases its log levels on those found in
-L<Sys::Syslog|Sys::Syslog>.  For convenience, the following shorthand
-macros are exported.
+# --------------------------------------------------------------------
 
-=over 4
-
-=item * C<EMER>
-
-=item * C<ALRT>
-
-=item * C<CRIT>
-
-=item * C<ERR>
-
-=item * C<WARN>
-
-=item * C<NOTI>
-
-=item * C<INFO>
-
-=item * C<DEBG>
-
-=back
-
-Each of these corresponds to the appropriate logging level.
-
-=cut
-
-# Log Levels
-use constant LOG_LEVELS => [qw( EMER ALRT CRIT ERR WARN NOTI INFO DEBG )];
-
-=head2 Masks
-
-Log masks can be exported for use in setting up individual handles
-(see L<Log::Fine::Handle>).  Log::Fine exports the following
-masks corresponding to their log level:
-
-=over 4
-
-=item * C<LOGMASK_EMERG>
-
-=item * C<LOGMASK_ALERT>
-
-=item * C<LOGMASK_CRIT>
-
-=item * C<LOGMASK_ERR>
-
-=item * C<LOGMASK_WARNING>
-
-=item * C<LOGMASK_NOTICE>
-
-=item * C<LOGMASK_INFO>
-
-=item * C<LOGMASK_DEBUG>
-
-=back
-
-See L<Log::Fine::Handle> for more information.
-
-In addition, the following shortcut constants are provided.  Note that
-these I<are not> exported by default, rather you have to reference
-them explicitly, as shown below.
-
-=over 4
-
-=item * C<Log::Fine-E<gt>LOGMASK_ALL>
-
-Shorthand constant for B<all> log masks.
-
-=item * C<Log::Fine-E<gt>LOGMASK_ERROR>
-
-Shorthand constant for C<LOGMASK_EMERG> through C<LOGMASK_ERR>.  This
-is not to be confused with C<LOGMASK_ERR>.
-
-=back
-
-In addition, you can specify your own customized masks as shown below:
-
-    # we want to log all error masks plus the warning mask
-    my $mask = Log::Fine->LOGMASK_ERROR | LOGMASK_WARNING;
-
-=cut
-
-# Log Masks
-use constant LOG_MASKS => [
-        qw( LOGMASK_EMERG LOGMASK_ALERT LOGMASK_CRIT LOGMASK_ERR LOGMASK_WARNING LOGMASK_NOTICE LOGMASK_INFO LOGMASK_DEBUG )
-];
-
-=head2 Formatters
-
-A formatter specifies how Log::Fine displays messages.  When a message
-is logged, it gets passed through a formatter object, which adds any
-additional information such as a time-stamp or caller information.
-
-By default, log messages are formatted as follows using the
-L<Basic|Log::Fine::Formatter::Basic> formatter object.
-
-     [<time>] <LEVEL> <MESSAGE>
-
-For more information on the customization of log messages, see
-L<Log::Fine::Formatter>.
-
-=cut
-
-# Exported tags
-our %EXPORT_TAGS = (macros => LOG_LEVELS,
-                    masks  => LOG_MASKS);
-
-# Exported macros
-our @EXPORT    = (@{ $EXPORT_TAGS{macros} });
-our @EXPORT_OK = (@{ $EXPORT_TAGS{masks} });
-
-# Private Methods
+# Package Methods
 # --------------------------------------------------------------------
 
 {
-        my $loggers  = {};
-        my $objcount = 0;
+        my $loggers  = {};  # stores hash of Log::Fine::Logger objects
+        my $objcount = 0;   # number of active objects
+        my $loaded = 0;     # set if all log levels are loaded
 
+        # variable for storing Log::Fine::Levels object
+        my $levels;
+
+        # these are relatively straightforward
+        sub _getLvlObject       { return $levels }
         sub _getLoggers      { return $loggers }
         sub _getObjectCount  { return $objcount }
         sub _incrObjectCount { $objcount++ }
+        sub _isLoaded        { return $loaded }
         sub _setObjectCount  { $objcount = shift }
+        sub _setLoaded       { $loaded = 1 }
+
+        sub _setLevels {
+
+                my $obj = shift;
+
+                # validate levels
+                Carp::confess "Levels must be set to Log::Fine::Levels object"
+                        unless $obj->isa("Log::Fine::Levels");
+
+                # we can only be set ONCE
+                if ($levels->isa("Log::Fine::Levels")) {
+                        Carp::cluck "WARN: Levels has already been set";
+                } else {
+                        $levels = $obj;
+                }
+
+        } # _setLevels
+
 }
 
-# Initializations
 # --------------------------------------------------------------------
 
 BEGIN {
 
-        my $lvls  = LOG_LEVELS;
-        my $masks = LOG_MASKS;
-
-        # define some convenience functions
-        for (my $i = 0; $i < scalar @{$lvls}; $i++) {
-                eval "sub $lvls->[$i] { return $i; }";
-                eval "sub $masks->[$i] { return 2 << $i; }";
-        }
+         
 
 }
 
-# define some convenient mask shorthands
-use constant LOGMASK_ALL => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT |
-    LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO |
-    LOGMASK_DEBUG;
-use constant LOGMASK_ERROR => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT |
-    LOGMASK_ERR;
+# --------------------------------------------------------------------
+
+# Private Methods
+# --------------------------------------------------------------------
+
+sub _load_imports {
+
+        my $lvlclass = shift;
+
+        # don't do anything if we're already loaded
+        return if _isLoaded();
+
+        %EXPORT_TAGS = ( macros => [ _getLvlObject()->getLevels() ],
+                         masks  => [ _getLvlObject()->getMasks() ]);
+
+        # Export Log Levels
+        foreach my $lvl ( @{ $EXPORT_TAGS{macros}}) {
+                eval "sub $lvl { return _getLvlObject()->levelToValue($lvl) }";
+        }
+
+        # export Log Masks
+        foreach my $mask ( @{$EXPORT_TAGS{masks}}) {
+                eval "sub $mask { return _getLvlObject()->maskToValue{$mask} }";
+        }
+
+        # mark ourselves as loaded
+        _setLoaded();
+
+} # _load_imports()
+
+# --------------------------------------------------------------------
+
+# Exported macros
+@EXPORT    = _getLvlObject->getLevels();
+@EXPORT_OK = _getLvlObject->getMasks();
+
+# variable to store convenience macros
+use constant LOGMASK_ALL => 8888;
+
+# --------------------------------------------------------------------
+
+# Public Methods
+# --------------------------------------------------------------------
 
 =head1 METHODS
 
@@ -240,31 +182,7 @@ allows the developer to get a new logger.  After a logger is created,
 further actions are done through the logger object.  The following two
 constructors are defined:
 
-=head2 new()
-
-Creates a new Log::Fine object.
-
 =cut
-
-sub new
-{
-
-        my $class = shift;
-        my %h     = @_;
-
-        # if $class is already an object, then return the object
-        return $class if (ref $class and $class->isa("Log::Fine"));
-
-        # bless the hash into a class
-        my $self = bless \%h, $class;
-
-        # perform any necessary initializations
-        $self->_init();
-
-        # return the bless'd object
-        return $self;
-
-}          # new()
 
 =head2 getLogger($name)
 
@@ -331,6 +249,9 @@ sub _init
 
         my $self = shift;
 
+        # perform any initializations required by the super class
+        $self->SUPER::_init();
+
         # increment object count
         _incrObjectCount();
 
@@ -348,6 +269,39 @@ sub _init
         return $self;
 
 }          # _init()
+
+# --------------------------------------------------------------------
+
+# Overridden methods
+# --------------------------------------------------------------------
+
+##
+# Override method for Exporter::import()
+
+sub import {
+
+        my $this =  shift;
+
+        my $lvlclass; # Name of the level class passed to Log::Fine::Levels->new();
+        my @list;     # list to export
+
+        # differentiate imports from level class
+        foreach my $import (@_) {
+                if ($import =~ m/^:/) {
+                        push @list, $import;
+                } else {
+                        _setLevels( Log::Fine::Level->new($import));
+                }
+        }
+
+        _load_imports();
+
+        local $Exporter::ExportLevel = 1;
+        Exporter::import($this, @list);
+
+} # import()
+
+# --------------------------------------------------------------------
 
 # is "Python" a dirty word in perl POD documentation?  Oh well.
 
@@ -444,3 +398,4 @@ LICENSE file included with this module.
 =cut
 
 1;          # End of Log::Fine
+
