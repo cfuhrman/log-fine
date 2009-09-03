@@ -52,7 +52,7 @@ Provides logging to C<STDERR> or C<STDOUT>
 
 Provides logging to a file
 
-=item * L<Log::Fine::Handle::File::Timestamp|Log::Fine::Handle::File::Timestamp>
+=item  * L<Log::Fine::Handle::File::Timestamp|Log::Fine::Handle::File::Timestamp>
 
 Same thing with support for time-stamped files
 
@@ -80,7 +80,7 @@ use Log::Fine::Logger;
 use Storable qw( dclone );
 use Sys::Syslog qw( :macros );
 
-our $VERSION = sprintf "r%d", q$Rev$ =~ /(\d+)/g;
+our $VERSION = sprintf "r%d", q$Rev$ =~ m/(\d+)/;
 our @ISA     = qw( Exporter );
 
 =head2 Log Levels
