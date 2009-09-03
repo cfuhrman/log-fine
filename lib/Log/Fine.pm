@@ -80,7 +80,7 @@ use Log::Fine::Logger;
 use Storable qw( dclone );
 use Sys::Syslog qw( :macros );
 
-our $VERSION = '0.22';
+our $VERSION = sprintf "r%d", q$Rev$ =~ /(\d+)/g;
 our @ISA     = qw( Exporter );
 
 =head2 Log Levels
