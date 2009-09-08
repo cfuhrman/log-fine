@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 40;
+use Test::Simple tests => 42;
 
 use Log::Fine qw( :macros :masks );
 
@@ -20,6 +20,10 @@ use Log::Fine qw( :macros :masks );
 
         # test retrieving a logging object
         my $log = $fine->getLogger("com0");
+
+        # see if the object supports getLevels
+        ok($log->can("getLevels"));
+        ok(ref $log->getLevels eq "Log::Fine::Levels::Syslog");
 
         ok(ref $log eq "Log::Fine::Logger");
 

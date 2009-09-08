@@ -11,8 +11,17 @@ Provides fine-grained logging and tracing.
     use Log::Fine qw( :masks );          # log masks
     use Log::Fine qw( :macros :masks );  # everything
 
-    # grab our logger object
-    my $log = Log::Fine->getLogger("foo");
+    # build a Log::Fine object
+    my $fine = Log::Fine->new();
+
+    # specify a custom map
+    my $fine = Log::Fine->new(levelmap => "Syslog");
+
+    # use getLogger() to contruct the appropriate object
+    my $log = Log::Fine::Logger->getLogger("foo");
+
+    # alternatively, specify a custom map
+    my $log = Log::Fine::Logger->getLogger("foo", "Java");
 
     # register a handle, in this case a handle that logs to console.
     my $handle = Log::Fine::Handle::Console->new();
@@ -76,12 +85,13 @@ require Exporter;
 package Log::Fine;
 
 use Carp;
+use Log::Fine::Levels;
 use Log::Fine::Logger;
 use Storable qw( dclone );
 use Sys::Syslog qw( :macros );
 
 our $VERSION = sprintf "r%d", q$Rev$ =~ m/(\d+)/;
-our @ISA     = qw( Exporter );
+our @ISA = qw( Exporter );
 
 =head2 Log Levels
 
@@ -201,13 +211,31 @@ our @EXPORT_OK = (@{ $EXPORT_TAGS{masks} });
 # --------------------------------------------------------------------
 
 {
+        my $levels;
         my $loggers  = {};
         my $objcount = 0;
 
+        sub _getLevels       { return $levels }
         sub _getLoggers      { return $loggers }
         sub _getObjectCount  { return $objcount }
         sub _incrObjectCount { $objcount++ }
         sub _setObjectCount  { $objcount = shift }
+
+        # We only want to set levels if it has not already been set
+        sub _setLevels
+        {
+                my $map = shift;
+
+                if ($levels and $levels->isa("Log::Fine::Levels")) {
+                        print STDERR "\nLevels is already defined!\n";
+                } elsif ($map->isa("Log::Fine::Levels")) {
+                        $levels = $map;
+                } else {
+                        croak "Invalid Value : $map";
+                }
+
+        }          # _setLevels()
+
 }
 
 # Initializations
@@ -266,6 +294,14 @@ sub new
 
 }          # new()
 
+=head2 getLevels
+
+Returns the L<Log::Fine::Levels> object for level mapping.
+
+=cut
+
+sub getLevels { return _getLevels() }
+
 =head2 getLogger($name)
 
 Creates a logger with the given name.  This method can also be used as
@@ -276,17 +312,22 @@ a constructor for a Log::Fine object
 sub getLogger
 {
 
-        my $self    = shift->new();
-        my $name    = shift;
-        my $loggers = _getLoggers();
+        my $class = shift;
+        my $name  = shift;          # name of logger
+        my $map   = shift;          # level map to use
 
         # validate name
         croak "First parameter must be a valid name!\n"
             unless (defined $name and $name =~ /\w/);
 
+        # Grab our list of loggers
+        my $loggers = _getLoggers();
+
         # if the requested logger is found, then return it, otherwise
         # store and return a newly created logger object.
-        $loggers->{$name} = Log::Fine::Logger->new(name => $name)
+        $loggers->{$name} =
+            Log::Fine::Logger->new(name     => $name,
+                                   levelmap => $map)
             unless (defined $loggers->{$name}
                     and $loggers->{$name}->isa("Log::Fine::Logger"));
 
@@ -343,6 +384,10 @@ sub _init
                 $self->{name} = lc($+) . _getObjectCount();
 
         }
+
+        # Set our levels if we need to
+        _setLevels(Log::Fine::Levels->new($self->{levelmap}))
+            unless _getLevels();
 
         # Victory!
         return $self;

@@ -125,6 +125,24 @@ sub setTimestamp
         $self->{timestamp_format} = shift;
 }          # setTimestamp;
 
+=head2 testFormat($lvl, $msg)
+
+For testing purposes only
+
+=cut
+
+sub testFormat
+{
+
+        my $self = shift;
+        my $lvl =  shift;
+        my $msg =  shift;
+        my $log =  $self->format($lvl, $msg, 0);
+
+        return $log;
+
+} # testFormat()
+
 # --------------------------------------------------------------------
 
 ##

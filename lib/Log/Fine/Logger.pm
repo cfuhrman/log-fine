@@ -13,6 +13,9 @@ Provides an object through which to log.
     # get a new logging object
     my $log = Log::Fine->getLogger("mylogger");
 
+    # alternatively, specify a custom map
+    my $log = Log::Fine->getLogger("mylogger", "Syslog");
+
     # register a handle
     $log->registerHandle( Log::Fine::Handle::Console->new() );
 
