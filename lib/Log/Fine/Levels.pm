@@ -116,7 +116,7 @@ sub levelToValue
 
 =head2 maskToValue
 
-Returns the numeric vlue matching the given mask name
+Returns the numeric value matching the given mask name
 
 =cut
 
