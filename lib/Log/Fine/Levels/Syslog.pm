@@ -18,9 +18,14 @@ use warnings;
 
 package Log::Fine::Levels::Syslog;
 
+use AutoLoader;
 use Carp;
+use Exporter;
 
-use base qw/ Log::Fine::Levels /;
+use base qw/ Log::Fine::Levels Exporter /;
+
+# Necessary for AutoLoader
+our $AUTOLOAD;
 
 =head1 CONSTANTS
 
@@ -79,6 +84,25 @@ use constant MASK_MAP => {
                            LOGMASK_DEBUG   => LVLTOVAL_MAP->{DEBG} << 2
 };          # MASK_MAP{}
 
+# --------------------------------------------------------------------
+
+# grab appropriate refs
+my $levels = LVLTOVAL_MAP;
+my $masks  = MASK_MAP;
+
+# Exported tags
+our %EXPORT_TAGS = (macros => [ keys %{$levels} ],
+                    masks  => [ keys %{$masks} ]);          # EXPORT_TAGS
+
+# Exported macros
+our @EXPORT    = (@{ $EXPORT_TAGS{macros} });
+our @EXPORT_OK = (@{ $EXPORT_TAGS{masks} });
+
+# functions okay to export
+our %ok_fields = (%{$levels}, %{$masks});
+
+# --------------------------------------------------------------------
+
 =head1 CONSTRUCTOR
 
 =head2 new()
@@ -91,10 +115,34 @@ sub new
 {
 
         my $class = shift;
-        return bless { levelclass => $class },
-            $class;
+        return bless { levelclass => $class }, $class;
 
 }          # new()
+
+# Autoloader
+# --------------------------------------------------------------------
+
+sub AUTOLOAD
+{
+
+        # Get the method name
+        my $name = $AUTOLOAD;
+
+        # strip out package prefix
+        $name =~ s/.*://;
+
+        # Return on DESTROY
+        return if $name eq 'DESTROY';
+
+        # make sure we have a valid function
+        croak "Invalid function $name"
+            unless (exists $ok_fields{$name});
+
+        # evaluate and return the appropriate level
+        eval "sub $name { return $ok_fields{$name} }";
+        goto &$name;
+
+}          # AUTOLOAD()
 
 =head1 SEE ALSO
 
@@ -159,4 +207,6 @@ LICENSE file included with this module.
 =cut
 
 1;          # End of Log::Fine::Levels::Syslog
+
+__END__
 
