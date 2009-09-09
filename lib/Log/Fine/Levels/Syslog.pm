@@ -5,11 +5,29 @@ Log::Fine::Levels::Syslog - Provides levels correlating to those provided by Sys
 
 =head1 SYNOPSIS
 
+Defines log level values and masks correlating to those provided by
+Syslog.
 
+    use Log::Fine;
+    use Log::Fine::Levels::Syslog;
+
+    # grab a logging object
+    my $log = Log::Fine->getLogger("foo0");
+
+    # Note that INFO and EMER are provided by the
+    # Log::Fine::Levels::Syslog object
+    $log->log(INFO, "I'm not mad at you, I'm mad at the dirt");
+    $log->log(EMER, "No more wire hangers ... EVER!");
+
+This class may be used as a template for creating customized logging
+levels.
 
 =head1 DESCRIPTION
 
-
+Log::Fine::Levels::Syslog provides logging and mask constants
+mimicking those provided by the classic UNIX L<syslog(3)> utility.
+This class is also used internally by the L<Log::Fine> utility for
+interpreting log levels.
 
 =cut
 
@@ -27,13 +45,31 @@ use base qw/ Log::Fine::Levels Exporter /;
 # Necessary for AutoLoader
 our $AUTOLOAD;
 
-=head1 CONSTANTS
+=head2 Log Levels
 
-The following constants are provided:
+Log::Fine::Levels::Syslog bases its log levels on those found in
+L<Sys::Syslog>.  The following are exported into the caller's
+namespace:
 
-=head2 LVLTOVAL_MAP
+=over 4
 
-Hash ref mapping level names to their associated numeric values
+=item * C<EMER>
+
+=item * C<ALRT>
+
+=item * C<CRIT>
+
+=item * C<ERR>
+
+=item * C<WARN>
+
+=item * C<NOTI>
+
+=item * C<INFO>
+
+=item * C<DEBG>
+
+=back
 
 =cut
 
@@ -49,12 +85,6 @@ use constant LVLTOVAL_MAP => {
                                DEBG => 7
 };          # LVLTOVAL_MAP{}
 
-=head2
-
-Hash ref mapping level values to their associated name
-
-=cut
-
 # Default value-to-level hash
 use constant VALTOLVL_MAP => {
                                0 => "EMER",
@@ -67,9 +97,33 @@ use constant VALTOLVL_MAP => {
                                7 => "DEBG"
 };          # VALTOLVL_MAP{}
 
-=head2
+=head2 Log Masks
 
-Hash ref mapping Log Masks to their associated values
+Log masks can be exported for use in setting up individual handles
+(see L<Log::Fine::Handle>).  The following masks are exported into the
+caller's namespace:
+
+=over 4
+
+=item * C<LOGMASK_EMERG>
+
+=item * C<LOGMASK_ALERT>
+
+=item * C<LOGMASK_CRIT>
+
+=item * C<LOGMASK_ERR>
+
+=item * C<LOGMASK_WARNING>
+
+=item * C<LOGMASK_NOTICE>
+
+=item * C<LOGMASK_INFO>
+
+=item * C<LOGMASK_DEBUG>
+
+=back
+
+See L<Log::Fine::Handle> for more information.
 
 =cut
 
