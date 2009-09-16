@@ -20,3 +20,5 @@ Last Modified: $Date$
  * Have a callback for handling log-fine errors?
 
  * Have Utils handle more than one Logger?
+
+ * Tutorial for defining Log::Fine::Levels sub-classes
