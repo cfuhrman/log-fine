@@ -12,7 +12,43 @@ Provides logging translations
     # instantiate the levels object using the default translations
     my $levels = Log::Fine::Levels->new();
 
+    # instantiate the levels object using customized translations
+    my $levels = Log::Fine::Levels->new("Java");
+
+    # Supported methods
+    my @l = $levels->logLevels();   # grab list of levels
+    my @m = $levels->logMasks();    # grab list of masks
+
+    # translation methods
+    my $val     = $levels->levelToValue("INFO");
+    my $bitmask = $levels->maskToValue("LOGMASK_INFO");
+    my $lvl     = $levels->valueToLevel(3);
+
 =head1 DESCRIPTION
+
+Log::Fine::Levels is used by the L<Log::Fine> framework to translate
+customizable log levels (such as INFO, DEBUG, WARNING, etc) to and
+from an associated value as well as convenience methods for
+interacting with log levels (such as grabbing a list of levels).
+
+In addition, the L<Log::Fine> framework supports the notion of a
+I<mask>, which is used for customizing output.  See
+L<Log::Fine::Handle> for more details as to how masks are used.
+
+=head2 Customization
+
+Log::Fine::Levels only provides methods for interacting with log
+levels and associated log masks.  In order to define levels and masks,
+it I<must> be overridden.  Note that, by default, the
+L<Log::Fine::Levels::Syslog> class is used to define log levels.
+
+=head2 Independence
+
+Finally, Log::Fine::Levels is written to be independant of the
+L<Log::Fine> framework and, as such, does not inherit any methods from
+L<Log::Fine>.  This allows developers to use Log::Fine::Levels by
+itself for defining customizable level packages for use in their own
+programs.
 
 =cut
 
