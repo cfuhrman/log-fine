@@ -87,7 +87,6 @@ package Log::Fine;
 use Carp;
 use Log::Fine::Levels;
 use Log::Fine::Logger;
-use Storable qw( dclone );
 use Sys::Syslog qw( :macros );
 
 our $VERSION = sprintf "r%d", q$Rev$ =~ m/(\d+)/;
@@ -219,7 +218,6 @@ our @EXPORT_OK = (@{ $EXPORT_TAGS{masks} });
         sub _getLoggers      { return $loggers }
         sub _getObjectCount  { return $objcount }
         sub _incrObjectCount { $objcount++ }
-        sub _setObjectCount  { $objcount = shift }
 
         # We only want to set levels if it has not already been set
         sub _setLevels
@@ -335,32 +333,6 @@ sub getLogger
         return $loggers->{$name};
 
 }          # getLogger()
-
-=head2 clone([$obj])
-
-Clone the given Log::Fine object, returning the newly cloned object.
-If not given an object, then returns a clone of the calling object.
-
-=cut
-
-sub clone
-{
-
-        my $self = shift;
-        my $obj  = shift;
-
-        # if we weren't given any additional arguments, assume we wish
-        # to clone ourself.
-        return dclone($self) unless scalar @_;
-
-        # validate object
-        croak "First argument must be valid Log::Fine object!\n"
-            unless $obj->isa("Log::Fine");
-
-        # return the cloned object
-        return dclone($obj);
-
-}          # clone()
 
 # --------------------------------------------------------------------
 
