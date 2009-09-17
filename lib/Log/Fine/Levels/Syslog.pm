@@ -19,8 +19,7 @@ Syslog.
     $log->log(INFO, "I'm not mad at you, I'm mad at the dirt");
     $log->log(EMER, "No more wire hangers ... EVER!");
 
-This class may be used as a template for creating customized logging
-levels.
+Note that this is the default class for L<Log::Fine::Levels>.
 
 =head1 DESCRIPTION
 
@@ -200,7 +199,7 @@ sub AUTOLOAD
 
 =head1 SEE ALSO
 
-L<perl>, L<syslog>, L<Log::Fine>, L<Sys::Syslog>
+L<perl>, L<syslog>, L<Log::Fine>, L<Log::Fine::Levels>, L<Sys::Syslog>
 
 =head1 AUTHOR
 
