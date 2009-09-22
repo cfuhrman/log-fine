@@ -97,6 +97,27 @@ sub new
 
 }          # new()
 
+=head2 bitmaskAll
+
+Returns an auto-generated bitmask representing B<ALL> possible values
+
+=cut
+
+sub bitmaskAll
+{
+
+        my $self = shift;
+
+        # variable for storing the total bitmask
+        my $mask = 0;
+
+        # bitor all the mask values together
+        $mask |= $self->MASK_MAP->{$_} foreach (keys %{ $self->MASK_MAP });
+
+        return $mask;
+
+}          # bitmaskAll()
+
 =head2 logLevels
 
 Returns an array containing levels, sorted by ascending numeric value

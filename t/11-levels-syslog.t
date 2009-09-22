@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 36;
+use Test::More tests => 41;
 
 use Log::Fine::Levels::Syslog qw( :macros :masks );
 
@@ -14,7 +14,11 @@ use Log::Fine::Levels::Syslog qw( :macros :masks );
 
         # levels should be a *::Syslog object
         isa_ok($levels, "Log::Fine::Levels::Syslog");
-        can_ok($levels, "new");
+
+        # validate methods
+        can_ok($levels, $_)
+            foreach (
+                    qw/ new bitmaskAll levelToValue maskToValue valueToLevel /);
 
         my @levels = $levels->logLevels();
         my @masks  = $levels->logMasks();
@@ -22,12 +26,18 @@ use Log::Fine::Levels::Syslog qw( :macros :masks );
         ok(scalar @levels > 0);
         ok(scalar @masks > 0);
 
+        # variable for holding bitmask
+        my $bitmask = 0;
+
         for (my $i = 0; $i < scalar @levels; $i++) {
                 ok($i == $levels->levelToValue($levels[$i]));
                 ok(&{ $levels[$i] } eq $i);
                 ok(&{ $masks[$i] }  eq $levels->maskToValue($masks[$i]));
+
+                $bitmask |= $levels->maskToValue($masks[$i]);
         }
 
+        ok($bitmask == $levels->bitmaskAll());
         ok($levels->MASK_MAP($_) =~ /\d/) foreach (@masks);
 
 }
