@@ -179,6 +179,7 @@ Returns the numeric value matching the given mask name
 
 sub maskToValue
 {
+
         my $self = shift;
         my $mask = shift;
 

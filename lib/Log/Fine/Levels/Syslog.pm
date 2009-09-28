@@ -127,14 +127,14 @@ See L<Log::Fine::Handle> for more information.
 =cut
 
 use constant MASK_MAP => {
-                           LOGMASK_EMERG   => LVLTOVAL_MAP->{EMER} << 2,
-                           LOGMASK_ALERT   => LVLTOVAL_MAP->{ALRT} << 2,
-                           LOGMASK_CRIT    => LVLTOVAL_MAP->{CRIT} << 2,
-                           LOGMASK_ERR     => LVLTOVAL_MAP->{ERR} << 2,
-                           LOGMASK_WARNING => LVLTOVAL_MAP->{WARN} << 2,
-                           LOGMASK_NOTICE  => LVLTOVAL_MAP->{NOTI} << 2,
-                           LOGMASK_INFO    => LVLTOVAL_MAP->{INFO} << 2,
-                           LOGMASK_DEBUG   => LVLTOVAL_MAP->{DEBG} << 2
+                           LOGMASK_EMERG   => 2 << LVLTOVAL_MAP->{EMER},
+                           LOGMASK_ALERT   => 2 << LVLTOVAL_MAP->{ALRT},
+                           LOGMASK_CRIT    => 2 << LVLTOVAL_MAP->{CRIT},
+                           LOGMASK_ERR     => 2 << LVLTOVAL_MAP->{ERR},
+                           LOGMASK_WARNING => 2 << LVLTOVAL_MAP->{WARN},
+                           LOGMASK_NOTICE  => 2 << LVLTOVAL_MAP->{NOTI},
+                           LOGMASK_INFO    => 2 << LVLTOVAL_MAP->{INFO},
+                           LOGMASK_DEBUG   => 2 << LVLTOVAL_MAP->{DEBG}
 };          # MASK_MAP{}
 
 # --------------------------------------------------------------------

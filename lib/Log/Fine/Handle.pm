@@ -41,11 +41,7 @@ use base qw( Log::Fine );
 use Carp;
 use Log::Fine qw( :macros :masks );
 use Log::Fine::Formatter::Basic;
-
-# Constant: DEFAULT_LOG_MASK
-#
-# Default log mask.  Basically everything
-use constant DEFAULT_LOGMASK => Log::Fine->LOGMASK_ALL;
+use Log::Fine::Levels;
 
 =head1 METHODS
 
@@ -62,10 +58,10 @@ sub isLoggable
         my $self = shift;
         my $lvl  = shift;
 
-        croak "No Level :$lvl\n"
+        croak sprintf("No such level : %s", $lvl || "{undef}")
             unless (defined $lvl and $lvl =~ /\d+/);
 
-	my $shifted = 2 << $lvl;
+        my $shifted = 2 << $lvl;
 
         # bitand the level and the mask to see if we're loggable
         return (($self->{mask} & $shifted) == $shifted) ? 1 : undef;
@@ -132,7 +128,7 @@ sub _init
         $self->SUPER::_init();
 
         # set default bitmask
-        $self->{mask} = DEFAULT_LOGMASK
+        $self->{mask} = $self->levelMap()->bitmaskAll()
             unless defined $self->{mask};
 
         # set the default formatter
