@@ -11,7 +11,7 @@ Provides logging to a file
     use Log::Fine::Handle::File;
 
     # Get a new logger
-    my $log = Log::Fine->getLogger("foo");
+    my $log = Log::Fine->logger("foo");
 
     # register a file handle (default values shown)
     my $handle = Log::Fine::Handle::File

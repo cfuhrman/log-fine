@@ -8,9 +8,11 @@ use Test::Simple tests => 11;
 
 use File::Spec::Functions;
 use FileHandle;
+
 use Log::Fine;
 use Log::Fine::Handle;
 use Log::Fine::Handle::File;
+use Log::Fine::Levels::Syslog;
 use Log::Fine::Logger;
 
 {
@@ -19,7 +21,7 @@ use Log::Fine::Logger;
         my $msg  = "We're so miserable it's stunning";
 
         # get a logger
-        my $log = Log::Fine->getLogger("handlefile0");
+        my $log = Log::Fine->logger("handlefile0");
 
         ok(ref $log eq "Log::Fine::Logger");
 
@@ -32,7 +34,7 @@ use Log::Fine::Logger;
         ok($handle->isa("Log::Fine::Handle"));
 
         # these should be set to their default values
-        ok($handle->{mask} == Log::Fine::Handle->DEFAULT_LOGMASK);
+        ok($handle->{mask} == $handle->levelMap()->bitmaskAll());
         ok($handle->{formatter}->isa("Log::Fine::Formatter::Basic"));
 
         # File-specific attributes

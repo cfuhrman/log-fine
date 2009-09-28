@@ -72,7 +72,7 @@ sub format
         my $lvl  = shift;
         my $msg  = shift;
         my $skip = shift;
-        my $lvls = $self->getLevels();
+        my $lvls = $self->levelMap();
 
         # Set skip to default if need be
         $skip = Log::Fine::Logger->LOG_SKIP_DEFAULT unless (defined $skip);

@@ -12,7 +12,7 @@ Provides logging to syslog()
     use Sys::Syslog;
 
     # Get a new logger
-    my $log = Log::Fine->getLogger("foo");
+    my $log = Log::Fine->logger("foo");
 
     # register a syslog handle
     my $handle = Log::Fine::Handle::Syslog

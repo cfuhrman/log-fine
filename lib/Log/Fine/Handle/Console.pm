@@ -8,7 +8,7 @@ Log::Fine::Handle::Console - Output messages to C<STDERR> or C<STDOUT>
 Provides logging to either C<STDERR> or C<STDOUT>.
 
     # Get a new logger
-    my $log = Log::Fine->getLogger("foo");
+    my $log = Log::Fine->logger("foo");
 
     # register a file handle
     my $handle = Log::Fine::Handle::Console

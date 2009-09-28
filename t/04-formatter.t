@@ -10,6 +10,7 @@ use Log::Fine;
 use Log::Fine::Formatter;
 use Log::Fine::Formatter::Basic;
 use Log::Fine::Formatter::Detailed;
+use Log::Fine::Levels::Syslog;
 
 {
 
@@ -21,10 +22,10 @@ use Log::Fine::Formatter::Detailed;
             Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
 
         # See if our levels are properly defined
-        ok($basic->can("getLevels"));
+        ok($basic->can("levelMap"));
 
         # variable for levels object
-        my $lvls = $basic->getLevels();
+        my $lvls = $basic->levelMap();
 
         ok($lvls and $lvls->isa("Log::Fine::Levels"));
 

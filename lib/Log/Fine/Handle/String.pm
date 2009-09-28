@@ -11,7 +11,7 @@ Returns the formatted string for testing purposes.
     use Log::Fine::Handle::String;
 
     # Get a new logger
-    my $log = Log::Fine->getLogger("foo");
+    my $log = Log::Fine->logger("foo");
 
     # register a file handle
     my $handle = Log::Fine::Handle::String->new();

@@ -8,12 +8,13 @@ use Test::Simple tests => 8;
 
 use Log::Fine;
 use Log::Fine::Handle::String;
+use Log::Fine::Levels::Syslog;
 use Log::Fine::Logger;
 
 {
 
         # first we create a logger object
-        my $log = Log::Fine->getLogger("logger0");
+        my $log = Log::Fine->logger("logger0");
 
         ok($log->isa("Log::Fine::Logger"));
 
