@@ -60,7 +60,7 @@ our @EXPORT = qw( Log OpenLog );
 {
         my $logger;
 
-        sub _getLogger { return $logger }
+        sub _logger { return $logger }
         sub _setLogger { $logger = shift }
 }
 
@@ -84,7 +84,7 @@ sub OpenLog
             unless (scalar @handles > 0);
 
         # construct a generic logger
-        my $logger = Log::Fine->getLogger("GENERIC");
+        my $logger = Log::Fine->logger("GENERIC");
 
         # Set our handles
         $logger->registerHandle($_) foreach @handles;
@@ -108,7 +108,7 @@ sub Log
 
         my $lvl = shift;
         my $msg = shift;
-        my $log = _getLogger();
+        my $log = _logger();
 
         # validate logger has been set
         croak
