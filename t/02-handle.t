@@ -4,72 +4,96 @@
 # $Id$
 #
 
-use Test::Simple tests => 96;
+use Test::More tests => 1025;
 
 use Log::Fine qw( :macros :masks );
 use Log::Fine::Handle;
 use Log::Fine::Handle::String;
 
+# Mappings
+my $ltov;
+my $vtol;
+my $mtov;
+
+# Variable for mapping masks to their levels
+my $mtolv = {};
+
 {
 
-        # set up masks
-        my $masks = {
-                      EMER => LOGMASK_EMERG,
-                      ALRT => LOGMASK_ALERT,
-                      CRIT => LOGMASK_CRIT,
-                      ERR  => LOGMASK_ERR,
-                      WARN => LOGMASK_WARNING,
-                      NOTI => LOGMASK_NOTICE,
-                      INFO => LOGMASK_INFO,
-                      DEBG => LOGMASK_DEBUG
-        };
+        my @mv;
+        my $levels = Log::Fine::LOG_LEVELS;
+        my $masks  = Log::Fine::LOG_MASKS;
 
-        # first we create a handle
-        my $handle = Log::Fine::Handle::String->new();
-
-        # validate handle
-        ok($handle->isa("Log::Fine::Handle"));
-
-        # validate default attributes
-        ok($handle->{mask} == Log::Fine::Handle->DEFAULT_LOGMASK);
-        ok($handle->{formatter}->isa("Log::Fine::Formatter"));
-        ok(ref $handle->{formatter} eq "Log::Fine::Formatter::Basic");
-
-        # we need three handles for testing mask combinations
-        my $hand1 = Log::Fine::Handle::String->new();
-        my $hand2 = Log::Fine::Handle::String->new();
-        my $hand3 = Log::Fine::Handle::String->new();
-
-        # validate different mask combinations
-        my @keys = keys %{$masks};
-
-        for (my $i = 0; $i < scalar @keys; $i++) {
-
-                # check to make sure masks line up properly
-                ok(2 << eval "$keys[$i]" == $masks->{ $keys[$i] });
-
-                # set the level as appropriate
-                $hand1->{mask} = $masks->{ $keys[$i] };
-                $hand3->{mask} = 0;
-
-                # now iterate through subsequent combinations
-                for (my $j = $i + 1; $j < scalar @keys; $j++) {
-
-                        # now test to see if we're properly loggable
-                        $hand1->{mask} |= $masks->{ $keys[$j] };
-                        $hand2->{mask} =
-                            $masks->{ $keys[$i] } | $masks->{ $keys[$j] };
-
-                        ok($hand1->isLoggable(eval "$keys[$i]"));
-                        ok($hand2->isLoggable(eval "$keys[$i]"));
-
-                        # test to make sure we don't log when our mask
-                        # isn't set as appropriate
-                        $hand3->{mask} |= $masks->{ $keys[$j] };
-                        ok(not $hand3->isLoggable(eval "$keys[$i]"));
-
-                }
-
+        # build level-to-value and value-to-level maps
+        foreach my $level (@{$levels}) {
+                my $val = eval $level;
+                $ltov->{$level} = $val;
+                $vtol->{$val}   = $level;
         }
 
+        # now build mask to value maps
+        $mtov->{$_} = eval $_ foreach (@{$masks});
+
+        # finally, build mask to level map
+        for (my $i = 0; $i < scalar @{$masks} ; $i++) {
+                $mtolv->{$mtov->{$masks->[$i]}} = $ltov->{$levels->[$i]};
+        }
+
+        # now that we're set up, start by constructing a handle
+        my $handle = Log::Fine::Handle::String->new();
+
+        # validate handle and formatter
+        isa_ok($handle, "Log::Fine::Handle");
+        isa_ok($handle->{formatter}, "Log::Fine::Formatter::Basic");
+
+        # make sure all methods are supported
+        can_ok($handle, $_) foreach (qw/ isLoggable msgWrite setFormatter /);
+        # build array of mask values
+        push @mv, $mtov->{$_} foreach (keys %{$mtov});
+
+        # clear bitmask
+        $handle->{mask} = 0;
+
+        # now recursive test isLoggable() with sorted values of masks
+        testmask(0, sort { $a <=> $b } @mv);
+
 }
+
+# --------------------------------------------------------------------
+
+sub testmask
+{
+
+        my $bitmask = shift;
+        my @masks   = @_;
+
+        # return if there are no more elements to test
+        return unless scalar @masks;
+
+        # shift topmost mask off
+        my $lvlmask = shift @masks;
+
+        # validate lvlmask
+        ok($lvlmask =~ /\d/);
+
+        # Determine lvl and create a new handle
+        my $lvl = $vtol->{ $mtolv->{$lvlmask} };
+        my $handle = Log::Fine::Handle::String->new(mask => $bitmask);
+
+        # current level should not be set so do negative test
+        isa_ok($handle, "Log::Fine::Handle");
+        ok(!$handle->isLoggable(eval "$lvl"));
+
+        # recurse downward again
+        testmask($handle->{mask}, @masks);
+
+        # now we do positive testing
+        $handle->{mask} |= $lvlmask;
+
+        # Do a positive test
+        ok($handle->isLoggable(eval "$lvl"));
+
+        # now that the bitmask has been set iterate downward again
+        testmask($handle->{mask}, @masks);
+
+}          # testmask()
