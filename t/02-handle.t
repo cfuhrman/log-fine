@@ -35,19 +35,20 @@ my $mtolv = {};
         $mtov->{$_} = eval $_ foreach (@{$masks});
 
         # finally, build mask to level map
-        for (my $i = 0; $i < scalar @{$masks} ; $i++) {
-                $mtolv->{$mtov->{$masks->[$i]}} = $ltov->{$levels->[$i]};
+        for (my $i = 0; $i < scalar @{$masks}; $i++) {
+                $mtolv->{ $mtov->{ $masks->[$i] } } = $ltov->{ $levels->[$i] };
         }
 
         # now that we're set up, start by constructing a handle
         my $handle = Log::Fine::Handle::String->new();
 
         # validate handle and formatter
-        isa_ok($handle, "Log::Fine::Handle");
+        isa_ok($handle,              "Log::Fine::Handle");
         isa_ok($handle->{formatter}, "Log::Fine::Formatter::Basic");
 
         # make sure all methods are supported
         can_ok($handle, $_) foreach (qw/ isLoggable msgWrite setFormatter /);
+
         # build array of mask values
         push @mv, $mtov->{$_} foreach (keys %{$mtov});
 
