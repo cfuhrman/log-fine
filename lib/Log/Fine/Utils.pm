@@ -83,8 +83,10 @@ sub OpenLog
         croak "At least one handle must be defined"
             unless (scalar @handles > 0);
 
+        my $log = Log::Fine->new();
+
         # construct a generic logger
-        my $logger = Log::Fine->logger("GENERIC");
+        my $logger = $log->logger("GENERIC");
 
         # Set our handles
         $logger->registerHandle($_) foreach @handles;

@@ -10,6 +10,7 @@ use File::Spec::Functions;
 use FileHandle;
 use Log::Fine;
 use Log::Fine::Handle::File;
+use Log::Fine::Levels::Syslog;
 use Log::Fine::Utils;
 
 {

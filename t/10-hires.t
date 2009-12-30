@@ -10,6 +10,7 @@ use Log::Fine;
 use Log::Fine::Formatter;
 use Log::Fine::Formatter::Basic;
 use Log::Fine::Formatter::Detailed;
+use Log::Fine::Levels::Syslog;
 
 {
 

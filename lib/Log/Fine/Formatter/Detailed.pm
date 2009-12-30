@@ -72,7 +72,6 @@ sub format
         my $lvl  = shift;
         my $msg  = shift;
         my $skip = shift;
-        my $lvls = $self->levelMap();
 
         # Set skip to default if need be
         $skip = Log::Fine::Logger->LOG_SKIP_DEFAULT unless (defined $skip);
@@ -86,7 +85,8 @@ sub format
                 # just include the script name
                 return
                     sprintf("[%s] %-4s (%s) %s\n",
-                            $self->_getFmtTime(), $lvls->valueToLevel($lvl),
+                            $self->_getFmtTime(),
+                            $self->levelMap()->valueToLevel($lvl),
                             basename($0), $msg);
 
         } elsif (defined $c[0] and $c[0] eq "main") {
@@ -94,7 +94,8 @@ sub format
                 # just include the script name and line number
                 return
                     sprintf("[%s] %-4s (%s:%d) %s\n",
-                            $self->_getFmtTime(), $lvls->valueToLevel($lvl),
+                            $self->_getFmtTime(),
+                            $self->levelMap()->valueToLevel($lvl),
                             basename($c[1]), $c[2], $msg);
 
         } else {
@@ -103,7 +104,7 @@ sub format
                 return
                     sprintf("[%s] %-4s (%s():%d) %s\n",
                             $self->_getFmtTime(),
-                            $lvls->valueToLevel($lvl),
+                            $self->levelMap()->valueToLevel($lvl),
                             $c[3] || "{undef}",
                             $c[2] || 0, $msg);
 

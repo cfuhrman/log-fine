@@ -63,13 +63,11 @@ sub format
         my $msg  = shift;
         my $skip = shift;          # NOT USED
 
-        # grab our levels
-        my $lvls = $self->levelMap();
-
         # return the formatted string
         return
             sprintf("[%s] %-4s %s\n",
-                    $self->_getFmtTime(), $lvls->valueToLevel($lvl), $msg);
+                    $self->_getFmtTime(), $self->levelMap()->valueToLevel($lvl),
+                    $msg);
 
 }          # format()
 

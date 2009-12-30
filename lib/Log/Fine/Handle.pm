@@ -58,10 +58,18 @@ sub isLoggable
         my $self = shift;
         my $lvl  = shift;
 
-        croak sprintf("No such level : %s", $lvl || "{undef}")
-            unless (defined $lvl and $lvl =~ /\d+/);
+        # Return undef if level is not defined
+        return undef unless defined $lvl;
 
-        my $shifted = 2 << $lvl;
+        # convert level to value if we are given a string, otherwise
+        # use value as is.
+        my $val =
+            ($lvl =~ /^\d+$/) ? $lvl : $self->levelMap()->levelToValue($lvl);
+
+        # Make sure we have a valid value
+        return undef unless defined($val);
+
+        my $shifted = 2 << $val;
 
         # bitand the level and the mask to see if we're loggable
         return (($self->{mask} & $shifted) == $shifted) ? 1 : undef;

@@ -8,8 +8,8 @@ Log::Fine - Yet another logging framework
 Provides fine-grained logging and tracing.
 
     use Log::Fine;
-    use Log::Fine qw( :masks );          # log masks
-    use Log::Fine qw( :macros :masks );  # everything
+    use Log::Fine::Levels::Syslog;                # exports log levels
+    use Log::Fine::Levels::Syslog qw( :masks );   # exports masks and levels
 
     # build a Log::Fine object
     my $fine = Log::Fine->new();
@@ -212,7 +212,7 @@ sub logger
         # return the logger
         return $loggers->{$name};
 
-}          # getLogger()
+}          # logger()
 
 # --------------------------------------------------------------------
 
@@ -244,7 +244,9 @@ sub _init
         # Victory!
         return $self;
 
-}          # _init()
+}
+
+          # _init()
 
 # is "Python" a dirty word in perl POD documentation?  Oh well.
 
