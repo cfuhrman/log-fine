@@ -93,7 +93,7 @@ sub msgWrite
         my $self  = shift;
         my $class = ref $self;
 
-        $self->_fatal("someone used an (abstract) Handle object")
+        $self->_fatal("direct call to abstract method msgWrite()!\n  See Log::Fine::Handle documentation")
             if $class eq 'Log::Fine::Handle';
 
         $self->_fatal("call to abstract method ${class}::msgWrite()");
