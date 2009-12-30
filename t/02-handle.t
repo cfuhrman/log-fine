@@ -71,7 +71,7 @@ my $msg =
 
                 skip
 "Test::Output 0.10 or above required for testing Console output",
-                    3
+                    2
                     if $@;
 
                 my $badhandle = Log::Fine::Handle->new(no_croak => 1);
