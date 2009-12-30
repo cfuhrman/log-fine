@@ -69,7 +69,6 @@ package Log::Fine::Formatter;
 
 use base qw( Log::Fine );
 
-use Carp;
 use POSIX qw( strftime );
 
 # Constant: LOG_TIMESTAMP_FORMAT, LOG_TIMESTAMP_FORMAT_PRECISE
@@ -105,10 +104,10 @@ sub format
         my $self  = shift;
         my $class = ref $self;
 
-        croak "someone used an (abstract) Formatter object"
+        $self->_fatal("someone used an (abstract) Formatter object")
             if $class eq 'Log::Fine::Formatter';
 
-        croak "call to abstract method ${class}::format()";
+        $self->_fatal("call to abstract method ${class}::format()");
 
 }          # format()
 
@@ -135,13 +134,13 @@ sub testFormat
 {
 
         my $self = shift;
-        my $lvl =  shift;
-        my $msg =  shift;
-        my $log =  $self->format($lvl, $msg, 0);
+        my $lvl  = shift;
+        my $msg  = shift;
+        my $log  = $self->format($lvl, $msg, 0);
 
         return $log;
 
-} # testFormat()
+}          # testFormat()
 
 # --------------------------------------------------------------------
 
@@ -163,9 +162,9 @@ sub _init
         if ($self->{hires}) {
 
                 eval "use Time::HiRes";
-                croak
+                $self->_fatal(
 "Time::HiRes failed to load.  Please install Time::HiRes via CPAN"
-                    if $@;
+                ) if $@;
 
                 # set {timestamp_format} to default high precision
                 # format if necessary.

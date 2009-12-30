@@ -59,8 +59,6 @@ package Log::Fine::Logger;
 
 use base qw( Log::Fine );
 
-use Carp;
-use Exporter;
 use Log::Fine;
 
 # Constant: LOG_SKIP_DEFAULT
@@ -118,7 +116,7 @@ sub log
         my $msg  = shift;
 
         # see if we have any handles defined
-        croak "No handles defined!\n"
+        $self->_fatal("No handles defined!\n")
             unless (scalar @{ $self->{_handles} } > 0);
 
         # iterate through each handle, logging as appropriate
@@ -146,7 +144,8 @@ sub registerHandle
         my $handle = shift;
 
         # validate handle
-        croak "first argument must be a valid Log::Fine::Handle object\n"
+        $self->_fatal(
+                    "first argument must be a valid Log::Fine::Handle object\n")
             unless (defined $handle
                     and $handle->isa("Log::Fine::Handle"));
 
@@ -186,7 +185,7 @@ sub _init
         my $self = shift;
 
         # validate name
-        croak "Loggers need names!"
+        $self->_fatal("Loggers need names!")
             unless (defined $self->{name} and $self->{name} =~ /^\w+$/);
 
         # set logskip if necessary

@@ -38,6 +38,7 @@ package Log::Fine::Levels::Syslog;
 use AutoLoader;
 use Carp;
 use Exporter;
+use POSIX qw( strftime );
 
 use base qw/ Log::Fine::Levels Exporter /;
 
@@ -188,8 +189,12 @@ sub AUTOLOAD
         return if $name eq 'DESTROY';
 
         # make sure we have a valid function
-        croak "Invalid function $name"
-            unless (exists $ok_fields{$name});
+        croak(
+               sprintf("[%s] {%s} FATAL : %s\n",
+                       strftime("%c", localtime(time)),
+                       $AUTOLOAD,
+                       "Invalid function name : $name"
+               )) unless (exists $ok_fields{$name});
 
         # evaluate and return the appropriate level
         eval "sub $name { return $ok_fields{$name} }";

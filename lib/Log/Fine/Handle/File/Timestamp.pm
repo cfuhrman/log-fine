@@ -43,7 +43,6 @@ package Log::Fine::Handle::File::Timestamp;
 
 use base qw( Log::Fine::Handle::File );
 
-use Carp;
 use File::Spec::Functions;
 use FileHandle;
 use POSIX qw( strftime );
@@ -100,7 +99,7 @@ sub getFileHandle
         # generate a new filehandle
         $self->{_filehandle} = FileHandle->new(">> " . $filename);
 
-        croak "Unable to open log file $filename : $!\n"
+        $self->_fatal("Unable to open log file $filename : $!\n")
             unless defined $self->{_filehandle};
 
         # set autoflush if necessary

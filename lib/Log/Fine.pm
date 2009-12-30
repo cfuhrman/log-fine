@@ -80,6 +80,7 @@ package Log::Fine;
 use Carp;
 use Log::Fine::Levels;
 use Log::Fine::Logger;
+use POSIX qw( strftime );
 
 our $VERSION = sprintf "r%d", q$Rev$ =~ m/(\d+)/;
 
@@ -122,7 +123,9 @@ L<Log::Fine::Formatter>.
                 } elsif ($map and $map->isa("Log::Fine::Levels")) {
                         $levelmap = $map;
                 } else {
-                        croak sprintf("Invalid Value: %s", $map || "{undef}");
+                        _fatal("Log::Fine",
+                                sprintf("Invalid Value: %s", $map || "{undef}")
+                        );
                 }
 
         }          # _levelMap()
@@ -197,7 +200,7 @@ sub logger
         my $name = shift;          # name of logger
 
         # validate name
-        croak "First parameter must be a valid name!\n"
+        $self->_fatal("First parameter must be a valid name!")
             unless (defined $name and $name =~ /\w/);
 
         # Grab our list of loggers
@@ -215,6 +218,22 @@ sub logger
 }          # logger()
 
 # --------------------------------------------------------------------
+
+##
+# called when a fatal condition is encountered
+
+sub _fatal
+{
+
+        my $self = shift;
+        my $msg  = shift;
+
+        printf STDERR "\n[%s] {%s} FATAL : %s\n",
+            strftime("%c", localtime(time)),
+            ref $self, $msg;
+        croak $msg;
+
+}          # _fatal()
 
 ##
 # Initializes our object
@@ -244,9 +263,7 @@ sub _init
         # Victory!
         return $self;
 
-}
-
-          # _init()
+}          # _init()
 
 # is "Python" a dirty word in perl POD documentation?  Oh well.
 

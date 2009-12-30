@@ -48,8 +48,8 @@ package Log::Fine::Utils;
 
 our @ISA = qw( Exporter );
 
-use Carp;
 use Log::Fine;
+use POSIX qw( strftime );
 
 # Exported functions
 our @EXPORT = qw( Log OpenLog );
@@ -80,8 +80,11 @@ sub OpenLog
         my @handles = @_;
 
         # validate a handle was passed
-        croak "At least one handle must be defined"
-            unless (scalar @handles > 0);
+        croak(
+               sprintf("[%s] FATAL : %s\n",
+                       strftime("%c", localtime(time)),
+                       "At least one handle must be defined"
+               )) unless (scalar @handles > 0);
 
         my $log = Log::Fine->new();
 
@@ -113,9 +116,11 @@ sub Log
         my $log = _logger();
 
         # validate logger has been set
-        croak
+        croak(
+               sprintf("[%s] FATAL : %s\n",
+                       strftime("%c", localtime(time)),
 "Logging system has not been set up.  (See Log::Fine::Utils::OpenLog()"
-            unless (defined $log and $log->isa("Log::Fine::Logger"));
+               )) unless (defined $log and $log->isa("Log::Fine::Logger"));
 
         # make sure we log the correct calling method
         $log->incrSkip();
