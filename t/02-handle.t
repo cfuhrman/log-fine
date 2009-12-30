@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 1028;
+use Test::More tests => 1031;
 
 use Log::Fine;
 use Log::Fine::Handle;
@@ -19,7 +19,13 @@ my $mtov = Log::Fine::Levels::Syslog->MASK_MAP;
 # Variable for mapping masks to their levels
 my $mtolv = {};
 
+# set message
+my $msg =
+    "Stop by this disaster town, we put our eyes to the sun and say 'Hello!'";
+
 {
+
+        my $skipflag = 0;
 
         # initialize logging framework and grab ref to map
         my $log = Log::Fine->new();
@@ -58,6 +64,23 @@ my $mtolv = {};
 
         # now recursive test isLoggable() with sorted values of masks
         testmask(0, sort { $a <=> $b } @mv);
+
+    SKIP: {
+
+                eval { require Test::Output };
+
+                skip
+"Test::Output 0.10 or above required for testing Console output",
+                    3
+                    if $@;
+
+                my $badhandle = Log::Fine::Handle->new();
+
+                stderr_like(&$badhandle->msgWrite($msg), qr/direct call to abstract method/, 'Test Direct Abstract Call');
+                stderr_like(&Log::Fine::Handle->msgWrite($msg), qr/call to abstract method/, 'Test Abstract Call');
+                stderr_like(&$badhandle->setFormatter(undef), qr/must be a valid formatter object/, 'Test Bad call to setFormatter()');
+
+        }
 
 }
 
