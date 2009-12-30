@@ -130,13 +130,9 @@ sub logLevels
         my $self = shift;
         my @lvls;
 
-        # if there are more than 9 keys, then sorting could be
-        # problematic, so make sure values are properly sorted.
-        foreach my $val (
-                sort map (sprintf("%02d", $_), keys %{ $self->VALTOLVL_MAP })) {
-                push @lvls, $self->VALTOLVL_MAP->{ sprintf("%d", $val) };
-        }
-
+        # construct array sorted by level value (ascending) and return
+        push @lvls, $self->VALTOLVL_MAP->{$_}
+            foreach (sort { $a <=> $b } (keys %{ $self->VALTOLVL_MAP }));
         return @lvls;
 
 }          # logLevels()
