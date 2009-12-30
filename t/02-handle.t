@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 1031;
+use Test::More tests => 1030;
 
 use Log::Fine;
 use Log::Fine::Handle;
@@ -67,18 +67,23 @@ my $msg =
 
     SKIP: {
 
-                eval { require Test::Output };
+                eval "use Test::Output";
 
                 skip
 "Test::Output 0.10 or above required for testing Console output",
                     3
                     if $@;
 
-                my $badhandle = Log::Fine::Handle->new();
+                my $badhandle = Log::Fine::Handle->new(no_croak => 1);
 
-                stderr_like(&$badhandle->msgWrite($msg), qr/direct call to abstract method/, 'Test Direct Abstract Call');
-                stderr_like(&Log::Fine::Handle->msgWrite($msg), qr/call to abstract method/, 'Test Abstract Call');
-                stderr_like(&$badhandle->setFormatter(undef), qr/must be a valid formatter object/, 'Test Bad call to setFormatter()');
+                stderr_like(sub { $badhandle->msgWrite(INFO, $msg) },
+                            qr/direct call to abstract method/,
+                            'Test Direct Abstract Call'
+                );
+                stderr_like(sub { $badhandle->setFormatter() },
+                            qr/must be a valid formatter object/,
+                            'Test Bad call to setFormatter()'
+                );
 
         }
 
