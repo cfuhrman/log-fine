@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 41;
+use Test::More tests => 56;
 
 use Log::Fine::Levels::Syslog qw( :macros :masks );
 
@@ -25,6 +25,24 @@ use Log::Fine::Levels::Syslog qw( :macros :masks );
 
         ok(scalar @levels > 0);
         ok(scalar @masks > 0);
+
+        # make sure levels are in ascending order by val;
+        my $val = 0;
+        my $map = Log::Fine::Levels::Syslog::LVLTOVAL_MAP;
+        foreach my $level (@levels) {
+                next if $map->{$level} == 0;
+                ok($map->{$level} > $val);
+                $val = $map->{$level};
+        }
+
+        # make sure masks are ascending order by val
+        $val = 0;
+        $map = Log::Fine::Levels::Syslog::MASK_MAP;
+        foreach my $mask (@masks) {
+                next if $map->{$mask} == 0;
+                ok($map->{$mask} > $val);
+                $val = $map->{$mask};
+        }
 
         # variable for holding bitmask
         my $bitmask = 0;
