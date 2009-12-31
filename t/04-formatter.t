@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 11;
+use Test::More tests => 12;
 
 use Log::Fine;
 use Log::Fine::Formatter;
@@ -65,6 +65,24 @@ use Log::Fine::Levels::Syslog;
         ok($log4 =~
 /^\[.*?\] \w+ \(Log\:\:Fine\:\:Formatter\:\:Detailed\:\:format\(\)\:\d+\) $msg/
         );
+
+    SKIP: {
+
+                eval "use Test::Output";
+
+                skip
+"Test::Output 0.10 or above required for testing Console output",
+                    1
+                    if $@;
+
+                my $badformatter = Log::Fine::Formatter->new(no_croak => 1);
+
+                stderr_like(sub { $badformatter->format(INFO, $msg, 1) },
+                            qr /direct call to abstract method/,
+                            'Test Direct Abstract Call'
+                );
+
+        }
 
 }
 

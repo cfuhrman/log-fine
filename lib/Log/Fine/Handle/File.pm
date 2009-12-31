@@ -43,7 +43,6 @@ package Log::Fine::Handle::File;
 
 use base qw( Log::Fine::Handle );
 
-use Carp;
 use File::Basename;
 use File::Spec::Functions;
 use FileHandle;
@@ -74,7 +73,7 @@ sub getFileHandle
         # otherwise create a new one
         $self->{_filehandle} = FileHandle->new(">> " . $filename);
 
-        croak "Unable to open log file $filename : $!\n"
+        $self->_fatal("Unable to open log file $filename : $!\n")
             unless defined $self->{_filehandle};
 
         # set autoflush if necessary

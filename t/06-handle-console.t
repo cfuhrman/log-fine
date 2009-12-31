@@ -24,8 +24,7 @@ my $handle = Log::Fine::Handle::Console->new();
 
         if ($@) {
                 plan skip_all =>
-"Test::Output 0.10 or above required for testing Console output"
-                    if $@;
+"Test::Output 0.10 or above required for testing Console output";
         } else {
                 plan tests => 8;
         }

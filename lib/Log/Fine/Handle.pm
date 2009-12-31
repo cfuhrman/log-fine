@@ -38,8 +38,7 @@ package Log::Fine::Handle;
 
 use base qw( Log::Fine );
 
-use Carp;
-use Log::Fine qw( :macros :masks );
+use Log::Fine;
 use Log::Fine::Formatter::Basic;
 use Log::Fine::Levels;
 
@@ -94,10 +93,11 @@ sub msgWrite
         my $self  = shift;
         my $class = ref $self;
 
-        croak "someone used an (abstract) Handle object"
-            if $class eq 'Log::Fine::Handle';
+        $self->_fatal(
+"direct call to abstract method msgWrite()!\n  See Log::Fine::Handle documentation"
+        ) if $class eq 'Log::Fine::Handle';
 
-        croak "call to abstract method ${class}::msgWrite()";
+        $self->_fatal("call to abstract method ${class}::msgWrite()");
 
 }          # msgWrite()
 
@@ -114,7 +114,7 @@ sub setFormatter
         my $formatter = shift;
 
         # validate formatter
-        croak "First argument must be a valid formatter object!\n"
+        $self->_fatal("First argument must be a valid formatter object!\n")
             unless (defined $formatter
                     and $formatter->isa("Log::Fine::Formatter"));
 
