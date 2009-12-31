@@ -116,8 +116,10 @@ sub log
         my $msg  = shift;
 
         # see if we have any handles defined
-        $self->_fatal("No handles defined!\n")
-            unless (scalar @{ $self->{_handles} } > 0);
+        $self->_fatal("No handles defined!")
+            unless (    defined $self->{_handles}
+                    and ref $self->{_handles} eq "ARRAY"
+                    and scalar @{ $self->{_handles} } > 0);
 
         # iterate through each handle, logging as appropriate
         foreach my $handle (@{ $self->{_handles} }) {

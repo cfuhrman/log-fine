@@ -104,7 +104,7 @@ sub format
         my $self  = shift;
         my $class = ref $self;
 
-        $self->_fatal("someone used an (abstract) Formatter object")
+        $self->_fatal("direct call to abstract method format()!")
             if $class eq 'Log::Fine::Formatter';
 
         $self->_fatal("call to abstract method ${class}::format()");
