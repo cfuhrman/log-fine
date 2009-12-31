@@ -67,13 +67,13 @@ use constant TODAY_FORMAT => "%Y%m%d";
 
 =head1 OVERRIDDEN METHODS
 
-=head2 getFileHandle()
+=head2 fileHandle()
 
-See L<Log::Fine::Handle::File>
+See L<Log::Fine::Handle::File/fileHandle>
 
 =cut
 
-sub getFileHandle
+sub fileHandle
 {
 
         my $self  = shift;
@@ -111,7 +111,7 @@ sub getFileHandle
         # return the newly created file handle
         return $self->{_filehandle};
 
-}          # getFileHandle();
+}          # fileHandle();
 
 =head1 SEE ALSO
 

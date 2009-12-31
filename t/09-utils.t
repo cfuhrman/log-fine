@@ -36,7 +36,7 @@ use Log::Fine::Utils;
         Log(INFO, $msg);
 
         # grab a ref to our filehandle
-        my $fh = $handle->getFileHandle();
+        my $fh = $handle->fileHandle();
 
         # see if a file handle was properly constructed
         ok($fh->isa("IO::File"));

@@ -50,14 +50,21 @@ use Log::Fine;
 
 =head1 METHODS
 
-=head2 getFileHandle()
+=head2 fileHandle
 
-Retrives the filehandle to write to.  Override this method if you wish
-to support features such as time-stamped and/or rotating files.
+Getter for file handle.  If a file handle is not defined, then one
+will be created.
+
+Override this method if you wish to support
+features such as time-stamped and/or rotating files.
+
+=head3 Returns
+
+A L<FileHandle> object
 
 =cut
 
-sub getFileHandle
+sub fileHandle
 {
 
         my $self = shift;
@@ -82,7 +89,7 @@ sub getFileHandle
         # return the newly created file handle
         return $self->{_filehandle};
 
-}          # getFileHandle()
+}          # fileHandle()
 
 =head2 msgWrite($lvl, $msg, $skip)
 
@@ -99,7 +106,7 @@ sub msgWrite
         my $skip = shift;
 
         # grab a ref to our file handle
-        my $fh = $self->getFileHandle();
+        my $fh = $self->fileHandle();
 
         # if we have a formatter defined, then use that, otherwise, just
         # print the raw message
