@@ -21,7 +21,7 @@ Provides a formatting facility for log messages
     $handle->setFormatter($formatter);
 
     # set the time-stamp to "YYYY-MM-DD HH:MM:SS"
-    $formatter->setTimestamp("%Y-%m-%d %H:%M:%S");
+    $formatter->timeStamp("%Y-%m-%d %H:%M:%S");
 
     # high resolution timestamps with milliseconds are
     # supported thus:
@@ -38,8 +38,8 @@ must inherit from this class.  The formatter class allows developers
 to adjust the time-stamp in a log message to a customizable
 strftime-compatible string without the tedious mucking about writing a
 formatter sub-class.  By default, the time-stamp format is "%c".  See
-L</"setTimestamp($format)"> and the L<strftime> man page for further
-details.
+L</"timeStamp($format)"> and the L<strftime(3)> man page on your
+system for further details.
 
 =head2 High Resolution Timestamps
 
@@ -48,7 +48,7 @@ module.  Depending on your distribution of perl, this may or may not
 be installed.  Add the string "%%millis%%" (without the quotes) where
 you would like milliseconds displayed within your format.  For example:
 
-    $formatter->setTimestamp("%H:%M:%S.%%millis%%");
+    $formatter->timeStamp("%H:%M:%S.%%millis%%");
 
 Please note you I<must> enable high resolution mode during Formatter
 construction as so:
@@ -57,7 +57,7 @@ construction as so:
 
 By default, the time-stamp format for high resolution mode is
 "%H:%M:%S.%%millis%%".  This can be changed via the
-L</"setTimestamp($format)"> method or set during formatter
+L</"timeStamp($format)"> method or set during formatter
 construction.
 
 =cut
@@ -79,20 +79,7 @@ use constant LOG_TIMESTAMP_FORMAT_PRECISE => "%H:%M:%S.%%millis%%";
 
 =head1 METHODS
 
-=head2 getTimestamp()
-
-Returns the current L<strftime(3)-compatible|strftime> format string for
-timestamped log messages
-
-=cut
-
-sub getTimestamp
-{
-        my $self = shift;
-        return $self->{timestamp_format};
-}          # getTimeStamp
-
-=head2 format($lvl, $msg, $skip)
+=head2 format
 
 Returns the formatted message.  B<Must> be sub-classed!
 
@@ -111,19 +98,6 @@ sub format
 
 }          # format()
 
-=head2 setTimestamp($format)
-
-Sets the time-stamp format to the given L<strftime(3)-compatible|strftime>
-string.
-
-=cut
-
-sub setTimestamp
-{
-        my $self = shift;
-        $self->{timestamp_format} = shift;
-}          # setTimestamp;
-
 =head2 testFormat($lvl, $msg)
 
 For testing purposes only
@@ -136,11 +110,45 @@ sub testFormat
         my $self = shift;
         my $lvl  = shift;
         my $msg  = shift;
-        my $log  = $self->format($lvl, $msg, 0);
 
-        return $log;
+        return $self->format($lvl, $msg, 0);
 
 }          # testFormat()
+
+=head2 timeStamp
+
+Getter/Setter for a L<strftime(3)-compatible|strftime> format string.
+If passed with an argument, sets the objects strftime compatible
+string.  Otherwise, returns the object's format string.
+
+=head3 Parameters
+
+=over
+
+=item string
+
+[optional] L<strftime(3)> compatible string to set
+
+=back
+
+=head3 Returns
+
+L<strftime(3)> compatible string
+
+=cut
+
+sub timeStamp
+{
+
+        my $self = shift;
+        my $str  = shift;
+
+        $self->{timestamp_format} = $str
+            if (defined $str);
+
+        return $self->{timestamp_format};
+
+}          # timeStamp()
 
 # --------------------------------------------------------------------
 

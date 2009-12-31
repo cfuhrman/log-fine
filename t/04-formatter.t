@@ -17,9 +17,8 @@ use Log::Fine::Levels::Syslog;
         # create a basic formatter
         my $basic = Log::Fine::Formatter::Basic->new();
 
-        ok(ref $basic eq "Log::Fine::Formatter::Basic");
-        ok($basic->getTimestamp() eq
-            Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
+        ok(ref $basic          eq "Log::Fine::Formatter::Basic");
+        ok($basic->timeStamp() eq Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
 
         # See if our levels are properly defined
         ok($basic->can("levelMap"));
@@ -37,7 +36,7 @@ use Log::Fine::Levels::Syslog;
         ok($log0 =~ /^\[.*?\] \w+ $msg/);
 
         # make sure we can change the timestamp format
-        $basic->setTimestamp("%Y%m%d%H%M%S");
+        $basic->timeStamp("%Y%m%d%H%M%S");
 
         my $log1 = $basic->format(INFO, $msg, 1);
 
@@ -47,8 +46,8 @@ use Log::Fine::Levels::Syslog;
         # now create a detailed formatter
         my $detailed = Log::Fine::Formatter::Detailed->new();
 
-        ok(ref $detailed eq "Log::Fine::Formatter::Detailed");
-        ok($detailed->getTimestamp() eq
+        ok(ref $detailed          eq "Log::Fine::Formatter::Detailed");
+        ok($detailed->timeStamp() eq
             Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
 
         # format a message
