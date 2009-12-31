@@ -44,10 +44,23 @@ use Log::Fine::Levels;
 
 =head1 METHODS
 
-=head2 isLoggable($lvl)
+=head2 isLoggable
 
-Specifies whether the handle is loggable at the given level.  Returns
-1 if we can log, undef otherwise.
+Specifies whether the handle is loggable at the given level.
+
+=head3 Parameters
+
+=over
+
+=item level
+
+Name of level or numeric value representing level
+
+=back
+
+=head3 Returns
+
+1 if this level is loggable, undef otherwise
 
 =cut
 
@@ -75,15 +88,35 @@ sub isLoggable
 
 }          # isLoggable()
 
-=head2 msgWrite($lvl, $msg, $skip)
+=head2 msgWrite
 
-Tells the handle to output the given log message.  The third
-parameter, C<$skip>, is passed to caller() for accurate method
-logging.
+Tells the handle to output the given log message.
 
 B<Note:> msgWrite() is an I<internal> method to the Log::Fine
 framework, meant to be sub-classed.  Use
-L<Log::Fine::Logger/"log($lvl, $msg)"> for actual logging.
+L<Log::Fine::Logger/log> for actual logging.
+
+=head3 Parameters
+
+=over
+
+=item level
+
+Level at which to log
+
+=item message
+
+Message to log
+
+=item skip
+
+Passed to L<caller|perlfunc/caller> for accurate method logging
+
+=back
+
+=head3 Returns
+
+none
 
 =cut
 

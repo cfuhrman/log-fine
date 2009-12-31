@@ -159,7 +159,7 @@ our %ok_fields = (%{$levels}, %{$masks});
 
 =head1 CONSTRUCTOR
 
-=head2 new()
+=head2 new
 
 Returns a newly constructed object
 

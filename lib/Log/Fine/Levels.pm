@@ -70,7 +70,7 @@ use constant DEFAULT_LEVELMAP => "Syslog";
 
 The following methods are provided:
 
-=head2 new()
+=head2 new
 
 Creates a new Log::Fine::Levels object
 
@@ -99,7 +99,11 @@ sub new
 
 =head2 bitmaskAll
 
-Returns an auto-generated bitmask representing B<ALL> possible values
+Getter for a bitmask representing B<ALL> possible values
+
+=head2 Returns
+
+Bitmask representing all possible mask values
 
 =cut
 
@@ -120,7 +124,12 @@ sub bitmaskAll
 
 =head2 logLevels
 
-Returns an array containing levels, sorted by ascending numeric value
+Getter for all log levels
+
+=head3 Returns
+
+An array representing all level names, sorted by ascending numeric
+value
 
 =cut
 
@@ -139,7 +148,12 @@ sub logLevels
 
 =head2 logMasks
 
-Returns an array containing mask names
+Getter for all log masks
+
+=head3 Returns
+
+An array representing all mask names, sorted by ascending numeric
+value
 
 =cut
 
@@ -162,7 +176,22 @@ sub logMasks
 
 =head2 levelToValue
 
-Returns the numeric value matching the given log level
+Level name to numeric value
+
+=head3 Parameters
+
+=over
+
+=item level name
+
+The name of the level
+
+=back
+
+=head3 Returns
+
+The numeric value representing the given level name.  Undef if name is
+not defined
 
 =cut
 
@@ -178,7 +207,22 @@ sub levelToValue
 
 =head2 maskToValue
 
-Returns the numeric value matching the given mask name
+Mask name to numeric value
+
+=head3 Parameters
+
+=over
+
+=item mask name
+
+The name of the mask
+
+=back
+
+=head3 Returns
+
+The numeric value representing the given mask name.  Undef if name is
+not defined
 
 =cut
 
@@ -194,7 +238,22 @@ sub maskToValue
 
 =head2 valueToLevel
 
-Returns the level name associated with the given numeric value
+Level value to level name
+
+=head3 Parameters
+
+=over
+
+=item numeric value
+
+The numeric value representing a level
+
+=back
+
+=head3 Returns
+
+The level name associated with the given numeric value.  Undef if the
+value is not defined
 
 =cut
 

@@ -44,7 +44,7 @@ use Log::Fine::Logger;
         ok($num == Log::Fine::Logger->LOG_SKIP_DEFAULT);
 
         # set the skip level to 5
-        $logger->setSkip(5);
+        $logger->skip(5);
 
         # check to see if it's okay
         $num = $logger->skip();

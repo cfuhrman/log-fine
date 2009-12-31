@@ -41,9 +41,9 @@ use base qw( Log::Fine::Handle );
 
 =head1 METHODS
 
-=head2 msgWrite($lvl, $msg, $skip)
+=head2 msgWrite
 
-See L<Log::Fine::Handle>
+See L<Log::Fine::Handle/msgWrite>
 
 =cut
 

@@ -102,10 +102,24 @@ sub format
 
 }          # format()
 
-=head2 testFormat($lvl, $msg)
+=head2 testFormat
 
 Special method used for unit tests only.
 I<Not for use in production environments!>
+
+=head3 Parameters
+
+=over
+
+=item level
+
+Level at which to log
+
+=item message
+
+Message to log
+
+=back
 
 =head3 Returns
 

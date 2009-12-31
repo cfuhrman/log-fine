@@ -91,9 +91,9 @@ sub fileHandle
 
 }          # fileHandle()
 
-=head2 msgWrite($lvl, $msg, $skip)
+=head2 msgWrite
 
-See L<Log::Fine::Handle>
+See L<Log::Fine::Handle/msgWrite>
 
 =cut
 

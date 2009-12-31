@@ -69,42 +69,51 @@ use constant LOG_SKIP_DEFAULT => 2;
 
 # --------------------------------------------------------------------
 
-=head2 decrSkip()
+=head2 decrSkip
 
-Decrements the value of {_skip} by one, returning the new value.
+Decrements the value of the skip attribute by one
 
-=cut
+=head3 Returns
 
-sub decrSkip
-{
-        return --$_[0]->{_skip};
-}          # decrSkip()
-
-=head2 skip()
-
-Returns the value of {_skip}
+The newly decremented value
 
 =cut
 
-sub skip
-{
-        return $_[0]->{_skip};
-}          # skip()
+sub decrSkip { return --$_[0]->{_skip}; }          # decrSkip()
 
-=head2 incrSkip()
+=head2 incrSkip
 
-Increments the value of {_skip}, returning the new value
+Increments the value of the skip attribute by one
+
+=head3 Returns
+
+The newly incremented value
 
 =cut
 
-sub incrSkip
-{
-        return ++$_[0]->{_skip};
-}          # incrSkip()
+sub incrSkip {        return ++$_[0]->{_skip}; }          # incrSkip()
 
-=head2 log($lvl, $msg)
+=head2 log
 
-Logs the message at the given log level.
+Logs the message at the given log level
+
+=head3 Parameters
+
+=over
+
+=item level
+
+Level at which to log
+
+=item message
+
+Message to log
+
+=back
+
+=head3 Returns
+
+The object
 
 =cut
 
@@ -132,10 +141,24 @@ sub log
 
 }          # log()
 
-=head2 registerHandle($handle)
+=head2 registerHandle
 
 Registers the given L<Log::Fine::Handle> object with the logging
 facility.
+
+=head3 Parameters
+
+=over
+
+=item handle
+
+A valid L<Log::Fine::Handle> subclass
+
+=back
+
+=head3 Returns
+
+The object
 
 =cut
 
@@ -163,18 +186,30 @@ sub registerHandle
 
 }          # registerHandle()
 
-=head2 setSkip($skip)
+=head2 skip
 
-Sets the value passed to L<perlfunc/"caller">.   Note this
-only applies to loggers that include caller information in their log
-files.
+Getter/Setter for the objects skip attribute
+
+See L<perlfunc/caller> for details
+
+=head3 Returns
+
+The object's skip attribute
 
 =cut
 
-sub setSkip
-{
-        $_[0]->{_skip} = $_[1];
-}          # setSkip()
+sub skip {
+
+        my $self = shift;
+        my $val  = shift;
+
+        # if we are given a value, then set skip
+        $self->{_skip} = $val
+                if (defined $val and $val =~ /^\d+$/);
+
+        return $self->{_skip};
+
+} # skip()
 
 # --------------------------------------------------------------------
 

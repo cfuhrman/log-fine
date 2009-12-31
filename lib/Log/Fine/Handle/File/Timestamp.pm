@@ -67,7 +67,7 @@ use constant TODAY_FORMAT => "%Y%m%d";
 
 =head1 OVERRIDDEN METHODS
 
-=head2 fileHandle()
+=head2 fileHandle
 
 See L<Log::Fine::Handle::File/fileHandle>
 

@@ -53,9 +53,31 @@ use POSIX qw( strftime );
 
 =head1 METHODS
 
-=head2 format($lvl, $msg, $skip)
+=head2 format
 
-Returns the formatted message as follows:
+Formats the given message for the given level
+
+=head3 Parameters
+
+=over
+
+=item level
+
+Level at which to log (see L<Log::Fine::Levels>)
+
+=item message
+
+Message to log
+
+=item skip
+
+Controls caller skip level
+
+=back
+
+=head3 Returns
+
+The formatted text string in the form:
 
   [TIMESTAMP] <LEVEL> (<Package>::Method():<Line Number>) <MESSAGE>
 

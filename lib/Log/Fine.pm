@@ -145,19 +145,26 @@ allows the developer to get a new logger.  After a logger is created,
 further actions are done through the logger object.  The following two
 constructors are defined:
 
-=head2 new()
+=head2 new
 
-Creates a new Log::Fine object.  Optionally takes a hash with the
-following parameters:
+Creates a new Log::Fine object.
+
+=head3 Parameters
+
+A hash with the following keys
 
 =over
 
-=item levelmap [default: Syslog]
+=item levelmap
 
-Name of level map to use.  See L<Log::Fine::Levels> for further
+[default: Syslog] Name of level map to use.  See L<Log::Fine::Levels> for further
 details
 
 =back
+
+=head3 Returns
+
+The newly bless'd object
 
 =cut
 
@@ -180,16 +187,34 @@ sub new
 
 =head2 levelMap
 
-Returns the L<Log::Fine::Levels> object for level mapping.
+Getter for the global level map.
+
+=head3 Returns
+
+A L<Log::Fine::Levels> subclass
 
 =cut
 
 sub levelMap { return _levelMap() }
 
-=head2 logger($name)
+=head2 logger
 
-Returns the named logger object.  If there is no object with the given
-name, then a new one will be created.
+Getter/Constructor for a logger object.
+
+=head3 Parameters
+
+=over
+
+=item logger name
+
+The name of the logger object.  If the specified logger object does
+not exist, then a new one will be created.
+
+=back
+
+=head3 Returns
+
+an L<Log::Fine::Logger> object
 
 =cut
 

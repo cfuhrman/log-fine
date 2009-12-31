@@ -71,7 +71,15 @@ Log::Fine::Utils:
 
 =head2 OpenLog
 
-Opens the logging subsystem.  Accepts one or more handles as arguments.
+Opens the logging subsystem.
+
+=head3 Parameters
+
+One or more L<Log::Fine::Handle> object(s)
+
+=head3 Returns
+
+1 on success
 
 =cut
 
@@ -97,7 +105,6 @@ sub OpenLog
         # Save the logger
         _setLogger($logger);
 
-        # Victory!
         return 1;
 
 }          # OpenLog()
@@ -105,6 +112,24 @@ sub OpenLog
 =head2 Log
 
 Logs the message at the given log level
+
+=head3 Parameters
+
+=over
+
+=item level
+
+Level at which to log
+
+=item message
+
+Message to log
+
+=back
+
+=head3 Returns
+
+1 on success
 
 =cut
 

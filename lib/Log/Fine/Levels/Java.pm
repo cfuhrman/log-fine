@@ -150,7 +150,7 @@ our %ok_fields = (%{$levels}, %{$masks});
 
 =head1 CONSTRUCTOR
 
-=head2 new()
+=head2 new
 
 Returns a newly constructed object
 
@@ -196,8 +196,7 @@ sub AUTOLOAD
 =head1 SEE ALSO
 
 L<perl>, L<syslog>, L<Log::Fine>, L<Log::Fine::Levels>, L<Sys::Java>,
-L<http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/Level.html> 
-
+L<http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/Level.html>
 
 =head1 AUTHOR
 
