@@ -18,7 +18,7 @@ Provides a formatting facility for log messages
     # by default, the handle will set its formatter to
     # Log::Fine::Formatter::Basic.  If that's not what you want, set
     # it to preference.
-    $handle->setFormatter($formatter);
+    $handle->formatter($formatter);
 
     # set the time-stamp to "YYYY-MM-DD HH:MM:SS"
     $formatter->timeStamp("%Y-%m-%d %H:%M:%S");
@@ -83,6 +83,10 @@ use constant LOG_TIMESTAMP_FORMAT_PRECISE => "%H:%M:%S.%%millis%%";
 
 Returns the formatted message.  B<Must> be sub-classed!
 
+=head3 Returns
+
+The formatted string
+
 =cut
 
 sub format
@@ -100,7 +104,12 @@ sub format
 
 =head2 testFormat($lvl, $msg)
 
-For testing purposes only
+Special method used for unit tests only.
+I<Not for use in production environments!>
+
+=head3 Returns
+
+The formatted string
 
 =cut
 

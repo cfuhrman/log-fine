@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 1030;
+use Test::More tests => 1029;
 
 use Log::Fine;
 use Log::Fine::Handle;
@@ -36,11 +36,11 @@ my $msg =
         my $handle = Log::Fine::Handle::String->new();
 
         # validate handle types
-        isa_ok($handle,              "Log::Fine::Handle");
+        isa_ok($handle, "Log::Fine::Handle");
         isa_ok($handle->{formatter}, "Log::Fine::Formatter::Basic");
 
         # make sure all methods are supported
-        can_ok($handle, $_) foreach (qw/ isLoggable msgWrite setFormatter /);
+        can_ok($handle, $_) foreach (qw/ isLoggable msgWrite formatter /);
 
         # build mask to level map
         my @levels = sort keys %{$ltov};
@@ -71,7 +71,7 @@ my $msg =
 
                 skip
 "Test::Output 0.10 or above required for testing Console output",
-                    2
+                    1
                     if $@;
 
                 my $badhandle = Log::Fine::Handle->new(no_croak => 1);
@@ -79,10 +79,6 @@ my $msg =
                 stderr_like(sub { $badhandle->msgWrite(INFO, $msg) },
                             qr/direct call to abstract method/,
                             'Test Direct Abstract Call'
-                );
-                stderr_like(sub { $badhandle->setFormatter() },
-                            qr/must be a valid formatter object/,
-                            'Test Bad call to setFormatter()'
                 );
 
         }

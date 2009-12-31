@@ -101,26 +101,41 @@ sub msgWrite
 
 }          # msgWrite()
 
-=head2 setFormatter($formatter)
+=head2 formatter
 
-Sets the formatter for this object
+Getter/Setter for the object's formatter attribute
+
+=head3 Parameters
+
+=over
+
+=item formatter
+
+[optional] A valid L<Log::Fine::Formatter> object
+
+=back
+
+=head3 Returns
+
+A L<Log::Fine::Formatter> object
 
 =cut
 
-sub setFormatter
+sub formatter
 {
 
         my $self      = shift;
         my $formatter = shift;
 
-        # validate formatter
-        $self->_fatal("First argument must be a valid formatter object!\n")
-            unless (defined $formatter
-                    and $formatter->isa("Log::Fine::Formatter"));
+        # if the first argument is a valid formatter, then set the
+        # object's formatter attribute appropriately
+        $self->{formatter} = $formatter
+            if (defined $formatter and $formatter->isa("Log::Fine::Formatter"));
 
-        $self->{formatter} = $formatter;
+        # return the object's formatter attribute
+        return $self->{formatter};
 
-}          # setFormatter()
+}          # formatter()
 
 # --------------------------------------------------------------------
 
