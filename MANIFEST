@@ -15,6 +15,8 @@ lib/Log/Fine/Handle/File/Timestamp.pm
 lib/Log/Fine/Handle/Console.pm
 lib/Log/Fine/Handle/Syslog.pm
 lib/Log/Fine/Handle/String.pm
+lib/Log/Fine/Levels.pm
+lib/Log/Fine/Levels/Syslog.pm
 lib/Log/Fine/Logger.pm
 lib/Log/Fine/Utils.pm
 t/00-load.t
@@ -28,6 +30,7 @@ t/07-handle-syslog.t
 t/08-handle-file-timestamp.t
 t/09-utils.t
 t/10-hires.t
+t/11-levels-syslog.t
 t/boilerplate.t
 t/pod-coverage.t
 t/pod.t
