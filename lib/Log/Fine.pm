@@ -230,9 +230,9 @@ sub _fatal
 
         printf STDERR "\n[%s] {%s} FATAL : %s\n",
             strftime("%c", localtime(time)),
-                    ref $self || "undef", $msg;
+            ref $self || "undef", $msg;
         croak $msg
-                unless $self->{no_croak};
+            unless $self->{no_croak};
 
 }          # _fatal()
 
