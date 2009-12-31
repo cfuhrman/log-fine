@@ -40,14 +40,14 @@ use Log::Fine::Logger;
         ok($loggerrc->isa("Log::Fine::Logger"));
 
         # make sure skip is set to our default
-        my $num = $logger->getSkip();
+        my $num = $logger->skip();
         ok($num == Log::Fine::Logger->LOG_SKIP_DEFAULT);
 
         # set the skip level to 5
         $logger->setSkip(5);
 
         # check to see if it's okay
-        $num = $logger->getSkip();
+        $num = $logger->skip();
         ok($num == 5);
 
         # okay, now increment and decrement

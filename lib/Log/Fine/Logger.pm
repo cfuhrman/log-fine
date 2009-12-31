@@ -45,7 +45,7 @@ Provides an object through which to log.
 =head1 DESCRIPTION
 
 The Logger class is the main workhorse of the Log::Fine framework,
-providing the main L</"log"> method from which to log.  In addition,
+providing the main L</log> method from which to log.  In addition,
 the Logger class provides means by which the developer can control the
 parameter passed to any caller() call so information regarding the
 correct stack frame is displayed.
@@ -80,16 +80,16 @@ sub decrSkip
         return --$_[0]->{_skip};
 }          # decrSkip()
 
-=head2 getSkip()
+=head2 skip()
 
 Returns the value of {_skip}
 
 =cut
 
-sub getSkip
+sub skip
 {
         return $_[0]->{_skip};
-}          # getSkip()
+}          # skip()
 
 =head2 incrSkip()
 
@@ -165,7 +165,7 @@ sub registerHandle
 
 =head2 setSkip($skip)
 
-Sets the value passed to L<perlfunc/"caller">().   Note this
+Sets the value passed to L<perlfunc/"caller">.   Note this
 only applies to loggers that include caller information in their log
 files.
 
