@@ -69,46 +69,6 @@ our @EXPORT = qw( Log OpenLog );
 The following functions are automatically exported by
 Log::Fine::Utils:
 
-=head2 OpenLog
-
-Opens the logging subsystem.
-
-=head3 Parameters
-
-One or more L<Log::Fine::Handle> object(s)
-
-=head3 Returns
-
-1 on success
-
-=cut
-
-sub OpenLog
-{
-        my @handles = @_;
-
-        # validate a handle was passed
-        croak(
-               sprintf("[%s] FATAL : %s\n",
-                       strftime("%c", localtime(time)),
-                       "At least one handle must be defined"
-               )) unless (scalar @handles > 0);
-
-        my $log = Log::Fine->new();
-
-        # construct a generic logger
-        my $logger = $log->logger("GENERIC");
-
-        # Set our handles
-        $logger->registerHandle($_) foreach @handles;
-
-        # Save the logger
-        _setLogger($logger);
-
-        return 1;
-
-}          # OpenLog()
-
 =head2 Log
 
 Logs the message at the given log level
@@ -155,6 +115,46 @@ sub Log
         return 1;
 
 }          # Log()
+
+=head2 OpenLog
+
+Opens the logging subsystem.
+
+=head3 Parameters
+
+One or more L<Log::Fine::Handle> object(s)
+
+=head3 Returns
+
+1 on success
+
+=cut
+
+sub OpenLog
+{
+        my @handles = @_;
+
+        # validate a handle was passed
+        croak(
+               sprintf("[%s] FATAL : %s\n",
+                       strftime("%c", localtime(time)),
+                       "At least one handle must be defined"
+               )) unless (scalar @handles > 0);
+
+        my $log = Log::Fine->new();
+
+        # construct a generic logger
+        my $logger = $log->logger("GENERIC");
+
+        # Set our handles
+        $logger->registerHandle($_) foreach @handles;
+
+        # Save the logger
+        _setLogger($logger);
+
+        return 1;
+
+}          # OpenLog()
 
 =head1 CAVEATS
 

@@ -44,6 +44,42 @@ use Log::Fine::Levels;
 
 =head1 METHODS
 
+=head2 formatter
+
+Getter/Setter for the object's formatter attribute
+
+=head3 Parameters
+
+=over
+
+=item  * formatter
+
+[optional] A valid L<Log::Fine::Formatter> object
+
+=back
+
+=head3 Returns
+
+A L<Log::Fine::Formatter> object
+
+=cut
+
+sub formatter
+{
+
+        my $self      = shift;
+        my $formatter = shift;
+
+        # if the first argument is a valid formatter, then set the
+        # object's formatter attribute appropriately
+        $self->{formatter} = $formatter
+            if (defined $formatter and $formatter->isa("Log::Fine::Formatter"));
+
+        # return the object's formatter attribute
+        return $self->{formatter};
+
+}          # formatter()
+
 =head2 isLoggable
 
 Specifies whether the handle is loggable at the given level.
@@ -133,42 +169,6 @@ sub msgWrite
         $self->_fatal("call to abstract method ${class}::msgWrite()");
 
 }          # msgWrite()
-
-=head2 formatter
-
-Getter/Setter for the object's formatter attribute
-
-=head3 Parameters
-
-=over
-
-=item  * formatter
-
-[optional] A valid L<Log::Fine::Formatter> object
-
-=back
-
-=head3 Returns
-
-A L<Log::Fine::Formatter> object
-
-=cut
-
-sub formatter
-{
-
-        my $self      = shift;
-        my $formatter = shift;
-
-        # if the first argument is a valid formatter, then set the
-        # object's formatter attribute appropriately
-        $self->{formatter} = $formatter
-            if (defined $formatter and $formatter->isa("Log::Fine::Formatter"));
-
-        # return the object's formatter attribute
-        return $self->{formatter};
-
-}          # formatter()
 
 # --------------------------------------------------------------------
 

@@ -122,6 +122,37 @@ sub bitmaskAll
 
 }          # bitmaskAll()
 
+=head2 levelToValue
+
+Level name to numeric value
+
+=head3 Parameters
+
+=over
+
+=item  * level name
+
+The name of the level
+
+=back
+
+=head3 Returns
+
+The numeric value representing the given level name.  Undef if name is
+not defined
+
+=cut
+
+sub levelToValue
+{
+
+        my $self = shift;
+        my $lvl  = shift;
+
+        return $self->LVLTOVAL_MAP->{$lvl};
+
+}          # levelToValue()
+
 =head2 logLevels
 
 Getter for all log levels
@@ -173,37 +204,6 @@ sub logMasks
         return @masks;
 
 }          # logMasks()
-
-=head2 levelToValue
-
-Level name to numeric value
-
-=head3 Parameters
-
-=over
-
-=item  * level name
-
-The name of the level
-
-=back
-
-=head3 Returns
-
-The numeric value representing the given level name.  Undef if name is
-not defined
-
-=cut
-
-sub levelToValue
-{
-
-        my $self = shift;
-        my $lvl  = shift;
-
-        return $self->LVLTOVAL_MAP->{$lvl};
-
-}          # levelToValue()
 
 =head2 maskToValue
 
