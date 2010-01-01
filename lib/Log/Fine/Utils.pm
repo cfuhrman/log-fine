@@ -117,11 +117,11 @@ Logs the message at the given log level
 
 =over
 
-=item level
+=item  * level
 
 Level at which to log
 
-=item message
+=item  * message
 
 Message to log
 

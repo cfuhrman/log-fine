@@ -111,11 +111,11 @@ I<Not for use in production environments!>
 
 =over
 
-=item level
+=item  * level
 
 Level at which to log
 
-=item message
+=item  * message
 
 Message to log
 
@@ -148,7 +148,7 @@ string.  Otherwise, returns the object's format string.
 
 =over
 
-=item string
+=item  * string
 
 [optional] L<strftime(3)> compatible string to set
 

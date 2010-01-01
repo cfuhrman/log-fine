@@ -182,7 +182,7 @@ Level name to numeric value
 
 =over
 
-=item level name
+=item  * level name
 
 The name of the level
 
@@ -213,7 +213,7 @@ Mask name to numeric value
 
 =over
 
-=item mask name
+=item  * mask name
 
 The name of the mask
 
@@ -244,7 +244,7 @@ Level value to level name
 
 =over
 
-=item numeric value
+=item  * numeric value
 
 The numeric value representing a level
 

@@ -52,7 +52,7 @@ Specifies whether the handle is loggable at the given level.
 
 =over
 
-=item level
+=item  * level
 
 Name of level or numeric value representing level
 
@@ -100,15 +100,15 @@ L<Log::Fine::Logger/log> for actual logging.
 
 =over
 
-=item level
+=item  * level
 
 Level at which to log
 
-=item message
+=item  * message
 
 Message to log
 
-=item skip
+=item  * skip
 
 Passed to L<caller|perlfunc/caller> for accurate method logging
 
@@ -142,7 +142,7 @@ Getter/Setter for the object's formatter attribute
 
 =over
 
-=item formatter
+=item  * formatter
 
 [optional] A valid L<Log::Fine::Formatter> object
 

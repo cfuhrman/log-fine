@@ -155,7 +155,7 @@ A hash with the following keys
 
 =over
 
-=item levelmap
+=item  * levelmap
 
 [default: Syslog] Name of level map to use.  See L<Log::Fine::Levels> for further
 details
@@ -205,7 +205,7 @@ Getter/Constructor for a logger object.
 
 =over
 
-=item logger name
+=item  * logger name
 
 The name of the logger object.  If the specified logger object does
 not exist, then a new one will be created.

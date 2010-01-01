@@ -55,15 +55,15 @@ Formats the given message for the given level
 
 =over
 
-=item level
+=item  * level
 
 Level at which to log (see L<Log::Fine::Levels>)
 
-=item message
+=item  * message
 
 Message to log
 
-=item skip
+=item  * skip
 
 [ignored] Controls caller skip level
 

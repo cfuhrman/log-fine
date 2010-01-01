@@ -101,11 +101,11 @@ Logs the message at the given log level
 
 =over
 
-=item level
+=item  * level
 
 Level at which to log
 
-=item message
+=item  * message
 
 Message to log
 
@@ -150,7 +150,7 @@ facility.
 
 =over
 
-=item handle
+=item  * handle
 
 A valid L<Log::Fine::Handle> subclass
 

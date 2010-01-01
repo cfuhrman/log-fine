@@ -47,15 +47,15 @@ L<Log::Fine::Logger/log> for actual logging.
 
 =over
 
-=item level
+=item  * level
 
 Level at which to log
 
-=item message
+=item  * message
 
 Message to log
 
-=item skip
+=item  * skip
 
 Passed to L<caller|perlfunc/caller> for accurate method logging
 
