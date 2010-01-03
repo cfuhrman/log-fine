@@ -38,8 +38,8 @@ must inherit from this class.  The formatter class allows developers
 to adjust the time-stamp in a log message to a customizable
 strftime-compatible string without the tedious mucking about writing a
 formatter sub-class.  By default, the time-stamp format is "%c".  See
-L</"timeStamp($format)"> and the L<strftime(3)> man page on your
-system for further details.
+L</timeStamp> and the L<strftime(3)> man page on your system for
+further details.
 
 =head2 High Resolution Timestamps
 
@@ -56,9 +56,8 @@ construction as so:
     my $formatter = Log::Fine::Formatter::Basic->new( hires => 1 );
 
 By default, the time-stamp format for high resolution mode is
-"%H:%M:%S.%%millis%%".  This can be changed via the
-L</"timeStamp($format)"> method or set during formatter
-construction.
+"%H:%M:%S.%%millis%%".  This can be changed via the L</timeStamp>
+method or set during formatter construction.
 
 =cut
 
@@ -220,7 +219,7 @@ sub _init
 ##
 # Formats the time string returned
 
-sub _getFmtTime
+sub _formatTime
 {
         my $seconds;
 
@@ -244,7 +243,7 @@ sub _getFmtTime
         # return the formatted time
         return strftime($fmt, localtime($seconds));
 
-}          # _getFmtTime()
+}          # _formatTime()
 
 =head1 SEE ALSO
 

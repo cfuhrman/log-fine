@@ -88,7 +88,7 @@ sub format
         # return the formatted string
         return
             sprintf("[%s] %-4s %s\n",
-                    $self->_getFmtTime(), $self->levelMap()->valueToLevel($lvl),
+                    $self->_formatTime(), $self->levelMap()->valueToLevel($lvl),
                     $msg);
 
 }          # format()

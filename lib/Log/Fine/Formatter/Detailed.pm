@@ -107,7 +107,7 @@ sub format
                 # just include the script name
                 return
                     sprintf("[%s] %-4s (%s) %s\n",
-                            $self->_getFmtTime(),
+                            $self->_formatTime(),
                             $self->levelMap()->valueToLevel($lvl),
                             basename($0), $msg);
 
@@ -116,7 +116,7 @@ sub format
                 # just include the script name and line number
                 return
                     sprintf("[%s] %-4s (%s:%d) %s\n",
-                            $self->_getFmtTime(),
+                            $self->_formatTime(),
                             $self->levelMap()->valueToLevel($lvl),
                             basename($c[1]), $c[2], $msg);
 
@@ -125,7 +125,7 @@ sub format
                 # log package, subroutine, and line number
                 return
                     sprintf("[%s] %-4s (%s():%d) %s\n",
-                            $self->_getFmtTime(),
+                            $self->_formatTime(),
                             $self->levelMap()->valueToLevel($lvl),
                             $c[3] || "{undef}",
                             $c[2] || 0, $msg);
