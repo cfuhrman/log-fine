@@ -82,7 +82,7 @@ use Log::Fine::Levels;
 use Log::Fine::Logger;
 use POSIX qw( strftime );
 
-our $VERSION = sprintf "r%d", q$Rev$ =~ m/(\d+)/;
+our $VERSION = '0.22';
 
 =head2 Formatters
 
