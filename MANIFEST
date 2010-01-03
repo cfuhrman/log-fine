@@ -3,6 +3,7 @@ MANIFEST
 META.yml # Will be created by "make dist"
 Makefile.PL
 README
+README.0.30
 LICENSE
 TODO
 lib/Log/Fine.pm
