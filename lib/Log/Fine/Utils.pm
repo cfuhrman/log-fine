@@ -60,8 +60,16 @@ our @EXPORT = qw( Log OpenLog );
 {
         my $logger;
 
-        sub _logger { return $logger }
-        sub _setLogger { $logger = shift }
+        sub _logger
+        {
+                my $obj = shift;
+
+                $logger = $obj
+                        if (defined $obj and ref $obj eq "Log::Fine::Logger");
+
+                return $logger;
+        }
+
 }
 
 =head1 FUNCTIONS
@@ -150,7 +158,7 @@ sub OpenLog
         $logger->registerHandle($_) foreach @handles;
 
         # Save the logger
-        _setLogger($logger);
+        _logger($logger);
 
         return 1;
 
