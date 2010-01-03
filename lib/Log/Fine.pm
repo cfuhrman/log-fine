@@ -8,11 +8,18 @@ Log::Fine - Yet another logging framework
 Provides fine-grained logging and tracing.
 
     use Log::Fine;
-    use Log::Fine qw( :masks );          # log masks
-    use Log::Fine qw( :macros :masks );  # everything
+    use Log::Fine::Levels::Syslog;                # exports log levels
+    use Log::Fine::Levels::Syslog qw( :masks );   # exports masks and levels
 
-    # grab our logger object
-    my $log = Log::Fine->getLogger("foo");
+    # build a Log::Fine object
+    my $fine = Log::Fine->new();
+
+    # specify a custom map
+    my $fine = Log::Fine->new(levelmap => "Syslog");
+
+    # use logger() to get a new logger object.  If "foo" is not
+    # defined then a new logger with the name "foo" will be created.
+    my $log = Log::Fine->logger("foo");
 
     # register a handle, in this case a handle that logs to console.
     my $handle = Log::Fine::Handle::Console->new();
@@ -20,10 +27,6 @@ Provides fine-grained logging and tracing.
 
     # log a message
     $log->log(INFO, "Log object successfully initialized");
-
-    # create a clone of a Logger object and a handle object
-    my $clone1 = $log->clone();          # <-- clone of $log
-    my $clone2 = $log->clone($handle);
 
 =head1 DESCRIPTION
 
@@ -52,7 +55,7 @@ Provides logging to C<STDERR> or C<STDOUT>
 
 Provides logging to a file
 
-=item * L<Log::Fine::Handle::File::Timestamp|Log::Fine::Handle::File::Timestamp>
+=item  * L<Log::Fine::Handle::File::Timestamp|Log::Fine::Handle::File::Timestamp>
 
 Same thing with support for time-stamped files
 
@@ -71,107 +74,15 @@ use strict;
 use warnings;
 
 require 5.006;
-require Exporter;
 
 package Log::Fine;
 
 use Carp;
+use Log::Fine::Levels;
 use Log::Fine::Logger;
-use Storable qw( dclone );
-use Sys::Syslog qw( :macros );
+use POSIX qw( strftime );
 
 our $VERSION = '0.22';
-our @ISA     = qw( Exporter );
-
-=head2 Log Levels
-
-Log::Fine bases its log levels on those found in
-L<Sys::Syslog|Sys::Syslog>.  For convenience, the following shorthand
-macros are exported.
-
-=over 4
-
-=item * C<EMER>
-
-=item * C<ALRT>
-
-=item * C<CRIT>
-
-=item * C<ERR>
-
-=item * C<WARN>
-
-=item * C<NOTI>
-
-=item * C<INFO>
-
-=item * C<DEBG>
-
-=back
-
-Each of these corresponds to the appropriate logging level.
-
-=cut
-
-# Log Levels
-use constant LOG_LEVELS => [qw( EMER ALRT CRIT ERR WARN NOTI INFO DEBG )];
-
-=head2 Masks
-
-Log masks can be exported for use in setting up individual handles
-(see L<Log::Fine::Handle>).  Log::Fine exports the following
-masks corresponding to their log level:
-
-=over 4
-
-=item * C<LOGMASK_EMERG>
-
-=item * C<LOGMASK_ALERT>
-
-=item * C<LOGMASK_CRIT>
-
-=item * C<LOGMASK_ERR>
-
-=item * C<LOGMASK_WARNING>
-
-=item * C<LOGMASK_NOTICE>
-
-=item * C<LOGMASK_INFO>
-
-=item * C<LOGMASK_DEBUG>
-
-=back
-
-See L<Log::Fine::Handle> for more information.
-
-In addition, the following shortcut constants are provided.  Note that
-these I<are not> exported by default, rather you have to reference
-them explicitly, as shown below.
-
-=over 4
-
-=item * C<Log::Fine-E<gt>LOGMASK_ALL>
-
-Shorthand constant for B<all> log masks.
-
-=item * C<Log::Fine-E<gt>LOGMASK_ERROR>
-
-Shorthand constant for C<LOGMASK_EMERG> through C<LOGMASK_ERR>.  This
-is not to be confused with C<LOGMASK_ERR>.
-
-=back
-
-In addition, you can specify your own customized masks as shown below:
-
-    # we want to log all error masks plus the warning mask
-    my $mask = Log::Fine->LOGMASK_ERROR | LOGMASK_WARNING;
-
-=cut
-
-# Log Masks
-use constant LOG_MASKS => [
-        qw( LOGMASK_EMERG LOGMASK_ALERT LOGMASK_CRIT LOGMASK_ERR LOGMASK_WARNING LOGMASK_NOTICE LOGMASK_INFO LOGMASK_DEBUG )
-];
 
 =head2 Formatters
 
@@ -189,49 +100,43 @@ L<Log::Fine::Formatter>.
 
 =cut
 
-# Exported tags
-our %EXPORT_TAGS = (macros => LOG_LEVELS,
-                    masks  => LOG_MASKS);
-
-# Exported macros
-our @EXPORT    = (@{ $EXPORT_TAGS{macros} });
-our @EXPORT_OK = (@{ $EXPORT_TAGS{masks} });
-
 # Private Methods
 # --------------------------------------------------------------------
 
 {
+
+        # private global variables
+        my $levelmap;
         my $loggers  = {};
         my $objcount = 0;
 
-        sub _getLoggers      { return $loggers }
-        sub _getObjectCount  { return $objcount }
+        # getter/setter for levelMap.  Note that levelMap can only be
+        # set _once_.
+        sub _levelMap
+        {
+
+                my $map = shift;
+
+                if (    ($levelmap and $levelmap->isa("Log::Fine::Levels"))
+                     or (not defined $map)) {
+                        return $levelmap;
+                } elsif ($map and $map->isa("Log::Fine::Levels")) {
+                        $levelmap = $map;
+                } else {
+                        _fatal("Log::Fine",
+                                sprintf("Invalid Value: %s", $map || "{undef}")
+                        );
+                }
+
+        }          # _levelMap()
+
+        sub _logger          { return $loggers }
+        sub _objectCount     { return $objcount }
         sub _incrObjectCount { $objcount++ }
-        sub _setObjectCount  { $objcount = shift }
+
 }
 
-# Initializations
 # --------------------------------------------------------------------
-
-BEGIN {
-
-        my $lvls  = LOG_LEVELS;
-        my $masks = LOG_MASKS;
-
-        # define some convenience functions
-        for (my $i = 0; $i < scalar @{$lvls}; $i++) {
-                eval "sub $lvls->[$i] { return $i; }";
-                eval "sub $masks->[$i] { return 2 << $i; }";
-        }
-
-}
-
-# define some convenient mask shorthands
-use constant LOGMASK_ALL => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT |
-    LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO |
-    LOGMASK_DEBUG;
-use constant LOGMASK_ERROR => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT |
-    LOGMASK_ERR;
 
 =head1 METHODS
 
@@ -240,9 +145,26 @@ allows the developer to get a new logger.  After a logger is created,
 further actions are done through the logger object.  The following two
 constructors are defined:
 
-=head2 new()
+=head2 new
 
 Creates a new Log::Fine object.
+
+=head3 Parameters
+
+A hash with the following keys
+
+=over
+
+=item  * levelmap
+
+[default: Syslog] Name of level map to use.  See L<Log::Fine::Levels> for further
+details
+
+=back
+
+=head3 Returns
+
+The newly bless'd object
 
 =cut
 
@@ -251,9 +173,6 @@ sub new
 
         my $class = shift;
         my %h     = @_;
-
-        # if $class is already an object, then return the object
-        return $class if (ref $class and $class->isa("Log::Fine"));
 
         # bless the hash into a class
         my $self = bless \%h, $class;
@@ -266,23 +185,51 @@ sub new
 
 }          # new()
 
-=head2 getLogger($name)
+=head2 levelMap
 
-Creates a logger with the given name.  This method can also be used as
-a constructor for a Log::Fine object
+Getter for the global level map.
+
+=head3 Returns
+
+A L<Log::Fine::Levels> subclass
 
 =cut
 
-sub getLogger
+sub levelMap { return _levelMap() }
+
+=head2 logger
+
+Getter/Constructor for a logger object.
+
+=head3 Parameters
+
+=over
+
+=item  * logger name
+
+The name of the logger object.  If the specified logger object does
+not exist, then a new one will be created.
+
+=back
+
+=head3 Returns
+
+an L<Log::Fine::Logger> object
+
+=cut
+
+sub logger
 {
 
-        my $self    = shift->new();
-        my $name    = shift;
-        my $loggers = _getLoggers();
+        my $self = shift;
+        my $name = shift;          # name of logger
 
         # validate name
-        croak "First parameter must be a valid name!\n"
+        $self->_fatal("First parameter must be a valid name!")
             unless (defined $name and $name =~ /\w/);
+
+        # Grab our list of loggers
+        my $loggers = _logger();
 
         # if the requested logger is found, then return it, otherwise
         # store and return a newly created logger object.
@@ -293,35 +240,26 @@ sub getLogger
         # return the logger
         return $loggers->{$name};
 
-}          # getLogger()
+}          # logger()
 
-=head2 clone([$obj])
+# --------------------------------------------------------------------
 
-Clone the given Log::Fine object, returning the newly cloned object.
-If not given an object, then returns a clone of the calling object.
+##
+# called when a fatal condition is encountered
 
-=cut
-
-sub clone
+sub _fatal
 {
 
         my $self = shift;
-        my $obj  = shift;
+        my $msg  = shift;
 
-        # if we weren't given any additional arguments, assume we wish
-        # to clone ourself.
-        return dclone($self) unless scalar @_;
+        printf STDERR "\n[%s] {%s} FATAL : %s\n",
+            strftime("%c", localtime(time)),
+            ref $self || "undef", $msg;
+        croak $msg
+            unless $self->{no_croak};
 
-        # validate object
-        croak "First argument must be valid Log::Fine object!\n"
-            unless $obj->isa("Log::Fine");
-
-        # return the cloned object
-        return dclone($obj);
-
-}          # clone()
-
-# --------------------------------------------------------------------
+}          # _fatal()
 
 ##
 # Initializes our object
@@ -340,9 +278,13 @@ sub _init
                 # grab the class name
                 $self->{name} = ref $self;
                 $self->{name} =~ /\:(\w+)$/;
-                $self->{name} = lc($+) . _getObjectCount();
+                $self->{name} = lc($+) . _objectCount();
 
         }
+
+        # Set our levels if we need to
+        _levelMap(Log::Fine::Levels->new($self->{levelmap}))
+            unless (_levelMap() and _levelMap()->isa("Log::Fine::Levels"));
 
         # Victory!
         return $self;

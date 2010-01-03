@@ -2,21 +2,8 @@ Last Modified: $Date$
 
  * Switch to Module::Build?
 
- * Allow log levels to be definable.
-
-   - Create separate levels method which will handle level classes.
-     This will become an attribute of Log::Fine rather than inherited.
-   - Once level class has been set, lock it.  Have the following
-     method/function:
-
-       # function call
-       globalLevelType("Java"); # <-- loads appropriate class
-
-       # oo style call
-       $self->globalLevelType("Java");
-
-   - Need to figure out precedence on levels
-
- * Have a callback for handling log-fine errors?
+ * Document _fatal()
 
  * Have Utils handle more than one Logger?
+
+ * Tutorial for defining Log::Fine::Levels sub-classes

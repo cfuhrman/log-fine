@@ -13,6 +13,9 @@ Provides an object through which to log.
     # get a new logging object
     my $log = Log::Fine->getLogger("mylogger");
 
+    # alternatively, specify a custom map
+    my $log = Log::Fine->getLogger("mylogger", "Syslog");
+
     # register a handle
     $log->registerHandle( Log::Fine::Handle::Console->new() );
 
@@ -42,7 +45,7 @@ Provides an object through which to log.
 =head1 DESCRIPTION
 
 The Logger class is the main workhorse of the Log::Fine framework,
-providing the main L</"log"> method from which to log.  In addition,
+providing the main L</log> method from which to log.  In addition,
 the Logger class provides means by which the developer can control the
 parameter passed to any caller() call so information regarding the
 correct stack frame is displayed.
@@ -56,8 +59,6 @@ package Log::Fine::Logger;
 
 use base qw( Log::Fine );
 
-use Carp;
-use Exporter;
 use Log::Fine;
 
 # Constant: LOG_SKIP_DEFAULT
@@ -68,42 +69,51 @@ use constant LOG_SKIP_DEFAULT => 2;
 
 # --------------------------------------------------------------------
 
-=head2 decrSkip()
+=head2 decrSkip
 
-Decrements the value of {_skip} by one, returning the new value.
+Decrements the value of the skip attribute by one
 
-=cut
+=head3 Returns
 
-sub decrSkip
-{
-        return --$_[0]->{_skip};
-}          # decrSkip()
-
-=head2 getSkip()
-
-Returns the value of {_skip}
+The newly decremented value
 
 =cut
 
-sub getSkip
-{
-        return $_[0]->{_skip};
-}          # getSkip()
+sub decrSkip { return --$_[0]->{_skip}; }          # decrSkip()
 
-=head2 incrSkip()
+=head2 incrSkip
 
-Increments the value of {_skip}, returning the new value
+Increments the value of the skip attribute by one
+
+=head3 Returns
+
+The newly incremented value
 
 =cut
 
-sub incrSkip
-{
-        return ++$_[0]->{_skip};
-}          # incrSkip()
+sub incrSkip { return ++$_[0]->{_skip}; }          # incrSkip()
 
-=head2 log($lvl, $msg)
+=head2 log
 
-Logs the message at the given log level.
+Logs the message at the given log level
+
+=head3 Parameters
+
+=over
+
+=item  * level
+
+Level at which to log
+
+=item  * message
+
+Message to log
+
+=back
+
+=head3 Returns
+
+The object
 
 =cut
 
@@ -115,8 +125,10 @@ sub log
         my $msg  = shift;
 
         # see if we have any handles defined
-        croak "No handles defined!\n"
-            unless (scalar @{ $self->{_handles} } > 0);
+        $self->_fatal("No handles defined!")
+            unless (    defined $self->{_handles}
+                    and ref $self->{_handles} eq "ARRAY"
+                    and scalar @{ $self->{_handles} } > 0);
 
         # iterate through each handle, logging as appropriate
         foreach my $handle (@{ $self->{_handles} }) {
@@ -129,10 +141,24 @@ sub log
 
 }          # log()
 
-=head2 registerHandle($handle)
+=head2 registerHandle
 
 Registers the given L<Log::Fine::Handle> object with the logging
 facility.
+
+=head3 Parameters
+
+=over
+
+=item  * handle
+
+A valid L<Log::Fine::Handle> subclass
+
+=back
+
+=head3 Returns
+
+The object
 
 =cut
 
@@ -143,7 +169,8 @@ sub registerHandle
         my $handle = shift;
 
         # validate handle
-        croak "first argument must be a valid Log::Fine::Handle object\n"
+        $self->_fatal(
+                    "first argument must be a valid Log::Fine::Handle object\n")
             unless (defined $handle
                     and $handle->isa("Log::Fine::Handle"));
 
@@ -159,18 +186,31 @@ sub registerHandle
 
 }          # registerHandle()
 
-=head2 setSkip($skip)
+=head2 skip
 
-Sets the value passed to L<perlfunc/"caller">().   Note this
-only applies to loggers that include caller information in their log
-files.
+Getter/Setter for the objects skip attribute
+
+See L<perlfunc/caller> for details
+
+=head3 Returns
+
+The object's skip attribute
 
 =cut
 
-sub setSkip
+sub skip
 {
-        $_[0]->{_skip} = $_[1];
-}          # setSkip()
+
+        my $self = shift;
+        my $val  = shift;
+
+        # if we are given a value, then set skip
+        $self->{_skip} = $val
+            if (defined $val and $val =~ /^\d+$/);
+
+        return $self->{_skip};
+
+}          # skip()
 
 # --------------------------------------------------------------------
 
@@ -183,7 +223,7 @@ sub _init
         my $self = shift;
 
         # validate name
-        croak "Loggers need names!"
+        $self->_fatal("Loggers need names!")
             unless (defined $self->{name} and $self->{name} =~ /^\w+$/);
 
         # set logskip if necessary

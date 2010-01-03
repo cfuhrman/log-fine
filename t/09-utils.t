@@ -10,6 +10,7 @@ use File::Spec::Functions;
 use FileHandle;
 use Log::Fine;
 use Log::Fine::Handle::File;
+use Log::Fine::Levels::Syslog;
 use Log::Fine::Utils;
 
 {
@@ -35,7 +36,7 @@ use Log::Fine::Utils;
         Log(INFO, $msg);
 
         # grab a ref to our filehandle
-        my $fh = $handle->getFileHandle();
+        my $fh = $handle->fileHandle();
 
         # see if a file handle was properly constructed
         ok($fh->isa("IO::File"));

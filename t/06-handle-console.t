@@ -8,6 +8,7 @@ use Test::More;
 
 use Log::Fine;
 use Log::Fine::Handle::Console;
+use Log::Fine::Levels::Syslog;
 
 # set message
 my $msg =
@@ -23,14 +24,13 @@ my $handle = Log::Fine::Handle::Console->new();
 
         if ($@) {
                 plan skip_all =>
-"Test::Output 0.10 or above required for testing Console output"
-                    if $@;
+"Test::Output 0.10 or above required for testing Console output";
         } else {
                 plan tests => 8;
         }
 
         # get a logger
-        my $log = Log::Fine->getLogger("handleconsole0");
+        my $log = Log::Fine->logger("handleconsole0");
 
         ok(ref $log eq "Log::Fine::Logger");
 
@@ -38,7 +38,7 @@ my $handle = Log::Fine::Handle::Console->new();
         ok($handle->isa("Log::Fine::Handle"));
 
         # these should be set to their default values
-        ok($handle->{mask} == Log::Fine::Handle->DEFAULT_LOGMASK);
+        ok($handle->{mask} == $handle->levelMap()->bitmaskAll());
         ok($handle->{formatter}->isa("Log::Fine::Formatter::Basic"));
 
         # Console-specific attributes

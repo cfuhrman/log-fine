@@ -12,7 +12,7 @@ Provides logging to syslog()
     use Sys::Syslog;
 
     # Get a new logger
-    my $log = Log::Fine->getLogger("foo");
+    my $log = Log::Fine->logger("foo");
 
     # register a syslog handle
     my $handle = Log::Fine::Handle::Syslog
@@ -66,9 +66,9 @@ use constant LOG_MAPPING => {
 
 =head1 METHODS
 
-=head2 msgWrite($lvl, $msg, $skip)
+=head2 msgWrite
 
-See L<Log::Fine::Handle>
+See L<Log::Fine::Handle/msgWrite>
 
 Note that this method B<does not> make use of a formatter as this is
 handled by the syslog facility.

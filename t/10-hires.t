@@ -10,6 +10,7 @@ use Log::Fine;
 use Log::Fine::Formatter;
 use Log::Fine::Formatter::Basic;
 use Log::Fine::Formatter::Detailed;
+use Log::Fine::Levels::Syslog;
 
 {
 
@@ -27,7 +28,7 @@ use Log::Fine::Formatter::Detailed;
         my $basic = Log::Fine::Formatter::Basic->new(hires => 1);
 
         ok(ref $basic eq "Log::Fine::Formatter::Basic");
-        ok($basic->getTimestamp() eq
+        ok($basic->timeStamp() eq
             Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT_PRECISE);
 
         # format a message
@@ -38,7 +39,7 @@ use Log::Fine::Formatter::Detailed;
         ok($log0 =~ /^\[.*?\] \w+ $msg/);
 
         # make sure we can change the timestamp format
-        $basic->setTimestamp("%Y%m%d%H%M%S.%%millis%%");
+        $basic->timeStamp("%Y%m%d%H%M%S.%%millis%%");
 
         my $log1 = $basic->format(INFO, $msg, 1);
 
@@ -49,7 +50,7 @@ use Log::Fine::Formatter::Detailed;
         my $detailed = Log::Fine::Formatter::Detailed->new(hires => 1);
 
         ok(ref $detailed eq "Log::Fine::Formatter::Detailed");
-        ok($detailed->getTimestamp() eq
+        ok($detailed->timeStamp() eq
             Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT_PRECISE);
 
         # format a message

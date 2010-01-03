@@ -48,8 +48,8 @@ package Log::Fine::Utils;
 
 our @ISA = qw( Exporter );
 
-use Carp;
 use Log::Fine;
+use POSIX qw( strftime );
 
 # Exported functions
 our @EXPORT = qw( Log OpenLog );
@@ -60,7 +60,7 @@ our @EXPORT = qw( Log OpenLog );
 {
         my $logger;
 
-        sub _getLogger { return $logger }
+        sub _logger { return $logger }
         sub _setLogger { $logger = shift }
 }
 
@@ -69,37 +69,27 @@ our @EXPORT = qw( Log OpenLog );
 The following functions are automatically exported by
 Log::Fine::Utils:
 
-=head2 OpenLog
-
-Opens the logging subsystem.  Accepts one or more handles as arguments.
-
-=cut
-
-sub OpenLog
-{
-        my @handles = @_;
-
-        # validate a handle was passed
-        croak "At least one handle must be defined"
-            unless (scalar @handles > 0);
-
-        # construct a generic logger
-        my $logger = Log::Fine->getLogger("GENERIC");
-
-        # Set our handles
-        $logger->registerHandle($_) foreach @handles;
-
-        # Save the logger
-        _setLogger($logger);
-
-        # Victory!
-        return 1;
-
-}          # OpenLog()
-
 =head2 Log
 
 Logs the message at the given log level
+
+=head3 Parameters
+
+=over
+
+=item  * level
+
+Level at which to log
+
+=item  * message
+
+Message to log
+
+=back
+
+=head3 Returns
+
+1 on success
 
 =cut
 
@@ -108,12 +98,14 @@ sub Log
 
         my $lvl = shift;
         my $msg = shift;
-        my $log = _getLogger();
+        my $log = _logger();
 
         # validate logger has been set
-        croak
+        croak(
+               sprintf("[%s] FATAL : %s\n",
+                       strftime("%c", localtime(time)),
 "Logging system has not been set up.  (See Log::Fine::Utils::OpenLog()"
-            unless (defined $log and $log->isa("Log::Fine::Logger"));
+               )) unless (defined $log and $log->isa("Log::Fine::Logger"));
 
         # make sure we log the correct calling method
         $log->incrSkip();
@@ -123,6 +115,46 @@ sub Log
         return 1;
 
 }          # Log()
+
+=head2 OpenLog
+
+Opens the logging subsystem.
+
+=head3 Parameters
+
+One or more L<Log::Fine::Handle> object(s)
+
+=head3 Returns
+
+1 on success
+
+=cut
+
+sub OpenLog
+{
+        my @handles = @_;
+
+        # validate a handle was passed
+        croak(
+               sprintf("[%s] FATAL : %s\n",
+                       strftime("%c", localtime(time)),
+                       "At least one handle must be defined"
+               )) unless (scalar @handles > 0);
+
+        my $log = Log::Fine->new();
+
+        # construct a generic logger
+        my $logger = $log->logger("GENERIC");
+
+        # Set our handles
+        $logger->registerHandle($_) foreach @handles;
+
+        # Save the logger
+        _setLogger($logger);
+
+        return 1;
+
+}          # OpenLog()
 
 =head1 CAVEATS
 

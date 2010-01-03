@@ -38,21 +38,65 @@ package Log::Fine::Handle;
 
 use base qw( Log::Fine );
 
-use Carp;
-use Log::Fine qw( :macros :masks );
+use Log::Fine;
 use Log::Fine::Formatter::Basic;
-
-# Constant: DEFAULT_LOG_MASK
-#
-# Default log mask.  Basically everything
-use constant DEFAULT_LOGMASK => Log::Fine->LOGMASK_ALL;
+use Log::Fine::Levels;
 
 =head1 METHODS
 
-=head2 isLoggable($lvl)
+=head2 formatter
 
-Specifies whether the handle is loggable at the given level.  Returns
-1 if we can log, undef otherwise.
+Getter/Setter for the object's formatter attribute
+
+=head3 Parameters
+
+=over
+
+=item  * formatter
+
+[optional] A valid L<Log::Fine::Formatter> object
+
+=back
+
+=head3 Returns
+
+A L<Log::Fine::Formatter> object
+
+=cut
+
+sub formatter
+{
+
+        my $self      = shift;
+        my $formatter = shift;
+
+        # if the first argument is a valid formatter, then set the
+        # object's formatter attribute appropriately
+        $self->{formatter} = $formatter
+            if (defined $formatter and $formatter->isa("Log::Fine::Formatter"));
+
+        # return the object's formatter attribute
+        return $self->{formatter};
+
+}          # formatter()
+
+=head2 isLoggable
+
+Specifies whether the handle is loggable at the given level.
+
+=head3 Parameters
+
+=over
+
+=item  * level
+
+Name of level or numeric value representing level
+
+=back
+
+=head3 Returns
+
+1 if this level is loggable, undef otherwise
 
 =cut
 
@@ -62,25 +106,53 @@ sub isLoggable
         my $self = shift;
         my $lvl  = shift;
 
-        croak "No Level :$lvl\n"
-            unless (defined $lvl and $lvl =~ /\d+/);
+        # Return undef if level is not defined
+        return undef unless defined $lvl;
 
-	my $shifted = 2 << $lvl;
+        # convert level to value if we are given a string, otherwise
+        # use value as is.
+        my $val =
+            ($lvl =~ /^\d+$/) ? $lvl : $self->levelMap()->levelToValue($lvl);
+
+        # Make sure we have a valid value
+        return undef unless defined($val);
+
+        my $shifted = 2 << $val;
 
         # bitand the level and the mask to see if we're loggable
         return (($self->{mask} & $shifted) == $shifted) ? 1 : undef;
 
 }          # isLoggable()
 
-=head2 msgWrite($lvl, $msg, $skip)
+=head2 msgWrite
 
-Tells the handle to output the given log message.  The third
-parameter, C<$skip>, is passed to caller() for accurate method
-logging.
+Tells the handle to output the given log message.
 
 B<Note:> msgWrite() is an I<internal> method to the Log::Fine
 framework, meant to be sub-classed.  Use
-L<Log::Fine::Logger/"log($lvl, $msg)"> for actual logging.
+L<Log::Fine::Logger/log> for actual logging.
+
+=head3 Parameters
+
+=over
+
+=item  * level
+
+Level at which to log
+
+=item  * message
+
+Message to log
+
+=item  * skip
+
+Passed to L<caller|perlfunc/caller> for accurate method logging
+
+=back
+
+=head3 Returns
+
+none
 
 =cut
 
@@ -90,33 +162,13 @@ sub msgWrite
         my $self  = shift;
         my $class = ref $self;
 
-        croak "someone used an (abstract) Handle object"
-            if $class eq 'Log::Fine::Handle';
+        $self->_fatal(
+"direct call to abstract method msgWrite()!\n  See Log::Fine::Handle documentation"
+        ) if $class eq 'Log::Fine::Handle';
 
-        croak "call to abstract method ${class}::msgWrite()";
+        $self->_fatal("call to abstract method ${class}::msgWrite()");
 
 }          # msgWrite()
-
-=head2 setFormatter($formatter)
-
-Sets the formatter for this object
-
-=cut
-
-sub setFormatter
-{
-
-        my $self      = shift;
-        my $formatter = shift;
-
-        # validate formatter
-        croak "First argument must be a valid formatter object!\n"
-            unless (defined $formatter
-                    and $formatter->isa("Log::Fine::Formatter"));
-
-        $self->{formatter} = $formatter;
-
-}          # setFormatter()
 
 # --------------------------------------------------------------------
 
@@ -132,7 +184,7 @@ sub _init
         $self->SUPER::_init();
 
         # set default bitmask
-        $self->{mask} = DEFAULT_LOGMASK
+        $self->{mask} = $self->levelMap()->bitmaskAll()
             unless defined $self->{mask};
 
         # set the default formatter

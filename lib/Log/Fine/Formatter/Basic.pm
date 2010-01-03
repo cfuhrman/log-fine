@@ -41,13 +41,37 @@ use base qw( Log::Fine::Formatter );
 
 use Log::Fine;
 use Log::Fine::Formatter;
+use Log::Fine::Levels;
+
 use POSIX qw( strftime );
 
 =head1 METHODS
 
-=head2 format($lvl, $msg, $skip)
+=head2 format
 
-Returns the formatted message as follows:
+Formats the given message for the given level
+
+=head3 Parameters
+
+=over
+
+=item  * level
+
+Level at which to log (see L<Log::Fine::Levels>)
+
+=item  * message
+
+Message to log
+
+=item  * skip
+
+[ignored] Controls caller skip level
+
+=back
+
+=head3 Returns
+
+The formatted text string in the form:
 
   [TIMESTAMP] LEVEL MESSAGE
 
@@ -59,12 +83,12 @@ sub format
         my $self = shift;
         my $lvl  = shift;
         my $msg  = shift;
-        my $skip = shift;                         # NOT USED
-        my $lvls = Log::Fine->LOG_LEVELS;
+        my $skip = shift;          # NOT USED
 
         # return the formatted string
         return
-            sprintf("[%s] %-4s %s\n", $self->_getFmtTime(), $lvls->[$lvl],
+            sprintf("[%s] %-4s %s\n",
+                    $self->_getFmtTime(), $self->levelMap()->valueToLevel($lvl),
                     $msg);
 
 }          # format()

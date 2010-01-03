@@ -11,7 +11,7 @@ Provides logging to a file
     use Log::Fine::Handle::File;
 
     # Get a new logger
-    my $log = Log::Fine->getLogger("foo");
+    my $log = Log::Fine->logger("foo");
 
     # register a file handle (default values shown)
     my $handle = Log::Fine::Handle::File
@@ -43,7 +43,6 @@ package Log::Fine::Handle::File;
 
 use base qw( Log::Fine::Handle );
 
-use Carp;
 use File::Basename;
 use File::Spec::Functions;
 use FileHandle;
@@ -51,14 +50,21 @@ use Log::Fine;
 
 =head1 METHODS
 
-=head2 getFileHandle()
+=head2 fileHandle
 
-Retrives the filehandle to write to.  Override this method if you wish
-to support features such as time-stamped and/or rotating files.
+Getter for file handle.  If a file handle is not defined, then one
+will be created.
+
+Override this method if you wish to support
+features such as time-stamped and/or rotating files.
+
+=head3 Returns
+
+A L<FileHandle> object
 
 =cut
 
-sub getFileHandle
+sub fileHandle
 {
 
         my $self = shift;
@@ -74,7 +80,7 @@ sub getFileHandle
         # otherwise create a new one
         $self->{_filehandle} = FileHandle->new(">> " . $filename);
 
-        croak "Unable to open log file $filename : $!\n"
+        $self->_fatal("Unable to open log file $filename : $!\n")
             unless defined $self->{_filehandle};
 
         # set autoflush if necessary
@@ -83,11 +89,11 @@ sub getFileHandle
         # return the newly created file handle
         return $self->{_filehandle};
 
-}          # getFileHandle()
+}          # fileHandle()
 
-=head2 msgWrite($lvl, $msg, $skip)
+=head2 msgWrite
 
-See L<Log::Fine::Handle>
+See L<Log::Fine::Handle/msgWrite>
 
 =cut
 
@@ -100,7 +106,7 @@ sub msgWrite
         my $skip = shift;
 
         # grab a ref to our file handle
-        my $fh = $self->getFileHandle();
+        my $fh = $self->fileHandle();
 
         # if we have a formatter defined, then use that, otherwise, just
         # print the raw message

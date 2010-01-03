@@ -4,59 +4,84 @@
 # $Id$
 #
 
-use Test::More tests => 1025;
+use Test::More tests => 1029;
 
-use Log::Fine qw( :macros :masks );
+use Log::Fine;
 use Log::Fine::Handle;
 use Log::Fine::Handle::String;
+use Log::Fine::Levels::Syslog qw( :macros :masks );
 
-# Mappings
-my $ltov;
-my $vtol;
-my $mtov;
+# Mask to Level mapping
+my $ltov = Log::Fine::Levels::Syslog->LVLTOVAL_MAP;
+my $vtol = Log::Fine::Levels::Syslog->VALTOLVL_MAP;
+my $mtov = Log::Fine::Levels::Syslog->MASK_MAP;
 
 # Variable for mapping masks to their levels
 my $mtolv = {};
 
+# set message
+my $msg =
+    "Stop by this disaster town, we put our eyes to the sun and say 'Hello!'";
+
 {
 
-        my @mv;
-        my $levels = Log::Fine::LOG_LEVELS;
-        my $masks  = Log::Fine::LOG_MASKS;
+        my $skipflag = 0;
 
-        # build level-to-value and value-to-level maps
-        foreach my $level (@{$levels}) {
-                my $val = eval $level;
-                $ltov->{$level} = $val;
-                $vtol->{$val}   = $level;
-        }
+        # initialize logging framework and grab ref to map
+        my $log = Log::Fine->new();
 
-        # now build mask to value maps
-        $mtov->{$_} = eval $_ foreach (@{$masks});
+        isa_ok($log, "Log::Fine");
 
-        # finally, build mask to level map
-        for (my $i = 0; $i < scalar @{$masks}; $i++) {
-                $mtolv->{ $mtov->{ $masks->[$i] } } = $ltov->{ $levels->[$i] };
-        }
-
-        # now that we're set up, start by constructing a handle
+        # first we create a handle
         my $handle = Log::Fine::Handle::String->new();
 
-        # validate handle and formatter
+        # validate handle types
         isa_ok($handle,              "Log::Fine::Handle");
         isa_ok($handle->{formatter}, "Log::Fine::Formatter::Basic");
 
         # make sure all methods are supported
-        can_ok($handle, $_) foreach (qw/ isLoggable msgWrite setFormatter /);
+        can_ok($handle, $_) foreach (qw/ isLoggable msgWrite formatter /);
+
+        # build mask to level map
+        my @levels = sort keys %{$ltov};
+        my @masks  = sort keys %{$mtov};
+
+        ok(scalar @levels == scalar @masks);
+
+        for (my $i = 0; $i < scalar @levels; $i++) {
+                $mtolv->{ $mtov->{ $masks[$i] } } = $ltov->{ $levels[$i] };
+        }
+
+        # validate default attributes
+        ok($handle->{mask} == $log->levelMap()->bitmaskAll());
 
         # build array of mask values
-        push @mv, $mtov->{$_} foreach (keys %{$mtov});
+        my @mv;
+        push @mv, $mtov->{$_} foreach (@masks);
 
         # clear bitmask
         $handle->{mask} = 0;
 
         # now recursive test isLoggable() with sorted values of masks
         testmask(0, sort { $a <=> $b } @mv);
+
+    SKIP: {
+
+                eval "use Test::Output";
+
+                skip
+"Test::Output 0.10 or above required for testing Console output",
+                    1
+                    if $@;
+
+                my $badhandle = Log::Fine::Handle->new(no_croak => 1);
+
+                stderr_like(sub { $badhandle->msgWrite(INFO, $msg) },
+                            qr/direct call to abstract method/,
+                            'Test Direct Abstract Call'
+                );
+
+        }
 
 }
 
