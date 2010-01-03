@@ -11,10 +11,10 @@ Provides an object through which to log.
     use Log::Fine::Logger;
 
     # get a new logging object
-    my $log = Log::Fine->getLogger("mylogger");
+    my $log = Log::Fine->logger("mylogger");
 
     # alternatively, specify a custom map
-    my $log = Log::Fine->getLogger("mylogger", "Syslog");
+    my $log = Log::Fine->logger("mylogger", "Syslog");
 
     # register a handle
     $log->registerHandle( Log::Fine::Handle::Console->new() );
