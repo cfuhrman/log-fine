@@ -91,7 +91,7 @@ The newly incremented value
 
 =cut
 
-sub incrSkip {        return ++$_[0]->{_skip}; }          # incrSkip()
+sub incrSkip { return ++$_[0]->{_skip}; }          # incrSkip()
 
 =head2 log
 
@@ -198,18 +198,19 @@ The object's skip attribute
 
 =cut
 
-sub skip {
+sub skip
+{
 
         my $self = shift;
         my $val  = shift;
 
         # if we are given a value, then set skip
         $self->{_skip} = $val
-                if (defined $val and $val =~ /^\d+$/);
+            if (defined $val and $val =~ /^\d+$/);
 
         return $self->{_skip};
 
-} # skip()
+}          # skip()
 
 # --------------------------------------------------------------------
 

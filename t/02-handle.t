@@ -36,7 +36,7 @@ my $msg =
         my $handle = Log::Fine::Handle::String->new();
 
         # validate handle types
-        isa_ok($handle, "Log::Fine::Handle");
+        isa_ok($handle,              "Log::Fine::Handle");
         isa_ok($handle->{formatter}, "Log::Fine::Formatter::Basic");
 
         # make sure all methods are supported

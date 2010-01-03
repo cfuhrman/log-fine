@@ -17,7 +17,7 @@ use Log::Fine::Levels::Syslog;
         # create a basic formatter
         my $basic = Log::Fine::Formatter::Basic->new();
 
-        ok(ref $basic          eq "Log::Fine::Formatter::Basic");
+        ok(ref $basic eq "Log::Fine::Formatter::Basic");
         ok($basic->timeStamp() eq Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
 
         # See if our levels are properly defined
@@ -46,7 +46,7 @@ use Log::Fine::Levels::Syslog;
         # now create a detailed formatter
         my $detailed = Log::Fine::Formatter::Detailed->new();
 
-        ok(ref $detailed          eq "Log::Fine::Formatter::Detailed");
+        ok(ref $detailed eq "Log::Fine::Formatter::Detailed");
         ok($detailed->timeStamp() eq
             Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
 
