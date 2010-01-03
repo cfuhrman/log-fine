@@ -54,7 +54,7 @@ Getter/Setter for the object's formatter attribute
 
 =item  * formatter
 
-[optional] A valid L<Log::Fine::Formatter> object
+B<[optional]> A valid L<Log::Fine::Formatter> object
 
 =back
 

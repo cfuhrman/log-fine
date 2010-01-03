@@ -149,7 +149,7 @@ string.  Otherwise, returns the object's format string.
 
 =item  * string
 
-[optional] L<strftime(3)> compatible string to set
+B<[optional]> L<strftime(3)> compatible string to set
 
 =back
 

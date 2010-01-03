@@ -141,7 +141,7 @@ An array ref containing one or more L<Log::Fine::Handle> objects
 
 =item * levelmap
 
-[optional] L<Log::Fine::Levels> subclass to use.  Will default to
+B<[optional]> L<Log::Fine::Levels> subclass to use.  Will default to
 "Syslog" if not defined.
 
 =back
