@@ -20,3 +20,12 @@ Revision history for Log-Fine
 
 0.21	2008-12-12
 	* Add functional wrapper via Utils
+
+0.30    2009-01-03
+        * Log levels can now be defined via Log::Fine::Levels
+        * Remove clone()
+        * Add new method, _fatal(), for handling internal fatal
+          conditions
+        * Major cleanup of documentation
+        * OpenLog() now takes a hash argument (see Log::Fine::Utils)
+        * Various API changes
