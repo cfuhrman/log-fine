@@ -5,11 +5,18 @@ SYNOPSIS
     Provides fine-grained logging and tracing.
 
         use Log::Fine;
-        use Log::Fine qw( :masks );          # log masks
-        use Log::Fine qw( :macros :masks );  # everything
+        use Log::Fine::Levels::Syslog;                # exports log levels
+        use Log::Fine::Levels::Syslog qw( :masks );   # exports masks and levels
 
-        # grab our logger object
-        my $log = Log::Fine->getLogger("foo");
+        # build a Log::Fine object
+        my $fine = Log::Fine->new();
+
+        # specify a custom map
+        my $fine = Log::Fine->new(levelmap => "Syslog");
+
+        # use logger() to get a new logger object.  If "foo" is not
+        # defined then a new logger with the name "foo" will be created.
+        my $log = Log::Fine->logger("foo");
 
         # register a handle, in this case a handle that logs to console.
         my $handle = Log::Fine::Handle::Console->new();
@@ -17,10 +24,6 @@ SYNOPSIS
 
         # log a message
         $log->log(INFO, "Log object successfully initialized");
-
-        # create a clone of a Logger object and a handle object
-        my $clone1 = $log->clone();          # <-- clone of $log
-        my $clone2 = $log->clone($handle);
 
 DESCRIPTION
     Log::Fine provides a logging framework for application developers who
@@ -55,69 +58,6 @@ DESCRIPTION
     See the relevant perldoc information for more information. Additional
     handlers can be defined to the user's taste.
 
-  Log Levels
-    Log::Fine bases its log levels on those found in Sys::Syslog. For
-    convenience, the following shorthand macros are exported.
-
-    *   "EMER"
-
-    *   "ALRT"
-
-    *   "CRIT"
-
-    *   "ERR"
-
-    *   "WARN"
-
-    *   "NOTI"
-
-    *   "INFO"
-
-    *   "DEBG"
-
-    Each of these corresponds to the appropriate logging level.
-
-  Masks
-    Log masks can be exported for use in setting up individual handles (see
-    Log::Fine::Handle). Log::Fine exports the following masks corresponding
-    to their log level:
-
-    *   "LOGMASK_EMERG"
-
-    *   "LOGMASK_ALERT"
-
-    *   "LOGMASK_CRIT"
-
-    *   "LOGMASK_ERR"
-
-    *   "LOGMASK_WARNING"
-
-    *   "LOGMASK_NOTICE"
-
-    *   "LOGMASK_INFO"
-
-    *   "LOGMASK_DEBUG"
-
-    See Log::Fine::Handle for more information.
-
-    In addition, the following shortcut constants are provided. Note that
-    these *are not* exported by default, rather you have to reference them
-    explicitly, as shown below.
-
-    *   "Log::Fine->LOGMASK_ALL"
-
-        Shorthand constant for all log masks.
-
-    *   "Log::Fine->LOGMASK_ERROR"
-
-        Shorthand constant for "LOGMASK_EMERG" through "LOGMASK_ERR". This
-        is not to be confused with "LOGMASK_ERR".
-
-    In addition, you can specify your own customized masks as shown below:
-
-        # we want to log all error masks plus the warning mask
-        my $mask = Log::Fine->LOGMASK_ERROR | LOGMASK_WARNING;
-
   Formatters
     A formatter specifies how Log::Fine displays messages. When a message is
     logged, it gets passed through a formatter object, which adds any
@@ -137,16 +77,37 @@ METHODS
     further actions are done through the logger object. The following two
     constructors are defined:
 
-  new()
+  new
     Creates a new Log::Fine object.
 
-  getLogger($name)
-    Creates a logger with the given name. This method can also be used as a
-    constructor for a Log::Fine object
+   Parameters
+    A hash with the following keys
 
-  clone([$obj])
-    Clone the given Log::Fine object, returning the newly cloned object. If
-    not given an object, then returns a clone of the calling object.
+    *   levelmap
+
+        [default: Syslog] Name of level map to use. See Log::Fine::Levels
+        for further details
+
+   Returns
+    The newly bless'd object
+
+  levelMap
+    Getter for the global level map.
+
+   Returns
+    A Log::Fine::Levels subclass
+
+  logger
+    Getter/Constructor for a logger object.
+
+   Parameters
+    *   logger name
+
+        The name of the logger object. If the specified logger object does
+        not exist, then a new one will be created.
+
+   Returns
+    an Log::Fine::Logger object
 
 ACKNOWLEDGMENTS
     I'd like the thank the following people for either inspiration or past
@@ -206,7 +167,8 @@ REVISION INFORMATION
       $Id$
 
 COPYRIGHT & LICENSE
-    Copyright (c) 2008, 2009 Christopher M. Fuhrman, All rights reserved.
+    Copyright (c) 2008, 2009, 2010 Christopher M. Fuhrman, All rights
+    reserved.
 
     This program is free software licensed under the...
 
