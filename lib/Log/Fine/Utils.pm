@@ -28,7 +28,8 @@ Provides a functional wrapper around Log::Fine.
                facility  => LOG_LEVEL0 );
 
     # open the logging subsystem
-    OpenLog( $handle1, [$handle2], ... );
+    OpenLog( handles  => [ $handle1, [$handle2], ... ],
+             levelmap => "Syslog");
 
     # Log a message
     Log(INFO, "The angels have my blue box");
@@ -65,7 +66,7 @@ our @EXPORT = qw( Log OpenLog );
                 my $obj = shift;
 
                 $logger = $obj
-                        if (defined $obj and ref $obj eq "Log::Fine::Logger");
+                    if (defined $obj and ref $obj eq "Log::Fine::Logger");
 
                 return $logger;
         }
@@ -130,7 +131,20 @@ Opens the logging subsystem.
 
 =head3 Parameters
 
-One or more L<Log::Fine::Handle> object(s)
+A hash containing the following keys:
+
+=over
+
+=item * handles
+
+An array ref containing one or more L<Log::Fine::Handle> objects
+
+=item * levelmap
+
+[optional] L<Log::Fine::Levels> subclass to use.  Will default to
+"Syslog" if not defined.
+
+=back
 
 =head3 Returns
 
@@ -140,22 +154,26 @@ One or more L<Log::Fine::Handle> object(s)
 
 sub OpenLog
 {
-        my @handles = @_;
+        my %data = @_;
+        my $levels = $data{levelmap} || "Syslog";
 
         # validate a handle was passed
         croak(
                sprintf("[%s] FATAL : %s\n",
                        strftime("%c", localtime(time)),
                        "At least one handle must be defined"
-               )) unless (scalar @handles > 0);
+               ))
+            unless (    defined $data{handles}
+                    and ref $data{handles} eq "ARRAY"
+                    and scalar @{ $data{handles} } > 0);
 
-        my $log = Log::Fine->new();
+        my $log = Log::Fine->new(levelmap => $levels);
 
         # construct a generic logger
         my $logger = $log->logger("GENERIC");
 
         # Set our handles
-        $logger->registerHandle($_) foreach @handles;
+        $logger->registerHandle($_) foreach @{ $data{handles} };
 
         # Save the logger
         _logger($logger);

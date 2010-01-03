@@ -10,7 +10,7 @@ use File::Spec::Functions;
 use FileHandle;
 use Log::Fine;
 use Log::Fine::Handle::File;
-use Log::Fine::Levels::Syslog;
+use Log::Fine::Levels::Java;
 use Log::Fine::Utils;
 
 {
@@ -30,10 +30,11 @@ use Log::Fine::Utils;
         unlink $file if -e $file;
 
         # open the logging sub-system
-        OpenLog($handle);
+        OpenLog(handles  => [$handle],
+                levelmap => "Java");
 
         # log a message
-        Log(INFO, $msg);
+        Log(FINE, $msg);
 
         # grab a ref to our filehandle
         my $fh = $handle->fileHandle();
