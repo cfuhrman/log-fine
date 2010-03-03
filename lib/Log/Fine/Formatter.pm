@@ -198,14 +198,14 @@ sub _init
 
                 # set {timestamp_format} to default high precision
                 # format if necessary.
-                $self->{timestamp_format} = LOG_TIMESTAMP_FORMAT_PRECISE
+                $self->{timestamp_format} = $self->LOG_TIMESTAMP_FORMAT_PRECISE
                     unless (defined $self->{timestamp_format}
                             and $self->{timestamp_format} =~ /\w+/);
 
         } else {
 
                 # set {timestamp_format} to the default if necessary
-                $self->{timestamp_format} = LOG_TIMESTAMP_FORMAT
+                $self->{timestamp_format} = $self->LOG_TIMESTAMP_FORMAT
                     unless (defined $self->{timestamp_format}
                             and $self->{timestamp_format} =~ /\w+/);
 
