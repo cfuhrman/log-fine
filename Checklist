@@ -11,5 +11,7 @@ Last Modified: $Date$
 
 4) Regenerate README if necessary (use pod2text)
 
-5) Release unto the world
+5) Tag new release based on VERSION
+
+6) Release unto the world
 
