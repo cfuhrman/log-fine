@@ -76,10 +76,25 @@ use Log::Fine::Levels::Syslog;
         # format a message
         my $log5 = $syslog->format(INFO, $msg, 1);
 
-        print STDERR "\n$log5\n";
+        # print STDERR "\n$log5\n";
+
+        # Note: This regex is designed to catch non-English month
+        # representations found in other locales.  This has been
+        # tested against:
+        #
+        #  * ar_AE.utf8
+        #  * cs_CZ.utf8
+        #  * de_DE.utf8
+        #  * es_ES.utf8
+        #  * hi_IN.utf8
+        #  * ja_JP.utf8
+        #  * ko_KR.utf8
+        #  * zh_TW.UTF-8
+        #
+        # This list is by no means comprehensive.
 
         ok($log5 =~
-            /^(\S+ \d+|\w+ [ 1-3][0-9]) \d{2}:\d{2}:\d{2} [0-9a-zA-Z\-]+ .*?\[\d+\]: $msg/
+           /^([ 1]\d\S+|[^ ]+) [ 1-3][0-9] \d{2}:\d{2}:\d{2} [0-9a-zA-Z\-]+ .*?\[\d+\]: $msg/
         );
 
     SKIP: {
