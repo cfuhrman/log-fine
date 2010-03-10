@@ -76,8 +76,10 @@ use Log::Fine::Levels::Syslog;
         # format a message
         my $log5 = $syslog->format(INFO, $msg, 1);
 
+        print STDERR "\n$log5\n";
+
         ok($log5 =~
-            /^\w+ [ 1-3][0-9] \d{2}:\d{2}:\d{2} [0-9a-zA-Z\-]+ .*?\[\d+\]: $msg/
+            /^(\S+ \d+|\w+ [ 1-3][0-9]) \d{2}:\d{2}:\d{2} [0-9a-zA-Z\-]+ .*?\[\d+\]: $msg/
         );
 
     SKIP: {
