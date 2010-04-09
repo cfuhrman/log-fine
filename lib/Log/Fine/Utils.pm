@@ -61,6 +61,7 @@ our @EXPORT = qw( Log OpenLog );
 {
         my $logger;
 
+        # getter/setter for logger
         sub _logger
         {
                 my $obj = shift;
