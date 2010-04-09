@@ -60,8 +60,8 @@ use constant TODAY_FORMAT => "%Y%m%d";
 
         my $today;
 
-        sub _getToday { return $today }
-        sub _setToday { $today = shift }
+        # getter/setter for today.
+        sub _Today { $today = shift || $today; return $today; }
 
 }
 
@@ -77,7 +77,7 @@ sub fileHandle
 {
 
         my $self  = shift;
-        my $today = _getToday();
+        my $today = _Today();
 
         # return if we have a registered filehandle and the date is
         # still the same
@@ -87,7 +87,7 @@ sub fileHandle
                 and defined $today
                 and strftime(TODAY_FORMAT, localtime(time)) eq $today);
 
-        # need a new file.  Close our filehandle if it exists
+        # we need a new file.  Close our filehandle if it exists
         $self->{_filehandle}->close()
             if (defined $self->{_filehandle}
                 and $self->{_filehandle}->isa("IO::File"));
@@ -106,7 +106,7 @@ sub fileHandle
         $self->{_filehandle}->autoflush($self->{autoflush});
 
         # reset today's date
-        _setToday(strftime(TODAY_FORMAT, localtime(time)));
+        _Today(strftime(TODAY_FORMAT, localtime(time)));
 
         # return the newly created file handle
         return $self->{_filehandle};
