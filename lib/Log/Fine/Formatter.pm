@@ -68,6 +68,7 @@ package Log::Fine::Formatter;
 
 use base qw( Log::Fine );
 
+use Log::Fine::Logger;
 use POSIX qw( strftime );
 
 # Constant: LOG_TIMESTAMP_FORMAT, LOG_TIMESTAMP_FORMAT_PRECISE
@@ -184,9 +185,6 @@ sub _init
 
         # perform super initializations
         $self->SUPER::_init();
-
-        # make sure we load in the logger object
-        require Log::Fine::Logger;
 
         # verify that we can load the Time::HiRes module
         if ($self->{hires}) {
