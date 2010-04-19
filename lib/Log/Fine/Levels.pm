@@ -74,12 +74,26 @@ The following methods are provided:
 
 Creates a new Log::Fine::Levels object
 
+=head3 Parameters
+
+=over
+
+=item  * levelmap
+
+The name of the level map to use (e.g., C<Syslog>, C<Java>, etc)
+
+=back
+
+=head3 Returns
+
+an L<Log::Fine::Levels> object
+
 =cut
 
 sub new
 {
 
-        my $class = shift;
+        my $class  = shift;
         my $lvlmap = shift || DEFAULT_LEVELMAP;
 
         # construct the subclass

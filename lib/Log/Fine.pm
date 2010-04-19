@@ -232,7 +232,8 @@ sub logger
         my $loggers = _logger();
 
         # if the requested logger is found, then return it, otherwise
-        # store and return a newly created logger object.
+        # store and return a newly created logger object with the
+        # given name
         $loggers->{$name} = Log::Fine::Logger->new(name => $name)
             unless (defined $loggers->{$name}
                     and $loggers->{$name}->isa("Log::Fine::Logger"));
@@ -246,6 +247,10 @@ sub logger
 
 ##
 # called when a fatal condition is encountered
+#
+# Parameters:
+#
+#   msg - message to display
 
 sub _fatal
 {
@@ -256,6 +261,7 @@ sub _fatal
         printf STDERR "\n[%s] {%s} FATAL : %s\n",
             strftime("%c", localtime(time)),
             ref $self || "undef", $msg;
+
         croak $msg
             unless $self->{no_croak};
 
