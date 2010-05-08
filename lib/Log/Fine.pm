@@ -245,12 +245,22 @@ sub logger
 
 # --------------------------------------------------------------------
 
-##
-# called when a fatal condition is encountered
-#
-# Parameters:
-#
-#   msg - message to display
+=head2 _fatal
+
+Private method that is called when a fatal (nonrecoverable) condition
+is encountered.  Note this method can be overridden per taste.
+
+=head3 Parameters
+
+=over
+
+=item message
+
+Message to display when croaking
+
+=back
+
+=cut
 
 sub _fatal
 {
