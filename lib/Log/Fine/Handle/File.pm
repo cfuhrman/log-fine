@@ -59,10 +59,17 @@ Directory to place the log file
 
 Name of the log file
 
+=item  * autoclose
+
+[default: 0] If set to true, will close the filehandle after every
+invocation of L</"msgWrite">.  B<NOTE:> will I<significantly> slow
+down logging speed if multiple messages are logged at once.  Consider
+autoflush instead
+
 =item  * autoflush
 
-[optional] If set to true, will force file flush after every write or
-print (see L<FileHandle> and L<perlvar>).
+[default: 0] If set to true, will force file flush after every write or
+print (see L<FileHandle> and L<perlvar>)
 
 =back
 
@@ -148,6 +155,11 @@ sub msgWrite
         # print the message to the log file
         print $fh $msg;
 
+        # if autoclose is set, then close the file handle.  This will
+        # force the creation of a new filehandle next time this method
+        # is called
+        $self->fileHandle()->close() if $self->{autoclose};
+
         # Victory!
         return $self;
 
@@ -177,6 +189,10 @@ sub _init
         # set autoflush unless it is already set
         $self->{autoflush} = 0
                 unless defined $self->{autoflush};
+
+        # set autoclose unless it is already set
+        $self->{autoclose} = 0
+                unless defined $self->{autoclose};
 
         # Victory!
         return $self;

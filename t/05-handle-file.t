@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 11;
+use Test::Simple tests => 13;
 
 use File::Spec::Functions;
 use FileHandle;
@@ -41,6 +41,7 @@ use Log::Fine::Logger;
         ok($handle->{file} eq $file);
         ok($handle->{dir}  eq "./");
         ok($handle->{autoflush} == 1);
+        ok($handle->{autoclose} == 0);
 
         # remove the file if it exists so as not to confuse ourselves
         unlink $file if -e $file;
@@ -72,6 +73,23 @@ use Log::Fine::Logger;
 
         # clean up
         $fh->close();
+        unlink $file;
+
+        # Test to make sure autoclose works as expected
+        my $closehandle = Log::Fine::Handle::File->new(file      => $file,
+                                                       autoflush => 1,
+                                                      autoclose => 1);
+
+        # grab a ref to the FileHandle object
+        my $fh2 = $closehandle->fileHandle();
+
+        # Write something out and make sure our filehandle is closed
+        $closehandle->msgWrite(INFO, $msg, 1);
+
+        # fileno will return undef if $fh2 is a closed filehandle
+        ok(not defined fileno $fh2);
+
+        # clean up
         unlink $file;
 
 }
