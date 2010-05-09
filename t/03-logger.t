@@ -78,7 +78,7 @@ use Log::Fine::Logger;
                 stderr_like(
                         sub {
                                 $badlog->log(INFO,
-"It was lightning headaches and sweet avalance"
+"It was lightning headaches and sweet avalanche"
                                 );
                         },
                         qr/No handles defined/,
