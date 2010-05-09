@@ -88,6 +88,11 @@ METHODS
         [default: Syslog] Name of level map to use. See Log::Fine::Levels
         for further details
 
+    *   no_croak
+
+        [optional] If set to true, then do not croak when "_fatal()" is
+        called.
+
    Returns
     The newly bless'd object
 
@@ -108,6 +113,16 @@ METHODS
 
    Returns
     an Log::Fine::Logger object
+
+  _fatal
+    Private method that is called when a fatal (nonrecoverable) condition is
+    encountered. Will call croak unless the {no_croak} attribute is set.
+
+    This method can be overridden per taste.
+
+   Parameters
+    message
+        Message passed to croak.
 
 ACKNOWLEDGMENTS
     I'd like the thank the following people for either inspiration or past
