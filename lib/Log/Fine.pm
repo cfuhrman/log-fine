@@ -160,6 +160,11 @@ A hash with the following keys
 [default: Syslog] Name of level map to use.  See L<Log::Fine::Levels>
 for further details
 
+=item  * no_croak
+
+[optional] If set to true, then do not L<croak|Carp> when
+L</"_fatal()"> is called.
+
 =back
 
 =head3 Returns
@@ -228,18 +233,15 @@ sub logger
         $self->_fatal("First parameter must be a valid name!")
             unless (defined $name and $name =~ /\w/);
 
-        # Grab our list of loggers
-        my $loggers = _logger();
-
         # if the requested logger is found, then return it, otherwise
         # store and return a newly created logger object with the
         # given name
-        $loggers->{$name} = Log::Fine::Logger->new(name => $name)
-            unless (defined $loggers->{$name}
-                    and $loggers->{$name}->isa("Log::Fine::Logger"));
+        _logger()->{$name} = Log::Fine::Logger->new(name => $name)
+            unless (defined _logger()->{$name}
+                    and _logger()->{$name}->isa("Log::Fine::Logger"));
 
         # return the logger
-        return $loggers->{$name};
+        return _logger()->{$name};
 
 }          # logger()
 
@@ -248,7 +250,10 @@ sub logger
 =head2 _fatal
 
 Private method that is called when a fatal (nonrecoverable) condition
-is encountered.  Note this method can be overridden per taste.
+is encountered.  Will call L<croak|Carp> unless the {no_croak}
+attribute is set.
+
+This method can be overridden per taste.
 
 =head3 Parameters
 
@@ -256,7 +261,7 @@ is encountered.  Note this method can be overridden per taste.
 
 =item message
 
-Message to display when croaking
+Message passed to L<croak|Carp>.
 
 =back
 
@@ -300,7 +305,8 @@ sub _init
 
         # Set our levels if we need to
         _levelMap(Log::Fine::Levels->new($self->{levelmap}))
-            unless (_levelMap() and _levelMap()->isa("Log::Fine::Levels"));
+            unless (defined _levelMap()
+                    and _levelMap()->isa("Log::Fine::Levels"));
 
         # Victory!
         return $self;
