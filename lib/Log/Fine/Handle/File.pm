@@ -13,12 +13,15 @@ Provides logging to a file
     # Get a new logger
     my $log = Log::Fine->logger("foo");
 
-    # register a file handle (default values shown)
+    # register a file handle (default values shown).  Note that
+    # setting autoflush to a true value will force a file flush
+    # (see FileHandle and perlvar for details)
     my $handle = Log::Fine::Handle::File
         ->new( name => 'file0',
                mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT | LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO,
                dir  => "/var/log",
-               file => "myapp.log" );
+               file => "myapp.log",
+               autoflush => 0 );
 
     # register the handle
     $log->registerHandle($handle);
@@ -141,6 +144,10 @@ sub _init
         # set the default file name
         $self->{file} = basename $0 . ".log"
             unless defined $self->{file};
+
+        # set autoflush unless it is already set
+        $self->{autoflush} = 0
+                unless defined $self->{autoflush};
 
         # Victory!
         return $self;
