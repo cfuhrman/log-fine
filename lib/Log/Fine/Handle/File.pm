@@ -13,9 +13,7 @@ Provides logging to a file
     # Get a new logger
     my $log = Log::Fine->logger("foo");
 
-    # register a file handle (default values shown).  Note that
-    # setting autoflush to a true value will force a file flush
-    # (see FileHandle and perlvar for details)
+    # register a file handle (default values shown)
     my $handle = Log::Fine::Handle::File
         ->new( name => 'file0',
                mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT | LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO,
@@ -36,6 +34,37 @@ module will log messages to a specific file.  Support for dynamic
 time-stamps in file names (e.g., C<myapp-080523.log>) is provided by
 L<Log::Fine::Handle::File::Timestamp>.  Further features, such as log
 file rotation I<a la> L<syslog> can be added by sub-classing this class.
+
+=head2 Constructor Parameters
+
+The following parameters can be passed to
+Log::Fine::Handle::File->new():
+
+=over
+
+=item  * name
+
+[optional] Name of this object (see L<Log::Fine>).  Will be autoset if
+not specified.
+
+=item  * mask
+
+Mask to set the handle to (see L<Log::Fine::Handle>)
+
+=item  * dir
+
+Directory to place the log file
+
+=item  * file
+
+Name of the log file
+
+=item  * autoflush
+
+[optional] If set to true, will force file flush after every write or
+print (see L<FileHandle> and L<perlvar>).
+
+=back
 
 =cut
 
