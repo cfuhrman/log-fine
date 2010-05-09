@@ -76,9 +76,11 @@ use Log::Fine::Logger;
         unlink $file;
 
         # Test to make sure autoclose works as expected
-        my $closehandle = Log::Fine::Handle::File->new(file      => $file,
-                                                       autoflush => 1,
-                                                      autoclose => 1);
+        my $closehandle =
+            Log::Fine::Handle::File->new(file      => $file,
+                                         autoflush => 1,
+                                         autoclose => 1
+            );
 
         # grab a ref to the FileHandle object
         my $fh2 = $closehandle->fileHandle();

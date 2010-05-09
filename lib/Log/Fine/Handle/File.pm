@@ -188,11 +188,11 @@ sub _init
 
         # set autoflush unless it is already set
         $self->{autoflush} = 0
-                unless defined $self->{autoflush};
+            unless defined $self->{autoflush};
 
         # set autoclose unless it is already set
         $self->{autoclose} = 0
-                unless defined $self->{autoclose};
+            unless defined $self->{autoclose};
 
         # Victory!
         return $self;
