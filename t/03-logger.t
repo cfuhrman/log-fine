@@ -73,7 +73,7 @@ use Log::Fine::Logger;
                                 my $foo = Log::Fine::Logger->new(no_croak => 1);
                         },
                         qr/Loggers need names/,
-                        'logger(): Invoke without name'
+                        'logger(): Invoked without name'
                 );
                 stderr_like(
                         sub {
