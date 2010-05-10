@@ -52,10 +52,10 @@ programs.
 
 =cut
 
+package Log::Fine::Levels;
+
 use strict;
 use warnings;
-
-package Log::Fine::Levels;
 
 use Carp;
 
@@ -100,7 +100,7 @@ sub new
         my $levelClass = join("::", $class, $lvlmap);
 
         # validate levelclass
-        eval "require $levelClass;";
+        eval "require $levelClass";
 
         # Do we have the class defined?
         confess "Error : Level Class $levelClass does not exist : $@"
