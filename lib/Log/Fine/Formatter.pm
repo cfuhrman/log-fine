@@ -189,7 +189,7 @@ sub _init
         # verify that we can load the Time::HiRes module
         if ($self->{hires}) {
 
-                eval "use Time::HiRes";
+                eval "require Time::HiRes";
                 $self->_fatal(
 "Time::HiRes failed to load.  Please install Time::HiRes via CPAN"
                 ) if $@;

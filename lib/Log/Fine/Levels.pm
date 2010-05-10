@@ -52,10 +52,10 @@ programs.
 
 =cut
 
-package Log::Fine::Levels;
-
 use strict;
 use warnings;
+
+package Log::Fine::Levels;
 
 use Carp;
 
@@ -93,7 +93,7 @@ an L<Log::Fine::Levels> object
 sub new
 {
 
-        my $class  = shift;
+        my $class = shift;
         my $lvlmap = shift || DEFAULT_LEVELMAP;
 
         # construct the subclass

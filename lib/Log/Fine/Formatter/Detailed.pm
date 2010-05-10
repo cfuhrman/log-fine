@@ -120,21 +120,15 @@ sub format
                             $self->levelMap()->valueToLevel($lvl),
                             basename($c[1]), $c[2], $msg);
 
-        } else {
-
-                # log package, subroutine, and line number
-                return
-                    sprintf("[%s] %-4s (%s():%d) %s\n",
-                            $self->_formatTime(),
-                            $self->levelMap()->valueToLevel($lvl),
-                            $c[3] || "{undef}",
-                            $c[2] || 0, $msg);
-
         }
 
-        #
-        # NOT REACHED
-        #
+        # log package, subroutine, and line number
+        return
+            sprintf("[%s] %-4s (%s():%d) %s\n",
+                    $self->_formatTime(),
+                    $self->levelMap()->valueToLevel($lvl),
+                    $c[3] || "{undef}",
+                    $c[2] || 0, $msg);
 
 }          # format()
 

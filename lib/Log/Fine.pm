@@ -73,9 +73,9 @@ handlers can be defined to the user's taste.
 use strict;
 use warnings;
 
-require 5.006;
-
 package Log::Fine;
+
+require 5.006;
 
 use Carp;
 use Log::Fine::Levels;
@@ -111,28 +111,30 @@ L<Log::Fine::Formatter>.
         my $objcount = 0;
 
         # getter/setter for levelMap.  Note that levelMap can only be
-        # set _once_.
+        # set _once_.  Once levelmap is set, any other value passed,
+        # whether a valid object or not, will be ignored!
         sub _levelMap
         {
 
                 my $map = shift;
 
-                if (    ($levelmap and $levelmap->isa("Log::Fine::Levels"))
-                     or (not defined $map)) {
-                        return $levelmap;
-                } elsif ($map and $map->isa("Log::Fine::Levels")) {
+                if (     defined $map
+                     and $map->isa("Log::Fine::Levels")
+                     and not $levelmap) {
                         $levelmap = $map;
-                } else {
+                } elsif (defined $map and not $levelmap) {
                         _fatal("Log::Fine",
-                                sprintf("Invalid Value: %s", $map || "{undef}")
-                        );
+                                sprintf("Invalid Value: %s"),
+                                $map || "{undef}");
                 }
+
+                return $levelmap;
 
         }          # _levelMap()
 
         sub _logger          { return $loggers }
         sub _objectCount     { return $objcount }
-        sub _incrObjectCount { $objcount++ }
+        sub _incrObjectCount { return ++$objcount; }
 
 }
 
@@ -275,7 +277,7 @@ sub _fatal
 
         printf STDERR "\n[%s] {%s} FATAL : %s\n",
             strftime("%c", localtime(time)),
-            ref $self || "undef", $msg;
+            ref $self || "{undef}", $msg;
 
         croak $msg
             unless $self->{no_croak};
