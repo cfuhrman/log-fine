@@ -178,19 +178,20 @@ sub _init
         # call the super object
         $self->SUPER::_init();
 
-        # set the default directory
+        # default directory is the current directory
         $self->{dir} = "./"
             unless (defined $self->{dir} and -d $self->{dir});
 
-        # set the default file name
+        # default file name is the name of the invoking program
+        # suffixed with ".log"
         $self->{file} = basename $0 . ".log"
             unless defined $self->{file};
 
-        # set autoflush unless it is already set
+        # autoflush is disabled by default
         $self->{autoflush} = 0
             unless defined $self->{autoflush};
 
-        # set autoclose unless it is already set
+        # autoclose is disabled by default
         $self->{autoclose} = 0
             unless defined $self->{autoclose};
 
