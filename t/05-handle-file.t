@@ -1,9 +1,5 @@
 #!perl -T
 
-#
-# $Id$
-#
-
 use Test::Simple tests => 13;
 
 use File::Spec::Functions;
