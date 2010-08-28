@@ -36,3 +36,7 @@ Revision history for Log-Fine
 0.32   2010-03-15
         * Unit tests for Log::Fine::Formatter::Syslog now support
           multiple locales
+
+0.33   2010-08-28
+        * Document _fatal()
+        * Internal API clean-up
