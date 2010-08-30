@@ -45,7 +45,7 @@ use base qw( Log::Fine::Handle );
 
 use File::Basename;
 use Log::Fine;
-use Sys::Syslog qw( :standard :macros );
+use Sys::Syslog 0.13 qw( :standard :macros );
 
 # Constant: LOG_MAPPING
 #
