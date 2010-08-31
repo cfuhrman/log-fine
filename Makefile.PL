@@ -23,8 +23,6 @@ if ($Sys::Syslog::VERSION < SYS_SYSLOG_MIN_VERSION) {
         exit 0;
 }
 
-exit 0 if ($Sys::Syslog::VERSION < 0.13);
-
 # Write our Makefile
 WriteMakefile(NAME          => 'Log::Fine',
               AUTHOR        => 'Christopher M. Fuhrman <cfuhrman@panix.com>',
