@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 11;
+use Test::More tests => 18;
 
 sub not_in_file_ok
 {
@@ -47,11 +47,18 @@ sub module_boilerplate_ok
 }
 
 module_boilerplate_ok('lib/Log/Fine.pm');
-module_boilerplate_ok('lib/Log/Fine/Handle.pm');
-module_boilerplate_ok('lib/Log/Fine/Handle/File.pm');
-module_boilerplate_ok('lib/Log/Fine/Handle/Console.pm');
-module_boilerplate_ok('lib/Log/Fine/Handle/Syslog.pm');
-module_boilerplate_ok('lib/Log/Fine/Logger.pm');
 module_boilerplate_ok('lib/Log/Fine/Formatter.pm');
 module_boilerplate_ok('lib/Log/Fine/Formatter/Basic.pm');
 module_boilerplate_ok('lib/Log/Fine/Formatter/Detailed.pm');
+module_boilerplate_ok('lib/Log/Fine/Formatter/Syslog.pm');
+module_boilerplate_ok('lib/Log/Fine/Handle.pm');
+module_boilerplate_ok('lib/Log/Fine/Handle/File.pm');
+module_boilerplate_ok('lib/Log/Fine/Handle/File/Timestamp.pm');
+module_boilerplate_ok('lib/Log/Fine/Handle/Console.pm');
+module_boilerplate_ok('lib/Log/Fine/Handle/Syslog.pm');
+module_boilerplate_ok('lib/Log/Fine/Handle/String.pm');
+module_boilerplate_ok('lib/Log/Fine/Levels.pm');
+module_boilerplate_ok('lib/Log/Fine/Levels/Syslog.pm');
+module_boilerplate_ok('lib/Log/Fine/Levels/Java.pm');
+module_boilerplate_ok('lib/Log/Fine/Logger.pm');
+module_boilerplate_ok('lib/Log/Fine/Utils.pm');
