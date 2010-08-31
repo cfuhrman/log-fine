@@ -4,8 +4,28 @@ use strict;
 use warnings;
 use ExtUtils::MakeMaker;
 
-use Sys::Syslog 0.13;
+use Sys::Syslog;
 
+# Constants
+use constant SYS_SYSLOG_MIN_VERSION => 0.13;
+
+# --------------------------------------------------------------------
+
+# In order to prevent myself from getting flooded with CPAN Testing
+# reports, exit if Sys::Syslog isn't found
+if ($Sys::Syslog::VERSION < SYS_SYSLOG_MIN_VERSION) {
+        printf STDERR
+            "Log::Fine requires Sys::Syslog >= %0.02f (You have %0.02f)\n",
+            SYS_SYSLOG_MIN_VERSION, $Sys::Syslog::VERSION;
+        printf STDERR
+            "Upgrade Sys::Syslog before installing this CPAN module\n\n";
+        printf STDERR "Aborting!\n";
+        exit 0;
+}
+
+exit 0 if ($Sys::Syslog::VERSION < 0.13);
+
+# Write our Makefile
 WriteMakefile(NAME          => 'Log::Fine',
               AUTHOR        => 'Christopher M. Fuhrman <cfuhrman@panix.com>',
               VERSION_FROM  => 'lib/Log/Fine.pm',
