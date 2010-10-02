@@ -142,10 +142,10 @@ L<Log::Fine::Formatter>.
 
 =head1 METHODS
 
-The Log::Fine module, by itself, simply exports a few constants, and
-allows the developer to get a new logger.  After a logger is created,
-further actions are done through the logger object.  The following two
-constructors are defined:
+The Log::Fine module, by itself, provides getters & setter methods for
+loggers and level classes.  After a logger is created, further actions
+are done through the logger object.  The following two constructors
+are defined:
 
 =head2 new
 
@@ -235,7 +235,7 @@ sub logger
         $self->_fatal("First parameter must be a valid name!")
             unless (defined $name and $name =~ /\w/);
 
-        # if the requested logger is found, then return it, otherwise
+        # If the requested logger is found, then return it, otherwise
         # store and return a newly created logger object with the
         # given name
         _logger()->{$name} = Log::Fine::Logger->new(name => $name)
