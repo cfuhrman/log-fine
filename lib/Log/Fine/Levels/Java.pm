@@ -238,6 +238,10 @@ L<http://search.cpan.org/dist/Log-Fine>
 
 =back
 
+=head1 REVISION INFORMATION
+
+  $Id$
+
 =head1 COPYRIGHT & LICENSE
 
 Copyright (c) 2010 Christopher M. Fuhrman, 
