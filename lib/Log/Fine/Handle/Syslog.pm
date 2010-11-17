@@ -114,7 +114,7 @@ sub _init
 
         # set the default facility
         $self->{facility} = LOG_LOCAL0
-            unless (defined $self->{faciity}
+            unless (defined $self->{facility}
                     and $self->{facility} =~ /\w+/);
 
         # open the syslog connection

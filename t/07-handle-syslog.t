@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 7;
+use Test::Simple tests => 9;
 
 use File::Basename;
 
@@ -41,5 +41,12 @@ use Sys::Syslog qw( :standard :macros );
 
         # write a test message
         $handle->msgWrite(INFO, $msg, 1);
+
+        # Test with different facility
+        my $console = Log::Fine::Handle::Syslog->new(facility => LOG_CONSOLE);
+
+        # Validate
+        ok($console->isa("Log::Fine::Handle"));
+        ok($console->{facility} == LOG_CONSOLE);
 
 }
