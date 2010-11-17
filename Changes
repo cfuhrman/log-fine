@@ -40,3 +40,8 @@ Revision history for Log-Fine
 0.33   2010-08-28
         * Document _fatal()
         * Internal API clean-up
+
+0.34   2010-11-17
+        * Update perldoc
+        * Correct typo in Log::Fine::Handle::Syslog
+          (addresses https://rt.cpan.org/Ticket/Display.html?id=63026)
