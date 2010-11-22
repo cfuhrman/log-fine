@@ -45,3 +45,6 @@ Revision history for Log-Fine
         * Update perldoc
         * Correct typo in Log::Fine::Handle::Syslog
           (addresses https://rt.cpan.org/Ticket/Display.html?id=63026)
+
+0.34.1 2010-11-21
+        * Use a syslog facility that is supported by older versions of perl
