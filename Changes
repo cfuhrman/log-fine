@@ -48,3 +48,6 @@ Revision history for Log-Fine
 
 0.34.1 2010-11-21
         * Use a syslog facility that is supported by older versions of perl
+
+0.34.2 2010-11-21
+        * Be more verbose when formatting tests fail
