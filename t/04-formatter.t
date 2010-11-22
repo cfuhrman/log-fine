@@ -76,7 +76,8 @@ use Log::Fine::Levels::Syslog;
         # format a message
         my $log5 = $syslog->format(INFO, $msg, 1);
 
-        # print STDERR "\n$log5\n";
+        # Uncomment to deliberately fail the next test
+        # $log5 = "BARFME $log5";
 
         # Note: This regex is designed to catch non-English month
         # representations found in other locales.  This has been
@@ -91,11 +92,20 @@ use Log::Fine::Levels::Syslog;
         #  * ko_KR.utf8
         #  * zh_TW.UTF-8
         #
-        # This list is by no means comprehensive.
+        # This list is by no means comprehensive.  Also, since there
+        # is a wide variety of different interpretations of various
+        # locales on different operating systems, handle our own error
+        # reporting.
 
-        ok($log5 =~
-           /^([ 1]\d\S+|[^ ]+) [ 1-3][0-9] \d{2}:\d{2}:\d{2} [0-9a-zA-Z\-]+ .*?\[\d+\]: $msg/
-        );
+        if ($log5 =~ /^([ 1]\d\S+|[^ ]+) [ 1-3][0-9] \d{2}:\d{2}:\d{2} [0-9a-zA-Z\-]+ .*?\[\d+\]: $msg/) {
+                ok(1);
+        } else {
+                print STDERR "\n----------------------------------------\n";
+                print STDERR "Test failed on the following line:\n\n";
+                print STDERR "${log5}";
+                print STDERR "----------------------------------------\n";
+                ok(0);
+        }
 
     SKIP: {
 
