@@ -1,8 +1,6 @@
 Checklist for CPAN Release
 ==========================
 
-Last Modified: $Date$
-
 1) Bump version in Log::Fine
 
 2) Bump version in META.yml (I really need to switch to Module::Build)
