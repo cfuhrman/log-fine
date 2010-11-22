@@ -5,3 +5,5 @@ Last Modified: $Date$
  * Have Utils handle more than one Logger?
 
  * Tutorial for defining Log::Fine::Levels sub-classes
+
+ * Add information about switch to git
