@@ -43,5 +43,7 @@
    | %%PERC%%      | Literal percent (%)  |
    | %%HOSTSHORT%% | Short Hostname       |
    | %%HOSTLONG%%  | Long (FQDN) Hostname |
+   | %%LOGIN%%     | User Login           |
+   | %%GROUP%%     | User Group           |
 
 
