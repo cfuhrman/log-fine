@@ -43,7 +43,8 @@ use Sys::Syslog qw( :standard :macros );
         $handle->msgWrite(INFO, $msg, 1);
 
         # Test with different facility
-        my $console = Log::Fine::Handle::Syslog->new(facility => LOG_USER);
+        my $console = Log::Fine::Handle::Syslog->new( facility => LOG_USER,
+                                                      ident => sprintf("%s-%d", $handle->{ident}, 2));
 
         # Validate
         ok($console->isa("Log::Fine::Handle"));
