@@ -1,14 +1,23 @@
-Last Modified: $Date$
+# -*- mode: org -*-
 
- * Switch to Module::Build?
+* TODO [#C] Switch to Module::Build
 
- * Have Utils handle more than one Logger?
+  Unsure if I want to do this or not.  Still need to weigh the
+  benefits to doing this
 
- * Tutorial for defining Log::Fine::Levels sub-classes
+* TODO [#B] Have Utils handle more than one Logger
 
- * Add information about switch to git
+  Currently L::F::U can handle only one Logger.  Extend API to allow
+  for multiple logging objects
 
- * Add Log::Fine::Formatter::Template class
+* TODO [#C] Add tutorial for defining Level sub-classes
 
-   Ideally this class will allow a user to define a template for log
-   output
+* TODO [#A] Document git repository
+
+  Add note about the new git repository
+
+* TODO [#B] Add Formatter Template class
+
+  Add a template class to allow the user to easily build log message
+  templates.  Perhaps use message layout options from [[http://search.cpan.org/dist/Log-Handler/lib/Log/Handler.pm][Log::Handler]]?
+
