@@ -51,3 +51,6 @@ Revision history for Log-Fine
 
 0.34.2 2010-11-21
         * Be more verbose when formatting tests fail
+
+0.35   2010-11-23
+        * Correct issue in Log::Fine::Handle::Syslog found in perl 5.8.9
