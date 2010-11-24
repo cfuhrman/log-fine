@@ -62,6 +62,8 @@ use constant LOG_MAPPING => {
                               7 => LOG_DEBUG,
 };
 
+# Constant: DEFAULT_LOG_IDENT
+
 =head1 METHODS
 
 =head2 msgWrite
@@ -126,13 +128,7 @@ sub _init
 ##
 # called when this object is destroyed
 
-sub DESTROY
-{
-
-        # we only call closelog() if this isn't perl 5.8.9
-        closelog() unless ($] == 5.008009);
-
-}          # DESTROY()
+sub DESTROY { closelog(); }
 
 =head1 SEE ALSO
 
