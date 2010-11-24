@@ -31,3 +31,17 @@
   Add a template class to allow the user to easily build log message
   templates.  Perhaps use message layout options from [[http://search.cpan.org/dist/Log-Handler/lib/Log/Handler.pm][Log::Handler]]?
 
+** Available options
+
+   | %%TIME%%      | Timestamp            |
+   | %%LEVEL%%     | Log Level            |
+   | %%MSG%%       | Log Message          |
+   | %%PACKAGE%%   | Caller Package       |
+   | %%FILENAME%%  | Caller filename      |
+   | %%LINENO%%    | Caller line number   |
+   | %%SUBROUT%%   | Caller Subroutine    |
+   | %%PERC%%      | Literal percent (%)  |
+   | %%HOSTSHORT%% | Short Hostname       |
+   | %%HOSTLONG%%  | Long (FQDN) Hostname |
+
+
