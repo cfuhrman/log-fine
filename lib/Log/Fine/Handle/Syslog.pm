@@ -138,8 +138,8 @@ sub DESTROY
 
 Under normal circumstances,
 L<Sys::Syslog::closelog()|Sys::Syslog/closelog> will be called upon
-object destruction B<unless> this is perl 5.8.9, otherwise the
-following behavior is observed:
+object destruction I<unless> this is perl 5.8.9, which exhibits the
+following behavior:
 
 =over
 
@@ -150,6 +150,9 @@ http://www.cpantesters.org/cpan/report/0f9a5224-f617-11df-bb29-ad544afd17af
 http://www.cpantesters.org/cpan/report/f20590a0-f6db-11df-bb29-ad544afd17af 
 
 =back
+
+Perl versions 5.6.2, 5.8.8, 5.10.0 and 5.12.2 B<do not> exhibit this
+behavior.
 
 =head1 SEE ALSO
 
