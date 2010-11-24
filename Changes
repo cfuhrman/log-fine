@@ -54,3 +54,7 @@ Revision history for Log-Fine
 
 0.35   2010-11-23
         * Correct issue in Log::Fine::Handle::Syslog found in perl 5.8.9
+
+0.36   2010-11-24
+        * Do not allow user to define more than one
+          Log::Fine::Handle::Syslog object
