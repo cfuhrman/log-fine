@@ -45,8 +45,9 @@ use Sys::Syslog qw( :standard :macros );
         # Make sure we can't define more than one handle
         eval {
                 open STDERR, '>/dev/null';
-                my $console = Log::Fine::Handle::Syslog->new( facility => LOG_USER,
-                                                              ident => "badhandle" );
+                my $console =
+                    Log::Fine::Handle::Syslog->new(facility => LOG_USER,
+                                                   ident    => "badhandle");
                 close STDERR;
         };
 
