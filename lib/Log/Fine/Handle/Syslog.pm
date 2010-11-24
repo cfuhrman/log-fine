@@ -134,6 +134,23 @@ sub DESTROY
 
 }          # DESTROY()
 
+=head1 CAVEATS
+
+Under normal circumstances,
+L<Sys::Syslog::closelog()|Sys::Syslog/closelog> will be called upon
+object destruction B<unless> this is perl 5.8.9, otherwise the
+following behavior is observed:
+
+=over
+
+=item *
+http://www.cpantesters.org/cpan/report/0f9a5224-f617-11df-bb29-ad544afd17af 
+
+=item *
+http://www.cpantesters.org/cpan/report/f20590a0-f6db-11df-bb29-ad544afd17af 
+
+=back
+
 =head1 SEE ALSO
 
 L<perl>, L<syslog>, L<Sys::Syslog>
