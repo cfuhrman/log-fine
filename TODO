@@ -7,3 +7,8 @@ Last Modified: $Date$
  * Tutorial for defining Log::Fine::Levels sub-classes
 
  * Add information about switch to git
+
+ * Add Log::Fine::Formatter::Template class
+
+   Ideally this class will allow a user to define a template for log
+   output
