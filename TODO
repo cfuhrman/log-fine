@@ -1,5 +1,7 @@
 # -*- mode: org -*-
 
+#+TODO: TODO BLOCKED | DONE CANCELED
+
 * TODO [#C] Switch to Module::Build
 
   Unsure if I want to do this or not.  Still need to weigh the
@@ -10,9 +12,17 @@
   Currently L::F::U can handle only one Logger.  Extend API to allow
   for multiple logging objects
 
-* TODO [#C] Add tutorial for defining Level sub-classes
+* CANCELED [#C] Add tutorial for defining Level sub-classes
+  CLOSED: [2010-11-24 Wed 11:54]
+  - CLOSING NOTE [2010-11-24 Wed 11:55] \\
+    In the rare instances where someone would want to define their own
+    level classes, people should be able to figure out the API simply by
+    looking at either Syslog or Java subclasses as examples.
 
-* TODO [#A] Document git repository
+* DONE [#A] Document git repository
+  CLOSED: [2010-11-24 Wed 11:52]
+  - CLOSING NOTE [2010-11-24 Wed 11:53] \\
+    See [[https://github.com/cfuhrman/log-fine/commit/26dee0df99b40f315a1ad7ba336e913391b9724e][log-fine/26dee0f]]
 
   Add note about the new git repository
 
