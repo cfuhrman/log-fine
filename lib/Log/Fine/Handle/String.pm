@@ -33,6 +33,8 @@ package Log::Fine::Handle::String;
 
 use base qw( Log::Fine::Handle );
 
+our $VERSION = $Log::Fine::Handle::VERSION;
+
 =head1 METHODS
 
 =head2 msgWrite

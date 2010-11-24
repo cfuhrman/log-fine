@@ -71,6 +71,8 @@ use base qw( Log::Fine );
 use Log::Fine::Logger;
 use POSIX qw( strftime );
 
+our $VERSION = $Log::Fine::VERSION;
+
 # Constant: LOG_TIMESTAMP_FORMAT, LOG_TIMESTAMP_FORMAT_PRECISE
 #
 # strftime(3)-compatible format string

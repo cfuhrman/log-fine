@@ -47,6 +47,8 @@ use File::Spec::Functions;
 use FileHandle;
 use POSIX qw( strftime );
 
+our $VERSION = $Log::Fine::Handle::File::VERSION;
+
 # Constant: TODAY_FORMAT
 #
 # strftime-compatible format for today's date.

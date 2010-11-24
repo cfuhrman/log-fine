@@ -58,6 +58,9 @@ use warnings;
 package Log::Fine::Levels;
 
 use Carp;
+use Log::Fine;
+
+our $VERSION = $Log::Fine::VERSION;
 
 # Constants
 # --------------------------------------------------------------------

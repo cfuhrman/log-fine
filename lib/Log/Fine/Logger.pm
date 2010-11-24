@@ -61,6 +61,8 @@ use base qw( Log::Fine );
 
 use Log::Fine;
 
+our $VERSION = $Log::Fine::VERSION;
+
 # Constant: LOG_SKIP_DEFAULT
 #
 # By default, calls to caller() will be given a stack frame of 2.

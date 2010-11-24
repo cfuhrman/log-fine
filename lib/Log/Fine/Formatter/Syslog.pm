@@ -45,6 +45,8 @@ use Log::Fine::Logger;
 use POSIX qw( strftime );
 use Sys::Hostname;
 
+our $VERSION = $Log::Fine::Formatter::VERSION;
+
 # Constant: LOG_TIMESTAMP_FORMAT
 #
 # strftime(3)-compatible format string

@@ -42,6 +42,8 @@ use POSIX qw( strftime );
 
 use base qw/ Log::Fine::Levels Exporter /;
 
+our $VERSION = $Log::Fine::Levels::VERSION;
+
 # Necessary for AutoLoader
 our $AUTOLOAD;
 

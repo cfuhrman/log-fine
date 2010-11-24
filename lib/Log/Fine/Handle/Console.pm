@@ -39,6 +39,10 @@ package Log::Fine::Handle::Console;
 
 use base qw( Log::Fine::Handle );
 
+use Log::Fine;
+
+our $VERSION = $Log::Fine::Handle::VERSION;
+
 =head1 METHODS
 
 =head2 msgWrite

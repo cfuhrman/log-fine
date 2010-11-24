@@ -51,6 +51,8 @@ use Log::Fine::Levels;
 use Log::Fine::Logger;
 use POSIX qw( strftime );
 
+our $VERSION = $Log::Fine::Formatter::VERSION;
+
 =head1 METHODS
 
 =head2 format

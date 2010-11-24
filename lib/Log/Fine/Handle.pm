@@ -42,6 +42,8 @@ use Log::Fine;
 use Log::Fine::Formatter::Basic;
 use Log::Fine::Levels;
 
+our $VERSION = $Log::Fine::VERSION;
+
 =head1 METHODS
 
 =head2 formatter

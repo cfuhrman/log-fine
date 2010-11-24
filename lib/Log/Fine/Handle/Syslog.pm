@@ -47,6 +47,8 @@ use File::Basename;
 use Log::Fine;
 use Sys::Syslog 0.13 qw( :standard :macros );
 
+our $VERSION = $Log::Fine::Handle::VERSION;
+
 # Constant: LOG_MAPPING
 #
 # Maps Log::Fine LOG_LEVELS to Sys::Syslog equivalents

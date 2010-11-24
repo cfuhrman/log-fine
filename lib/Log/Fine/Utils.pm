@@ -52,6 +52,8 @@ our @ISA = qw( Exporter );
 use Log::Fine;
 use POSIX qw( strftime );
 
+our $VERSION = $Log::Fine::VERSION;
+
 # Exported functions
 our @EXPORT = qw( Log OpenLog );
 

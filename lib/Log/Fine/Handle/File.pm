@@ -87,6 +87,8 @@ use File::Spec::Functions;
 use FileHandle;
 use Log::Fine;
 
+our $VERSION = $Log::Fine::Handle::VERSION;
+
 =head1 METHODS
 
 =head2 fileHandle
