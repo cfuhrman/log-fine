@@ -42,12 +42,15 @@ use Sys::Syslog qw( :standard :macros );
         # write a test message
         $handle->msgWrite(INFO, $msg, 1);
 
-        # Test with different facility
-        my $console = Log::Fine::Handle::Syslog->new( facility => LOG_USER,
-                                                      ident => sprintf("%s-%d", $handle->{ident}, 2));
+        # Make sure we can't define more than one handle
+        eval {
+                open STDERR, '>/dev/null';
+                my $console = Log::Fine::Handle::Syslog->new( facility => LOG_USER,
+                                                              ident => "badhandle" );
+                close STDERR;
+        };
 
-        # Validate
-        ok($console->isa("Log::Fine::Handle"));
-        ok($console->{facility} == LOG_USER);
+        ok(defined $@);
+        ok($@ =~ /One and _only_ one/);
 
 }

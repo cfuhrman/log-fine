@@ -62,7 +62,21 @@ use constant LOG_MAPPING => {
                               7 => LOG_DEBUG,
 };
 
-# Constant: DEFAULT_LOG_IDENT
+# Private Methods
+# --------------------------------------------------------------------
+
+{
+        my $flag = 0;
+
+        # Getter/Setter for flag
+        sub _flag
+        {
+                $flag = 1 if (defined $_[0] and $_[0] =~ /\d/ and $_[0] > 0);
+                return $flag;
+        }
+}
+
+# --------------------------------------------------------------------
 
 =head1 METHODS
 
@@ -105,6 +119,10 @@ sub _init
         # call the super object
         $self->SUPER::_init();
 
+        # Make sure we have one and only one syslog object defined
+        $self->_fatal(sprintf("One and _only_ one %s object may be defined", ref $self))
+                if _flag();
+
         # set ident
         $self->{ident} = basename $0;
 
@@ -117,8 +135,9 @@ sub _init
             unless (defined $self->{facility}
                     and $self->{facility} =~ /\w+/);
 
-        # open the syslog connection
+        # open the syslog connection and set flag
         openlog($self->{ident}, $self->{logopts}, $self->{facility});
+        _flag(1);
 
         # Victory!
         return $self;
