@@ -40,10 +40,11 @@
    | %%FILENAME%%  | Caller filename      |
    | %%LINENO%%    | Caller line number   |
    | %%SUBROUT%%   | Caller Subroutine    |
-   | %%PERC%%      | Literal percent (%)  |
    | %%HOSTSHORT%% | Short Hostname       |
    | %%HOSTLONG%%  | Long (FQDN) Hostname |
    | %%LOGIN%%     | User Login           |
    | %%GROUP%%     | User Group           |
 
+[2010-11-25 Thu 18:52] Added new Template object, just need to
+document
 
