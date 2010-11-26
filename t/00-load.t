@@ -1,6 +1,6 @@
 #!perl -T
 
-use Test::More tests => 16;
+use Test::More tests => 17;
 
 BEGIN {
         use_ok('Log::Fine');
@@ -8,6 +8,7 @@ BEGIN {
         use_ok('Log::Fine::Formatter::Basic');
         use_ok('Log::Fine::Formatter::Detailed');
         use_ok('Log::Fine::Formatter::Syslog');
+        use_ok('Log::Fine::Formatter::Template');
         use_ok('Log::Fine::Handle');
         use_ok('Log::Fine::Handle::File');
         use_ok('Log::Fine::Handle::File::Timestamp');

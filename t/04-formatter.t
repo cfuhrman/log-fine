@@ -4,14 +4,18 @@
 # $Id$
 #
 
-use Test::More tests => 15;
+use Test::More tests => 31;
 
 use Log::Fine;
 use Log::Fine::Formatter;
 use Log::Fine::Formatter::Basic;
 use Log::Fine::Formatter::Detailed;
 use Log::Fine::Formatter::Syslog;
+use Log::Fine::Formatter::Template;
 use Log::Fine::Levels::Syslog;
+
+use POSIX qw( strftime );
+use Sys::Hostname;
 
 {
 
@@ -97,7 +101,9 @@ use Log::Fine::Levels::Syslog;
         # locales on different operating systems, handle our own error
         # reporting.
 
-        if ($log5 =~ /^([ 1]\d\S+|[^ ]+) [ 1-3][0-9] \d{2}:\d{2}:\d{2} [0-9a-zA-Z\-]+ .*?\[\d+\]: $msg/) {
+        if ($log5 =~
+/^([ 1]\d\S+|[^ ]+) [ 1-3][0-9] \d{2}:\d{2}:\d{2} [0-9a-zA-Z\-]+ .*?\[\d+\]: $msg/
+            ) {
                 ok(1);
         } else {
                 print STDERR "\n----------------------------------------\n";
@@ -106,6 +112,76 @@ use Log::Fine::Levels::Syslog;
                 print STDERR "----------------------------------------\n";
                 ok(0);
         }
+
+        #
+        # Log::Fine::Formatter::Template testing
+        #
+
+        # Set up some variables
+        my $hostname = hostname();
+
+        # level
+        my $log_level =
+            Log::Fine::Formatter::Template->new(template         => "%%LEVEL%%",
+                                                timestamp_format => "%Y%m%d");
+        ok($log_level->isa("Log::Fine::Formatter::Template"));
+
+        # msg
+        my $log_msg =
+            Log::Fine::Formatter::Template->new(template         => "%%MSG%%",
+                                                timestamp_format => "%Y%m%d");
+        ok($log_msg->isa("Log::Fine::Formatter::Template"));
+
+        # package
+        my $log_package =
+            Log::Fine::Formatter::Template->new(
+                                          template => "%%PACKAGE%% %%SUBROUT%%",
+                                          timestamp_format => "%Y%m%d");
+        ok($log_package->isa("Log::Fine::Formatter::Template"));
+
+        # short hostname
+        my $log_shorthost =
+            Log::Fine::Formatter::Template->new(template => "%%HOSTSHORT%%",
+                                                timestamp_format => "%Y%m%d");
+        ok($log_shorthost->isa("Log::Fine::Formatter::Template"));
+
+        # long hostname
+        my $log_longhost =
+            Log::Fine::Formatter::Template->new(template => "%%HOSTLONG%%",
+                                                timestamp_format => "%Y%m%d");
+        ok($log_longhost->isa("Log::Fine::Formatter::Template"));
+
+        # user
+        my $log_user =
+            Log::Fine::Formatter::Template->new(template         => "%%USER%%",
+                                                timestamp_format => "%Y%m%d");
+        ok($log_user->isa("Log::Fine::Formatter::Template"));
+
+        # gropu
+        my $log_group =
+            Log::Fine::Formatter::Template->new(template         => "%%GROUP%%",
+                                                timestamp_format => "%Y%m%d");
+        ok($log_group->isa("Log::Fine::Formatter::Template"));
+
+        # time
+        my $log_time =
+            Log::Fine::Formatter::Template->new(template         => "%%TIME%%",
+                                                timestamp_format => "%Y%m");
+        ok($log_time->isa("Log::Fine::Formatter::Template"));
+
+        # Note we test time first to avoid a possible race condition
+        # that would occur at the end of every month.
+
+        # validate
+        ok($log_time->format(INFO, $msg, 1) eq
+            strftime("%Y%m", localtime(time)));
+        ok($log_level->format(INFO, $msg, 1) eq "INFO");
+        ok($log_msg->format(INFO, $msg, 1) eq $msg);
+        ok(myfunc($log_package, $msg) =~ /myfunc/);
+        ok($log_longhost->format(INFO, $msg, 1) =~ /$hostname/);
+        ok($log_shorthost->format(INFO, $msg, 1) =~ /\w/);
+        ok($log_user->format(INFO, $msg, 1) eq getpwuid($<));
+        ok($log_group->format(INFO, $msg, 1) eq getgrgid($());
 
     SKIP: {
 
