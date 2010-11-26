@@ -141,8 +141,8 @@ sub format
         my $lineno    = $c[2] || 0;
         my $hostname  = $self->_hostName();
         my $shorthost = (split /\./, $hostname)[0];
-        my $user      = _userName();
-        my $group     = _groupName();
+        my $user      = $self->_userName();
+        my $group     = $self->_groupName();
 
         # Run through template, formatting as appropriate
         $tmpl =~ s/%%TIME%%/$now/ig;
