@@ -82,13 +82,13 @@ use Sys::Hostname;
     +---------------+-----------------------------------+
     | %%MSG%%       | Log Message                       |
     +---------------+-----------------------------------+
-    |  %%PACKAGE%%  | Caller package                    |
+    | %%PACKAGE%%   | Caller package                    |
     +---------------+-----------------------------------+
     | %%FILENAME%%  | Caller filename                   |
     +---------------+-----------------------------------+
     | %%LINENO%%    | Caller line number                |
     +---------------+-----------------------------------+
-    |  %%SUBROUT%%  | Caller Subroutine                 |
+    | %%SUBROUT%%   | Caller Subroutine                 |
     +---------------+-----------------------------------+
     | %%HOSTLONG%%  | Long Hostname including domain    |
     +---------------+-----------------------------------+
@@ -149,6 +149,8 @@ sub format
         my $lname     = $self->levelMap()->valueToLevel($lvl);
         my $subname   = pop @subr || "{undef}";
         my $package   = join "::", @subr;
+        my $filename  = basename $0;
+        my $lineno    = $c[2] || 0;
         my $hostname  = $self->_hostName();
         my $shorthost = (split /\./, $hostname)[0];
         my $user      = _user();
@@ -159,6 +161,8 @@ sub format
         $tmpl =~ s/%%LEVEL%%/$lname/ig;
         $tmpl =~ s/%%MSG%%/$msg/ig;
         $tmpl =~ s/%%PACKAGE%%/$package/ig;
+        $tmpl =~ s/%%FILENAME%%/$filename/ig;
+        $tmpl =~ s/%%LINENO%%/$lineno/ig;
         $tmpl =~ s/%%SUBROUT%%/$subname/ig;
         $tmpl =~ s/%%HOSTSHORT%%/$shorthost/ig;
         $tmpl =~ s/%%HOSTLONG%%/$hostname/ig;

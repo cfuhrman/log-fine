@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 31;
+use Test::More tests => 33;
 
 use Log::Fine;
 use Log::Fine::Formatter;
@@ -139,6 +139,13 @@ use Sys::Hostname;
                                           timestamp_format => "%Y%m%d");
         ok($log_package->isa("Log::Fine::Formatter::Template"));
 
+        # filename & lineno
+        my $log_filename =
+            Log::Fine::Formatter::Template->new(
+                                                template => "%%FILENAME%%:%%LINENO%%",
+                                                timestamp_format => "%Y%m%d");
+        ok($log_filename->isa("Log::Fine::Formatter::Template"));
+
         # short hostname
         my $log_shorthost =
             Log::Fine::Formatter::Template->new(template => "%%HOSTSHORT%%",
@@ -178,6 +185,7 @@ use Sys::Hostname;
         ok($log_level->format(INFO, $msg, 1) eq "INFO");
         ok($log_msg->format(INFO, $msg, 1) eq $msg);
         ok(myfunc($log_package, $msg) =~ /myfunc/);
+        ok($log_filename->format(INFO, $msg, 1) =~ /\w+\:\d+/);
         ok($log_longhost->format(INFO, $msg, 1) =~ /$hostname/);
         ok($log_shorthost->format(INFO, $msg, 1) =~ /\w/);
         ok($log_user->format(INFO, $msg, 1) eq getpwuid($<));
