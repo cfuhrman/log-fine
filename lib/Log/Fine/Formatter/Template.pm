@@ -24,28 +24,14 @@ Formats log messages for output using a user-defined template spec.
     # set the formatter
     $handle->setFormatter( formatter => $formatter );
 
-    #
-    # In the below examples, note that {user_real_[user|group]_id} is
-    # set to 1 by default, unless explicitly overridden on object
-    # construction.
-    #
-
-    # When displaying user information, use the effective user ID
+    # When displaying user or group information, use the effective
+    # user ID
     my $formatter = Log::Fine::Formatter::Template
         ->new(
           name             => 'template0',
           template         => "[%%TIME%%] %%USER%%@%%HOSTNAME%% %%%LEVEL%% %%MSG%%\n",
           timestamp_format => "%y-%m-%d %h:%m:%s",
-          use_real_user_id => 0,
-    );
-
-    # When displaying group information, use the effective group ID
-    my $formatter = Log::Fine::Formatter::Template
-        ->new(
-          name              => 'template0',
-          template          => "[%%TIME%%] %%USER%%:%%GROUP%%@%%HOSTNAME%% %%%LEVEL%% %%MSG%%\n",
-          timestamp_format  => "%y-%m-%d %h:%m:%s",
-          use_real_group_id => 0,
+          use_effective_id => 1,
     );
 
 =head1 DESCRIPTION
@@ -75,6 +61,9 @@ use Sys::Hostname;
 
 =head1 SUPPORTED PLACEHOLDERS
 
+Placeholders are case-insensitive.  C<%%msg%%> will work just as well
+as C<%%MSG%%>
+
     +---------------+-----------------------------------+
     | %%TIME%%      | Timestamp                         |
     +---------------+-----------------------------------+
@@ -98,7 +87,6 @@ use Sys::Hostname;
     +---------------+-----------------------------------+
     | %%GROUP%%     | User Group                        |
     +---------------+-----------------------------------+
-
 
 =head1 METHODS
 
@@ -149,12 +137,12 @@ sub format
         my $lname     = $self->levelMap()->valueToLevel($lvl);
         my $subname   = pop @subr || "{undef}";
         my $package   = join "::", @subr;
-        my $filename  = basename $0;
+        my $filename  = $self->_fileName();
         my $lineno    = $c[2] || 0;
         my $hostname  = $self->_hostName();
         my $shorthost = (split /\./, $hostname)[0];
-        my $user      = _user();
-        my $group     = _group();
+        my $user      = _userName();
+        my $group     = _groupName();
 
         # Run through template, formatting as appropriate
         $tmpl =~ s/%%TIME%%/$now/ig;
@@ -192,20 +180,21 @@ sub _init
             unless (defined $self->{template}
                     and $self->{template} =~ /\w/);
 
-        # Set use_real_user_id to default
-        $self->{use_real_user_id} = 1
-            unless (defined $self->{use_real_user_id}
-                    and $self->{user_real_user_id} =~ /\d/);
+        # Set use_effective_id to default
+        $self->{use_effective_id} = 1
+            unless (defined $self->{use_effective_id}
+                    and $self->{use_effective_id} =~ /\d/);
 
-        # Set use_real_group_id to default
-        $self->{use_real_group_id} = 1
-            unless (defined $self->{use_real_group_id}
-                    and $self->{user_real_group_id} =~ /\d/);
+        # Set use_effective_id to default
+        $self->{use_effective_id} = 1
+            unless (defined $self->{use_effective_id}
+                    and $self->{use_effective_id} =~ /\d/);
 
         # Set up some defaults
-        _hostName();
-        _user();
-        _group();
+        $self->_fileName();
+        $self->_groupName();
+        $self->_hostName();
+        $self->_userName();
 
         # Victory
         return $self;
@@ -213,26 +202,49 @@ sub _init
 }          # _init()
 
 ##
-# Getter/Setter for group
+# Getter/Setter for fileName
 
-sub _group
+sub _fileName
 {
 
         my $self = shift;
 
-        # If {_group} is already cached, then return it, otherwise get
-        # the group name, cache it, and return
-        if (defined $self->{_group} and $self->{_group} =~ /\w/) {
-                return $self->{_group};
-        } elsif ($self->{use_real_group_id}) {
-                $self->{_group} = getgrgid($() || "nogroup";
+        # If {_fileName} is already cached, then return it, otherwise
+        # get the file name, cache it, and return
+        if (defined $self->{_fileName} and $self->{_fileName} =~ /\w/) {
+                return $self->{_fileName};
         } else {
-                $self->{_group} = getgrgid($)) || "nogroup";
+                $self->{_fileName} = basename $0;
+                return $self->{_fileName};
         }
 
-        return $self->{_group};
+        #
+        # NOT REACHED
+        #
 
-}          # _group()
+} # _fileName
+
+##
+# Getter/Setter for group
+
+sub _groupName
+{
+
+        my $self = shift;
+
+        # If {_groupName} is already cached, then return it, otherwise get
+        # the group name, cache it, and return
+        if (defined $self->{_groupName} and $self->{_groupName} =~ /\w/) {
+                return $self->{_groupName};
+        } elsif ($self->{use_effective_id}) {
+                $self->{_groupName} = getgrgid($)) || "nogroup";
+        } else {
+                $self->{_groupName} = getgrgid($() || "nogroup";
+        }
+
+        return $self->{_groupName};
+
+}          # _groupName()
 
 ##
 # Getter/Setter for hostname
@@ -260,24 +272,24 @@ sub _hostName
 ##
 # Getter/Setter for user name
 
-sub _user
+sub _userName
 {
 
         my $self = shift;
 
-        # If {_user} is already cached, then return it, otherwise get
+        # If {_userName} is already cached, then return it, otherwise get
         # the user name, cache it, and return
-        if (defined $self->{_user} and $self->{_user} =~ /\w/) {
-                return $self->{_user};
-        } elsif ($self->{use_real_user_id}) {
-                $self->{_user} = getlogin() || getpwuid($<) || "nobody";
+        if (defined $self->{_userName} and $self->{_userName} =~ /\w/) {
+                return $self->{_userName};
+        } elsif ($self->{use_effective_id}) {
+                $self->{_userName} = getpwuid($>) || "nobody";
         } else {
-                $self->{_user} = getpwuid($>) || "nobody";
+                $self->{_userName} = getlogin() || getpwuid($<) || "nobody";
         }
 
-        return $self->{_user};
+        return $self->{_userName};
 
-}          # _user()
+}          # _userName()
 
 =head1 SEE ALSO
 
