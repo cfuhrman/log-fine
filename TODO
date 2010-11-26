@@ -50,7 +50,10 @@
     - CLOSING NOTE [2010-11-25 Thu 20:53] \\
       Documented
 
-*** TODO Think about {use_real_user_id} name
+*** DONE Think about {use_real_user_id} name
+    CLOSED: [2010-11-26 Fri 11:24]
+    - CLOSING NOTE [2010-11-26 Fri 11:24] \\
+      See [[https://github.com/cfuhrman/log-fine/commit/c101f8a62b032ed7bfae0f9f3ec39d72b435191a][log-fine/c101f8a]]
 
     This option might be confusing to the casual programmer.  Perhaps
     having a {use_effective_id} attribute would be better?
@@ -69,12 +72,19 @@
        aren't as likely to change so global static storage might be a
        better idea
 
-*** TODO Create _filename method
+    [2010-11-26 Fri 11:23] Decided to keep attributes as hash keys.  I
+    did switch to using {use_effective_id}.
+
+*** DONE Create _filename method
+    CLOSED: [2010-11-26 Fri 11:22]
 
     The name of the program isn't likely to change so cache it.  Maybe
     make this a global static?
 
-*** TODO Make note that placeholders are case-insensitive
+*** DONE Make note that placeholders are case-insensitive
+    CLOSED: [2010-11-26 Fri 11:22]
+    - CLOSING NOTE [2010-11-26 Fri 11:22] \\
+      See [[https://github.com/cfuhrman/log-fine/commit/c101f8a62b032ed7bfae0f9f3ec39d72b435191a][log-fine/c101f8a]]
 
 
 
