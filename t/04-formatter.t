@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 33;
+use Test::More tests => 35;
 
 use Log::Fine;
 use Log::Fine::Formatter;
@@ -142,8 +142,8 @@ use Sys::Hostname;
         # filename & lineno
         my $log_filename =
             Log::Fine::Formatter::Template->new(
-                                                template => "%%FILENAME%%:%%LINENO%%",
-                                                timestamp_format => "%Y%m%d");
+                                          template => "%%FILENAME%%:%%LINENO%%",
+                                          timestamp_format => "%Y%m%d");
         ok($log_filename->isa("Log::Fine::Formatter::Template"));
 
         # short hostname
@@ -190,6 +190,15 @@ use Sys::Hostname;
         ok($log_shorthost->format(INFO, $msg, 1) =~ /\w/);
         ok($log_user->format(INFO, $msg, 1) eq getpwuid($<));
         ok($log_group->format(INFO, $msg, 1) eq getgrgid($());
+
+        # Now test a combination string for good measure
+        my $log_basic =
+            Log::Fine::Formatter::Template->new(
+                  template         => "[%%time%%] %%level%% %%msg%%",
+                  timestamp_format => Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT
+            );
+        ok($log_basic->isa("Log::Fine::Formatter::Template"));
+        ok($log_basic->format(INFO, $msg, 1) =~ /^\[.*?\] \w+ $msg/);
 
     SKIP: {
 
