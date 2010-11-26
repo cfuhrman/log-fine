@@ -34,7 +34,7 @@ Formats log messages for output using a user-defined template spec.
     my $formatter = Log::Fine::Formatter::Template
         ->new(
           name             => 'template0',
-          template         => "[%%TIME%%] %%USER%%@%%%%LEVEL%% %%MSG%%\n",
+          template         => "[%%TIME%%] %%USER%%@%%HOSTNAME%% %%%LEVEL%% %%MSG%%\n",
           timestamp_format => "%y-%m-%d %h:%m:%s",
           use_real_user_id => 0,
     );
@@ -43,7 +43,7 @@ Formats log messages for output using a user-defined template spec.
     my $formatter = Log::Fine::Formatter::Template
         ->new(
           name              => 'template0',
-          template          => "[%%TIME%%] %%USER%%:%%GROUP%%@%%%%LEVEL%% %%MSG%%\n",
+          template          => "[%%TIME%%] %%USER%%:%%GROUP%%@%%HOSTNAME%% %%%LEVEL%% %%MSG%%\n",
           timestamp_format  => "%y-%m-%d %h:%m:%s",
           use_real_group_id => 0,
     );
