@@ -7,31 +7,53 @@ Log::Fine::Formatter::Template - Format log messages using template
 
 Formats log messages for output using a user-defined template spec.
 
-
-Formats log messages for output in a basic format, suitable for most
-applications.
-
-    use Log::Fine::Formatter::Basic;
+    use Log::Fine::Formatter::Template;
     use Log::Fine::Handle::Console;
 
     # instantiate a handle
     my $handle = Log::Fine::Handle::Console->new();
 
     # instantiate a formatter
-    my $formatter = Log::Fine::Formatter::Basic
-        ->new( name             => 'basic0',
-               timestamp_format => "%y-%m-%d %h:%m:%s" );
+    my $formatter = Log::Fine::Formatter::Template
+        ->new(
+          name             => 'template0',
+          template         => "[%%TIME%%] %%LEVEL%% (%%FILENAME%%:%%LINENO%%) %%MSG%%\n",
+          timestamp_format => "%y-%m-%d %h:%m:%s"
+    );
 
     # set the formatter
     $handle->setFormatter( formatter => $formatter );
 
+    #
+    # In the below examples, note that {user_real_[user|group]_id} is
+    # set to 1 by default, unless explicitly overridden on object
+    # construction.
+    #
+
+    # When displaying user information, use the effective user ID
+    my $formatter = Log::Fine::Formatter::Template
+        ->new(
+          name             => 'template0',
+          template         => "[%%TIME%%] %%USER%%@%%%%LEVEL%% %%MSG%%\n",
+          timestamp_format => "%y-%m-%d %h:%m:%s",
+          use_real_user_id => 0,
+    );
+
+    # When displaying group information, use the effective group ID
+    my $formatter = Log::Fine::Formatter::Template
+        ->new(
+          name              => 'template0',
+          template          => "[%%TIME%%] %%USER%%:%%GROUP%%@%%%%LEVEL%% %%MSG%%\n",
+          timestamp_format  => "%y-%m-%d %h:%m:%s",
+          use_real_group_id => 0,
+    );
+
 =head1 DESCRIPTION
 
-The basic formatter provides logging in the following format:
-
-    <[TIMESTAMP] <LEVEL> <MESSAGE>>
-
-Please note that this is the default format.
+The template formatter allows the user to specify the log format via a
+template, using placeholders as substitutions.  This provides the user
+an alternative way of formatting their log messages without the
+necessity of having to write their own formatter object.
 
 =cut
 
@@ -51,9 +73,32 @@ our $VERSION = $Log::Fine::Formatter::VERSION;
 use File::Basename;
 use Sys::Hostname;
 
-=head1 TEMPLATE VARIABLES
+=head1 SUPPORTED PLACEHOLDERS
 
-blah blah blah
+    +---------------+-----------------------------------+
+    | %%TIME%%      | Timestamp                         |
+    +---------------+-----------------------------------+
+    | %%LEVEL%%     | Log Level                         |
+    +---------------+-----------------------------------+
+    | %%MSG%%       | Log Message                       |
+    +---------------+-----------------------------------+
+    |  %%PACKAGE%%  | Caller package                    |
+    +---------------+-----------------------------------+
+    | %%FILENAME%%  | Caller filename                   |
+    +---------------+-----------------------------------+
+    | %%LINENO%%    | Caller line number                |
+    +---------------+-----------------------------------+
+    |  %%SUBROUT%%  | Caller Subroutine                 |
+    +---------------+-----------------------------------+
+    | %%HOSTLONG%%  | Long Hostname including domain    |
+    +---------------+-----------------------------------+
+    | %%HOSTSHORT%% | Short Hostname                    |
+    +---------------+-----------------------------------+
+    | %$%LOGIN%%    | User Login                        |
+    +---------------+-----------------------------------+
+    | %%GROUP%%     | User Group                        |
+    +---------------+-----------------------------------+
+
 
 =head1 METHODS
 
@@ -75,15 +120,13 @@ Message to log
 
 =item  * skip
 
-[ignored] Controls caller skip level
+Controls caller skip level
 
 =back
 
 =head3 Returns
 
-The formatted text string in the form:
-
-  [TIMESTAMP] LEVEL MESSAGE
+The formatted log message as specified by {template}
 
 =cut
 
@@ -294,4 +337,4 @@ LICENSE file included with this module.
 
 =cut
 
-1;          # End of Log::Fine::Formatter::Basic
+1;          # End of Log::Fine::Formatter::Template
