@@ -74,6 +74,8 @@
     The name of the program isn't likely to change so cache it.  Maybe
     make this a global static?
 
+*** TODO Make note that placeholders are case-insensitive
+
 
 
     
