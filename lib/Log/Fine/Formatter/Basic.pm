@@ -28,7 +28,7 @@ The basic formatter provides logging in the following format:
 
     <[TIMESTAMP] <LEVEL> <MESSAGE>>
 
-Please note that this is the default format.
+Note that this is the default format for L<Log::Fine::Handle> objects.
 
 =cut
 
