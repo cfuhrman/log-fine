@@ -58,3 +58,7 @@ Revision history for Log-Fine
 0.36   2010-11-24
         * Do not allow user to define more than one
           Log::Fine::Handle::Syslog object
+
+0.37   2010-11-27
+        * Add support for formatting templates
+          (See Log::Fine::Formatter::Template)
