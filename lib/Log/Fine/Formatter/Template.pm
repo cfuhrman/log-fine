@@ -41,6 +41,9 @@ template, using placeholders as substitutions.  This provides the user
 an alternative way of formatting their log messages without the
 necessity of having to write their own formatter object.
 
+Note that if you desire speed, consider rolling your own
+Log::Fine::Formatter module.
+
 =cut
 
 use strict;
@@ -128,7 +131,7 @@ sub format
         my $tmpl = $self->{template};
 
         # Set skip to default if need be
-        $skip = Log::Fine::Logger->LOG_SKIP_DEFAULT unless (defined $skip);
+        $skip = Log::Fine::Logger->LOG_SKIP_DEFAULT unless defined $skip;
 
         # get the caller information
         my @c         = caller($skip);
