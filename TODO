@@ -86,10 +86,10 @@
     - CLOSING NOTE [2010-11-26 Fri 11:22] \\
       See [[https://github.com/cfuhrman/log-fine/commit/c101f8a62b032ed7bfae0f9f3ec39d72b435191a][log-fine/c101f8a]]
 
+*** TODO Optimize Template.pm
 
+    Template.pm works although it may be a little on the slow side.
+    Attempt to optimize.
 
-    
-
-
-
-
+    While I'm thinking about it, come up with some stress tests so I
+    can get some hard figures
