@@ -57,7 +57,9 @@ construction as so:
 
 By default, the time-stamp format for high resolution mode is
 "%H:%M:%S.%%millis%%".  This can be changed via the L</timeStamp>
-method or set during formatter construction.
+method or set during formatter construction.  "%%millis%%" is a case
+insensitive value, thus "%%MILLIS%%" will work as well as
+"%%Millis%%".
 
 =cut
 
@@ -233,7 +235,7 @@ sub _formatTime
                 my @t = split /\./, $time;
 
                 # and format
-                $fmt =~ s/%%millis%%/$t[1]/g;
+                $fmt =~ s/%%millis%%/$t[1]/ig;
                 $seconds = $time;
 
         } else {
