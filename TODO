@@ -31,3 +31,65 @@
   Add a template class to allow the user to easily build log message
   templates.  Perhaps use message layout options from [[http://search.cpan.org/dist/Log-Handler/lib/Log/Handler.pm][Log::Handler]]?
 
+** Available options
+
+   | %%TIME%%      | Timestamp            |
+   | %%LEVEL%%     | Log Level            |
+   | %%MSG%%       | Log Message          |
+   | %%PACKAGE%%   | Caller Package       |
+   | %%FILENAME%%  | Caller filename      |
+   | %%LINENO%%    | Caller line number   |
+   | %%SUBROUT%%   | Caller Subroutine    |
+   | %%HOSTSHORT%% | Short Hostname       |
+   | %%HOSTLONG%%  | Long (FQDN) Hostname |
+   | %%LOGIN%%     | User Login           |
+   | %%GROUP%%     | User Group           |
+
+*** DONE Document POD
+    CLOSED: [2010-11-25 Thu 20:53]
+    - CLOSING NOTE [2010-11-25 Thu 20:53] \\
+      Documented
+
+*** DONE Think about {use_real_user_id} name
+    CLOSED: [2010-11-26 Fri 11:24]
+    - CLOSING NOTE [2010-11-26 Fri 11:24] \\
+      See [[https://github.com/cfuhrman/log-fine/commit/c101f8a62b032ed7bfae0f9f3ec39d72b435191a][log-fine/c101f8a]]
+
+    This option might be confusing to the casual programmer.  Perhaps
+    having a {use_effective_id} attribute would be better?
+
+    Some ideas:
+
+     - Do not cache user & group when {use_effective_id} is set?
+
+     - Add {no_cache} option to constructor
+
+     - Dynamically enable/disable Caching via API?
+
+     - Use global static storage of user & group?
+
+     - Use global static storage of filename and hostname?  These
+       aren't as likely to change so global static storage might be a
+       better idea
+
+    [2010-11-26 Fri 11:23] Decided to keep attributes as hash keys.  I
+    did switch to using {use_effective_id}.
+
+*** DONE Create _filename method
+    CLOSED: [2010-11-26 Fri 11:22]
+
+    The name of the program isn't likely to change so cache it.  Maybe
+    make this a global static?
+
+*** DONE Make note that placeholders are case-insensitive
+    CLOSED: [2010-11-26 Fri 11:22]
+    - CLOSING NOTE [2010-11-26 Fri 11:22] \\
+      See [[https://github.com/cfuhrman/log-fine/commit/c101f8a62b032ed7bfae0f9f3ec39d72b435191a][log-fine/c101f8a]]
+
+*** TODO Optimize Template.pm
+
+    Template.pm works although it may be a little on the slow side.
+    Attempt to optimize.
+
+    While I'm thinking about it, come up with some stress tests so I
+    can get some hard figures
