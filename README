@@ -36,29 +36,27 @@ DESCRIPTION
     Log::Fine::Utils.
 
   Handles
+
     Handlers provides a means to output log messages in one or more ways.
     Currently, the following handles are provided:
 
-    *   Log::Fine::Handle::Console
+    * Log::Fine::Handle::Console
+        Provides logging to `STDERR' or `STDOUT'
 
-        Provides logging to "STDERR" or "STDOUT"
-
-    *   Log::Fine::Handle::File
-
+    * Log::Fine::Handle::File
         Provides logging to a file
 
-    *   Log::Fine::Handle::File::Timestamp
-
+    * Log::Fine::Handle::File::Timestamp
         Same thing with support for time-stamped files
 
-    *   Log::Fine::Handle::Syslog
-
+    * Log::Fine::Handle::Syslog
         Provides logging to syslog
 
     See the relevant perldoc information for more information. Additional
     handlers can be defined to the user's taste.
 
   Formatters
+
     A formatter specifies how Log::Fine displays messages. When a message is
     logged, it gets passed through a formatter object, which adds any
     additional information such as a time-stamp or caller information.
@@ -78,49 +76,50 @@ METHODS
     defined:
 
   new
+
     Creates a new Log::Fine object.
 
-   Parameters
+    Parameters
     A hash with the following keys
 
-    *   levelmap
-
+    * levelmap
         [default: Syslog] Name of level map to use. See Log::Fine::Levels
         for further details
 
-    *   no_croak
-
+    * no_croak
         [optional] If set to true, then do not croak when "_fatal()" is
         called.
 
-   Returns
+    Returns
     The newly bless'd object
 
   levelMap
+
     Getter for the global level map.
 
-   Returns
+    Returns
     A Log::Fine::Levels subclass
 
   logger
+
     Getter/Constructor for a logger object.
 
-   Parameters
-    *   logger name
-
+    Parameters
+    * logger name
         The name of the logger object. If the specified logger object does
         not exist, then a new one will be created.
 
-   Returns
+    Returns
     an Log::Fine::Logger object
 
   _fatal
+
     Private method that is called when a fatal (nonrecoverable) condition is
     encountered. Will call croak unless the {no_croak} attribute is set.
 
     This method can be overridden per taste.
 
-   Parameters
+    Parameters
     message
         Message passed to croak.
 
@@ -132,26 +131,27 @@ ACKNOWLEDGMENTS
     Additional thanks to Tom Maher and Chris Josephs for encouragement.
 
   Related Modules/Frameworks
+
     The following logging frameworks provided inspiration for parts of
     Log::Fine.
 
-    *   Dave Rolsky's Log::Dispatch module
+        Dave Rolsky's Log::Dispatch module
 
-    *   Sun Microsystem's "java.utils.logging" framework
+        Sun Microsystem's `java.utils.logging' framework
 
-    *   The Python logging package
+        The Python logging package
 
 SEE ALSO
     perl, syslog, Log::Fine::Handle, Log::Fine::Formatter,
     Log::Fine::Logger, Log::Fine::Utils, Sys::Syslog
 
 AUTHOR
-    Christopher M. Fuhrman, "<cfuhrman at panix.com>"
+    Christopher M. Fuhrman, `<cfuhrman at panix.com>'
 
 BUGS
-    Please report any bugs or feature requests to "bug-log-fine at
-    rt.cpan.org", or through the web interface at
-    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-Fine>. I will be
+    Please report any bugs or feature requests to `bug-log-fine at
+    rt.cpan.org', or through the web interface at
+    http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-Fine. I will be
     notified, and then you'll automatically be notified of progress on your
     bug as I make changes.
 
@@ -162,25 +162,21 @@ SUPPORT
 
     You can also look for information at:
 
-    *   AnnoCPAN: Annotated CPAN documentation
+    * AnnoCPAN: Annotated CPAN documentation
+        http://annocpan.org/dist/Log-Fine
 
-        <http://annocpan.org/dist/Log-Fine>
+    * CPAN Ratings
+        http://cpanratings.perl.org/d/Log-Fine
 
-    *   CPAN Ratings
+    * RT: CPAN's request tracker
+        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-Fine
 
-        <http://cpanratings.perl.org/d/Log-Fine>
-
-    *   RT: CPAN's request tracker
-
-        <http://rt.cpan.org/NoAuth/Bugs.html?Dist=Log-Fine>
-
-    *   Search CPAN
-
-        <http://search.cpan.org/dist/Log-Fine>
+    * Search CPAN
+        http://search.cpan.org/dist/Log-Fine
 
 CONTRIBUTING
     Want to contribute? The source code repository for Log::Fine is now
-    available at <http://github.com/cfuhrman/log-fine>. To clone your own
+    available at http://github.com/cfuhrman/log-fine. To clone your own
     copy:
 
       $ git clone git://github.com/cfuhrman/log-fine.git
