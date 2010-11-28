@@ -22,7 +22,7 @@ Formats log messages for output using a user-defined template spec.
     );
 
     # set the formatter
-    $handle->setFormatter( formatter => $formatter );
+    $handle->formatter( formatter => $formatter );
 
     # When displaying user or group information, use the effective
     # user ID

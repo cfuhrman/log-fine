@@ -19,7 +19,7 @@ Formats log messages for output in a detailed format.
                timestamp_format => "%y-%m-%d %h:%m:%s" );
 
     # set the formatter
-    $handle->setFormatter( formatter => $formatter );
+    $handle->formatter( formatter => $formatter );
 
 =head1 DESCRIPTION
 

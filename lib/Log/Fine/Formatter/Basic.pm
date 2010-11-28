@@ -20,7 +20,7 @@ applications.
                timestamp_format => "%y-%m-%d %h:%m:%s" );
 
     # set the formatter
-    $handle->setFormatter( formatter => $formatter );
+    $handle->formatter( formatter => $formatter );
 
 =head1 DESCRIPTION
 

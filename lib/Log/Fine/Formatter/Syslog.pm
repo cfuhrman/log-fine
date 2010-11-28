@@ -18,7 +18,7 @@ Formats messages in a style similar to syslog(1)
         ->new( name             => 'syslog0');
 
     # set the formatter
-    $handle->setFormatter( formatter => $formatter );
+    $handle->formatter( formatter => $formatter );
 
 =head1 DESCRIPTION
 
