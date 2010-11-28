@@ -93,3 +93,8 @@
 
     While I'm thinking about it, come up with some stress tests so I
     can get some hard figures
+
+**** TODO Create stress test script
+
+     Create stress script to get some hard figures on how fast
+     Log::Fine can output messages.
