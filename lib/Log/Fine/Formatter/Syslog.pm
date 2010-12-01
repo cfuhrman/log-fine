@@ -20,6 +20,9 @@ Formats messages in a style similar to syslog(1)
     # set the formatter
     $handle->formatter( formatter => $formatter );
 
+    # format a msg
+    my $str = $formatter->format(INFO, "Resistence is futile", 1);
+
 =head1 DESCRIPTION
 
 The syslog formatter logs messages in a format similar to that
@@ -50,7 +53,9 @@ our $VERSION = $Log::Fine::Formatter::VERSION;
 # Constant: LOG_TIMESTAMP_FORMAT
 #
 # strftime(3)-compatible format string
-use constant LOG_TIMESTAMP_FORMAT => "%b %e %T";
+use constant LOG_TIMESTAMP_FORMAT => ($^O eq "MSWin32")
+    ? "%b %d %H:%M:%S"
+    : "%b %e %T";
 
 =head1 METHODS
 

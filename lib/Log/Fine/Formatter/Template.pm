@@ -34,6 +34,9 @@ Formats log messages for output using a user-defined template spec.
           use_effective_id => 1,
     );
 
+    # format a msg
+    my $str = $formatter->format(INFO, "Resistence is futile", 1);
+
 =head1 DESCRIPTION
 
 The template formatter allows the user to specify the log format via a
@@ -225,7 +228,7 @@ sub _fileName
         # NOT REACHED
         #
 
-} # _fileName
+}          # _fileName
 
 ##
 # Getter/Setter for group
@@ -240,9 +243,13 @@ sub _groupName
         if (defined $self->{_groupName} and $self->{_groupName} =~ /\w/) {
                 return $self->{_groupName};
         } elsif ($self->{use_effective_id}) {
-                $self->{_groupName} = getgrgid($)) || "nogroup";
+                $self->{_groupName} = ($^O eq "MSWin32")
+                    ? $ENV{EGID}   || 0
+                    : getgrgid($)) || "nogroup";
         } else {
-                $self->{_groupName} = getgrgid($() || "nogroup";
+                $self->{_groupName} = ($^O eq "MSWin32")
+                    ? $ENV{GID} || 0
+                    : getgrgid($() || "nogroup";
         }
 
         return $self->{_groupName};
@@ -285,7 +292,9 @@ sub _userName
         if (defined $self->{_userName} and $self->{_userName} =~ /\w/) {
                 return $self->{_userName};
         } elsif ($self->{use_effective_id}) {
-                $self->{_userName} = getpwuid($>) || "nobody";
+                $self->{_userName} = ($^O eq "MSWin32")
+                    ? $ENV{EUID}   || 0
+                    : getpwuid($>) || "nobody";
         } else {
                 $self->{_userName} = getlogin() || getpwuid($<) || "nobody";
         }
@@ -293,6 +302,26 @@ sub _userName
         return $self->{_userName};
 
 }          # _userName()
+
+=head1 MICROSOFT WINDOWS CAVEATS
+
+Under Microsoft Windows operating systems (WinXP, Win2003, Vista,
+Win7, etc), Log::Fine::Formatters::Template will use the following
+environment variables for determining user and group information:
+
+=over
+
+=item * C<$UID>
+
+=item * C<$EUID>
+
+=item * C<$GID>
+
+=item * C<$EGID>
+
+=back
+
+Under MS Windows, these values will invariably be set to 0.
 
 =head1 SEE ALSO
 
