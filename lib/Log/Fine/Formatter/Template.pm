@@ -225,7 +225,7 @@ sub _fileName
         # NOT REACHED
         #
 
-} # _fileName
+}          # _fileName
 
 ##
 # Getter/Setter for group
@@ -240,9 +240,13 @@ sub _groupName
         if (defined $self->{_groupName} and $self->{_groupName} =~ /\w/) {
                 return $self->{_groupName};
         } elsif ($self->{use_effective_id}) {
-                $self->{_groupName} = getgrgid($)) || "nogroup";
+                $self->{_groupName} = ($^O eq "MSWin32")
+                    ? $ENV{EGID}   || 0
+                    : getgrgid($)) || "nogroup";
         } else {
-                $self->{_groupName} = getgrgid($() || "nogroup";
+                $self->{_groupName} = ($^O eq "MSWin32")
+                    ? $ENV{GID} || 0
+                    : getgrgid($() || "nogroup";
         }
 
         return $self->{_groupName};
@@ -285,7 +289,9 @@ sub _userName
         if (defined $self->{_userName} and $self->{_userName} =~ /\w/) {
                 return $self->{_userName};
         } elsif ($self->{use_effective_id}) {
-                $self->{_userName} = getpwuid($>) || "nobody";
+                $self->{_userName} = ($^O eq "MSWin32")
+                    ? $ENV{EUID}   || 0
+                    : getpwuid($>) || "nobody";
         } else {
                 $self->{_userName} = getlogin() || getpwuid($<) || "nobody";
         }

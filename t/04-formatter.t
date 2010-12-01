@@ -188,8 +188,18 @@ use Sys::Hostname;
         ok($log_filename->format(INFO, $msg, 1) =~ /\w+\:\d+/);
         ok($log_longhost->format(INFO, $msg, 1) =~ /$hostname/);
         ok($log_shorthost->format(INFO, $msg, 1) =~ /\w/);
-        ok($log_user->format(INFO, $msg, 1) eq getpwuid($<));
-        ok($log_group->format(INFO, $msg, 1) eq getgrgid($());
+
+    SKIP: {
+
+                skip
+"Cannot accurately test user and group placeholders under MSWin32",
+                    2
+                    if ($^O eq "MSWin32");
+
+                ok($log_user->format(INFO, $msg, 1) eq getpwuid($<));
+                ok($log_group->format(INFO, $msg, 1) eq getgrgid($());
+
+        }
 
         # Now test a combination string for good measure
         my $log_basic =
