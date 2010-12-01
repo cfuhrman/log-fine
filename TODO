@@ -94,7 +94,10 @@
     While I'm thinking about it, come up with some stress tests so I
     can get some hard figures
 
-* TODO Break up 04-formatter.t tests
+* DONE Break up 04-formatter.t tests
+  CLOSED: [2010-12-01 Wed 12:12]
+  - CLOSING NOTE [2010-12-01 Wed 12:13] \\
+    Done.  See [[https://github.com/cfuhrman/log-fine/commit/2c14f64d436513c8af2191a061bf571c93a02067][log-fine/2c14f64]]
 
   04-formatter.t has two skipped sections which probably doesn't jive
   well.  Break up 04-formatter.t tests into 2 separate test chunks.
