@@ -300,6 +300,26 @@ sub _userName
 
 }          # _userName()
 
+=head1 MICROSOFT WINDOWS CAVEATS
+
+Under Microsoft Windows operating systems (WinXP, Win2003, Vista,
+Win7, etc), Log::Fine::Formatters::Template will use the following
+environment variables for determining user and group information:
+
+=over
+
+=item * C<$UID>
+
+=item * C<$EUID>
+
+=item * C<$GID>
+
+=item * C<$EGID>
+
+=back
+
+Under MS Windows, these values will invariably be set to 0.
+
 =head1 SEE ALSO
 
 L<perl>, L<Log::Fine::Formatter>
