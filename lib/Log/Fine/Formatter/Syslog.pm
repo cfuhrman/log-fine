@@ -50,7 +50,9 @@ our $VERSION = $Log::Fine::Formatter::VERSION;
 # Constant: LOG_TIMESTAMP_FORMAT
 #
 # strftime(3)-compatible format string
-use constant LOG_TIMESTAMP_FORMAT => "%b %e %T";
+use constant LOG_TIMESTAMP_FORMAT => ($^O eq "MSWin32")
+    ? "%b %d %H:%M:%S"
+    : "%b %e %T";
 
 =head1 METHODS
 
