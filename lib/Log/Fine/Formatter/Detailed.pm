@@ -21,6 +21,9 @@ Formats log messages for output in a detailed format.
     # set the formatter
     $handle->formatter( formatter => $formatter );
 
+    # format a msg
+    my $str = $formatter->format(INFO, "Resistence is futile", 1);
+
 =head1 DESCRIPTION
 
 The detailed formatter logs messages in two different formats,

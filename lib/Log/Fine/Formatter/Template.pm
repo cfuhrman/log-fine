@@ -34,6 +34,9 @@ Formats log messages for output using a user-defined template spec.
           use_effective_id => 1,
     );
 
+    # format a msg
+    my $str = $formatter->format(INFO, "Resistence is futile", 1);
+
 =head1 DESCRIPTION
 
 The template formatter allows the user to specify the log format via a

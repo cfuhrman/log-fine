@@ -20,6 +20,9 @@ Formats messages in a style similar to syslog(1)
     # set the formatter
     $handle->formatter( formatter => $formatter );
 
+    # format a msg
+    my $str = $formatter->format(INFO, "Resistence is futile", 1);
+
 =head1 DESCRIPTION
 
 The syslog formatter logs messages in a format similar to that

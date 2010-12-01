@@ -22,6 +22,9 @@ applications.
     # set the formatter
     $handle->formatter( formatter => $formatter );
 
+    # format a msg
+    my $str = $formatter->format(INFO, "Resistence is futile", 1);
+
 =head1 DESCRIPTION
 
 The basic formatter provides logging in the following format:
