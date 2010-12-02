@@ -23,6 +23,7 @@ lib/Log/Fine/Levels/Syslog.pm
 lib/Log/Fine/Levels/Java.pm
 lib/Log/Fine/Logger.pm
 lib/Log/Fine/Utils.pm
+scripts/stresslog.pl
 t/00-load.t
 t/01-fine.t
 t/02-handle.t
