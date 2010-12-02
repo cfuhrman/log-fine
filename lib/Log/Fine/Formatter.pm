@@ -61,6 +61,11 @@ method or set during formatter construction.  "%%millis%%" is a case
 insensitive value, thus "%%MILLIS%%" will work as well as
 "%%Millis%%".
 
+=head2 Using Log format templates
+
+As of version 0.37, Log::Fine now supports log format templates.  See
+L<Log::Fine::Formatter::Template> for details.
+
 =cut
 
 use strict;
