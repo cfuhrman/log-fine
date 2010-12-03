@@ -1,64 +1,482 @@
-Revision history for Log-Fine
+CHANGELOG
 
-0.10    2008-05-25
-  	* First version, released on an unsuspecting world.
+2010-12-02  Christopher M. Fuhrman
 
-0.13    2008-05-27
-	* Require version 0.13 of Sys::Syslog
+        * Add note about support for log format templates
+        * Merge branch 'master' of https://github.com/cfuhrman/log-fine
+        * Ship stresslog.pl
 
-0.14	2008-06-07
-	* Correct spelling of last name of acknowledgements.  Sorry
-	  Chris!
+2010-12-01  Christopher M. Fuhrman
 
-0.15    2008-07-02
-	* Fix very embarrasing bitmask error
-	* some minor optimizations
-	* add TODO
+        * Expand *.pl files
+        * Initial entry
+        * Merge branch 'master' into STRESS-SCRIPT
+        * Add format() example
+        * Add MICROSOFT WINDOWS CAVEATS section
+        * Closed out formatter tests TODO
+        * Place L::F::F::Template tests into separate file
+        * Add TODO about breaking up 04-formatter.t tests
+        * Overcome MSWin32 strftime(3) deficiencies
+        * MSWin32 does not support getgrgid() or getpwuid()
 
-0.20	2008-07-05
-	* Properly check bitmask combinations during testing
+2010-11-28  Christopher M. Fuhrman
 
-0.21	2008-12-12
-	* Add functional wrapper via Utils
+        * Update
+        * Match documentation w/ reality
+        * Verbiage
 
-0.30    2010-01-03
-        * Log levels can now be defined via Log::Fine::Levels
-        * Remove clone()
-        * Add new method, _fatal(), for handling internal fatal
-          conditions
-        * Major cleanup of documentation
-        * OpenLog() now takes a hash argument (see Log::Fine::Utils)
-        * Various API changes
+2010-11-27  Christopher M. Fuhrman
 
-0.31   2010-03-06
-        * Add new formatter, Log::Fine::Formatter::Syslog
+        * Merge branch 'TEMPLATE-SUPPORT'
+        * Bump version
 
-0.32   2010-03-15
-        * Unit tests for Log::Fine::Formatter::Syslog now support
-          multiple locales
+2010-11-26  Christopher M. Fuhrman
 
-0.33   2010-08-28
+        * Regen
+        * Merge branch 'TEMPLATE-SUPPORT'
+        * Final TODO item about speed
+        * Add note about speed
+        * %%millis%% placeholder is now case-insensitive
+        * s/_fullhost/_fullHost/
+        * Reference getter/setters as methods
+        * Close out some TODO elements
+        * Update with TODO items
+        * Test combination string and lower-case placeholders
+        * More notes
+
+2010-11-25  Christopher M. Fuhrman
+
+        * Make POD documentation more assertive
+        * Brainstorming
+        * Correct SYNOPSIS
+        * Oops!  Add support for filename and line number
+        * Update POD documentation
+        * Update with new Template class
+        * Update
+        * Initial entry
+
+2010-11-24  Christopher M. Fuhrman
+
+        * Regen
+        * Add Login and Group
+        * Initial ideas for template options
+        * Update TODO entries
+        * Switch TODO file to use org-mode
+        * Add $VERSION
+        * Add CONTRIBUTING section
+        * Add note about template class
+        * Bump version
+        * perltidy
+        * Make sure user can define one and _only_ one L::F::H::S object
+        * Revert "Do not call closelog() if this is perl 5.8.9"
+        * Revert "Add CAVEATS"
+        * Revert "Clarify CAVEATS"
+
+2010-11-23  Christopher M. Fuhrman
+
+        * Bump version
+        * Clarify CAVEATS
+        * Add CAVEATS
+        * Do not call closelog() if this is perl 5.8.9
+        * Use different ident when testing multiple handles
+
+2010-11-21  Christopher M. Fuhrman
+
+        * Bump version
+        * Lose RCS-style keywords
+        * Log failed line
+        * Revert "Add rcs-keyword attribute to TODO"
+        * Add rcs-keyword attribute to TODO
+        * Initial entry
+        * Remind myself to tell the world about git
+        * Bump version
+        * Use a facility that is supported by older versions of perl
+
+2010-11-17  Christopher M. Fuhrman
+
+        * Bump version
+        * Correct typo
+
+2010-10-02  Christopher M. Fuhrman
+
+        * Add README
+        * regen
+        * Revert "Remove Revision Information"
+        * Revert "Remove Revision Information"
+        * Initial entry
+        * Commenting & Documentation clean-up
+
+2010-09-21  Christopher M. Fuhrman
+
+        * Add missing perl modules to test
+
+2010-08-30  Christopher M. Fuhrman
+
+        * Remove redundant check
+        * Add some anti-test-report logic
+        * Tell Emacs what to do with itself
+        * Explicitly require Sys::Syslog 0.13
+
+2010-08-30  Christopher Fuhrman
+
+        * Add missing Log::Fine modules
+
+2010-08-29  Christopher M. Fuhrman
+
+        * _fatal() has been documented
+
+2010-08-28  Christopher M. Fuhrman
+
+        * Refresh
+        * Remove Revision Information
+        * Remove Revision Information
+        * Bump version
+
+2010-07-05  Christopher M. Fuhrman
+
+        * Clean up comments where appropriate
+
+2010-05-10  Christopher M. Fuhrman
+
+        * Optimize code where appropriate
+        * Mollify Perl::Critic
+
+2010-05-09  Christopher M. Fuhrman
+
+        * perltidy
+        * Add support for {autoclose}
+        * Document constructor arguments
+        * Explicitly set {autoflush} to 0 unless it is already defined.
+        * Sync
+        * More verbiage
+        * Verbiage
+        * Minor cleanups
+
+2010-05-08  Christopher M. Fuhrman
+
         * Document _fatal()
-        * Internal API clean-up
 
-0.34   2010-11-17
-        * Update perldoc
-        * Correct typo in Log::Fine::Handle::Syslog
-          (addresses https://rt.cpan.org/Ticket/Display.html?id=63026)
+2010-04-19  Christopher M. Fuhrman
 
-0.34.1 2010-11-21
-        * Use a syslog facility that is supported by older versions of perl
+        * Improve documentation where applicable
 
-0.34.2 2010-11-21
-        * Be more verbose when formatting tests fail
+2010-04-09  Christopher M. Fuhrman
 
-0.35   2010-11-23
-        * Correct issue in Log::Fine::Handle::Syslog found in perl 5.8.9
+        * use, don't require Log::Fine::Logger
+        * Commenting
+        * Replace getter/setter functions with single function
 
-0.36   2010-11-24
-        * Do not allow user to define more than one
-          Log::Fine::Handle::Syslog object
+2010-04-05  Christopher M. Fuhrman
 
-0.37   2010-11-27
-        * Add support for formatting templates
-          (See Log::Fine::Formatter::Template)
+        * Set svn:ignore on sub-directories
+
+2010-03-15  Christopher M. Fuhrman
+
+        * Bump version
+        * Modified Formatter::Syslog unit tests to support multiple locales.
+
+2010-03-12  Christopher M. Fuhrman
+
+        * Revert -r221
+        * Test multiple locales
+
+2010-03-09  Christopher M. Fuhrman
+
+        * Modify regex to handle non-English month representations found in other locales.  This commit addresses the following CPAN Reports:
+        * Initial shot at supporting Chinese
+        * Branch to address the following:
+
+2010-03-06  Christopher M. Fuhrman
+
+        * Remind myself to tag new release based on $Log::Fine::VERSION
+        * Bump version and update Changes
+
+2010-03-03  Christopher M. Fuhrman
+
+        * Add new formatter, Syslog
+        * Refer to LOG_TIMESTAMP_FORMAT* via object
+
+2010-01-03  Christopher M. Fuhrman
+
+        * Add README for changes found in v0.30
+        * Style changes
+        * _formatTime() replaces _getFmtTime()
+        * Update documentation to match reality
+        * Add 0.30 Changes
+        * Regen based on r200 of Fine.pm
+        * Happy New Years!  Bump copyright year as appropriate
+        * Bump version
+        * Add support for configurable levelmaps when using Utils.pm
+        * Use a single private getter/setter, _logger
+        * Merge in changes from ^/branches/LOGCONFIG
+        * perltidy before merge to trunk
+        * Revert -r150:148
+
+2009-12-31  Christopher M. Fuhrman
+
+        * Make sure methods are declared in alphabetical order.
+        * Update
+        * Use bullet points as appropriate
+        * Update documentation
+        * Replace getSkip() with skip()
+        * Replace getFileHandle() with fileHandle()
+        * Replace setFormatter() with formatter()
+        * Replace setTimestamp() and getTimestamp() with timeStamp().
+        * Add support for java.util.logging levels
+        * Add Levels classes and associated unit tests to manifest
+
+2009-12-30  Christopher M. Fuhrman
+
+        * Merge in changes from ERROR_HANDLE branch
+        * perltidy
+        * Add some negative tests
+        * Add some fine-grained validity checking to Logger.  Also, clean up error message in Formatter.pm
+        * We skip 2 tests, not 3 if Test::Output isn't installed
+        * Test Error handling
+        * Add secret option "no_croak".  I need to document this.
+        * Use Test::Output for trapping error messages
+        * Elaborate on error messages
+        * Add new method, Log::Fine::_fatal() for handling error situations. Note that this can be overridden.
+        * Optimize logLevels()
+        * logMasks() now returns masks in ascending order by mask value
+        * Branch for development of better error handling
+
+2009-12-29  Christopher M. Fuhrman
+
+        * Fix Utils.pm which now passes unit tests.  While here, do some other touch-ups.
+
+2009-12-15  Christopher M. Fuhrman
+
+        * perltidy
+        * Port comprehensive testing from ^/branches/LOGCONFIG branch
+
+2009-09-29  Christopher M. Fuhrman
+
+        * Switch to new API (s/getLogger/logger/g)
+
+2009-09-28  Christopher M. Fuhrman
+
+        * Make Log::Fine::Levels compatible.
+        * Add support for new Log::Fine::Levels to Log::Fine::Handle.  While here:
+
+2009-09-22  Christopher M. Fuhrman
+
+        * Add new method, bitmaskAll() for returning a mask with all possible values enabled
+        * Make the following changes to Log::Fine:
+        * Add Log::Fine::Levels* to tests
+
+2009-09-17  Christopher M. Fuhrman
+
+        * Remove support for clone, which isn't really needed
+
+2009-09-16  Christopher M. Fuhrman
+
+        * Mention that this class is the default for Log::Fine::Levels
+        * Possible TODO: Tutorial for extending Levels class
+        * Fill in SYNOPSIS and DESCRIPTION of pod documentation
+
+2009-09-09  Christopher M. Fuhrman
+
+        * Fill in POD documentation for Syslog module
+
+2009-09-08  Christopher M. Fuhrman
+
+        * :Fine::Levels::Syslog will now export log levels and log masks via Exporter/AutoLoader <Log>
+        * Fix tyop
+
+2009-09-07  Christopher M. Fuhrman
+
+        * Set levels when initializing any Log::Fine based class.  Use new Levels class where applicable.  Add new API, getLevels, for getting the stored Levels object
+
+2009-09-03  Christopher M. Fuhrman
+
+        * Correctly match revision number.  Also fix spacing
+        * Use subversion revision for version number
+        * Initial entry of Levels class and associated Syslog class Also added unit test
+        * Directory for holding level definitions
+        * Branch for development of configurable log levels
+
+2009-08-16  Christopher M. Fuhrman
+
+        * Add ideas about levels and callback.
+
+2009-02-06  Christopher M. Fuhrman
+
+        * Add 10-hires test to manifest.
+        * Optmize high-resolution time calculation
+
+2009-02-05  Christopher M. Fuhrman
+
+        * Minor formatting change
+        * Remind myself to regenerate README when making a release.
+        * Update to latest wish list
+        * regen
+
+2009-02-04  Christopher M. Fuhrman
+
+        * Bump version and copyright date in Fine.pm
+        * Bump copyright date
+        * Update documentation to include information about high-resolution timestamps.
+        * perltidy
+        * Add support for fine-grained logging via the Time::HiRes module.  Also add associated test to make sure things work okay.
+
+2008-12-12  Christopher M. Fuhrman
+
+        * Update date
+        * Oops.  Forgot to include Carp!
+        * Add error checking to Log() and OpenLog().  Also include CAVEATS section.
+
+2008-12-09  Christopher M. Fuhrman
+
+        * Mention Log::Fine::Utils.
+
+2008-12-08  Christopher M. Fuhrman
+
+        * Fix tyop
+        * Bump version to 0.21
+        * perltidy
+        * Add new module, Log::Fine::Utils which provides a functional interface to Log::Fine.  Also add associated test file and update manifest.
+
+2008-08-26  Christopher M. Fuhrman
+
+        * Don't forget to test Log::Fine::Handle::File::Timestamp.  Reorder testing of modules while we're here.
+        * Add item for loadable log levels
+
+2008-07-23  Christopher M. Fuhrman
+
+        * Avoid redundant testing
+        * Be more intelligent about testing mask combinations.  Not completely comprehesive, but getting there.
+
+2008-07-05  Christopher M. Fuhrman
+
+        * Maybe switch to Module::Build?
+        * We can just use Test::Simple for handle tests
+        * Bump version
+        * Make sure we only use Sys::Syslog when we need to
+        * Updated to include bitmask testing
+        * Welcome to 0.20
+        * Implemented
+        * Add test to make sure we don't log when we're not supposed to.  This brings the total number of tests for this file to 132.
+
+2008-07-04  Christopher M. Fuhrman
+
+        * Handles do not need {level} attribute anymore.  Remove from tests while we're at it.
+        * Properly test mask combinations
+
+2008-07-02  Christopher M. Fuhrman
+
+        * Update for version 0.15
+        * Welcome to version 0.15
+        * Add TODO and include in Manifest
+        * Do bitmasking properly.
+
+2008-06-30  Christopher M. Fuhrman
+
+        * Optimize how we grab the class name in _init()
+
+2008-06-07  Christopher M. Fuhrman
+
+        * Update changelog
+
+2008-06-06  Christopher M. Fuhrman
+
+        * regen
+        * Welcome to 0.14
+        * Set continuation indentation to 4 per http://www.openbsd.org/cgi-bin/man.cgi?query=style&apropos=0&sektion=0&manpath=OpenBSD+4.3&arch=i386&format=html
+
+2008-06-03  Christopher M. Fuhrman
+
+        * Grammar fix ;)
+
+2008-05-27  Christopher M. Fuhrman
+
+        * Welcome to 0.13!
+        * Addition of Checklist for when I make commits
+        * Bump version to reflect minor fixes
+        * Version 0.12
+        * Bump version
+        * Require version 0.13 of Sys::Syslog.  Apparently older versions did not export tags we need.
+
+2008-05-25  Christopher M. Fuhrman
+
+        * Final perltidy before release
+        * Make sure Chris Josephs is also mentioned.
+        * Bump version before release
+
+2008-05-24  Christopher M. Fuhrman
+
+        * Effective immediately, Log::Fine is distributed under the 2-clause BSD license.
+        * Link clean-up
+        * Clean up POD for HTML format
+
+2008-05-23  Christopher M. Fuhrman
+
+        * Welcome to 0.05
+        * regen
+        * Proof-read POD documentation.  Clean-ups and elaborations where necessary.
+
+2008-05-22  Christopher M. Fuhrman
+
+        * regen
+        * Audit POD documentation
+        * regen
+        * We are now at version 0.04
+        * Add API for adjusting the timestamp within log messages.  Also add a sanity check for Formatter->format().
+        * Give inspirational credit as appropriate.  Also update documentation here and there.
+
+2008-05-21  Christopher M. Fuhrman
+
+        * Lose redundant logger test
+        * Reference file handle directly in test to avoid confusion.
+        * Fix context leak ;)
+        * Skip tests if Test::Output isn't installed
+        * Use Test::Output to validate printing to STDERR & STDOUT
+        * Lose some redundant POD documentation that slipped in.
+        * Fix small case of context leaking ;)
+        * Replace lib/Log/Fine/Handle/Test.pm with ../String.pm and update references as appropriate
+        * Make sure that a logger object's name doesn't include any funky characters
+
+2008-05-20  Christopher M. Fuhrman
+
+        * Elaborate on cloning
+        * Add cloning capabilities.
+        * Oops.  s/output/console/
+        * Bump version
+        * Add two new shorthand masks: LOGMASK_ALL (for all log masks) and LOGMASK_ERROR (for LOGMASK_ERR and below).
+        * Per suggestion from Dan, rename Output.pm to Console.pm and update references accordingly.
+
+2008-05-16  Christopher M. Fuhrman
+
+        * Add api for adjusting log skip.  Also renamed {skip} to {_skip} indicating that it's a value that shouldn't be touched.
+
+2008-05-15  Christopher M. Fuhrman
+
+        * Make sure we store any new Logger object that's created.  Various pod and code clean-ups while I'm here.
+
+2008-05-09  Christopher M. Fuhrman
+
+        * Add some tests for both log levels and masks.
+        * Bump version
+        * All good boys clean up after themselves!
+
+2008-05-08  Christopher M. Fuhrman
+
+        * Blank meta file so 'make dist' works
+        * Initial entry of Log::Fine::Handle::File::Timestamp and associated unit test.
+        * Lose $VERSION.  Also add SEE ALSO section
+        * Revert -r12.  Test.pm needed to pass 'make test'
+        * :Fine::Handle::Test is no longer necessary.  Removing. <Log>
+        * Lose $VERSION which is only necessary in Fine.pm
+        * Clean up POD documentation
+
+2008-05-07  Christopher M. Fuhrman
+
+        * new objects now take a regular hash rather than a hash ref.
+        * Replace all instances of BSDLog with Fine as appropriate.
+        * Move BSDLog.pm and friends to Fine to reflect the name of this module: Log::Fine
+        * The great massive perltidy into KNF!
+        * Set svn:keywords as appropriate
+        * Copy imported Log::BSDLog from LOG-BSDLOG vendor tag
+        * Initial import of Log::BSDLog
+        * New repository setup
+
