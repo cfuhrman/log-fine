@@ -94,7 +94,10 @@
     While I'm thinking about it, come up with some stress tests so I
     can get some hard figures
 
-**** TODO Create stress test script
+**** DONE Create stress test script
+     CLOSED: [2010-12-02 Thu 22:37]
+     - CLOSING NOTE [2010-12-02 Thu 22:38] \\
+       See [[https://github.com/cfuhrman/log-fine/commit/1ed98bbfc896213aeda27ea2b1f14b33a13e92f1][log-fine/1ed98bbf]]
 
      Create stress script to get some hard figures on how fast
      Log::Fine can output messages.
