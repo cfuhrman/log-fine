@@ -133,35 +133,66 @@ sub format
         my $skip = shift;
         my $tmpl = $self->{template};
 
-        # Set skip to default if need be
+        # Set skip to default if need be, then increment as calls to
+        # caller() are now encapsulated in anonymous functions
         $skip = Log::Fine::Logger->LOG_SKIP_DEFAULT unless defined $skip;
+        $skip++;
 
-        # get the caller information
-        my @c         = caller($skip);
-        my @subr      = split /::/, $c[3] || "main()";
-        my $now       = $self->_formatTime();
-        my $lname     = $self->levelMap()->valueToLevel($lvl);
-        my $subname   = pop @subr || "{undef}";
-        my $package   = join "::", @subr;
-        my $filename  = $self->_fileName();
-        my $lineno    = $c[2] || 0;
-        my $hostname  = $self->_hostName();
-        my $shorthost = (split /\./, $hostname)[0];
-        my $user      = $self->_userName();
-        my $group     = $self->_groupName();
+        # Have we set our template list yet?
+        if (not defined $self->{_used_placeholders}) {
 
-        # Run through template, formatting as appropriate
-        $tmpl =~ s/%%TIME%%/$now/ig;
-        $tmpl =~ s/%%LEVEL%%/$lname/ig;
-        $tmpl =~ s/%%MSG%%/$msg/ig;
-        $tmpl =~ s/%%PACKAGE%%/$package/ig;
-        $tmpl =~ s/%%FILENAME%%/$filename/ig;
-        $tmpl =~ s/%%LINENO%%/$lineno/ig;
-        $tmpl =~ s/%%SUBROUT%%/$subname/ig;
-        $tmpl =~ s/%%HOSTSHORT%%/$shorthost/ig;
-        $tmpl =~ s/%%HOSTLONG%%/$hostname/ig;
-        $tmpl =~ s/%%USER%%/$user/ig;
-        $tmpl =~ s/%%GROUP%%/$group/ig;
+                $self->{_used_placeholders} = {};
+
+                $self->{_used_placeholders}->{time} =
+                    sub { return $self->_formatTime() }
+                    if ($tmpl =~ /%%TIME%%/i);
+
+                $self->{_used_placeholders}->{level} =
+                    sub { return $self->levelMap()->valueToLevel($lvl) }
+                    if ($tmpl =~ /%%LEVEL%%/i);
+
+                $self->{_used_placeholders}->{msg} = sub { return $msg }
+                    if ($tmpl =~ /%%MSG%%/i);
+
+                $self->{_used_placeholders}->{package} =
+                    sub { return (caller($skip))[0] || "{undef}"; }
+                    if ($tmpl =~ /%%PACKAGE%%/i);
+
+                $self->{_used_placeholders}->{filename} =
+                    sub { return $self->_fileName() }
+                    if ($tmpl =~ /%%FILENAME%%/i);
+
+                $self->{_used_placeholders}->{lineno} =
+                    sub { return (caller($skip))[2] || 0 }
+                    if ($tmpl =~ /%%LINENO%%/i);
+
+                $self->{_used_placeholders}->{subrout} =
+                    sub { return (caller($skip))[3] || "{undef}" }
+                    if ($tmpl =~ /%%SUBROUT%%/i);
+
+                $self->{_used_placeholders}->{hostshort} =
+                    sub { return (split /\./, $self->_hostName())[0] }
+                    if ($tmpl =~ /%%HOSTSHORT%%/i);
+
+                $self->{_used_placeholders}->{hostlong} =
+                    sub { return $self->_hostName() }
+                    if ($tmpl =~ /%%HOSTLONG%%/i);
+
+                $self->{_used_placeholders}->{user} =
+                    sub { return $self->_userName() }
+                    if ($tmpl =~ /%%USER%%/i);
+
+                $self->{_used_placeholders}->{group} =
+                    sub { return $self->_groupName() }
+                    if ($tmpl =~ /%%GROUP%%/i);
+
+        }
+
+        # Fill in placeholders
+        foreach my $holder (keys %{ $self->{_used_placeholders} }) {
+                my $value = &{ $self->{_used_placeholders}->{$holder} };
+                $tmpl =~ s/%%${holder}%%/$value/ig;
+        }
 
         # return the formatted string
         return $tmpl;
@@ -243,11 +274,13 @@ sub _groupName
         if (defined $self->{_groupName} and $self->{_groupName} =~ /\w/) {
                 return $self->{_groupName};
         } elsif ($self->{use_effective_id}) {
-                $self->{_groupName} = ($^O eq "MSWin32")
+                $self->{_groupName} =
+                    ($^O eq "MSWin32")
                     ? $ENV{EGID}   || 0
                     : getgrgid($)) || "nogroup";
         } else {
-                $self->{_groupName} = ($^O eq "MSWin32")
+                $self->{_groupName} =
+                    ($^O eq "MSWin32")
                     ? $ENV{GID} || 0
                     : getgrgid($() || "nogroup";
         }
@@ -292,7 +325,8 @@ sub _userName
         if (defined $self->{_userName} and $self->{_userName} =~ /\w/) {
                 return $self->{_userName};
         } elsif ($self->{use_effective_id}) {
-                $self->{_userName} = ($^O eq "MSWin32")
+                $self->{_userName} =
+                    ($^O eq "MSWin32")
                     ? $ENV{EUID}   || 0
                     : getpwuid($>) || "nobody";
         } else {
