@@ -132,11 +132,16 @@ sub format
         my $msg  = shift;
         my $skip = shift;
         my $tmpl = $self->{template};
+        my $v2l  = $self->levelMap()->valueToLevel($lvl);
 
         # Set skip to default if need be, then increment as calls to
         # caller() are now encapsulated in anonymous functions
         $skip = Log::Fine::Logger->LOG_SKIP_DEFAULT unless defined $skip;
         $skip++;
+
+        # Level & message are fixed values
+        $tmpl =~ s/%%LEVEL%%/$v2l/ig;
+        $tmpl =~ s/%%MSG%%/$msg/ig;
 
         # Have we set our template list yet?
         if (not defined $self->{_used_placeholders}) {
@@ -147,19 +152,12 @@ sub format
                     sub { return $self->_formatTime() }
                     if ($tmpl =~ /%%TIME%%/i);
 
-                $self->{_used_placeholders}->{level} =
-                    sub { return $self->levelMap()->valueToLevel($lvl) }
-                    if ($tmpl =~ /%%LEVEL%%/i);
-
-                $self->{_used_placeholders}->{msg} = sub { return $msg }
-                    if ($tmpl =~ /%%MSG%%/i);
-
                 $self->{_used_placeholders}->{package} =
                     sub { return (caller($skip))[0] || "{undef}"; }
                     if ($tmpl =~ /%%PACKAGE%%/i);
 
                 $self->{_used_placeholders}->{filename} =
-                    sub { return $self->_fileName() }
+                    sub { return $self->{_fileName} }
                     if ($tmpl =~ /%%FILENAME%%/i);
 
                 $self->{_used_placeholders}->{lineno} =
@@ -171,19 +169,19 @@ sub format
                     if ($tmpl =~ /%%SUBROUT%%/i);
 
                 $self->{_used_placeholders}->{hostshort} =
-                    sub { return (split /\./, $self->_hostName())[0] }
+                    sub { return (split /\./, $self->{_fullHost})[0] }
                     if ($tmpl =~ /%%HOSTSHORT%%/i);
 
                 $self->{_used_placeholders}->{hostlong} =
-                    sub { return $self->_hostName() }
+                    sub { return $self->{_fullHost} }
                     if ($tmpl =~ /%%HOSTLONG%%/i);
 
                 $self->{_used_placeholders}->{user} =
-                    sub { return $self->_userName() }
+                    sub { return $self->{_userName} }
                     if ($tmpl =~ /%%USER%%/i);
 
                 $self->{_used_placeholders}->{group} =
-                    sub { return $self->_groupName() }
+                    sub { return $self->{_groupName} }
                     if ($tmpl =~ /%%GROUP%%/i);
 
         }
