@@ -139,7 +139,7 @@ sub format
         $skip = Log::Fine::Logger->LOG_SKIP_DEFAULT unless defined $skip;
         $skip++;
 
-        # Level & message are fixed values
+        # Level & message are variable values
         $tmpl =~ s/%%LEVEL%%/$v2l/ig;
         $tmpl =~ s/%%MSG%%/$msg/ig;
 
