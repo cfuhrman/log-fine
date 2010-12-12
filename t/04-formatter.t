@@ -63,7 +63,7 @@ use Log::Fine::Levels::Syslog;
         my $log4 = $detailed->testFormat(INFO, $msg);
 
         ok($log4 =~
-/^\[.*?\] \w+ \(Log\:\:Fine\:\:Formatter\:\:Detailed\:\:format\(\)\:\d+\) $msg/
+/^\[.*?\] \w+ \(Log\:\:Fine\:\:Formatter\:\:testFormat\(\)\:\d+\) $msg/
         );
 
         # now create a syslog formatter
