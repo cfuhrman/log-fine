@@ -4,8 +4,9 @@
 # $Id$
 #
 
-use Test::More tests => 20;
+use Test::More tests => 24;
 
+#use Data::Dumper;
 use Log::Fine;
 use Log::Fine::Formatter::Template;
 use Log::Fine::Levels::Syslog;
@@ -34,15 +35,15 @@ use Sys::Hostname;
         # package
         my $log_package =
             Log::Fine::Formatter::Template->new(
-                                          template => "%%PACKAGE%% %%SUBROUT%%",
-                                          timestamp_format => "%Y%m%d");
+                                          template => "[%%TIME%%] %%LEVEL%% %%PACKAGE%% %%SUBROUT%% %%MSG%%",
+                                          timestamp_format => "%H:%M:%S");
         ok($log_package->isa("Log::Fine::Formatter::Template"));
 
         # filename & lineno
         my $log_filename =
             Log::Fine::Formatter::Template->new(
-                                          template => "%%FILENAME%%:%%LINENO%%",
-                                          timestamp_format => "%Y%m%d");
+                                          template => "[%%TIME%%] %%LEVEL%% %%FILENAME%%:%%LINENO%% %%MSG%%",
+                                          timestamp_format => "%H:%M:%S");
         ok($log_filename->isa("Log::Fine::Formatter::Template"));
 
         # short hostname
@@ -79,14 +80,33 @@ use Sys::Hostname;
         # that would occur at the end of every month.
 
         # validate
-        ok($log_time->format(INFO, $msg, 1) eq
-            strftime("%Y%m", localtime(time)));
-        ok($log_level->format(INFO, $msg, 1) eq "INFO");
-        ok($log_msg->format(INFO, $msg, 1) eq $msg);
-        ok(myfunc($log_package, $msg) =~ /myfunc/);
-        ok($log_filename->format(INFO, $msg, 1) =~ /\w+\:\d+/);
-        ok($log_longhost->format(INFO, $msg, 1) =~ /$hostname/);
-        ok($log_shorthost->format(INFO, $msg, 1) =~ /\w/);
+        ok($log_time->format(INFO, $msg, 0) eq strftime("%Y%m", localtime(time)));
+        ok($log_level->format(INFO, $msg, 0) eq "INFO");
+        ok($log_msg->format(INFO, $msg, 0) eq $msg);
+
+        # Validate call within main
+        ok($log_package->format(INFO, $msg, 0) =~ /^\[.*?\] INFO main {undef} $msg/);
+        ok($log_filename->format(INFO, $msg, 0) =~ /^\[.*?\] INFO .*?\.t\:\d+ $msg/);
+
+        #printf STDERR "\n%s\n", $log_package->format(CRIT, $msg, 0);
+        #printf STDERR "%s\n", $log_filename->format(DEBG, $msg, 0);
+
+        # Validate call within function
+        ok(myfunc($log_package, $msg) =~ /^\[.*?\] INFO main main\:\:myfunc $msg/);
+        ok(myfunc($log_filename, $msg) =~ /^\[.*?\] INFO .*?\.t\:\d+ $msg/);
+
+        #printf STDERR "%s\n", myfunc($log_package, $msg);
+        #printf STDERR "%s\n", myfunc($log_filename, $msg);
+
+        # Validate call within Package
+        ok(This::Test::doIt($log_package, $msg) =~ /^\[.*?\] NOTI This\:\:Test This\:\:Test\:\:doIt $msg/);
+        ok(This::Test::doIt($log_filename, $msg) =~ /^\[.*?\] NOTI .*?\.t\:\d+ $msg/);
+
+        #printf STDERR "%s\n", This::Test::doIt($log_package, $msg);
+        #printf STDERR "%s\n", This::Test::doIt($log_filename, $msg);
+
+        ok($log_longhost->format(INFO, $msg, 0) =~ /$hostname/);
+        ok($log_shorthost->format(INFO, $msg, 0) =~ /\w/);
 
     SKIP: {
 
@@ -95,8 +115,8 @@ use Sys::Hostname;
                     2
                     if ($^O eq "MSWin32");
 
-                ok($log_user->format(INFO, $msg, 1) eq getpwuid($<));
-                ok($log_group->format(INFO, $msg, 1) eq getgrgid($());
+                ok($log_user->format(INFO, $msg, 0) eq getpwuid($<));
+                ok($log_group->format(INFO, $msg, 0) eq getgrgid($());
 
         }
 
@@ -111,7 +131,7 @@ use Sys::Hostname;
 
 }
 
-# this subroutine is for testing the detailed formatter
+# Test caller()
 
 sub myfunc
 {
@@ -119,6 +139,29 @@ sub myfunc
         my $formatter = shift;
         my $msg       = shift;
 
-        return $formatter->format(INFO, $msg, 1);
+        #my @call = caller(0);
+        #print STDERR Dumper \@call;
 
-}
+        return $formatter->format(INFO, $msg, 0);
+
+} # myfunc()
+
+# --------------------------------------------------------------------
+
+package This::Test;
+
+#use Data::Dumper;
+use Log::Fine::Levels::Syslog;
+
+sub doIt
+{
+
+        my $fmt = shift;
+        my $msg = shift;
+
+        #my @call = caller(0);
+        #print STDERR Dumper \@call;
+
+        return $fmt->format(NOTI, $msg, 0);
+
+} # doIt()

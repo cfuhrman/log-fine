@@ -153,7 +153,7 @@ sub format
                     if ($tmpl =~ /%%TIME%%/i);
 
                 $self->{_used_placeholders}->{package} =
-                    sub { return (caller($skip))[0] || "{undef}"; }
+                    sub { my $skip = shift; return (caller($skip))[0] || "{undef}"; }
                     if ($tmpl =~ /%%PACKAGE%%/i);
 
                 $self->{_used_placeholders}->{filename} =
@@ -161,11 +161,11 @@ sub format
                     if ($tmpl =~ /%%FILENAME%%/i);
 
                 $self->{_used_placeholders}->{lineno} =
-                    sub { return (caller($skip))[2] || 0 }
+                    sub { my $skip = shift; return (caller($skip))[2] || 0 }
                     if ($tmpl =~ /%%LINENO%%/i);
 
                 $self->{_used_placeholders}->{subrout} =
-                    sub { return (caller($skip))[3] || "{undef}" }
+                    sub { my $skip = shift; return (caller(++$skip))[3] || "{undef}" }
                     if ($tmpl =~ /%%SUBROUT%%/i);
 
                 $self->{_used_placeholders}->{hostshort} =
@@ -188,7 +188,7 @@ sub format
 
         # Fill in placeholders
         foreach my $holder (keys %{ $self->{_used_placeholders} }) {
-                my $value = &{ $self->{_used_placeholders}->{$holder} };
+                my $value = &{ $self->{_used_placeholders}->{$holder} }($skip);
                 $tmpl =~ s/%%${holder}%%/$value/ig;
         }
 
