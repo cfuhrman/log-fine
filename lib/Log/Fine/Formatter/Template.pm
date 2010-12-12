@@ -152,8 +152,10 @@ sub format
                     sub { return $self->_formatTime() }
                     if ($tmpl =~ /%%TIME%%/i);
 
-                $self->{_used_placeholders}->{package} =
-                    sub { my $skip = shift; return (caller($skip))[0] || "{undef}"; }
+                $self->{_used_placeholders}->{package} = sub {
+                        my $skip = shift;
+                        return (caller($skip))[0] || "{undef}";
+                    }
                     if ($tmpl =~ /%%PACKAGE%%/i);
 
                 $self->{_used_placeholders}->{filename} =
@@ -164,8 +166,10 @@ sub format
                     sub { my $skip = shift; return (caller($skip))[2] || 0 }
                     if ($tmpl =~ /%%LINENO%%/i);
 
-                $self->{_used_placeholders}->{subrout} =
-                    sub { my $skip = shift; return (caller(++$skip))[3] || "{undef}" }
+                $self->{_used_placeholders}->{subrout} = sub {
+                        my $skip = shift;
+                        return (caller(++$skip))[3] || "main";
+                    }
                     if ($tmpl =~ /%%SUBROUT%%/i);
 
                 $self->{_used_placeholders}->{hostshort} =
