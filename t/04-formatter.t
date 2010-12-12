@@ -56,15 +56,21 @@ use Log::Fine::Levels::Syslog;
 
         ok($log2 =~ /^\[.*?\] \w+ \(.*?\) $msg/);
 
+        #print STDERR "\n$log2\n";
+
         my $log3 = myfunc($detailed, $msg);
 
         ok($log3 =~ /^\[.*?\] \w+ \(.*?\:\d+\) $msg/);
+
+        #print STDERR "\n$log3\n";
 
         my $log4 = $detailed->testFormat(INFO, $msg);
 
         ok($log4 =~
 /^\[.*?\] \w+ \(Log\:\:Fine\:\:Formatter\:\:Detailed\:\:format\(\)\:\d+\) $msg/
         );
+
+        #print STDERR "\n$log4\n";
 
         # now create a syslog formatter
         my $syslog = Log::Fine::Formatter::Syslog->new();
