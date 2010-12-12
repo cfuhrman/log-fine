@@ -131,7 +131,8 @@ sub format
         my $self = shift;
         my $lvl  = shift;
         my $msg  = shift;
-        my $skip = (defined $_[0]) ? $_[0] : Log::Fine::Logger->LOG_SKIP_DEFAULT;
+        my $skip =
+            (defined $_[0]) ? $_[0] : Log::Fine::Logger->LOG_SKIP_DEFAULT;
         my $tmpl = $self->{template};
 
         # Get the caller information
@@ -139,7 +140,7 @@ sub format
 
         my $now       = $self->_formatTime();
         my $lname     = $self->levelMap()->valueToLevel($lvl);
-        my $subname   = (caller($skip + 1))[3] || "{undef}";
+        my $subname   = (caller($skip + 1))[3] || "main";
         my $package   = $c[0] || "{undef}";
         my $filename  = $self->_fileName();
         my $lineno    = $c[2] || 0;
@@ -241,11 +242,13 @@ sub _groupName
         if (defined $self->{_groupName} and $self->{_groupName} =~ /\w/) {
                 return $self->{_groupName};
         } elsif ($self->{use_effective_id}) {
-                $self->{_groupName} = ($^O eq "MSWin32")
+                $self->{_groupName} =
+                    ($^O eq "MSWin32")
                     ? $ENV{EGID}   || 0
                     : getgrgid($)) || "nogroup";
         } else {
-                $self->{_groupName} = ($^O eq "MSWin32")
+                $self->{_groupName} =
+                    ($^O eq "MSWin32")
                     ? $ENV{GID} || 0
                     : getgrgid($() || "nogroup";
         }
@@ -290,7 +293,8 @@ sub _userName
         if (defined $self->{_userName} and $self->{_userName} =~ /\w/) {
                 return $self->{_userName};
         } elsif ($self->{use_effective_id}) {
-                $self->{_userName} = ($^O eq "MSWin32")
+                $self->{_userName} =
+                    ($^O eq "MSWin32")
                     ? $ENV{EUID}   || 0
                     : getpwuid($>) || "nobody";
         } else {
