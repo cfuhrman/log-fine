@@ -52,6 +52,7 @@ use Log::Fine;
 use Log::Fine::Formatter;
 use Log::Fine::Levels;
 use Log::Fine::Logger;
+
 use POSIX qw( strftime );
 
 our $VERSION = $Log::Fine::Formatter::VERSION;
@@ -132,7 +133,7 @@ sub format
             sprintf("[%s] %-4s (%s():%d) %s\n",
                     $self->_formatTime(),
                     $self->levelMap()->valueToLevel($lvl),
-                    $c[3] || "{undef}",
+                    (caller($skip + 1))[3] || "{undef}",
                     $c[2] || 0, $msg);
 
 }          # format()
