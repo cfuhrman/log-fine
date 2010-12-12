@@ -1,7 +1,24 @@
 CHANGELOG
 
+2010-12-12  Christopher M. Fuhrman
+
+        * Correct instance where incorrect stack frame was logged
+        * Add debuggery in case I need it
+        * When subroutine name cannot be determined, assume main()
+        * Add additional tests
+
+2010-12-11  Christopher M. Fuhrman
+
+        * Correct incorrect stack frame logging issue
+
+2010-12-03  Christopher M. Fuhrman
+
+        * Update
+
 2010-12-02  Christopher M. Fuhrman
 
+        * Bump version
+        * Close out stress test script TODO
         * Add note about support for log format templates
         * Merge branch 'master' of https://github.com/cfuhrman/log-fine
         * Ship stresslog.pl
