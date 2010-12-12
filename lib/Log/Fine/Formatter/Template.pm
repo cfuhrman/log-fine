@@ -62,6 +62,7 @@ use Log::Fine::Levels;
 
 our $VERSION = $Log::Fine::Formatter::VERSION;
 
+#use Data::Dumper;
 use File::Basename;
 use Sys::Hostname;
 
@@ -130,19 +131,16 @@ sub format
         my $self = shift;
         my $lvl  = shift;
         my $msg  = shift;
-        my $skip = shift;
+        my $skip = (defined $_[0]) ? $_[0] : Log::Fine::Logger->LOG_SKIP_DEFAULT;
         my $tmpl = $self->{template};
 
-        # Set skip to default if need be
-        $skip = Log::Fine::Logger->LOG_SKIP_DEFAULT unless defined $skip;
+        # Get the caller information
+        my @c = caller($skip);
 
-        # get the caller information
-        my @c         = caller($skip);
-        my @subr      = split /::/, $c[3] || "main()";
         my $now       = $self->_formatTime();
         my $lname     = $self->levelMap()->valueToLevel($lvl);
-        my $subname   = pop @subr || "{undef}";
-        my $package   = join "::", @subr;
+        my $subname   = (caller($skip + 1))[3] || "{undef}";
+        my $package   = $c[0] || "{undef}";
         my $filename  = $self->_fileName();
         my $lineno    = $c[2] || 0;
         my $hostname  = $self->_hostName();
