@@ -1,7 +1,12 @@
 CHANGELOG
 
+2010-12-15  Christopher M. Fuhrman
+
+        * Stop the unit test from lying to syslog
+
 2010-12-12  Christopher M. Fuhrman
 
+        * Bump version
         * Correct instance where incorrect stack frame was logged
         * Add debuggery in case I need it
         * When subroutine name cannot be determined, assume main()
