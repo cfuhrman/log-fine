@@ -227,7 +227,7 @@ sub _fileName
         # NOT REACHED
         #
 
-}          # _fileName
+}          # _fileName()
 
 ##
 # Getter/Setter for group
