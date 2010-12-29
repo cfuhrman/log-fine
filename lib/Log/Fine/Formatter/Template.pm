@@ -277,10 +277,10 @@ sub _placeHolders
         my $self = shift;
         my $tmpl = shift;
 
-        # If {_used_placeholders} is already cached, then return it,
+        # If {_placeholders} is already cached, then return it,
         # otherwise generate placeholders and return
-        if (defined $self->{_used_placeholders} and ref $self->{_used_placeholders} eq "HASH") {
-                return $self->{_used_placeholders};
+        if (defined $self->{_placeholders} and ref $self->{_placeholders} eq "HASH") {
+                return $self->{_placeholders};
         } else {
 
                 my $placeholders = {};
@@ -325,7 +325,7 @@ sub _placeHolders
                     sub { return $self->{_groupName} }
                     if ($tmpl =~ /%%GROUP%%/i);
 
-                $self->{_used_placeholders} = $placeholders;
+                $self->{_placeholders} = $placeholders;
 
                 return $placeholders;
 
