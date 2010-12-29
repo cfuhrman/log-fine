@@ -133,6 +133,7 @@ sub format
         my $skip = shift;
         my $tmpl = $self->{template};
         my $v2l  = $self->levelMap()->valueToLevel($lvl);
+        my $holders = $self->_placeHolders($tmpl);
 
         # Set skip to default if need be, then increment as calls to
         # caller() are now encapsulated in anonymous functions
@@ -143,56 +144,9 @@ sub format
         $tmpl =~ s/%%LEVEL%%/$v2l/ig;
         $tmpl =~ s/%%MSG%%/$msg/ig;
 
-        # Have we set our template list yet?
-        if (not defined $self->{_used_placeholders}) {
-
-                $self->{_used_placeholders} = {};
-
-                $self->{_used_placeholders}->{time} =
-                    sub { return $self->_formatTime() }
-                    if ($tmpl =~ /%%TIME%%/i);
-
-                $self->{_used_placeholders}->{package} = sub {
-                        my $skip = shift;
-                        return (caller($skip))[0] || "{undef}";
-                    }
-                    if ($tmpl =~ /%%PACKAGE%%/i);
-
-                $self->{_used_placeholders}->{filename} =
-                    sub { return $self->{_fileName} }
-                    if ($tmpl =~ /%%FILENAME%%/i);
-
-                $self->{_used_placeholders}->{lineno} =
-                    sub { my $skip = shift; return (caller($skip))[2] || 0 }
-                    if ($tmpl =~ /%%LINENO%%/i);
-
-                $self->{_used_placeholders}->{subrout} = sub {
-                        my $skip = shift;
-                        return (caller(++$skip))[3] || "main";
-                    }
-                    if ($tmpl =~ /%%SUBROUT%%/i);
-
-                $self->{_used_placeholders}->{hostshort} =
-                    sub { return (split /\./, $self->{_fullHost})[0] }
-                    if ($tmpl =~ /%%HOSTSHORT%%/i);
-
-                $self->{_used_placeholders}->{hostlong} =
-                    sub { return $self->{_fullHost} }
-                    if ($tmpl =~ /%%HOSTLONG%%/i);
-
-                $self->{_used_placeholders}->{user} =
-                    sub { return $self->{_userName} }
-                    if ($tmpl =~ /%%USER%%/i);
-
-                $self->{_used_placeholders}->{group} =
-                    sub { return $self->{_groupName} }
-                    if ($tmpl =~ /%%GROUP%%/i);
-
-        }
-
         # Fill in placeholders
-        foreach my $holder (keys %{ $self->{_used_placeholders} }) {
-                my $value = &{ $self->{_used_placeholders}->{$holder} }($skip);
+        foreach my $holder (keys %{ $holders }) {
+                my $value = &{ $holders->{$holder} }($skip);
                 $tmpl =~ s/%%${holder}%%/$value/ig;
         }
 
@@ -313,6 +267,75 @@ sub _hostName
         #
 
 }          # _hostName()
+
+##
+# Getter/Setter for placeholders
+
+sub _placeHolders
+{
+
+        my $self = shift;
+        my $tmpl = shift;
+
+        # If {_used_placeholders} is already cached, then return it,
+        # otherwise generate placeholders and return
+        if (defined $self->{_used_placeholders} and ref $self->{_used_placeholders} eq "HASH") {
+                return $self->{_used_placeholders};
+        } else {
+
+                my $placeholders = {};
+
+                $placeholders->{time} =
+                    sub { return $self->_formatTime() }
+                    if ($tmpl =~ /%%TIME%%/i);
+
+                $placeholders->{package} = sub {
+                        my $skip = shift;
+                        return (caller($skip))[0] || "{undef}";
+                    }
+                    if ($tmpl =~ /%%PACKAGE%%/i);
+
+                $placeholders->{filename} =
+                    sub { return $self->{_fileName} }
+                    if ($tmpl =~ /%%FILENAME%%/i);
+
+                $placeholders->{lineno} =
+                    sub { my $skip = shift; return (caller($skip))[2] || 0 }
+                    if ($tmpl =~ /%%LINENO%%/i);
+
+                $placeholders->{subrout} = sub {
+                        my $skip = shift;
+                        return (caller(++$skip))[3] || "main";
+                    }
+                    if ($tmpl =~ /%%SUBROUT%%/i);
+
+                $placeholders->{hostshort} =
+                    sub { return (split /\./, $self->{_fullHost})[0] }
+                    if ($tmpl =~ /%%HOSTSHORT%%/i);
+
+                $placeholders->{hostlong} =
+                    sub { return $self->{_fullHost} }
+                    if ($tmpl =~ /%%HOSTLONG%%/i);
+
+                $placeholders->{user} =
+                    sub { return $self->{_userName} }
+                    if ($tmpl =~ /%%USER%%/i);
+
+                $placeholders->{group} =
+                    sub { return $self->{_groupName} }
+                    if ($tmpl =~ /%%GROUP%%/i);
+
+                $self->{_used_placeholders} = $placeholders;
+
+                return $placeholders;
+
+        }
+
+        #
+        # NOT REACHED
+        #
+
+} # _placeHolder()
 
 ##
 # Getter/Setter for user name
