@@ -127,12 +127,12 @@ The formatted log message as specified by {template}
 sub format
 {
 
-        my $self = shift;
-        my $lvl  = shift;
-        my $msg  = shift;
-        my $skip = shift;
-        my $tmpl = $self->{template};
-        my $v2l  = $self->levelMap()->valueToLevel($lvl);
+        my $self    = shift;
+        my $lvl     = shift;
+        my $msg     = shift;
+        my $skip    = shift;
+        my $tmpl    = $self->{template};
+        my $v2l     = $self->levelMap()->valueToLevel($lvl);
         my $holders = $self->_placeHolders($tmpl);
 
         # Set skip to default if need be, then increment as calls to
@@ -145,7 +145,7 @@ sub format
         $tmpl =~ s/%%MSG%%/$msg/ig;
 
         # Fill in placeholders
-        foreach my $holder (keys %{ $holders }) {
+        foreach my $holder (keys %{$holders}) {
                 my $value = &{ $holders->{$holder} }($skip);
                 $tmpl =~ s/%%${holder}%%/$value/ig;
         }
@@ -279,14 +279,14 @@ sub _placeHolders
 
         # If {_placeholders} is already cached, then return it,
         # otherwise generate placeholders and return
-        if (defined $self->{_placeholders} and ref $self->{_placeholders} eq "HASH") {
+        if (defined $self->{_placeholders}
+             and ref $self->{_placeholders} eq "HASH") {
                 return $self->{_placeholders};
         } else {
 
                 my $placeholders = {};
 
-                $placeholders->{time} =
-                    sub { return $self->_formatTime() }
+                $placeholders->{time} = sub { return $self->_formatTime() }
                     if ($tmpl =~ /%%TIME%%/i);
 
                 $placeholders->{package} = sub {
@@ -295,8 +295,7 @@ sub _placeHolders
                     }
                     if ($tmpl =~ /%%PACKAGE%%/i);
 
-                $placeholders->{filename} =
-                    sub { return $self->{_fileName} }
+                $placeholders->{filename} = sub { return $self->{_fileName} }
                     if ($tmpl =~ /%%FILENAME%%/i);
 
                 $placeholders->{lineno} =
@@ -313,16 +312,13 @@ sub _placeHolders
                     sub { return (split /\./, $self->{_fullHost})[0] }
                     if ($tmpl =~ /%%HOSTSHORT%%/i);
 
-                $placeholders->{hostlong} =
-                    sub { return $self->{_fullHost} }
+                $placeholders->{hostlong} = sub { return $self->{_fullHost} }
                     if ($tmpl =~ /%%HOSTLONG%%/i);
 
-                $placeholders->{user} =
-                    sub { return $self->{_userName} }
+                $placeholders->{user} = sub { return $self->{_userName} }
                     if ($tmpl =~ /%%USER%%/i);
 
-                $placeholders->{group} =
-                    sub { return $self->{_groupName} }
+                $placeholders->{group} = sub { return $self->{_groupName} }
                     if ($tmpl =~ /%%GROUP%%/i);
 
                 $self->{_placeholders} = $placeholders;
@@ -335,7 +331,7 @@ sub _placeHolders
         # NOT REACHED
         #
 
-} # _placeHolder()
+}          # _placeHolder()
 
 ##
 # Getter/Setter for user name
