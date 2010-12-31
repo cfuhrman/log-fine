@@ -2,7 +2,11 @@
 
 #+TODO: TODO BLOCKED | DONE CANCELED
 
-* TODO [#C] Switch to Module::Build
+* CANCELED [#C] Switch to Module::Build
+  CLOSED: [2010-12-31 Fri 12:03]
+  - CLOSING NOTE [2010-12-31 Fri 12:05] \\
+    Unless I see a compelling reason to switch to Module::Build, then just
+    keep using ExtUtils::MakeMaker
 
   Unsure if I want to do this or not.  Still need to weigh the
   benefits to doing this
