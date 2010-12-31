@@ -133,7 +133,7 @@ sub format
         my $skip    = shift;
         my $tmpl    = $self->{template};
         my $v2l     = $self->levelMap()->valueToLevel($lvl);
-        my $holders = $self->_placeHolders($tmpl);
+        my $holders = $self->{_placeHolders} || $self->_placeHolders($tmpl);
 
         # Set skip to default if need be, then increment as calls to
         # caller() are now encapsulated in anonymous functions
@@ -145,7 +145,7 @@ sub format
         $tmpl =~ s/%%MSG%%/$msg/ig;
 
         # Fill in placeholders
-        foreach my $holder (keys %{$holders}) {
+        foreach my $holder (keys %$holders) {
                 my $value = &{ $holders->{$holder} }($skip);
                 $tmpl =~ s/%%${holder}%%/$value/ig;
         }
@@ -277,11 +277,11 @@ sub _placeHolders
         my $self = shift;
         my $tmpl = shift;
 
-        # If {_placeholders} is already cached, then return it,
+        # If {_placeHolders} is already cached, then return it,
         # otherwise generate placeholders and return
-        if (defined $self->{_placeholders}
-             and ref $self->{_placeholders} eq "HASH") {
-                return $self->{_placeholders};
+        if (defined $self->{_placeHolders}
+             and ref $self->{_placeHolders} eq "HASH") {
+                return $self->{_placeHolders};
         } else {
 
                 my $placeholders = {};
@@ -321,7 +321,7 @@ sub _placeHolders
                 $placeholders->{group} = sub { return $self->{_groupName} }
                     if ($tmpl =~ /%%GROUP%%/i);
 
-                $self->{_placeholders} = $placeholders;
+                $self->{_placeHolders} = $placeholders;
 
                 return $placeholders;
 
