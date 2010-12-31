@@ -1,13 +1,35 @@
 CHANGELOG
 
+2010-12-31  Christopher M. Fuhrman
+
+        * Decided against switching to Module::Build so cancel TODO
+        * Close out Formatter template class TODO
+        * Optimize how $skip is set
+        * Merge branch 'TEMPLATE-OPTIMIZATION'
+        * Do not call $self->_placeHolders($tmpl) unless we need to
+
+2010-12-28  Christopher M. Fuhrman
+
+        * perltidy
+        * s/{_used_placeholders}/{_placeholders}/g
+        * Relocate placeholder generation to separate getter/setter
+
+2010-12-21  Christopher M. Fuhrman
+
+        * consistency nit <Minor>
+
 2010-12-15  Christopher M. Fuhrman
 
+        * Refresh
         * Stop the unit test from lying to syslog
 
 2010-12-12  Christopher M. Fuhrman
 
         * Bump version
         * Correct instance where incorrect stack frame was logged
+        * Correct instance where incorrect stack frame was logged
+        * When subroutine name cannot be determined, assume main()
+        * Add additional tests
         * Add debuggery in case I need it
         * When subroutine name cannot be determined, assume main()
         * Add additional tests
@@ -15,6 +37,16 @@ CHANGELOG
 2010-12-11  Christopher M. Fuhrman
 
         * Correct incorrect stack frame logging issue
+        * Correct incorrect stack frame logging issue
+
+2010-12-07  Christopher M. Fuhrman
+
+        * Comment verbiage
+        * Further Optimizations
+
+2010-12-04  Christopher M. Fuhrman
+
+        * First attempt to optimize Template.pm
 
 2010-12-03  Christopher M. Fuhrman
 
