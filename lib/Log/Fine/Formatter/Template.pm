@@ -127,17 +127,18 @@ The formatted log message as specified by {template}
 sub format
 {
 
-        my $self    = shift;
-        my $lvl     = shift;
-        my $msg     = shift;
-        my $skip    = shift;
+        my $self = shift;
+        my $lvl  = shift;
+        my $msg  = shift;
+        my $skip =
+            (defined $_[0]) ? shift : Log::Fine::Logger->LOG_SKIP_DEFAULT;
+
         my $tmpl    = $self->{template};
         my $v2l     = $self->levelMap()->valueToLevel($lvl);
         my $holders = $self->{_placeHolders} || $self->_placeHolders($tmpl);
 
-        # Set skip to default if need be, then increment as calls to
-        # caller() are now encapsulated in anonymous functions
-        $skip = Log::Fine::Logger->LOG_SKIP_DEFAULT unless defined $skip;
+        # Increment skip as calls to caller() are now encapsulated in
+        # anonymous functions
         $skip++;
 
         # Level & message are variable values
