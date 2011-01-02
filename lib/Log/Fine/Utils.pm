@@ -112,7 +112,7 @@ sub Log
         my $log = _logger();
 
         # validate logger has been set
-        $log->_fatal(  "Logging system has not been set up"
+        $log->_fatal(  "Logging system has not been set up "
                      . "(See Log::Fine::Utils::OpenLog())")
             unless (defined $log and $log->isa("Log::Fine::Logger"));
 
