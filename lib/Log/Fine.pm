@@ -134,7 +134,7 @@ L<Log::Fine::Formatter>.
 
         sub _logger          { return $loggers }
         sub _objectCount     { return $objcount }
-        sub _incrObjectCount { return ++$objcount; }
+        sub _incrObjectCount { return ++$objcount }
 
 }
 
@@ -253,7 +253,7 @@ sub logger
 
 Private method that is called when a fatal (nonrecoverable) condition
 is encountered.  Will call L<croak|Carp> unless the {no_croak}
-attribute is set.
+attribute is set.  For internal Log::Fine use I<only!>
 
 This method can be overridden per taste.
 
