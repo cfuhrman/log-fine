@@ -50,7 +50,6 @@ package Log::Fine::Utils;
 our @ISA = qw( Exporter );
 
 use Log::Fine;
-use POSIX qw( strftime );
 
 our $VERSION = $Log::Fine::VERSION;
 
@@ -113,11 +112,9 @@ sub Log
         my $log = _logger();
 
         # validate logger has been set
-        croak(
-               sprintf("[%s] FATAL : %s\n",
-                       strftime("%c", localtime(time)),
-"Logging system has not been set up.  (See Log::Fine::Utils::OpenLog())"
-               )) unless (defined $log and $log->isa("Log::Fine::Logger"));
+        $log->_fatal(  "Logging system has not been set up "
+                     . "(See Log::Fine::Utils::OpenLog())")
+            unless (defined $log and $log->isa("Log::Fine::Logger"));
 
         # make sure we log the correct calling method
         $log->incrSkip();
@@ -160,20 +157,15 @@ sub OpenLog
         my %data = @_;
         my $levels = $data{levelmap} || "Syslog";
 
+        # construct a generic logger
+        my $log = Log::Fine->new(levelmap => $levels);
+        my $logger = $log->logger("GENERIC");
+
         # validate a handle was passed
-        croak(
-               sprintf("[%s] FATAL : %s\n",
-                       strftime("%c", localtime(time)),
-                       "At least one handle must be defined"
-               ))
+        $logger->_fatal("At least one handle must be defined")
             unless (    defined $data{handles}
                     and ref $data{handles} eq "ARRAY"
                     and scalar @{ $data{handles} } > 0);
-
-        my $log = Log::Fine->new(levelmap => $levels);
-
-        # construct a generic logger
-        my $logger = $log->logger("GENERIC");
 
         # Set our handles
         $logger->registerHandle($_) foreach @{ $data{handles} };

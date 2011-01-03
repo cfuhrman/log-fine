@@ -2,7 +2,11 @@
 
 #+TODO: TODO BLOCKED | DONE CANCELED
 
-* TODO [#C] Switch to Module::Build
+* CANCELED [#C] Switch to Module::Build
+  CLOSED: [2010-12-31 Fri 12:03]
+  - CLOSING NOTE [2010-12-31 Fri 12:05] \\
+    Unless I see a compelling reason to switch to Module::Build, then just
+    keep using ExtUtils::MakeMaker
 
   Unsure if I want to do this or not.  Still need to weigh the
   benefits to doing this
@@ -26,7 +30,10 @@
 
   Add note about the new git repository
 
-* TODO [#B] Add Formatter Template class
+* DONE [#B] Add Formatter Template class
+  CLOSED: [2010-12-31 Fri 12:01]
+  - CLOSING NOTE [2010-12-31 Fri 12:02] \\
+    Done
 
   Add a template class to allow the user to easily build log message
   templates.  Perhaps use message layout options from [[http://search.cpan.org/dist/Log-Handler/lib/Log/Handler.pm][Log::Handler]]?
@@ -86,7 +93,10 @@
     - CLOSING NOTE [2010-11-26 Fri 11:22] \\
       See [[https://github.com/cfuhrman/log-fine/commit/c101f8a62b032ed7bfae0f9f3ec39d72b435191a][log-fine/c101f8a]]
 
-*** TODO Optimize Template.pm
+*** DONE Optimize Template.pm
+    CLOSED: [2010-12-31 Fri 12:00]
+    - CLOSING NOTE [2010-12-31 Fri 12:01] \\
+      See [[https://github.com/cfuhrman/log-fine/commit/0325b031a609aba48d6eeadf2885c9aa0fc235d2][log-fine/0325b031]]
 
     Template.pm works although it may be a little on the slow side.
     Attempt to optimize.
