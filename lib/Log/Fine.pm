@@ -420,7 +420,7 @@ L<via email|/AUTHOR>.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2008, 2009, 2010 Christopher M. Fuhrman, 
+Copyright (c) 2008-2011 Christopher M. Fuhrman, 
 All rights reserved.
 
 This program is free software licensed under the...
