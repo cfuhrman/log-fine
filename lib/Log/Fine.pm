@@ -123,9 +123,9 @@ L<Log::Fine::Formatter>.
                      and not $levelmap) {
                         $levelmap = $map;
                 } elsif (defined $map and not $levelmap) {
-                        _fatal("Log::Fine",
-                                sprintf("Invalid Value: %s"),
-                                $map || "{undef}");
+                        _fatal(
+                                sprintf("Invalid Value: \"%s\"",
+                                        $map || "{undef}"));
                 }
 
                 return $levelmap;
@@ -272,15 +272,27 @@ Message passed to L<croak|Carp>.
 sub _fatal
 {
 
-        my $self = shift;
-        my $msg  = shift;
+        my $self;
+        my $msg;
+        my @call = caller;
 
-        printf STDERR "\n[%s] {%s} FATAL : %s\n",
-            strftime("%c", localtime(time)),
-            ref $self || "{undef}", $msg;
+        # how were we called?
+        if (scalar @_ > 1) {
+                $self = shift;
+                $msg  = shift;
+        } else {
+                $msg = shift;
+        }
+
+        printf STDERR "\n[%s] {%s@%d} FATAL : %s\n",
+            strftime("%c", localtime(time)), $call[0] || "{undef}",
+            $call[2] || 0,
+            $msg || "No reason given";
 
         croak $msg
-            unless $self->{no_croak};
+            unless (    defined $self
+                    and $self->isa("Log::Fine")
+                    and $self->{no_croak});
 
 }          # _fatal()
 
