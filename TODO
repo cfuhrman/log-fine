@@ -16,6 +16,16 @@
   Currently L::F::U can handle only one Logger.  Extend API to allow
   for multiple logging objects
 
+** Possible API
+
+*** AddLog(<Logger>)
+
+    Adds given Log::Fine::Logger object to internal store
+
+*** SwitchLog(<name>)
+
+    Switch to Logger object specified by "name"
+
 * CANCELED [#C] Add tutorial for defining Level sub-classes
   CLOSED: [2010-11-24 Wed 11:54]
   - CLOSING NOTE [2010-11-24 Wed 11:55] \\
