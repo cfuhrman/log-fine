@@ -1,7 +1,20 @@
 CHANGELOG
 
+2011-01-03  Christopher M. Fuhrman
+
+        * Happy New Years!  Bump copyright year as appropriate
+        * Correct invocation to _fatal()
+        * Add some thoughts on extending Utils
+        * Clarify _fatal() documentation
+
+2011-01-02  Christopher M. Fuhrman
+
+        * Spacing
+        * Use _fatal() for croaking
+
 2010-12-31  Christopher M. Fuhrman
 
+        * Bump version
         * Decided against switching to Module::Build so cancel TODO
         * Close out Formatter template class TODO
         * Optimize how $skip is set
