@@ -21,7 +21,7 @@ use Log::Fine::Levels::Syslog;
                 plan skip_all =>
 "Time::HiRes is not installed.  High precision logging not possible";
         } else {
-                plan tests => 8;
+                plan tests => 10;
         }
 
         # create a basic formatter
@@ -56,11 +56,34 @@ use Log::Fine::Levels::Syslog;
         # format a message
         my $log2 = $detailed->format(INFO, $msg, 1);
 
-        ok($log2 =~ /^\[\d\d\:\d\d\:\d\d\.\d+\] \w+ \(.*?\) $msg/);
+        ok($log2 =~ /^\[\d\d\:\d\d\:\d\d\.\d{5,5}\] \w+ \(.*?\) $msg/);
 
         my $log3 = myfunc($detailed, $msg);
 
         ok($log3 =~ /^\[.*?\] \w+ \(.*?\:\d+\) $msg/);
+
+        my $precise =
+            Log::Fine::Formatter::Basic->new(
+                                 hires            => 1,
+                                 precision        => 10,
+                                 timestamp_format => "%d %b %H:%M:%S.%%Millis%%"
+            );
+
+        ok($precise->isa("Log::Fine::Formatter::Basic"));
+
+        my $log4 = $precise->format(WARN, $msg, 1);
+
+        #print STDERR $log4;
+
+        if ($log4 =~ /^\[\w+\s+\w+ \d\d\:\d\d\:\d\d\.\d{10,10}\] \w+ $msg/) {
+                ok(1);
+        } else {
+                print STDERR "\n----------------------------------------\n";
+                print STDERR "Test failed on the following line:\n\n";
+                print STDERR "${log4}";
+                print STDERR "----------------------------------------\n";
+                ok(0);
+        }
 
 }
 
