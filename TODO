@@ -16,6 +16,10 @@
   Currently L::F::U can handle only one Logger.  Extend API to allow
   for multiple logging objects
 
+  [2011-01-07 Fri 15:35] First draft committed.  Note that there are
+  issues with logger objects going out of scope that need to be
+  addressed.  See dc8ac22 for details.
+
 ** Possible API
 
 *** AddLog(<Logger>)
