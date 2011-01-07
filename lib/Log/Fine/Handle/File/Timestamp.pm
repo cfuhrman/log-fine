@@ -86,13 +86,15 @@ sub fileHandle
         return $self->{_filehandle}
             if (    defined $self->{_filehandle}
                 and $self->{_filehandle}->isa("IO::File")
+                and defined fileno($self->{_filehandle})
                 and defined $today
                 and strftime(TODAY_FORMAT, localtime(time)) eq $today);
 
         # we need a new file.  Close our filehandle if it exists
         $self->{_filehandle}->close()
-            if (defined $self->{_filehandle}
-                and $self->{_filehandle}->isa("IO::File"));
+            if (    defined $self->{_filehandle}
+                and $self->{_filehandle}->isa("IO::File")
+                and defined fileno($self->{_filehandle}));
 
         # generate file name
         my $filename =
