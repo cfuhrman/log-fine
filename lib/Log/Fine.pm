@@ -21,6 +21,9 @@ Provides fine-grained logging and tracing.
     # defined then a new logger with the name "foo" will be created.
     my $log = Log::Fine->logger("foo");
 
+    # get list of names of defined logger objects
+    my @loggers = $log->listLoggers();
+
     # register a handle, in this case a handle that logs to console.
     my $handle = Log::Fine::Handle::Console->new();
     $log->registerHandle( $handle );
@@ -191,6 +194,29 @@ sub new
         return $self;
 
 }          # new()
+
+=head2 listLoggers
+
+Provides list of currently defined loggers
+
+=head3 Parameters
+
+None
+
+=head3 Returns
+
+Array containing list of currently defined loggers
+
+=cut
+
+sub listLoggers
+{
+
+        my $self = shift;
+
+        return keys %{ _logger() };
+
+}          # listLoggers()
 
 =head2 levelMap
 

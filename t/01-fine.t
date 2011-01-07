@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 5;
+use Test::Simple tests => 8;
 
 use Log::Fine qw( :macros :masks );
 
@@ -27,5 +27,13 @@ use Log::Fine qw( :macros :masks );
         # see if the object supports getLevels
         ok($log->can("levelMap"));
         ok(ref $log->levelMap eq "Log::Fine::Levels::Syslog");
+
+        # see if object supports listLoggers
+        ok($log->can("listLoggers"));
+
+        my @loggers = $log->listLoggers();
+
+        ok(scalar @loggers > 0);
+        ok(grep("com0", @loggers));
 
 }
