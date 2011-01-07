@@ -26,6 +26,13 @@
 
     Switch to Logger object specified by "name"
 
+** Another Idea
+
+   Have OpenLog() accept a name argument.  If the name is defined,
+   then open that logger, if not, create a new logger object.
+
+   Also, add support for listing loggers to Log::Fine
+
 * CANCELED [#C] Add tutorial for defining Level sub-classes
   CLOSED: [2010-11-24 Wed 11:54]
   - CLOSING NOTE [2010-11-24 Wed 11:55] \\
