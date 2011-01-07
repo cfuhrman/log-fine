@@ -50,11 +50,13 @@ package Log::Fine::Utils;
 our @ISA = qw( Exporter );
 
 use Log::Fine;
+use Log::Fine::Levels;
+use Log::Fine::Logger;
 
 our $VERSION = $Log::Fine::VERSION;
 
 # Exported functions
-our @EXPORT = qw( Log OpenLog );
+our @EXPORT = qw( ListLoggers Log OpenLog );
 
 # Private Functions
 # --------------------------------------------------------------------
@@ -68,7 +70,7 @@ our @EXPORT = qw( Log OpenLog );
                 my $obj = shift;
 
                 $logger = $obj
-                    if (defined $obj and ref $obj eq "Log::Fine::Logger");
+                    if (defined $obj and $obj->isa("Log::Fine::Logger"));
 
                 return $logger;
         }
@@ -79,6 +81,23 @@ our @EXPORT = qw( Log OpenLog );
 
 The following functions are automatically exported by
 Log::Fine::Utils:
+
+=head2 ListLoggers
+
+Provides list of currently defined loggers
+
+=head3 Parameters
+
+None
+
+=head3 Returns
+
+Array containing list of currently defined loggers or undef if no
+loggers are defined
+
+=cut
+
+sub ListLoggers { return Log::Fine->listLoggers() }
 
 =head2 Log
 
@@ -144,6 +163,12 @@ An array ref containing one or more L<Log::Fine::Handle> objects
 B<[optional]> L<Log::Fine::Levels> subclass to use.  Will default to
 "Syslog" if not defined.
 
+=item * name
+
+B<[optional]> Name of logger.  If name is defined, will switch
+internal logger to given name, otherwise, creates a new logger and
+switches to that
+
 =back
 
 =head3 Returns
@@ -154,26 +179,45 @@ B<[optional]> L<Log::Fine::Levels> subclass to use.  Will default to
 
 sub OpenLog
 {
+
         my %data = @_;
-        my $levels = $data{levelmap} || "Syslog";
 
-        # construct a generic logger
-        my $log = Log::Fine->new(levelmap => $levels);
-        my $logger = $log->logger("GENERIC");
+        # Set name to a default if need be
+        $data{name} = "GENERIC"
+            unless (defined $data{name} and $data{name} =~ /\w/);
 
-        # validate a handle was passed
-        $logger->_fatal("At least one handle must be defined")
-            unless (    defined $data{handles}
-                    and ref $data{handles} eq "ARRAY"
-                    and scalar @{ $data{handles} } > 0);
+        # See if logger specified by name is already defined
+        if (grep(/$data{name}/, ListLoggers())) {
 
-        # Set our handles
-        $logger->registerHandle($_) foreach @{ $data{handles} };
+                _logger(Log::Fine->logger($data{name}));
+                return 1;
 
-        # Save the logger
-        _logger($logger);
+        } elsif (   not defined $data{handles}
+                 or ref $data{handles} ne "ARRAY"
+                 or scalar @{ $data{handles} } == 0) {
 
-        return 1;
+                Log::Fine->_fatal("At least one handle must be defined");
+                return undef;          # in case {no_croak} option given
+
+        } else {
+
+                # construct a new logger, register given handles, and
+                # save it
+                my $logger =
+                    Log::Fine->new(   levelmap => $data{levelmap}
+                                   || Log::Fine::Levels->DEFAULT_LEVELMAP)
+                    ->logger($data{name});
+
+                $logger->registerHandle($_) foreach @{ $data{handles} };
+                _logger($logger);
+
+                return 1;
+
+        }
+
+        #
+        # NOT REACHED
+        #
 
 }          # OpenLog()
 
