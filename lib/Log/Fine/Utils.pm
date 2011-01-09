@@ -27,9 +27,17 @@ Provides a functional wrapper around Log::Fine.
                logopts   => 'pid',
                facility  => LOG_LEVEL0 );
 
-    # open the logging subsystem
+    # open the logging subsystem with the default name "GENERIC"
     OpenLog( handles  => [ $handle1, [$handle2], ... ],
              levelmap => "Syslog");
+
+    # Open new logging object with name "aux"
+    OpenLog( name => "aux",
+             handles  => [ $handle1, [$handle2], ... ],
+             levelmap => "Syslog");
+
+    # Switch back to GENERIC logger
+    OpenLog( name => "GENERIC" );
 
     # Log a message
     Log(INFO, "The angels have my blue box");
@@ -164,7 +172,9 @@ sub Log
 
 =head2 OpenLog
 
-Opens the logging subsystem.
+Opens the logging subsystem.  If called with the name of a previously
+defined logger object, will switch to that logger, ignoring other
+given hash elements.
 
 =head3 Parameters
 
@@ -213,7 +223,7 @@ sub OpenLog
         ) unless (defined _logfine() and _logfine()->isa("Log::Fine"));
 
         # See if logger specified by name is already defined
-        if (     defined _logfine
+        if (     defined _logfine()
              and defined _logname()
              and _logfine->isa("Log::Fine")
              and _logname() =~ /\w/
