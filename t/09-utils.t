@@ -22,9 +22,7 @@ use Log::Fine::Utils;
         # Create a handle
         my $handle =
             Log::Fine::Handle::File->new(file      => $file,
-                                         autoflush => 1,
-                                         autoclose => 1
-            );
+                                         autoflush => 1,);
 
         # do some validation
         ok($handle->isa("Log::Fine::Handle"));
@@ -62,8 +60,8 @@ use Log::Fine::Utils;
         }
 
         # clean up
-        $fh->close();
-        unlink $file;
+        #$fh->close();
+        #unlink $file;
 
         # Now test multiple loggers
         my $strhandle = Log::Fine::Handle::String->new();
