@@ -49,6 +49,8 @@ package Log::Fine::Utils;
 
 our @ISA = qw( Exporter );
 
+use Data::Dumper;
+
 use Log::Fine;
 use Log::Fine::Levels;
 use Log::Fine::Logger;
@@ -62,17 +64,30 @@ our @EXPORT = qw( ListLoggers Log OpenLog );
 # --------------------------------------------------------------------
 
 {
-        my $logger;
 
-        # getter/setter for logger
-        sub _logger
+        my $logfine;
+        my $logname;
+
+        # Getter/Setter for Log::Fine object
+        sub _logfine
         {
                 my $obj = shift;
 
-                $logger = $obj
-                    if (defined $obj and $obj->isa("Log::Fine::Logger"));
+                $logfine = $obj
+                        if (defined $obj and $obj->isa("Log::Fine"));
 
-                return $logger;
+                return $logfine;
+        }
+
+        # getter/setter for logger name
+        sub _logname
+        {
+                my $name = shift;
+
+                $logname = $name
+                        if (defined $name and $name =~ /\w/);
+
+                return $logname;
         }
 
 }
@@ -97,7 +112,10 @@ loggers are defined
 
 =cut
 
-sub ListLoggers { return Log::Fine->listLoggers() }
+sub ListLoggers
+{
+        return (defined _logfine()) ?_logfine()->listLoggers() : ();
+} # ListLoggers()
 
 =head2 Log
 
@@ -128,7 +146,7 @@ sub Log
 
         my $lvl = shift;
         my $msg = shift;
-        my $log = _logger();
+        my $log = _logfine->logger(_logname());
 
         # validate logger has been set
         $log->_fatal(  "Logging system has not been set up "
@@ -186,12 +204,20 @@ sub OpenLog
         $data{name} = "GENERIC"
             unless (defined $data{name} and $data{name} =~ /\w/);
 
+        # If no Log::Fine object is defined, generate one
+        my $logfine;
+        if (defined _logfine() and _logfine()->isa("Log::Fine")) {
+                $logfine = _logfine();
+        } else {
+                $logfine = Log::Fine->new(name => "Utils",
+                                          levelmap => $data{levelmap} || Log::Fine::Levels->DEFAULT_LEVELMAP);
+                _logfine($logfine);
+        }
+
         # See if logger specified by name is already defined
-        if (grep(/$data{name}/, ListLoggers())) {
-
-                _logger(Log::Fine->logger($data{name}));
+        if (defined $logfine and $logfine->isa("Log::Fine") and defined _logname() and _logname() =~ /\w/ and grep(/$data{name}/, ListLoggers())) {
+                _logname($data{name});
                 return 1;
-
         } elsif (   not defined $data{handles}
                  or ref $data{handles} ne "ARRAY"
                  or scalar @{ $data{handles} } == 0) {
@@ -201,15 +227,14 @@ sub OpenLog
 
         } else {
 
-                # construct a new logger, register given handles, and
-                # save it
-                my $logger =
-                    Log::Fine->new(   levelmap => $data{levelmap}
-                                   || Log::Fine::Levels->DEFAULT_LEVELMAP)
-                    ->logger($data{name});
+                # create logger
+                my $logger = $logfine->logger($data{name});
 
+                # register given handles
                 $logger->registerHandle($_) foreach @{ $data{handles} };
-                _logger($logger);
+
+                # Set logger name
+                _logname($data{name});
 
                 return 1;
 
