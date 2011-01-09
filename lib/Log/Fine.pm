@@ -384,15 +384,6 @@ The Python logging package
 
 =back
 
-=head1 SEE ALSO
-
-L<perl>, L<syslog>, L<Log::Fine::Handle>, L<Log::Fine::Formatter>,
-L<Log::Fine::Logger>, L<Log::Fine::Utils>, L<Sys::Syslog>
-
-=head1 AUTHOR
-
-Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
-
 =head1 BUGS
 
 Please report any bugs or feature requests to
@@ -443,6 +434,15 @@ L<via email|/AUTHOR>.
 =head1 REVISION INFORMATION
 
   $Id$
+
+=head1 AUTHOR
+
+Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
+
+=head1 SEE ALSO
+
+L<perl>, L<syslog>, L<Log::Fine::Handle>, L<Log::Fine::Formatter>,
+L<Log::Fine::Logger>, L<Log::Fine::Utils>, L<Sys::Syslog>
 
 =head1 COPYRIGHT & LICENSE
 
