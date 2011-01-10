@@ -20,6 +20,10 @@
   issues with logger objects going out of scope that need to be
   addressed.  See dc8ac22 for details.
 
+  [2011-01-10 Mon 12:04] Multiple logger support developed and merged
+  to master.  Unit tests passed on all platforms although still need
+  to test OpenSolaris.
+
 ** Possible API
 
 *** AddLog(<Logger>)
