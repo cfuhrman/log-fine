@@ -79,10 +79,8 @@ our @EXPORT = qw( ListLoggers Log OpenLog );
         # Getter/Setter for Log::Fine object
         sub _logfine
         {
-                my $obj = shift;
-
-                $logfine = $obj
-                    if (defined $obj and $obj->isa("Log::Fine"));
+                $logfine = $_[0]
+                    if (defined $_[0] and $_[0]->isa("Log::Fine"));
 
                 return $logfine;
         }
@@ -90,10 +88,8 @@ our @EXPORT = qw( ListLoggers Log OpenLog );
         # getter/setter for logger name
         sub _logname
         {
-                my $name = shift;
-
-                $logname = $name
-                    if (defined $name and $name =~ /\w/);
+                $logname = $_[0]
+                    if (defined $_[0] and $_[0] =~ /\w/);
 
                 return $logname;
         }
