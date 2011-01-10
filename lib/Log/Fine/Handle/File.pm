@@ -112,8 +112,9 @@ sub fileHandle
 
         # if we already have a file handle defined, return it
         return $self->{_filehandle}
-            if (defined $self->{_filehandle}
-                and $self->{_filehandle}->isa("IO::File"));
+            if (    defined $self->{_filehandle}
+                and $self->{_filehandle}->isa("IO::File")
+                and defined fileno($self->{_filehandle}));
 
         # generate file name
         my $filename = catdir($self->{dir}, $self->{file});

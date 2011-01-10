@@ -209,14 +209,7 @@ Array containing list of currently defined loggers
 
 =cut
 
-sub listLoggers
-{
-
-        my $self = shift;
-
-        return keys %{ _logger() };
-
-}          # listLoggers()
+sub listLoggers { return keys %{ _logger() } }
 
 =head2 levelMap
 
