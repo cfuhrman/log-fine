@@ -21,6 +21,9 @@ Provides fine-grained logging and tracing.
     # defined then a new logger with the name "foo" will be created.
     my $log = Log::Fine->logger("foo");
 
+    # get list of names of defined logger objects
+    my @loggers = $log->listLoggers();
+
     # register a handle, in this case a handle that logs to console.
     my $handle = Log::Fine::Handle::Console->new();
     $log->registerHandle( $handle );
@@ -192,6 +195,22 @@ sub new
 
 }          # new()
 
+=head2 listLoggers
+
+Provides list of currently defined loggers
+
+=head3 Parameters
+
+None
+
+=head3 Returns
+
+Array containing list of currently defined loggers
+
+=cut
+
+sub listLoggers { return keys %{ _logger() } }
+
 =head2 levelMap
 
 Getter for the global level map.
@@ -358,15 +377,6 @@ The Python logging package
 
 =back
 
-=head1 SEE ALSO
-
-L<perl>, L<syslog>, L<Log::Fine::Handle>, L<Log::Fine::Formatter>,
-L<Log::Fine::Logger>, L<Log::Fine::Utils>, L<Sys::Syslog>
-
-=head1 AUTHOR
-
-Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
-
 =head1 BUGS
 
 Please report any bugs or feature requests to
@@ -417,6 +427,15 @@ L<via email|/AUTHOR>.
 =head1 REVISION INFORMATION
 
   $Id$
+
+=head1 AUTHOR
+
+Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
+
+=head1 SEE ALSO
+
+L<perl>, L<syslog>, L<Log::Fine::Handle>, L<Log::Fine::Formatter>,
+L<Log::Fine::Logger>, L<Log::Fine::Utils>, L<Sys::Syslog>
 
 =head1 COPYRIGHT & LICENSE
 

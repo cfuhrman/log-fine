@@ -27,9 +27,17 @@ Provides a functional wrapper around Log::Fine.
                logopts   => 'pid',
                facility  => LOG_LEVEL0 );
 
-    # open the logging subsystem
+    # open the logging subsystem with the default name "GENERIC"
     OpenLog( handles  => [ $handle1, [$handle2], ... ],
              levelmap => "Syslog");
+
+    # Open new logging object with name "aux"
+    OpenLog( name => "aux",
+             handles  => [ $handle1, [$handle2], ... ],
+             levelmap => "Syslog");
+
+    # Switch back to GENERIC logger
+    OpenLog( name => "GENERIC" );
 
     # Log a message
     Log(INFO, "The angels have my blue box");
@@ -49,28 +57,41 @@ package Log::Fine::Utils;
 
 our @ISA = qw( Exporter );
 
+use Data::Dumper;
+
 use Log::Fine;
+use Log::Fine::Levels;
+use Log::Fine::Logger;
 
 our $VERSION = $Log::Fine::VERSION;
 
 # Exported functions
-our @EXPORT = qw( Log OpenLog );
+our @EXPORT = qw( ListLoggers Log OpenLog );
 
 # Private Functions
 # --------------------------------------------------------------------
 
 {
-        my $logger;
 
-        # getter/setter for logger
-        sub _logger
+        my $logfine;
+        my $logname;
+
+        # Getter/Setter for Log::Fine object
+        sub _logfine
         {
-                my $obj = shift;
+                $logfine = $_[0]
+                    if (defined $_[0] and $_[0]->isa("Log::Fine"));
 
-                $logger = $obj
-                    if (defined $obj and ref $obj eq "Log::Fine::Logger");
+                return $logfine;
+        }
 
-                return $logger;
+        # getter/setter for logger name
+        sub _logname
+        {
+                $logname = $_[0]
+                    if (defined $_[0] and $_[0] =~ /\w/);
+
+                return $logname;
         }
 
 }
@@ -79,6 +100,26 @@ our @EXPORT = qw( Log OpenLog );
 
 The following functions are automatically exported by
 Log::Fine::Utils:
+
+=head2 ListLoggers
+
+Provides list of currently defined loggers
+
+=head3 Parameters
+
+None
+
+=head3 Returns
+
+Array containing list of currently defined loggers or undef if no
+loggers are defined
+
+=cut
+
+sub ListLoggers
+{
+        return (defined _logfine()) ? _logfine()->listLoggers() : ();
+}          # ListLoggers()
 
 =head2 Log
 
@@ -109,11 +150,11 @@ sub Log
 
         my $lvl = shift;
         my $msg = shift;
-        my $log = _logger();
+        my $log = _logfine->logger(_logname());
 
         # validate logger has been set
-        $log->_fatal(  "Logging system has not been set up "
-                     . "(See Log::Fine::Utils::OpenLog())")
+        Log::Fine->_fatal(  "Logging system has not been set up "
+                          . "(See Log::Fine::Utils::OpenLog())")
             unless (defined $log and $log->isa("Log::Fine::Logger"));
 
         # make sure we log the correct calling method
@@ -127,7 +168,9 @@ sub Log
 
 =head2 OpenLog
 
-Opens the logging subsystem.
+Opens the logging subsystem.  If called with the name of a previously
+defined logger object, will switch to that logger, ignoring other
+given hash elements.
 
 =head3 Parameters
 
@@ -144,6 +187,12 @@ An array ref containing one or more L<Log::Fine::Handle> objects
 B<[optional]> L<Log::Fine::Levels> subclass to use.  Will default to
 "Syslog" if not defined.
 
+=item * name
+
+B<[optional]> Name of logger.  If name is defined, will switch
+internal logger to given name, otherwise, creates a new logger and
+switches to that
+
 =back
 
 =head3 Returns
@@ -154,26 +203,54 @@ B<[optional]> L<Log::Fine::Levels> subclass to use.  Will default to
 
 sub OpenLog
 {
+
         my %data = @_;
-        my $levels = $data{levelmap} || "Syslog";
 
-        # construct a generic logger
-        my $log = Log::Fine->new(levelmap => $levels);
-        my $logger = $log->logger("GENERIC");
+        # Set name to a default if need be
+        $data{name} = "GENERIC"
+            unless (defined $data{name} and $data{name} =~ /\w/);
 
-        # validate a handle was passed
-        $logger->_fatal("At least one handle must be defined")
-            unless (    defined $data{handles}
-                    and ref $data{handles} eq "ARRAY"
-                    and scalar @{ $data{handles} } > 0);
+        # If no Log::Fine object is defined, generate one
+        _logfine(
+                 Log::Fine->new(name     => "Utils",
+                                levelmap => $data{levelmap}
+                                    || Log::Fine::Levels->DEFAULT_LEVELMAP
+                 )
+        ) unless (defined _logfine() and _logfine()->isa("Log::Fine"));
 
-        # Set our handles
-        $logger->registerHandle($_) foreach @{ $data{handles} };
+        # See if logger specified by name is already defined
+        if (     defined _logfine()
+             and defined _logname()
+             and _logfine->isa("Log::Fine")
+             and _logname() =~ /\w/
+             and grep(/$data{name}/, ListLoggers())) {
+                _logname($data{name});
+                return 1;
+        } elsif (   not defined $data{handles}
+                 or ref $data{handles} ne "ARRAY"
+                 or scalar @{ $data{handles} } == 0) {
 
-        # Save the logger
-        _logger($logger);
+                Log::Fine->_fatal("At least one handle must be defined");
+                return undef;          # in case {no_croak} option given
 
-        return 1;
+        } else {
+
+                # create logger
+                my $logger = _logfine->logger($data{name});
+
+                # register given handles
+                $logger->registerHandle($_) foreach @{ $data{handles} };
+
+                # Set logger name
+                _logname($data{name});
+
+                return 1;
+
+        }
+
+        #
+        # NOT REACHED
+        #
 
 }          # OpenLog()
 
@@ -181,14 +258,6 @@ sub OpenLog
 
 Log::Fine::Utils defines one and only one generic logger.  Multiple
 loggers via Utils are not currently supported.
-
-=head1 SEE ALSO
-
-L<perl>, L<Log::Fine>, L<Log::Fine::Handle>, L<Log::Fine::Logger>
-
-=head1 AUTHOR
-
-Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
 
 =head1 BUGS
 
@@ -229,6 +298,14 @@ L<http://search.cpan.org/dist/Log-Fine>
 =head1 REVISION INFORMATION
 
   $Id$
+
+=head1 AUTHOR
+
+Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
+
+=head1 SEE ALSO
+
+L<perl>, L<Log::Fine>, L<Log::Fine::Handle>, L<Log::Fine::Logger>
 
 =head1 COPYRIGHT & LICENSE
 

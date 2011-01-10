@@ -41,8 +41,10 @@ use Log::Fine::Levels::Syslog;
         # Create a template logger to a file
         my $formatter =
             Log::Fine::Formatter::Template->new(
-                                     template => "[%%TIME%%] %%USER%%@%%HOSTSHORT%% %%LEVEL%% %%MSG%%",
-                                     timestamp_format => "%b %e %T");
+                      template =>
+                          "[%%TIME%%] %%USER%%@%%HOSTSHORT%% %%LEVEL%% %%MSG%%",
+                      timestamp_format => "%b %e %T"
+            );
 
         my $handle =
             Log::Fine::Handle::File->new(file      => $output,

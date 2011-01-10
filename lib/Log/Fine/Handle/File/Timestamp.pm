@@ -86,13 +86,15 @@ sub fileHandle
         return $self->{_filehandle}
             if (    defined $self->{_filehandle}
                 and $self->{_filehandle}->isa("IO::File")
+                and defined fileno($self->{_filehandle})
                 and defined $today
                 and strftime(TODAY_FORMAT, localtime(time)) eq $today);
 
         # we need a new file.  Close our filehandle if it exists
         $self->{_filehandle}->close()
-            if (defined $self->{_filehandle}
-                and $self->{_filehandle}->isa("IO::File"));
+            if (    defined $self->{_filehandle}
+                and $self->{_filehandle}->isa("IO::File")
+                and defined fileno($self->{_filehandle}));
 
         # generate file name
         my $filename =
@@ -114,14 +116,6 @@ sub fileHandle
         return $self->{_filehandle};
 
 }          # fileHandle();
-
-=head1 SEE ALSO
-
-L<perl>, L<Log::Fine>, L<Log::Fine::Handle::File>
-
-=head1 AUTHOR
-
-Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
 
 =head1 BUGS
 
@@ -163,6 +157,14 @@ L<http://search.cpan.org/dist/Log-Fine>
 =head1 REVISION INFORMATION
 
   $Id$
+
+=head1 AUTHOR
+
+Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
+
+=head1 SEE ALSO
+
+L<perl>, L<Log::Fine>, L<Log::Fine::Handle::File>
 
 =head1 COPYRIGHT & LICENSE
 

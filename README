@@ -18,6 +18,9 @@ SYNOPSIS
         # defined then a new logger with the name "foo" will be created.
         my $log = Log::Fine->logger("foo");
 
+        # get list of names of defined logger objects
+        my @loggers = $log->listLoggers();
+
         # register a handle, in this case a handle that logs to console.
         my $handle = Log::Fine::Handle::Console->new();
         $log->registerHandle( $handle );
@@ -93,6 +96,16 @@ METHODS
     Returns
     The newly bless'd object
 
+  listLoggers
+
+    Provides list of currently defined loggers
+
+    Parameters
+    None
+
+    Returns
+    Array containing list of currently defined loggers
+
   levelMap
 
     Getter for the global level map.
@@ -115,7 +128,8 @@ METHODS
   _fatal
 
     Private method that is called when a fatal (nonrecoverable) condition is
-    encountered. Will call croak unless the {no_croak} attribute is set.
+    encountered. Will call croak unless the {no_croak} attribute is set. For
+    internal Log::Fine use *only!*
 
     This method can be overridden per taste.
 
@@ -140,13 +154,6 @@ ACKNOWLEDGMENTS
         Sun Microsystem's `java.utils.logging' framework
 
         The Python logging package
-
-SEE ALSO
-    perl, syslog, Log::Fine::Handle, Log::Fine::Formatter,
-    Log::Fine::Logger, Log::Fine::Utils, Sys::Syslog
-
-AUTHOR
-    Christopher M. Fuhrman, `<cfuhrman at panix.com>'
 
 BUGS
     Please report any bugs or feature requests to `bug-log-fine at
@@ -187,9 +194,15 @@ CONTRIBUTING
 REVISION INFORMATION
       $Id$
 
+AUTHOR
+    Christopher M. Fuhrman, `<cfuhrman at panix.com>'
+
+SEE ALSO
+    perl, syslog, Log::Fine::Handle, Log::Fine::Formatter,
+    Log::Fine::Logger, Log::Fine::Utils, Sys::Syslog
+
 COPYRIGHT & LICENSE
-    Copyright (c) 2008, 2009, 2010 Christopher M. Fuhrman, All rights
-    reserved.
+    Copyright (c) 2008-2011 Christopher M. Fuhrman, All rights reserved.
 
     This program is free software licensed under the...
 

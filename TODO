@@ -16,6 +16,10 @@
   Currently L::F::U can handle only one Logger.  Extend API to allow
   for multiple logging objects
 
+  [2011-01-07 Fri 15:35] First draft committed.  Note that there are
+  issues with logger objects going out of scope that need to be
+  addressed.  See dc8ac22 for details.
+
 ** Possible API
 
 *** AddLog(<Logger>)
@@ -25,6 +29,13 @@
 *** SwitchLog(<name>)
 
     Switch to Logger object specified by "name"
+
+** Another Idea
+
+   Have OpenLog() accept a name argument.  If the name is defined,
+   then open that logger, if not, create a new logger object.
+
+   Also, add support for listing loggers to Log::Fine
 
 * CANCELED [#C] Add tutorial for defining Level sub-classes
   CLOSED: [2010-11-24 Wed 11:54]

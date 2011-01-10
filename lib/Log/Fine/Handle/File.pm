@@ -112,8 +112,9 @@ sub fileHandle
 
         # if we already have a file handle defined, return it
         return $self->{_filehandle}
-            if (defined $self->{_filehandle}
-                and $self->{_filehandle}->isa("IO::File"));
+            if (    defined $self->{_filehandle}
+                and $self->{_filehandle}->isa("IO::File")
+                and defined fileno($self->{_filehandle}));
 
         # generate file name
         my $filename = catdir($self->{dir}, $self->{file});
@@ -217,14 +218,6 @@ sub DESTROY
 
 }          # DESTROY
 
-=head1 SEE ALSO
-
-L<perl>, L<Log::Fine>, L<Log::Fine::Handle>
-
-=head1 AUTHOR
-
-Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
-
 =head1 BUGS
 
 Please report any bugs or feature requests to
@@ -264,6 +257,14 @@ L<http://search.cpan.org/dist/Log-Fine>
 =head1 REVISION INFORMATION
 
   $Id$
+
+=head1 AUTHOR
+
+Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
+
+=head1 SEE ALSO
+
+L<perl>, L<Log::Fine>, L<Log::Fine::Handle>
 
 =head1 COPYRIGHT & LICENSE
 

@@ -31,6 +31,13 @@ Provides a formatting facility for log messages
         timestamp_format => "%H:%M:%S.%%millis%%",
       );
 
+    # Set the precision of the high resolution formatter
+    my $fmtr = Log::Fine::Formatter::Basic->new(
+                 hires => 1,
+                 timestamp_format => "%H:%M:%S.%%millis%%",
+                 precision => 6
+               );
+
 =head1 DESCRIPTION
 
 Base ancestral class for all formatters.  All customized formatters
@@ -61,6 +68,17 @@ method or set during formatter construction.  "%%millis%%" is a case
 insensitive value, thus "%%MILLIS%%" will work as well as
 "%%Millis%%".
 
+=head3 Millisecond Precision
+
+Millisecond precision can be set on construction as so:
+
+    my $formatter =
+      Log::Fine::Formatter::Basic->new( hires     => 1,
+                                        precision => 6 );
+
+If not set, the default value of 5 will be used.  Note that the
+precision hash element will be ignored unless hires is set.
+
 =head2 Using Log format templates
 
 As of version 0.37, Log::Fine now supports log format templates.  See
@@ -81,10 +99,12 @@ use POSIX qw( strftime );
 our $VERSION = $Log::Fine::VERSION;
 
 # Constant: LOG_TIMESTAMP_FORMAT, LOG_TIMESTAMP_FORMAT_PRECISE
+#           LOG_TIMESTAMP_DEFAULT_PRECISION
 #
 # strftime(3)-compatible format string
-use constant LOG_TIMESTAMP_FORMAT         => "%c";
-use constant LOG_TIMESTAMP_FORMAT_PRECISE => "%H:%M:%S.%%millis%%";
+use constant LOG_TIMESTAMP_FORMAT            => "%c";
+use constant LOG_TIMESTAMP_FORMAT_PRECISE    => "%H:%M:%S.%%millis%%";
+use constant LOG_TIMESTAMP_DEFAULT_PRECISION => 5;
 
 =head1 METHODS
 
@@ -209,6 +229,14 @@ sub _init
                     unless (defined $self->{timestamp_format}
                             and $self->{timestamp_format} =~ /\w+/);
 
+                # set {precision} to default if necessary
+                $self->{precision} = $self->LOG_TIMESTAMP_DEFAULT_PRECISION
+                    unless (defined $self->{precision}
+                            and $self->{precision} =~ /^\d+$/);
+
+                $self->{_precision_format_str} =
+                    "%.0" . $self->{precision} . "f";
+
         } else {
 
                 # set {timestamp_format} to the default if necessary
@@ -236,7 +264,8 @@ sub _formatTime
         if ($self->{hires}) {
 
                 # use Time::HiRes to get seconds and milliseconds
-                my $time = sprintf("%.05f", &Time::HiRes::time);
+                my $time =
+                    sprintf($self->{_precision_format_str}, &Time::HiRes::time);
                 my @t = split /\./, $time;
 
                 # and format
@@ -251,14 +280,6 @@ sub _formatTime
         return strftime($fmt, localtime($seconds));
 
 }          # _formatTime()
-
-=head1 SEE ALSO
-
-L<perl>, L<strftime>, L<Log::Fine>, L<Time::HiRes>
-
-=head1 AUTHOR
-
-Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
 
 =head1 BUGS
 
@@ -299,6 +320,14 @@ L<http://search.cpan.org/dist/Log-Fine>
 =head1 REVISION INFORMATION
 
   $Id$
+
+=head1 AUTHOR
+
+Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
+
+=head1 SEE ALSO
+
+L<perl>, L<strftime>, L<Log::Fine>, L<Time::HiRes>
 
 =head1 COPYRIGHT & LICENSE
 
