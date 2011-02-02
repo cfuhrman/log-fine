@@ -101,6 +101,15 @@ L<Basic|Log::Fine::Formatter::Basic> formatter object.
 For more information on the customization of log messages, see
 L<Log::Fine::Formatter>.
 
+=head1 INSTALLATION
+
+To install Log::Fine:
+
+  perl Makefile.PL
+  make
+  make test
+  make install
+
 =cut
 
 # Private Methods
