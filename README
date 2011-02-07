@@ -39,7 +39,6 @@ DESCRIPTION
     Log::Fine::Utils.
 
   Handles
-
     Handlers provides a means to output log messages in one or more ways.
     Currently, the following handles are provided:
 
@@ -59,7 +58,6 @@ DESCRIPTION
     handlers can be defined to the user's taste.
 
   Formatters
-
     A formatter specifies how Log::Fine displays messages. When a message is
     logged, it gets passed through a formatter object, which adds any
     additional information such as a time-stamp or caller information.
@@ -72,6 +70,14 @@ DESCRIPTION
     For more information on the customization of log messages, see
     Log::Fine::Formatter.
 
+INSTALLATION
+    To install Log::Fine:
+
+      perl Makefile.PL
+      make
+      make test
+      make install
+
 METHODS
     The Log::Fine module, by itself, provides getters & setter methods for
     loggers and level classes. After a logger is created, further actions
@@ -79,7 +85,6 @@ METHODS
     defined:
 
   new
-
     Creates a new Log::Fine object.
 
     Parameters
@@ -97,7 +102,6 @@ METHODS
     The newly bless'd object
 
   listLoggers
-
     Provides list of currently defined loggers
 
     Parameters
@@ -107,14 +111,12 @@ METHODS
     Array containing list of currently defined loggers
 
   levelMap
-
     Getter for the global level map.
 
     Returns
     A Log::Fine::Levels subclass
 
   logger
-
     Getter/Constructor for a logger object.
 
     Parameters
@@ -126,7 +128,6 @@ METHODS
     an Log::Fine::Logger object
 
   _fatal
-
     Private method that is called when a fatal (nonrecoverable) condition is
     encountered. Will call croak unless the {no_croak} attribute is set. For
     internal Log::Fine use *only!*
@@ -145,7 +146,6 @@ ACKNOWLEDGMENTS
     Additional thanks to Tom Maher and Chris Josephs for encouragement.
 
   Related Modules/Frameworks
-
     The following logging frameworks provided inspiration for parts of
     Log::Fine.
 

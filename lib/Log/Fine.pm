@@ -85,7 +85,7 @@ use Log::Fine::Levels;
 use Log::Fine::Logger;
 use POSIX qw( strftime );
 
-our $VERSION = '0.50';
+our $VERSION = '0.52';
 
 =head2 Formatters
 
@@ -100,6 +100,15 @@ L<Basic|Log::Fine::Formatter::Basic> formatter object.
 
 For more information on the customization of log messages, see
 L<Log::Fine::Formatter>.
+
+=head1 INSTALLATION
+
+To install Log::Fine:
+
+  perl Makefile.PL
+  make
+  make test
+  make install
 
 =cut
 

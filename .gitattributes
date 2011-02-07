@@ -2,3 +2,4 @@
 *.pl ident
 *.t ident
 README ident
+Makefile.PL ident

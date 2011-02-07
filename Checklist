@@ -3,13 +3,10 @@ Checklist for CPAN Release
 
 1) Bump version in Log::Fine
 
-2) Bump version in META.yml
+2) Update CHANGES (use vclog)
 
-3) Update CHANGES (use vclog)
+3) Regenerate README if necessary (use pod2readme)
 
-4) Regenerate README if necessary (use pod2readme)
+4) Tag new release based on VERSION
 
-5) Tag new release based on VERSION
-
-6) Release unto the world
-
+5) Release unto the world
