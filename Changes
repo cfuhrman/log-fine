@@ -1,5 +1,13 @@
 CHANGELOG
 
+2011-02-08  Christopher M. Fuhrman
+
+        * :Fine::Utils now supports multiple loggers <Log>
+
+2011-02-07  Christopher M. Fuhrman
+
+        * Bump version
+
 2011-02-06  Christopher M. Fuhrman
 
         * Expand RCS keywords in Makefile.PL
