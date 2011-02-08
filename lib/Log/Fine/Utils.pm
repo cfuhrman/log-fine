@@ -254,11 +254,6 @@ sub OpenLog
 
 }          # OpenLog()
 
-=head1 CAVEATS
-
-Log::Fine::Utils defines one and only one generic logger.  Multiple
-loggers via Utils are not currently supported.
-
 =head1 BUGS
 
 Please report any bugs or feature requests to
