@@ -57,7 +57,7 @@ package Log::Fine::Utils;
 
 our @ISA = qw( Exporter );
 
-use Data::Dumper;
+#use Data::Dumper;
 
 use Log::Fine;
 use Log::Fine::Levels;
