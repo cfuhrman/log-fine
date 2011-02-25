@@ -36,11 +36,17 @@ Provides a functional wrapper around Log::Fine.
              handles  => [ $handle1, [$handle2], ... ],
              levelmap => "Syslog" );
 
+    # Get name of current logger
+    my $loggername = GetLogName();
+
     # Switch back to GENERIC logger
     OpenLog( name => "GENERIC" );
 
+    # Grab a list of defined logger names
+    my @names = ListLoggers();
+
     # Log a message
-    Log(INFO, "The angels have my blue box");
+    Log( INFO, "The angels have my blue box" );
 
 =head1 DESCRIPTION
 
