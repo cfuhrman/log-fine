@@ -152,6 +152,8 @@
 * TODO Figure out name for GetLogName()
 
   I don't like GetLogName() which doesn't seem to follow the rest of
-  the method naming convention.  Figure out a better name ... say,
-  CurLogName()?
+  the method naming convention used in Log::Fine.  Figure out a better
+  name ... say, CurLogName()?
+
+  I'd like to think on this a while
 
