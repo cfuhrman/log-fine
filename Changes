@@ -1,7 +1,12 @@
 CHANGELOG
 
+2011-03-11  Christopher M. Fuhrman
+
+        * Properly match date string when LC_TIME is set to de_DE.utf8
+
 2011-02-08  Christopher M. Fuhrman
 
+        * Bump version
         * :Fine::Utils now supports multiple loggers <Log>
 
 2011-02-07  Christopher M. Fuhrman
