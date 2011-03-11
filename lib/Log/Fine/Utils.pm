@@ -36,11 +36,17 @@ Provides a functional wrapper around Log::Fine.
              handles  => [ $handle1, [$handle2], ... ],
              levelmap => "Syslog" );
 
+    # Get name of current logger
+    my $loggername = GetLogName();
+
     # Switch back to GENERIC logger
     OpenLog( name => "GENERIC" );
 
+    # Grab a list of defined logger names
+    my @names = ListLoggers();
+
     # Log a message
-    Log(INFO, "The angels have my blue box");
+    Log( INFO, "The angels have my blue box" );
 
 =head1 DESCRIPTION
 
@@ -57,7 +63,7 @@ package Log::Fine::Utils;
 
 our @ISA = qw( Exporter );
 
-use Data::Dumper;
+#use Data::Dumper;
 
 use Log::Fine;
 use Log::Fine::Levels;
@@ -66,7 +72,7 @@ use Log::Fine::Logger;
 our $VERSION = $Log::Fine::VERSION;
 
 # Exported functions
-our @EXPORT = qw( ListLoggers Log OpenLog );
+our @EXPORT = qw( GetLogName ListLoggers Log OpenLog );
 
 # Private Functions
 # --------------------------------------------------------------------
@@ -100,6 +106,23 @@ our @EXPORT = qw( ListLoggers Log OpenLog );
 
 The following functions are automatically exported by
 Log::Fine::Utils:
+
+=head2 GetLogName
+
+Returns the name of the "active" logger
+
+=head3 Parameters
+
+None
+
+=head3 Returns
+
+String containing name of active logger.  Undef if no logger is
+currently defined
+
+=cut
+
+sub GetLogName { return _logname() }
 
 =head2 ListLoggers
 
@@ -253,11 +276,6 @@ sub OpenLog
         #
 
 }          # OpenLog()
-
-=head1 CAVEATS
-
-Log::Fine::Utils defines one and only one generic logger.  Multiple
-loggers via Utils are not currently supported.
 
 =head1 BUGS
 

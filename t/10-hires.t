@@ -73,9 +73,28 @@ use Log::Fine::Levels::Syslog;
 
         my $log4 = $precise->format(WARN, $msg, 1);
 
+        # Note: This regex is designed to catch non-English month
+        # representations found in other locales.  This has been
+        # tested against:
+        #
+        #  * ar_AE.utf8
+        #  * cs_CZ.utf8
+        #  * de_DE.utf8
+        #  * es_ES.utf8
+        #  * hi_IN.utf8
+        #  * ja_JP.utf8
+        #  * ko_KR.utf8
+        #  * zh_TW.UTF-8
+        #
+        # This list is by no means comprehensive.  Also, since there
+        # is a wide variety of different interpretations of various
+        # locales on different operating systems, handle our own error
+        # reporting.
+
+        # Debuggery
         #print STDERR $log4;
 
-        if ($log4 =~ /^\[\w+\s+\w+ \d\d\:\d\d\:\d\d\.\d{10,10}\] \w+ $msg/) {
+        if ($log4 =~ /^\[\w+\s+\S+ \d\d\:\d\d\:\d\d\.\d{10,10}\] \w+ $msg/) {
                 ok(1);
         } else {
                 print STDERR "\n----------------------------------------\n";
