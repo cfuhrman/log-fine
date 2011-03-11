@@ -148,3 +148,10 @@
   04-formatter.t has two skipped sections which probably doesn't jive
   well.  Break up 04-formatter.t tests into 2 separate test chunks.
   Perhaps an 0x-formatter-template.t file
+
+* TODO Figure out name for GetLogName()
+
+  I don't like GetLogName() which doesn't seem to follow the rest of
+  the method naming convention.  Figure out a better name ... say,
+  CurLogName()?
+
