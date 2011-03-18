@@ -275,6 +275,22 @@ sub logger
 
 }          # logger()
 
+=head2 name
+
+Getter for name of object
+
+=head3 Parameters
+
+None
+
+=head3 Returns
+
+String containing name of object, otherwise undef
+
+=cut
+
+sub name { return $_[0]->{name} || undef }
+
 # --------------------------------------------------------------------
 
 =head2 _fatal

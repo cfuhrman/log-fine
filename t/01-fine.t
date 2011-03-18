@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 8;
+use Test::Simple tests => 11;
 
 use Log::Fine qw( :macros :masks );
 
@@ -14,15 +14,20 @@ use Log::Fine qw( :macros :masks );
         my $fine = Log::Fine->new();
 
         ok(ref $fine eq "Log::Fine");
+        ok($fine->can("name"));
 
         # all objects should have names
-        ok($fine->{name} =~ /\w\d+$/);
+        ok($fine->name() =~ /\w\d+$/);
 
         # test retrieving a logging object
         my $log = $fine->logger("com0");
 
         # make sure we got a valid object
         ok($log and $log->isa("Log::Fine::Logger"));
+
+        # check name
+        ok($log->can("name"));
+        ok($log->name() =~ /\w\d+$/);
 
         # see if the object supports getLevels
         ok($log->can("levelMap"));
