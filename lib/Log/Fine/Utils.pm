@@ -72,7 +72,7 @@ use Log::Fine::Logger;
 our $VERSION = $Log::Fine::VERSION;
 
 # Exported functions
-our @EXPORT = qw( GetLogName ListLoggers Log OpenLog );
+our @EXPORT = qw( GetLogName CurrentLogger ListLoggers Log OpenLog );
 
 # Private Functions
 # --------------------------------------------------------------------
@@ -106,6 +106,22 @@ our @EXPORT = qw( GetLogName ListLoggers Log OpenLog );
 
 The following functions are automatically exported by
 Log::Fine::Utils:
+
+=head2 CurrentLogger
+
+Returns the currently "active" L<Log::Fine::Logger> object
+
+=head3 Parameters
+
+None
+
+=head3 Returns
+
+Currently active L<Log::Fine::Logger> object
+
+=cut
+
+sub CurrentLogger { return _logger() }
 
 =head2 GetLogName
 
