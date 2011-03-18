@@ -154,7 +154,7 @@ Passed to L<caller|perlfunc/caller> for accurate method logging
 
 =head3 Returns
 
-none
+None
 
 =cut
 
