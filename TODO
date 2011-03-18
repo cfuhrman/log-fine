@@ -157,3 +157,14 @@
 
   I'd like to think on this a while
 
+** Potential Names
+
+   - CurLogName()
+
+   - ActiveLogName()
+
+   - LogName()
+
+** Alternative
+
+   Implement Log::Fine->name() for returning the name of an object
