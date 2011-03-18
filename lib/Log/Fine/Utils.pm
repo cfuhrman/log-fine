@@ -79,8 +79,8 @@ our @EXPORT = qw( GetLogName ListLoggers Log OpenLog );
 
 {
 
-        my $logfine;
-        my $logname;
+        my $logfine; # Log::Fine object
+        my $logger;  # Ptr to current logger
 
         # Getter/Setter for Log::Fine object
         sub _logfine
@@ -91,13 +91,13 @@ our @EXPORT = qw( GetLogName ListLoggers Log OpenLog );
                 return $logfine;
         }
 
-        # getter/setter for logger name
-        sub _logname
+        # Getter/Setter for current logger
+        sub _logger
         {
-                $logname = $_[0]
-                    if (defined $_[0] and $_[0] =~ /\w/);
+                $logger = $_[0]
+                        if (defined $_[0] and $_[0]->isa("Log::Fine::Logger"));
 
-                return $logname;
+                return $logger;
         }
 
 }
@@ -122,7 +122,7 @@ currently defined
 
 =cut
 
-sub GetLogName { return _logname() }
+sub GetLogName { return (defined _logger ) ? _logger->name() : undef }
 
 =head2 ListLoggers
 
@@ -173,7 +173,7 @@ sub Log
 
         my $lvl = shift;
         my $msg = shift;
-        my $log = _logfine->logger(_logname());
+        my $log = _logger();
 
         # validate logger has been set
         Log::Fine->_fatal(  "Logging system has not been set up "
@@ -241,13 +241,13 @@ sub OpenLog
                  )
         ) unless (defined _logfine() and _logfine()->isa("Log::Fine"));
 
-        # See if logger specified by name is already defined
+        # See if the given logger name is already defined
         if (     defined _logfine()
-             and defined _logname()
-             and _logfine->isa("Log::Fine")
-             and _logname() =~ /\w/
+             and defined _logger()
+             and _logfine()->isa("Log::Fine")
+             and _logger->isa("Log::Fine::Logger")
              and grep(/$data{name}/, ListLoggers())) {
-                _logname($data{name});
+                _logger(_logfine->logger($data{name}));
                 return 1;
         } elsif (   not defined $data{handles}
                  or ref $data{handles} ne "ARRAY"
@@ -264,8 +264,8 @@ sub OpenLog
                 # register given handles
                 $logger->registerHandle($_) foreach @{ $data{handles} };
 
-                # Set logger name
-                _logname($data{name});
+                # Set logger
+                _logger($logger);
 
                 return 1;
 
