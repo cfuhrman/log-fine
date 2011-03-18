@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 19;
+use Test::Simple tests => 15;
 
 use File::Spec::Functions;
 use FileHandle;
@@ -32,7 +32,6 @@ use Log::Fine::Utils;
 
         # Make sure there are no loggers defined
         ok(not defined ListLoggers() or scalar ListLoggers() == 0);
-        ok(not defined GetLogName());
         ok(not defined CurrentLogger());
 
         # open the logging sub-system
@@ -42,7 +41,6 @@ use Log::Fine::Utils;
         # Should be one logger defined now
         ok(scalar ListLoggers() == 1);
         ok(grep("GENERIC", ListLoggers()));
-        ok(GetLogName() eq "GENERIC");
         ok(CurrentLogger()->name() eq "GENERIC");
 
         #print STDERR "\n1) About to log\n\n";
@@ -75,7 +73,6 @@ use Log::Fine::Utils;
 
         ok(scalar ListLoggers() == 2);
         ok(grep("UNITTEST", ListLoggers()));
-        ok(GetLogName() eq "UNITTEST");
         ok(CurrentLogger()->name() eq "UNITTEST");
 
         # print STDERR "\n2) About to log\n\n";
@@ -85,7 +82,6 @@ use Log::Fine::Utils;
 
         # Switch back to generic logger
         OpenLog(name => "GENERIC");
-        ok(GetLogName() eq "GENERIC");
         ok(CurrentLogger()->name() eq "GENERIC");
 
         # print STDERR "\n3) About to log\n\n";

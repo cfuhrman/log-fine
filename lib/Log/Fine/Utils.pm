@@ -36,8 +36,11 @@ Provides a functional wrapper around Log::Fine.
              handles  => [ $handle1, [$handle2], ... ],
              levelmap => "Syslog" );
 
+    # Grab a ref to active logger
+    my $current_logger = CurrentLogger();
+
     # Get name of current logger
-    my $loggername = GetLogName();
+    my $loggername = $current_logger->name();
 
     # Switch back to GENERIC logger
     OpenLog( name => "GENERIC" );
@@ -72,7 +75,7 @@ use Log::Fine::Logger;
 our $VERSION = $Log::Fine::VERSION;
 
 # Exported functions
-our @EXPORT = qw( GetLogName CurrentLogger ListLoggers Log OpenLog );
+our @EXPORT = qw( CurrentLogger ListLoggers Log OpenLog );
 
 # Private Functions
 # --------------------------------------------------------------------
@@ -122,23 +125,6 @@ Currently active L<Log::Fine::Logger> object
 =cut
 
 sub CurrentLogger { return _logger() }
-
-=head2 GetLogName
-
-Returns the name of the "active" logger
-
-=head3 Parameters
-
-None
-
-=head3 Returns
-
-String containing name of active logger.  Undef if no logger is
-currently defined
-
-=cut
-
-sub GetLogName { return (defined _logger ) ? _logger->name() : undef }
 
 =head2 ListLoggers
 
