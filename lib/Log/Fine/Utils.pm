@@ -82,8 +82,8 @@ our @EXPORT = qw( CurrentLogger ListLoggers Log OpenLog );
 
 {
 
-        my $logfine; # Log::Fine object
-        my $logger;  # Ptr to current logger
+        my $logfine;          # Log::Fine object
+        my $logger;           # Ptr to current logger
 
         # Getter/Setter for Log::Fine object
         sub _logfine
@@ -98,7 +98,7 @@ our @EXPORT = qw( CurrentLogger ListLoggers Log OpenLog );
         sub _logger
         {
                 $logger = $_[0]
-                        if (defined $_[0] and $_[0]->isa("Log::Fine::Logger"));
+                    if (defined $_[0] and $_[0]->isa("Log::Fine::Logger"));
 
                 return $logger;
         }
