@@ -165,6 +165,32 @@
 
    - LogName()
 
+   - CurrentName()
+
 ** Alternative
 
    Implement Log::Fine->name() for returning the name of an object
+
+
+* TODO Re-implement logger tracking in Utils
+
+  The current way that Utils tracks multiple loggers is a bit on the
+  sloppy side.  Try to make the internals more intuitive
+
+** What needs to be stored?
+
+   - Internal Log::Fine object
+
+   - Pointer to current Logger
+
+** What needs to be provided to the programmer?
+
+   - name of current logger (is this needed?)
+
+   - list of currently defined logger names (ListLoggers)
+
+   - Way to open a logger objects (OpenLog)
+
+   - Way to switch logger objects (OpenLog)
+
+   - Log function (Log)
