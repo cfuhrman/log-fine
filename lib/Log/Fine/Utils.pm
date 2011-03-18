@@ -216,6 +216,11 @@ B<[optional]> Name of logger.  If name is defined, will switch
 internal logger to given name, otherwise, creates a new logger and
 switches to that
 
+=item * no_croak
+
+[default: 0] If true, Log::Fine will not croak under certain
+circumstances (see L<Log::Fine>)
+
 =back
 
 =head3 Returns
@@ -237,7 +242,8 @@ sub OpenLog
         _logfine(
                  Log::Fine->new(name     => "Utils",
                                 levelmap => $data{levelmap}
-                                    || Log::Fine::Levels->DEFAULT_LEVELMAP
+                                    || Log::Fine::Levels->DEFAULT_LEVELMAP,
+                                no_croak => $data{no_croak} || 0
                  )
         ) unless (defined _logfine() and _logfine()->isa("Log::Fine"));
 
@@ -246,34 +252,29 @@ sub OpenLog
              and defined _logger()
              and _logfine()->isa("Log::Fine")
              and _logger->isa("Log::Fine::Logger")
+             and (_logger->name() =~ /\w/)
              and grep(/$data{name}/, ListLoggers())) {
+
+                # set the current logger to the given name
                 _logger(_logfine->logger($data{name}));
-                return 1;
+
         } elsif (   not defined $data{handles}
                  or ref $data{handles} ne "ARRAY"
                  or scalar @{ $data{handles} } == 0) {
 
+                # No Log::Fine::Handle objects are defined
                 Log::Fine->_fatal("At least one handle must be defined");
                 return undef;          # in case {no_croak} option given
 
         } else {
 
-                # create logger
-                my $logger = _logfine->logger($data{name});
-
-                # register given handles
-                $logger->registerHandle($_) foreach @{ $data{handles} };
-
-                # Set logger
-                _logger($logger);
-
-                return 1;
+                # Instantiate a new Log::Fine::Logger object and store
+                _logger(_logfine->logger($data{name}));
+                _logger->registerHandle($_) foreach @{ $data{handles} };
 
         }
 
-        #
-        # NOT REACHED
-        #
+        return 1;
 
 }          # OpenLog()
 
