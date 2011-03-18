@@ -201,3 +201,18 @@
    - Way to switch logger objects (OpenLog)
 
    - Log function (Log)
+
+** TODO Add unit tests for $obj->name()
+
+   Add unit tests for $obj->name()
+
+** TODO Additional Utils unit tests
+
+   Add some additional unit tests to Utils to give a thorough workout
+
+** TODO Add one more unit test for Log::Fine::Handle::Syslog
+
+   Need a separate unit test for testing Log::Fine::Handle::Syslog
+   with a different facility so as to avoid the situation encoutered
+   in [[https://rt.cpan.org/Ticket/Display.html%3Fid%3D63026][CPAN RT Ticket #63026]]
+
