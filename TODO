@@ -149,7 +149,11 @@
   well.  Break up 04-formatter.t tests into 2 separate test chunks.
   Perhaps an 0x-formatter-template.t file
 
-* TODO Figure out name for GetLogName()
+* CANCELED Figure out name for GetLogName()
+  CLOSED: [2011-03-18 Fri 16:08]
+  - CLOSING NOTE [2011-03-18 Fri 16:09] \\
+    GetLogName() has been done away.  Similar functionality can be
+    obtained via CurrentLogger()->name()
 
   I don't like GetLogName() which doesn't seem to follow the rest of
   the method naming convention used in Log::Fine.  Figure out a better
@@ -172,7 +176,10 @@
    Implement Log::Fine->name() for returning the name of an object
 
 
-* TODO Re-implement logger tracking in Utils
+* DONE Re-implement logger tracking in Utils
+  CLOSED: [2011-03-18 Fri 16:09]
+  - CLOSING NOTE [2011-03-18 Fri 16:09] \\
+    Done
 
   The current way that Utils tracks multiple loggers is a bit on the
   sloppy side.  Try to make the internals more intuitive
