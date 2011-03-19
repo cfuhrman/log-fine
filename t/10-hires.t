@@ -21,13 +21,14 @@ use Log::Fine::Levels::Syslog;
                 plan skip_all =>
 "Time::HiRes is not installed.  High precision logging not possible";
         } else {
-                plan tests => 10;
+                plan tests => 13;
         }
 
         # create a basic formatter
         my $basic = Log::Fine::Formatter::Basic->new(hires => 1);
 
         ok(ref $basic eq "Log::Fine::Formatter::Basic");
+        ok($basic->name() =~ /\w\d+$/);
         ok($basic->timeStamp() eq
             Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT_PRECISE);
 
@@ -50,6 +51,7 @@ use Log::Fine::Levels::Syslog;
         my $detailed = Log::Fine::Formatter::Detailed->new(hires => 1);
 
         ok(ref $detailed eq "Log::Fine::Formatter::Detailed");
+        ok($detailed->name() =~ /\w\d+$/);
         ok($detailed->timeStamp() eq
             Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT_PRECISE);
 
@@ -70,6 +72,7 @@ use Log::Fine::Levels::Syslog;
             );
 
         ok($precise->isa("Log::Fine::Formatter::Basic"));
+        ok($precise->name() =~ /\w\d+$/);
 
         my $log4 = $precise->format(WARN, $msg, 1);
 

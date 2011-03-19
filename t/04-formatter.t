@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 15;
+use Test::More tests => 18;
 
 use Log::Fine;
 use Log::Fine::Formatter;
@@ -17,6 +17,9 @@ use Log::Fine::Levels::Syslog;
 
         # create a basic formatter
         my $basic = Log::Fine::Formatter::Basic->new();
+
+        # all objects should have names
+        ok($basic->name() =~ /\w\d+$/);
 
         ok(ref $basic eq "Log::Fine::Formatter::Basic");
         ok($basic->timeStamp() eq Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
@@ -48,6 +51,7 @@ use Log::Fine::Levels::Syslog;
         my $detailed = Log::Fine::Formatter::Detailed->new();
 
         ok(ref $detailed eq "Log::Fine::Formatter::Detailed");
+        ok($detailed->name() =~ /\w\d+$/);
         ok($detailed->timeStamp() eq
             Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
 
@@ -76,6 +80,7 @@ use Log::Fine::Levels::Syslog;
         my $syslog = Log::Fine::Formatter::Syslog->new();
 
         ok(ref $syslog eq "Log::Fine::Formatter::Syslog");
+        ok($syslog->name() =~ /\w\d+$/);
         ok($syslog->timeStamp() eq
             Log::Fine::Formatter::Syslog->LOG_TIMESTAMP_FORMAT);
 

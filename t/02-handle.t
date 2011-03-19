@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 1029;
+use Test::More tests => 1031;
 
 use Log::Fine;
 use Log::Fine::Handle;
@@ -32,12 +32,16 @@ my $msg =
 
         isa_ok($log, "Log::Fine");
 
+        # all objects should have names
+        ok($log->name() =~ /\w\d+$/);
+
         # first we create a handle
         my $handle = Log::Fine::Handle::String->new();
 
         # validate handle types
         isa_ok($handle,              "Log::Fine::Handle");
         isa_ok($handle->{formatter}, "Log::Fine::Formatter::Basic");
+        ok($handle->name() =~ /\w\d+$/);
 
         # make sure all methods are supported
         can_ok($handle, $_) foreach (qw/ isLoggable msgWrite formatter /);

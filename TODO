@@ -148,3 +148,77 @@
   04-formatter.t has two skipped sections which probably doesn't jive
   well.  Break up 04-formatter.t tests into 2 separate test chunks.
   Perhaps an 0x-formatter-template.t file
+
+* CANCELED Figure out name for GetLogName()
+  CLOSED: [2011-03-18 Fri 16:08]
+  - CLOSING NOTE [2011-03-18 Fri 16:09] \\
+    GetLogName() has been done away.  Similar functionality can be
+    obtained via CurrentLogger()->name()
+
+  I don't like GetLogName() which doesn't seem to follow the rest of
+  the method naming convention used in Log::Fine.  Figure out a better
+  name ... say, CurLogName()?
+
+  I'd like to think on this a while
+
+** Potential Names
+
+   - CurLogName()
+
+   - ActiveLogName()
+
+   - LogName()
+
+   - CurrentName()
+
+** Alternative
+
+   Implement Log::Fine->name() for returning the name of an object
+
+
+* DONE Re-implement logger tracking in Utils
+  CLOSED: [2011-03-18 Fri 16:09]
+  - CLOSING NOTE [2011-03-18 Fri 16:09] \\
+    Done
+
+  The current way that Utils tracks multiple loggers is a bit on the
+  sloppy side.  Try to make the internals more intuitive
+
+** What needs to be stored?
+
+   - Internal Log::Fine object
+
+   - Pointer to current Logger
+
+** What needs to be provided to the programmer?
+
+   - name of current logger (is this needed?)
+
+   - list of currently defined logger names (ListLoggers)
+
+   - Way to open a logger objects (OpenLog)
+
+   - Way to switch logger objects (OpenLog)
+
+   - Log function (Log)
+
+** DONE Add unit tests for $obj->name()
+   CLOSED: [2011-03-18 Fri 17:02]
+   - CLOSING NOTE [2011-03-18 Fri 17:02] \\
+     Done
+
+   Add unit tests for $obj->name()
+
+** CANCELED Additional Utils unit tests
+   CLOSED: [2011-03-19 Sat 12:33]
+   - CLOSING NOTE [2011-03-19 Sat 12:33] \\
+     Canceled
+
+   Add some additional unit tests to Utils to give a thorough workout
+
+** TODO Add one more unit test for Log::Fine::Handle::Syslog
+
+   Need a separate unit test for testing Log::Fine::Handle::Syslog
+   with a different facility so as to avoid the situation encoutered
+   in [[https://rt.cpan.org/Ticket/Display.html%3Fid%3D63026][CPAN RT Ticket #63026]]
+

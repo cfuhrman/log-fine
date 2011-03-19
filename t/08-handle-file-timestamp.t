@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 10;
+use Test::Simple tests => 11;
 
 use File::Spec::Functions;
 
@@ -27,6 +27,7 @@ use POSIX qw( strftime );
 
         # do some validation
         ok($handle->isa("Log::Fine::Handle"));
+        ok($handle->name() =~ /\w\d+$/);
 
         # these should be set to their default values
         ok($handle->{mask} == $handle->levelMap()->bitmaskAll());

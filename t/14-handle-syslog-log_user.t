@@ -26,7 +26,7 @@ use Sys::Syslog qw( :standard :macros );
         ok($log->name() =~ /\w\d+$/);
 
         # add a handle.  Note we use the default formatter.
-        my $handle = Log::Fine::Handle::Syslog->new();
+        my $handle = Log::Fine::Handle::Syslog->new(facility => LOG_USER);
 
         # do some validation
         ok($handle->isa("Log::Fine::Handle"));
@@ -39,7 +39,7 @@ use Sys::Syslog qw( :standard :macros );
         # Syslog-specific attributes
         ok($handle->{ident} eq basename $0);
         ok($handle->{logopts} =~ /pid/);
-        ok($handle->{facility} == LOG_LOCAL0);
+        ok($handle->{facility} == LOG_USER);
 
         # write a test message
         $handle->msgWrite(INFO, $msg, 1);
@@ -48,7 +48,7 @@ use Sys::Syslog qw( :standard :macros );
         eval {
                 open STDERR, '>/dev/null';
                 my $console =
-                    Log::Fine::Handle::Syslog->new(facility => LOG_USER,
+                    Log::Fine::Handle::Syslog->new(facility => LOG_LOCAL0,
                                                    ident    => "badhandle");
                 close STDERR;
         };

@@ -275,6 +275,22 @@ sub logger
 
 }          # logger()
 
+=head2 name
+
+Getter for name of object
+
+=head3 Parameters
+
+None
+
+=head3 Returns
+
+String containing name of object, otherwise undef
+
+=cut
+
+sub name { return $_[0]->{name} || undef }
+
 # --------------------------------------------------------------------
 
 =head2 _fatal
@@ -318,9 +334,10 @@ sub _fatal
             $msg || "No reason given";
 
         croak $msg
-            unless (    defined $self
-                    and $self->isa("Log::Fine")
-                    and $self->{no_croak});
+            if ((    defined $self
+                 and $self->isa("Log::Fine")
+                 and not $self->{no_croak})
+                or (not defined $self));
 
 }          # _fatal()
 
