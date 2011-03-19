@@ -288,6 +288,21 @@ L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Log-Fine>.
 I will be notified, and then you'll automatically be notified of progress on
 your bug as I make changes.
 
+=head1 CAVEATS
+
+OpenLog() will croak regardless if C<{no_croak}> is set if the
+following two conditions are met:
+
+=over
+
+=item * OpenLog() is passed the name of an unknown logger, thus
+necessitating the creation of a new logger object
+
+=item * No L<Log::Fine::Handle> objects were passed in the
+C<{handles}> array
+
+=back
+
 =head1 SUPPORT
 
 You can find documentation for this module with the perldoc command.

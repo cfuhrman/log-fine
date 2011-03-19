@@ -334,9 +334,10 @@ sub _fatal
             $msg || "No reason given";
 
         croak $msg
-            unless (    defined $self
-                    and $self->isa("Log::Fine")
-                    and $self->{no_croak});
+            if ((    defined $self
+                 and $self->isa("Log::Fine")
+                 and not $self->{no_croak})
+                or (not defined $self));
 
 }          # _fatal()
 
