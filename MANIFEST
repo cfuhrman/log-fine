@@ -37,6 +37,7 @@ t/10-hires.t
 t/11-levels-syslog.t
 t/12-levels-java.t
 t/13-formatter-template.t
+t/14-handle-syslog-log_user.t
 t/boilerplate.t
 t/pod-coverage.t
 t/pod.t
