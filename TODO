@@ -209,7 +209,10 @@
 
    Add unit tests for $obj->name()
 
-** TODO Additional Utils unit tests
+** CANCELED Additional Utils unit tests
+   CLOSED: [2011-03-19 Sat 12:33]
+   - CLOSING NOTE [2011-03-19 Sat 12:33] \\
+     Canceled
 
    Add some additional unit tests to Utils to give a thorough workout
 
