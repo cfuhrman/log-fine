@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 13;
+use Test::Simple tests => 15;
 
 use File::Spec::Functions;
 use FileHandle;
@@ -24,6 +24,7 @@ use Log::Fine::Logger;
         my $log = Log::Fine->logger("handlefile0");
 
         ok(ref $log eq "Log::Fine::Logger");
+        ok($log->name() =~ /\w\d+$/);
 
         # add a handle.  Note we use the default formatter.
         my $handle =
@@ -32,6 +33,7 @@ use Log::Fine::Logger;
 
         # do some validation
         ok($handle->isa("Log::Fine::Handle"));
+        ok($handle->name() =~ /\w\d+$/);
 
         # these should be set to their default values
         ok($handle->{mask} == $handle->levelMap()->bitmaskAll());

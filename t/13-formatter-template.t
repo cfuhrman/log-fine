@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 30;
+use Test::More tests => 42;
 
 #use Data::Dumper;
 use Log::Fine;
@@ -30,12 +30,14 @@ use Sys::Hostname;
             Log::Fine::Formatter::Template->new(template         => "%%LEVEL%%",
                                                 timestamp_format => "%Y%m%d");
         ok($log_level->isa("Log::Fine::Formatter::Template"));
+        ok($log_level->name() =~ /\w\d+$/);
 
         # msg
         my $log_msg =
             Log::Fine::Formatter::Template->new(template         => "%%MSG%%",
                                                 timestamp_format => "%Y%m%d");
         ok($log_msg->isa("Log::Fine::Formatter::Template"));
+        ok($log_msg->name() =~ /\w\d+$/);
 
         # package
         my $log_package =
@@ -45,6 +47,7 @@ use Sys::Hostname;
                      timestamp_format => "%H:%M:%S"
             );
         ok($log_package->isa("Log::Fine::Formatter::Template"));
+        ok($log_package->name() =~ /\w\d+$/);
 
         # filename & lineno
         my $log_filename =
@@ -54,36 +57,42 @@ use Sys::Hostname;
                      timestamp_format => "%H:%M:%S"
             );
         ok($log_filename->isa("Log::Fine::Formatter::Template"));
+        ok($log_filename->name() =~ /\w\d+$/);
 
         # short hostname
         my $log_shorthost =
             Log::Fine::Formatter::Template->new(template => "%%HOSTSHORT%%",
                                                 timestamp_format => "%Y%m%d");
         ok($log_shorthost->isa("Log::Fine::Formatter::Template"));
+        ok($log_shorthost->name() =~ /\w\d+$/);
 
         # long hostname
         my $log_longhost =
             Log::Fine::Formatter::Template->new(template => "%%HOSTLONG%%",
                                                 timestamp_format => "%Y%m%d");
         ok($log_longhost->isa("Log::Fine::Formatter::Template"));
+        ok($log_longhost->name() =~ /\w\d+$/);
 
         # user
         my $log_user =
             Log::Fine::Formatter::Template->new(template         => "%%USER%%",
                                                 timestamp_format => "%Y%m%d");
         ok($log_user->isa("Log::Fine::Formatter::Template"));
+        ok($log_user->name() =~ /\w\d+$/);
 
         # group
         my $log_group =
             Log::Fine::Formatter::Template->new(template         => "%%GROUP%%",
                                                 timestamp_format => "%Y%m%d");
         ok($log_group->isa("Log::Fine::Formatter::Template"));
+        ok($log_group->name() =~ /\w\d+$/);
 
         # time
         my $log_time =
             Log::Fine::Formatter::Template->new(template         => "%%TIME%%",
                                                 timestamp_format => "%Y%m");
         ok($log_time->isa("Log::Fine::Formatter::Template"));
+        ok($log_time->name() =~ /\w\d+$/);
 
         # Note we test time first to avoid a possible race condition
         # that would occur at the end of every month.
@@ -142,12 +151,14 @@ use Sys::Hostname;
                   timestamp_format => Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT
             );
         ok($log_basic->isa("Log::Fine::Formatter::Template"));
+        ok($log_basic->name() =~ /\w\d+$/);
         ok($log_basic->format(INFO, $msg, 1) =~ /^\[.*?\] \w+ $msg/);
 
         # Grab a logger
         my $logger = Log::Fine->logger("formatlogger0");
 
         ok($logger->isa("Log::Fine::Logger"));
+        ok($logger->name() =~ /\w\d+$/);
 
         # If logfile already exists, hose it
         unlink $logfile if (-e $logfile);
@@ -163,6 +174,7 @@ use Sys::Hostname;
                         timestamp_format => "%H:%M:%S"
                     ));
         ok($handle->isa("Log::Fine::Handle::File"));
+        ok($handle->name() =~ /\w\d+$/);
         $logger->registerHandle($handle);
 
         # Output

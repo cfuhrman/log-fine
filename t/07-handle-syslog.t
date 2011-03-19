@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 9;
+use Test::Simple tests => 11;
 
 use File::Basename;
 
@@ -23,12 +23,14 @@ use Sys::Syslog qw( :standard :macros );
         my $log = Log::Fine->logger("handlesyslog0");
 
         ok(ref $log eq "Log::Fine::Logger");
+        ok($log->name() =~ /\w\d+$/);
 
         # add a handle.  Note we use the default formatter.
         my $handle = Log::Fine::Handle::Syslog->new();
 
         # do some validation
         ok($handle->isa("Log::Fine::Handle"));
+        ok($handle->name() =~ /\w\d+$/);
 
         # these should be set to their default values
         ok($handle->{mask} == $handle->levelMap()->bitmaskAll());

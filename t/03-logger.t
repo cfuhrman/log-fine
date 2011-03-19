@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 11;
+use Test::More tests => 15;
 
 use Log::Fine;
 use Log::Fine::Handle::String;
@@ -16,22 +16,28 @@ use Log::Fine::Logger;
         # Create a Log::Fine object and a new logger
         my $log = Log::Fine->new(no_croak => 1);
 
+        # all objects should have names
+        ok($log->name() =~ /\w\d+$/);
+
         # first we create a logger object
         my $logger = Log::Fine->logger("logger0");
 
         ok($logger->isa("Log::Fine::Logger"));
+        ok($log->name() =~ /\w\d+$/);
 
         # create a handle for the logger
         my $handle = Log::Fine::Handle::String->new();
 
         # validate handle
         ok($handle->isa("Log::Fine::Handle"));
+        ok($handle->name() =~ /\w\d+$/);
 
         # now register the handle
         my $result = $logger->registerHandle($handle);
 
         # validate result (should be a Logger)
         ok($result->isa("Log::Fine::Logger"));
+        ok($result->name() =~ /\w\d+$/);
 
         # Log something (won't do anything)
         my $loggerrc = $logger->log(DEBG, "This is a test message");
