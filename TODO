@@ -202,7 +202,10 @@
 
    - Log function (Log)
 
-** TODO Add unit tests for $obj->name()
+** DONE Add unit tests for $obj->name()
+   CLOSED: [2011-03-18 Fri 17:02]
+   - CLOSING NOTE [2011-03-18 Fri 17:02] \\
+     Done
 
    Add unit tests for $obj->name()
 
