@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 18;
+use Test::More tests => 25;
 
 use Log::Fine;
 use Log::Fine::Formatter;
@@ -18,19 +18,20 @@ use Log::Fine::Levels::Syslog;
         # create a basic formatter
         my $basic = Log::Fine::Formatter::Basic->new();
 
+        isa_ok($basic, "Log::Fine::Formatter::Basic");
+        can_ok($basic, "name");
+        can_ok($basic, "timeStamp");
+
         # all objects should have names
         ok($basic->name() =~ /\w\d+$/);
-
-        ok(ref $basic eq "Log::Fine::Formatter::Basic");
         ok($basic->timeStamp() eq Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
 
         # See if our levels are properly defined
         ok($basic->can("levelMap"));
 
-        # variable for levels object
         my $lvls = $basic->levelMap();
 
-        ok($lvls and $lvls->isa("Log::Fine::Levels"));
+        isa_ok($lvls, "Log::Fine::Levels");
 
         # format a message
         my $msg = "Stop by this disaster town";
@@ -50,7 +51,11 @@ use Log::Fine::Levels::Syslog;
         # now create a detailed formatter
         my $detailed = Log::Fine::Formatter::Detailed->new();
 
-        ok(ref $detailed eq "Log::Fine::Formatter::Detailed");
+        isa_ok($detailed, "Log::Fine::Formatter::Detailed");
+        can_ok($detailed, "name");
+        can_ok($detailed, "timeStamp");
+        can_ok($detailed, "testFormat");
+
         ok($detailed->name() =~ /\w\d+$/);
         ok($detailed->timeStamp() eq
             Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
@@ -79,7 +84,10 @@ use Log::Fine::Levels::Syslog;
         # now create a syslog formatter
         my $syslog = Log::Fine::Formatter::Syslog->new();
 
-        ok(ref $syslog eq "Log::Fine::Formatter::Syslog");
+        isa_ok($syslog, "Log::Fine::Formatter::Syslog");
+        can_ok($syslog, "name");
+        can_ok($syslog, "timeStamp");
+
         ok($syslog->name() =~ /\w\d+$/);
         ok($syslog->timeStamp() eq
             Log::Fine::Formatter::Syslog->LOG_TIMESTAMP_FORMAT);

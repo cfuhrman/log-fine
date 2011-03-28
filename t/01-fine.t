@@ -4,17 +4,18 @@
 # $Id$
 #
 
-use Test::Simple tests => 11;
+use Test::More tests => 12;
 
 use Log::Fine qw( :macros :masks );
+use Log::Fine::Levels;
 
 {
 
         # test construction
         my $fine = Log::Fine->new();
 
-        ok(ref $fine eq "Log::Fine");
-        ok($fine->can("name"));
+        isa_ok($fine, "Log::Fine");
+        can_ok($fine, "name");
 
         # all objects should have names
         ok($fine->name() =~ /\w\d+$/);
@@ -23,7 +24,7 @@ use Log::Fine qw( :macros :masks );
         my $log = $fine->logger("com0");
 
         # make sure we got a valid object
-        ok($log and $log->isa("Log::Fine::Logger"));
+        isa_ok($log, "Log::Fine::Logger");
 
         # check name
         ok($log->can("name"));
@@ -31,7 +32,11 @@ use Log::Fine qw( :macros :masks );
 
         # see if the object supports getLevels
         ok($log->can("levelMap"));
-        ok(ref $log->levelMap eq "Log::Fine::Levels::Syslog");
+        ok($log->levelMap and $log->levelMap->isa("Log::Fine::Levels"));
+
+        # Check default level map
+        ok( ref $log->levelMap eq "Log::Fine::Levels::"
+                . Log::Fine::Levels->DEFAULT_LEVELMAP);
 
         # see if object supports listLoggers
         ok($log->can("listLoggers"));

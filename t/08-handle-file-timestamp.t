@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 11;
+use Test::More tests => 13;
 
 use File::Spec::Functions;
 
@@ -25,8 +25,10 @@ use POSIX qw( strftime );
             Log::Fine::Handle::File::Timestamp->new(file      => $base,
                                                     autoflush => 1);
 
-        # do some validation
-        ok($handle->isa("Log::Fine::Handle"));
+        isa_ok($handle, "Log::Fine::Handle");
+        can_ok($handle, "name");
+        can_ok($handle, "msgWrite");
+
         ok($handle->name() =~ /\w\d+$/);
 
         # these should be set to their default values
