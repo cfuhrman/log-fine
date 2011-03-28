@@ -226,3 +226,7 @@
 
   The unit tests aren't very consistent with regard to testing object
   validity.  Perhaps standardize on $obj->isa("Foo::Bar")?
+
+* TODO [#C] Merge in readme-pod-format branch                           :pod:
+
+  Prior to next release, merge in readme-pod-format branch
