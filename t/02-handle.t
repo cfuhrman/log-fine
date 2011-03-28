@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 1031;
+use Test::More tests => 1288;
 
 use Log::Fine;
 use Log::Fine::Handle;
@@ -31,6 +31,7 @@ my $msg =
         my $log = Log::Fine->new();
 
         isa_ok($log, "Log::Fine");
+        can_ok($log, "name");
 
         # all objects should have names
         ok($log->name() =~ /\w\d+$/);
@@ -41,6 +42,7 @@ my $msg =
         # validate handle types
         isa_ok($handle,              "Log::Fine::Handle");
         isa_ok($handle->{formatter}, "Log::Fine::Formatter::Basic");
+        can_ok($handle, "name");
         ok($handle->name() =~ /\w\d+$/);
 
         # make sure all methods are supported
@@ -112,6 +114,8 @@ sub testmask
 
         # current level should not be set so do negative test
         isa_ok($handle, "Log::Fine::Handle");
+        can_ok($handle, "isLoggable");
+
         ok(!$handle->isLoggable(eval "$lvl"));
 
         # recurse downward again
