@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 42;
+use Test::More tests => 66;
 
 #use Data::Dumper;
 use Log::Fine;
@@ -29,14 +29,20 @@ use Sys::Hostname;
         my $log_level =
             Log::Fine::Formatter::Template->new(template         => "%%LEVEL%%",
                                                 timestamp_format => "%Y%m%d");
-        ok($log_level->isa("Log::Fine::Formatter::Template"));
+        isa_ok($log_level, "Log::Fine::Formatter::Template");
+        can_ok($log_level, "name");
+        can_ok($log_level, "format");
+
         ok($log_level->name() =~ /\w\d+$/);
 
         # msg
         my $log_msg =
             Log::Fine::Formatter::Template->new(template         => "%%MSG%%",
                                                 timestamp_format => "%Y%m%d");
-        ok($log_msg->isa("Log::Fine::Formatter::Template"));
+        isa_ok($log_msg, "Log::Fine::Formatter::Template");
+        can_ok($log_msg, "name");
+        can_ok($log_msg, "format");
+
         ok($log_msg->name() =~ /\w\d+$/);
 
         # package
@@ -46,7 +52,10 @@ use Sys::Hostname;
                          "[%%TIME%%] %%LEVEL%% %%PACKAGE%% %%SUBROUT%% %%MSG%%",
                      timestamp_format => "%H:%M:%S"
             );
-        ok($log_package->isa("Log::Fine::Formatter::Template"));
+        isa_ok($log_package, "Log::Fine::Formatter::Template");
+        can_ok($log_package, "name");
+        can_ok($log_package, "format");
+
         ok($log_package->name() =~ /\w\d+$/);
 
         # filename & lineno
@@ -56,42 +65,60 @@ use Sys::Hostname;
                          "[%%TIME%%] %%LEVEL%% %%FILENAME%%:%%LINENO%% %%MSG%%",
                      timestamp_format => "%H:%M:%S"
             );
-        ok($log_filename->isa("Log::Fine::Formatter::Template"));
+        isa_ok($log_filename, "Log::Fine::Formatter::Template");
+        can_ok($log_filename, "name");
+        can_ok($log_filename, "format");
+
         ok($log_filename->name() =~ /\w\d+$/);
 
         # short hostname
         my $log_shorthost =
             Log::Fine::Formatter::Template->new(template => "%%HOSTSHORT%%",
                                                 timestamp_format => "%Y%m%d");
-        ok($log_shorthost->isa("Log::Fine::Formatter::Template"));
+        isa_ok($log_shorthost, "Log::Fine::Formatter::Template");
+        can_ok($log_shorthost, "name");
+        can_ok($log_shorthost, "format");
+
         ok($log_shorthost->name() =~ /\w\d+$/);
 
         # long hostname
         my $log_longhost =
             Log::Fine::Formatter::Template->new(template => "%%HOSTLONG%%",
                                                 timestamp_format => "%Y%m%d");
-        ok($log_longhost->isa("Log::Fine::Formatter::Template"));
+        isa_ok($log_longhost, "Log::Fine::Formatter::Template");
+        can_ok($log_longhost, "name");
+        can_ok($log_longhost, "format");
+
         ok($log_longhost->name() =~ /\w\d+$/);
 
         # user
         my $log_user =
             Log::Fine::Formatter::Template->new(template         => "%%USER%%",
                                                 timestamp_format => "%Y%m%d");
-        ok($log_user->isa("Log::Fine::Formatter::Template"));
+        isa_ok($log_user, "Log::Fine::Formatter::Template");
+        can_ok($log_user, "name");
+        can_ok($log_user, "format");
+
         ok($log_user->name() =~ /\w\d+$/);
 
         # group
         my $log_group =
             Log::Fine::Formatter::Template->new(template         => "%%GROUP%%",
                                                 timestamp_format => "%Y%m%d");
-        ok($log_group->isa("Log::Fine::Formatter::Template"));
+        isa_ok($log_group, "Log::Fine::Formatter::Template");
+        can_ok($log_group, "name");
+        can_ok($log_group, "format");
+
         ok($log_group->name() =~ /\w\d+$/);
 
         # time
         my $log_time =
             Log::Fine::Formatter::Template->new(template         => "%%TIME%%",
                                                 timestamp_format => "%Y%m");
-        ok($log_time->isa("Log::Fine::Formatter::Template"));
+        isa_ok($log_time, "Log::Fine::Formatter::Template");
+        can_ok($log_time, "name");
+        can_ok($log_time, "format");
+
         ok($log_time->name() =~ /\w\d+$/);
 
         # Note we test time first to avoid a possible race condition
@@ -150,14 +177,21 @@ use Sys::Hostname;
                   template         => "[%%time%%] %%level%% %%msg%%",
                   timestamp_format => Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT
             );
-        ok($log_basic->isa("Log::Fine::Formatter::Template"));
+        isa_ok($log_basic, "Log::Fine::Formatter::Template");
+        can_ok($log_basic, "name");
+        can_ok($log_basic, "format");
+
         ok($log_basic->name() =~ /\w\d+$/);
         ok($log_basic->format(INFO, $msg, 1) =~ /^\[.*?\] \w+ $msg/);
 
         # Grab a logger
         my $logger = Log::Fine->logger("formatlogger0");
 
-        ok($logger->isa("Log::Fine::Logger"));
+        isa_ok($logger, "Log::Fine::Logger");
+        can_ok($logger, "name");
+        can_ok($logger, "registerHandle");
+        can_ok($logger, "log");
+
         ok($logger->name() =~ /\w\d+$/);
 
         # If logfile already exists, hose it
@@ -173,7 +207,9 @@ use Sys::Hostname;
 "[%%TIME%%] %%LEVEL%% %%SUBROUT%%:%%LINENO%% %%MSG%%\n",
                         timestamp_format => "%H:%M:%S"
                     ));
-        ok($handle->isa("Log::Fine::Handle::File"));
+        isa_ok($handle, "Log::Fine::Handle::File");
+        can_ok($handle, "name");
+
         ok($handle->name() =~ /\w\d+$/);
         $logger->registerHandle($handle);
 

@@ -222,3 +222,17 @@
    with a different facility so as to avoid the situation encoutered
    in [[https://rt.cpan.org/Ticket/Display.html%3Fid%3D63026][CPAN RT Ticket #63026]]
 
+* DONE [#B] Clean up unit tests                                       :tests:
+  CLOSED: [2011-03-28 Mon 16:07]
+  - CLOSING NOTE [2011-03-28 Mon 16:07] \\
+    Completed and merged
+
+  The unit tests aren't very consistent with regard to testing object
+  validity.  Perhaps standardize on $obj->isa("Foo::Bar")?
+
+* DONE [#C] Merge in readme-pod-format branch                           :pod:
+  CLOSED: [2011-03-28 Mon 16:07]
+  - CLOSING NOTE [2011-03-28 Mon 16:07] \\
+    Merged
+
+  Prior to next release, merge in readme-pod-format branch

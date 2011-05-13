@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::Simple tests => 15;
+use Test::More tests => 22;
 
 use File::Spec::Functions;
 use FileHandle;
@@ -23,7 +23,9 @@ use Log::Fine::Logger;
         # get a logger
         my $log = Log::Fine->logger("handlefile0");
 
-        ok(ref $log eq "Log::Fine::Logger");
+        isa_ok($log, "Log::Fine::Logger");
+        can_ok($log, "name");
+
         ok($log->name() =~ /\w\d+$/);
 
         # add a handle.  Note we use the default formatter.
@@ -32,7 +34,11 @@ use Log::Fine::Logger;
                                          autoflush => 1);
 
         # do some validation
-        ok($handle->isa("Log::Fine::Handle"));
+        isa_ok($handle, "Log::Fine::Handle");
+        can_ok($handle, "name");
+        can_ok($handle, "levelMap");
+        can_ok($handle, "msgWrite");
+
         ok($handle->name() =~ /\w\d+$/);
 
         # these should be set to their default values
@@ -55,7 +61,7 @@ use Log::Fine::Logger;
         my $fh = $handle->fileHandle();
 
         # see if a file handle was properly constructed
-        ok($fh->isa("IO::File"));
+        isa_ok($fh, "IO::File");
 
         # now check the file
         ok(-e $file);
@@ -66,7 +72,7 @@ use Log::Fine::Logger;
         $fh = FileHandle->new(catdir($handle->{dir}, $file));
 
         # see if a file handle was properly constructed
-        ok($fh->isa("IO::File"));
+        isa_ok($fh, "IO::File");
 
         # read in the file
         while (<$fh>) {
@@ -83,6 +89,10 @@ use Log::Fine::Logger;
                                          autoflush => 1,
                                          autoclose => 1
             );
+
+        isa_ok($closehandle, "Log::Fine::Handle::File");
+        can_ok($closehandle, "fileHandle");
+        can_ok($closehandle, "msgWrite");
 
         # grab a ref to the FileHandle object
         my $fh2 = $closehandle->fileHandle();

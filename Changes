@@ -1,7 +1,43 @@
 CHANGELOG
 
+2011-03-19  Christopher M. Fuhrman
+
+        * Add unit tests for non-default syslog facilities
+        * Cancel todo
+
+2011-03-18  Christopher M. Fuhrman
+
+        * :Fine::_fatal() will croak if called directly <Log>
+        * Close out name() task
+        * Test $obj->name()
+        * Add more unit tests
+        * perltidy
+        * Update with LOG-UTIL-LOGTRACKING changes
+        * Remove GetLogName()
+        * Implement Log::Fine::Utils::CurrentLogger()
+        * Add {no_croak} option to list of parameters accepted by OpenLog()
+        * Store pointer to current logger
+        * Further brainstorming
+        * Implement Log::Fine->name()
+        * Brainstorming
+        * Documentation consistency nit
+
+2011-03-11  Christopher M. Fuhrman
+
+        * Elaborate GetLogName() TODO
+        * Add TODO for GetLogName()
+        * Properly match date string when LC_TIME is set to de_DE.utf8
+
+2011-02-25  Christopher M. Fuhrman
+
+        * Document GetLogName()
+        * Add tests for GetLogName()
+        * Add new function, GetLogName()
+        * Comment out unused Data::Dumper module
+
 2011-02-08  Christopher M. Fuhrman
 
+        * Bump version
         * :Fine::Utils now supports multiple loggers <Log>
 
 2011-02-07  Christopher M. Fuhrman
