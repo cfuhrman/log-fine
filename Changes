@@ -1,7 +1,24 @@
 CHANGELOG
 
+2011-05-18  Christopher M. Fuhrman
+
+        * Auditing for documentation correctness
+
+2011-03-28  Christopher M. Fuhrman
+
+        * Update tasks
+        * Merge branch 'UNIT-TEST-CLEANUP-2011'
+        * Merge branch 'readme-pod-format'
+        * perltidy
+        * Switch to Test::More
+        * Add POD readme branch TODO
+        * Add TODO for unit tests
+        * Provide name() example usage
+        * Initial entry of README.pod
+
 2011-03-19  Christopher M. Fuhrman
 
+        * Bump version
         * Add unit tests for non-default syslog facilities
         * Cancel todo
 
