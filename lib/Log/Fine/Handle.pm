@@ -48,7 +48,7 @@ our $VERSION = $Log::Fine::VERSION;
 
 =head2 formatter
 
-Getter/Setter for the object's formatter attribute
+Getter/Setter for the objects formatter attribute
 
 =head3 Parameters
 
@@ -73,11 +73,11 @@ sub formatter
         my $formatter = shift;
 
         # if the first argument is a valid formatter, then set the
-        # object's formatter attribute appropriately
+        # objects formatter attribute appropriately
         $self->{formatter} = $formatter
             if (defined $formatter and $formatter->isa("Log::Fine::Formatter"));
 
-        # return the object's formatter attribute
+        # return the objects formatter attribute
         return $self->{formatter};
 
 }          # formatter()

@@ -355,7 +355,7 @@ sub _init
         # increment object count
         _incrObjectCount();
 
-        # we set the object's name unless it is already set for us
+        # we set the objects name unless it is already set for us
         unless (defined $self->{name} and $self->{name} =~ /\w/) {
 
                 # grab the class name

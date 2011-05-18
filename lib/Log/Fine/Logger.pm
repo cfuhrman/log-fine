@@ -196,7 +196,7 @@ See L<perlfunc/caller> for details
 
 =head3 Returns
 
-The object's skip attribute
+The objects skip attribute
 
 =cut
 

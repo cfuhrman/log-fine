@@ -23,13 +23,13 @@ applications.
     $handle->formatter( formatter => $formatter );
 
     # format a msg
-    my $str = $formatter->format(INFO, "Resistence is futile", 1);
+    my $str = $formatter->format(INFO, "Resistance is futile", 1);
 
 =head1 DESCRIPTION
 
 The basic formatter provides logging in the following format:
 
-    <[TIMESTAMP] <LEVEL> <MESSAGE>>
+    <[TIMESTAMP] <LEVEL> <MESSAGE>
 
 Note that this is the default format for L<Log::Fine::Handle> objects.
 
