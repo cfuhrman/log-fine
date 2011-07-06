@@ -31,9 +31,10 @@ Provides a functional wrapper around Log::Fine.
     OpenLog( handles  => [ $handle1, [$handle2], ... ],
              levelmap => "Syslog" );
 
-    # Open new logging object with name "aux"
+    # Open new logging object with name "aux".  Note this will switch
+    # the current logger to "aux"
     OpenLog( name => "aux",
-             handles  => [ $handle1, [$handle2], ... ],
+             handles  => [ $handle1, [[$handle2], [...] ]],
              levelmap => "Syslog" );
 
     # Grab a ref to active logger
@@ -89,7 +90,7 @@ our @EXPORT = qw( CurrentLogger ListLoggers Log OpenLog );
         sub _logfine
         {
                 $logfine = $_[0]
-                    if (defined $_[0] and $_[0]->isa("Log::Fine"));
+                    if (defined $_[0] and ref $_[0] eq "Log::Fine");
 
                 return $logfine;
         }
@@ -98,7 +99,7 @@ our @EXPORT = qw( CurrentLogger ListLoggers Log OpenLog );
         sub _logger
         {
                 $logger = $_[0]
-                    if (defined $_[0] and $_[0]->isa("Log::Fine::Logger"));
+                    if (defined $_[0] and ref $_[0] eq "Log::Fine::Logger");
 
                 return $logger;
         }
@@ -345,7 +346,7 @@ L<perl>, L<Log::Fine>, L<Log::Fine::Handle>, L<Log::Fine::Logger>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2008, 2010 Christopher M. Fuhrman, 
+Copyright (c) 2008, 2010, 2011 Christopher M. Fuhrman, 
 All rights reserved
 
 This program is free software licensed under the...
