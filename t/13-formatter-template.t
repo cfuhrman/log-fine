@@ -167,7 +167,7 @@ use Sys::Hostname;
                     if ($^O eq "MSWin32");
 
                 ok($log_user->format(INFO, $msg, 0) eq getpwuid($<));
-                ok($log_group->format(INFO, $msg, 0) eq getgrgid($());
+                ok($log_group->format(INFO, $msg, 0) eq getgrgid((split(" ", $())[0]));
 
         }
 

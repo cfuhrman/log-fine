@@ -232,14 +232,14 @@ sub _groupName
                 return $self->{_groupName};
         } elsif ($self->{use_effective_id}) {
                 $self->{_groupName} =
-                    ($^O eq "MSWin32")
-                    ? $ENV{EGID}   || 0
-                    : getgrgid($)) || "nogroup";
+                      ($^O eq "MSWin32")
+                    ? (split(" ", $ENV{EGID}))[0] || 0
+                    : getgrgid((split(" ", $)))[0]) || "nogroup";
         } else {
                 $self->{_groupName} =
-                    ($^O eq "MSWin32")
-                    ? $ENV{GID} || 0
-                    : getgrgid($() || "nogroup";
+                      ($^O eq "MSWin32")
+                    ? (split(" ", $ENV{GID}))[0] || 0
+                    : getgrgid((split(" ", $())[0]) || "nogroup";
         }
 
         return $self->{_groupName};
