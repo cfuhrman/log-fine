@@ -1,7 +1,20 @@
 CHANGELOG
 
+2011-07-22  Christopher M. Fuhrman
+
+        * When getting the group IDs, be sure to use the FIRST value returned
+
+2011-07-12  Christopher M. Fuhrman
+
+        * Grammar
+
+2011-07-06  Christopher M. Fuhrman
+
+        * Use ref to determine object type
+
 2011-05-18  Christopher M. Fuhrman
 
+        * Bump version
         * Auditing for documentation correctness
 
 2011-03-28  Christopher M. Fuhrman
