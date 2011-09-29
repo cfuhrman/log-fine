@@ -160,15 +160,7 @@ not defined
 
 =cut
 
-sub levelToValue
-{
-
-        my $self = shift;
-        my $lvl  = shift;
-
-        return $self->LVLTOVAL_MAP->{$lvl};
-
-}          # levelToValue()
+sub levelToValue { return $_[0]->LVLTOVAL_MAP->{ $_[1] }; }
 
 =head2 logLevels
 
@@ -243,15 +235,7 @@ not defined
 
 =cut
 
-sub maskToValue
-{
-
-        my $self = shift;
-        my $mask = shift;
-
-        return $self->MASK_MAP->{$mask};
-
-};          # maskToValue()
+sub maskToValue { return $_[0]->MASK_MAP->{ $_[1] }; }
 
 =head2 valueToLevel
 
@@ -274,15 +258,7 @@ value is not defined
 
 =cut
 
-sub valueToLevel
-{
-
-        my $self = shift;
-        my $val  = shift;
-
-        return $self->VALTOLVL_MAP->{$val}
-
-}          # valueToLevel()
+sub valueToLevel { return $_[0]->VALTOLVL_MAP->{ $_[1] }; }
 
 =head1 BUGS
 

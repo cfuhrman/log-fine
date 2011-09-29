@@ -125,7 +125,7 @@ Currently active L<Log::Fine::Logger> object
 
 =cut
 
-sub CurrentLogger { return _logger() }
+sub CurrentLogger { return _logger(); }
 
 =head2 ListLoggers
 
