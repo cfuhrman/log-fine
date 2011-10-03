@@ -31,10 +31,12 @@ WriteMakefile(
 "https://github.com/cfuhrman/log-fine/raw/master/LICENSE"
                 },
                 'recommends' => {
-                                  'Test::Output'  => 0.10,
-                                  'Pod::Coverage' => 0.19,
-                                  'Test::Pod'     => 1.14,
-                                  'Time::HiRes'   => 1.86
+                                  'Test::Output'          => 0.10,
+                                  'Pod::Coverage'         => 0.19,
+                                  'Test::Pod'             => 1.14,
+                                  'Time::HiRes'           => 1.86,
+                                  'Email::Sender'         => 0.110000,
+                                  'Mail::RFC822::Address' => 0.3,
                 }
         },
         dist => {

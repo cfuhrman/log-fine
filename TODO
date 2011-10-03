@@ -236,3 +236,21 @@
     Merged
 
   Prior to next release, merge in readme-pod-format branch
+
+* DONE [#B] More tests for L::F::H::E                                 :tests:
+  CLOSED: [2011-10-24 Mon 16:41]
+  - CLOSING NOTE [2011-10-24 Mon 16:41] \\
+    Closing task
+
+  Add author-specific tests for Log::Fine::Handle::Email, more
+  specifically, email tests that actually generate email via
+  Email::Sender::Transport::SMTP or
+  Email::Sender::Transport::Sendmail.
+
+  These tests should be enabled via a special environmental variable,
+  say, ENABLE_AUTHOR_TESTS
+
+** Task Log
+
+   [2011-10-20 Thu 12:07] New file, t/16-handle-email-smtp.t created
+   which generates an email.  Verified working.
