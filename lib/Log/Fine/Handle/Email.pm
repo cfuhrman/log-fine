@@ -11,6 +11,7 @@ Provides messaging to one or more email addresses.
     use Email::Sender::Transport::SMTP qw();
     use Log::Fine;
     use Log::Fine::Handle::Email;
+    use Log::Fine::Levels::Syslog;
 
     # Get a new logger
     my $log = Log::Fine->logger("foo");
@@ -78,6 +79,21 @@ are I<strongly> encouraged to read the following documentation:
 
 =back
 
+Be especially mindful of the following environment variables as they
+will take precedence when defining a transport:
+
+=over
+
+=item  * C<EMAIL_SENDER_TRANSPORT>
+
+=item  * C<EMAIL_SENDER_TRANSPORT_host>
+
+=item  * C<EMAIL_SENDER_TRANSPORT_port>
+
+=back
+
+See L<Email::Sender::Manual::Quickstart> for further details.
+
 =head2 Constructor Parameters
 
 The following parameters can be passed to
@@ -131,8 +147,8 @@ package Log::Fine::Handle::Email;
 
 use base qw( Log::Fine::Handle );
 
-use Email::Sender::Simple qw(sendmail);
-use Email::Simple;
+#use Email::Sender::Simple qw(sendmail);
+#use Email::Simple;
 use Mail::RFC822::Address qw(valid validlist);
 use Log::Fine;
 use Sys::Hostname;
@@ -182,6 +198,18 @@ sub _init
         # call the super object
         $self->SUPER::_init();
 
+        # verify that we can load the Email::Sender Module
+        eval "require Email::Sender::Simple qw(sendmail)";
+        $self->_fatal(
+"Email::Sender failed to load.  Please install Email::Sender via CPAN : $@"
+        ) if $@;
+
+        # verify that we can load the Email::Simple Module
+        eval "require Email::Simple";
+        $self->_fatal(
+"Email::Simple failed to load.  Please install Email::Simple via CPAN : $@"
+        ) if $@;
+
         # Validate To address
         $self->_fatal("Invalid destination email address : $self->{email_to}")
             unless (
@@ -217,7 +245,8 @@ sub _init
 
         return $self;
 
-}          # _init()
+}
+          # _init()
 
 ##
 # Getter/Setter for hostname
