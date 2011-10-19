@@ -19,16 +19,16 @@ Provides messaging to one or more email addresses.
     # Create a formatter object for subject line
     my $subjfmt = Log::Fine::Formatter::Template
         ->new( name     => 'template1',
-               template => '%%LEVEL%% : The angels have my blue box" );
+               template => "%%LEVEL%% : The angels have my blue box" );
 
     # Create a formatted msg template
-    my $msgtmpl = <<EOF
+    my $msgtmpl = <<EOF;
     The program, $0, has encountered the following error condition:
 
     %%MSG%% at %%TIME%%
 
     Contact Operations at 1-800-555-5555 immediately!
-EOF;
+EOF
 
     my $bodyfmt = Log::Fine::Formatter::Template
         ->new( name     => 'template2',
@@ -54,7 +54,7 @@ EOF;
     $log->registerHandle($handle);
 
     # log something
-    $log->(CRIT, "Beware the weeping angels");
+    $log->log(CRIT, "Beware the weeping angels");
 
 =head1 DESCRIPTION
 
@@ -147,10 +147,10 @@ package Log::Fine::Handle::Email;
 
 use base qw( Log::Fine::Handle );
 
-#use Email::Sender::Simple qw(sendmail);
-#use Email::Simple;
+#use Data::Dumper;
 use Mail::RFC822::Address qw(valid validlist);
 use Log::Fine;
+use Log::Fine::Formatter;
 use Sys::Hostname;
 
 our $VERSION = $Log::Fine::Handle::VERSION;
@@ -173,15 +173,16 @@ sub msgWrite
 
         my $email =
             Email::Simple->create(
-                  header => [
-                         To      => $self->{email_to},
-                         From    => $self->{email_from},
-                         Subject => $self->{formatter}->format($lvl, "", $skip),
-                  ],
-                  body => $self->{formatter}->format($lvl, $msg, $skip),
+                 header => [
+                        To   => $self->{email_to},
+                        From => $self->{email_from},
+                        Subject =>
+                            $self->{subject_formatter}->format($lvl, "", $skip),
+                 ],
+                 body => $self->{body_formatter}->format($lvl, $msg, $skip),
             );
 
-        sendmail($email);
+        $self->{transport}->send_email($email);
 
 }          # msgWrite()
 
@@ -199,7 +200,7 @@ sub _init
         $self->SUPER::_init();
 
         # verify that we can load the Email::Sender Module
-        eval "require Email::Sender::Simple qw(sendmail)";
+        eval "require Email::Sender";
         $self->_fatal(
 "Email::Sender failed to load.  Please install Email::Sender via CPAN : $@"
         ) if $@;
@@ -220,16 +221,21 @@ sub _init
 
         # Validate From address
         unless (    defined $self->{email_from}
-                and $self->{email_from} eq /\w/
+                and $self->{email_from} =~ /\w/
                 and valid($self->{email_from})) {
                 $self->{email_from} =
                     printf("%s@%s", $self->_userName(), $self->_hostName());
         }
 
         # Validate Transport
-        $self->_fatal("Invalid Transport Object")
-            if (defined $self->{transport}
-                and !$self->{transport}->isa("Email::Sender::Transport"));
+        if (not defined $self->{transport}) {
+                $self->_fatal(
+"{transport} must be a valid Email::Sender::Transport object");
+        } else {
+                my $transtype = ref $self->{transport} || "{undef}";
+                $self->_fatal("Invalid Transport Object : $transtype")
+                    unless ($transtype =~ /^Email\:\:Sender\:\:Transport/);
+        }
 
         # Validate subject formatter
         $self->_fatal(
@@ -239,14 +245,14 @@ sub _init
 
         # Validate body formatter
         $self->_fatal(
-                 "{body_formatter} must be a valid Log::Fine::Formatter object")
+"{body_formatter} must be a valid Log::Fine::Formatter object : "
+                    . ref $self->{body_formatter} || "{undef}")
             unless (defined $self->{body_formatter}
                     and $self->{body_formatter}->isa("Log::Fine::Formatter"));
 
         return $self;
 
-}
-          # _init()
+}          # _init()
 
 ##
 # Getter/Setter for hostname
