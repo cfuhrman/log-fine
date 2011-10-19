@@ -110,7 +110,7 @@ not specified.
 
 Mask to set the handle to (see L<Log::Fine::Handle>)
 
-=item  * subj_formatter
+=item  * subject_formatter
 
 A Log::Fine::Formatter object.  This template will be used to format
 the Email Subject Line.
@@ -120,12 +120,12 @@ the Email Subject Line.
 A Log::Fine::Formatter object.  This template will be used to format
 the body of the message.
 
-=item  * from
+=item  * email_from
 
 The person sending the email.  Will default to the current user at
 current host.
 
-=item  * to
+=item  * email_to
 
 The intended destination.  Note this value is passed directly to
 Email::Sender::Simple->create() and can be either a string or an array
@@ -360,7 +360,7 @@ This program is free software licensed under the...
 	The BSD License
 
 The full text of the license can be found in the
-LICENSE email included with this module.
+LICENSE file included with this module.
 
 =cut
 
