@@ -12,13 +12,7 @@ use Test::More;
 
 {
 
-        $ENV{LOG_FINE_TEST_EMAIL} = 0
-            unless defined $ENV{LOG_FINE_TEST_EMAIL};
-
         # Check environmental variables
-        plan skip_all =>
-            "Set LOG_FINE_TEST_EMAIL to non-zero value to enable testing"
-            unless ($ENV{LOG_FINE_TEST_EMAIL});
         plan skip_all =>
             "Unset EMAIL_SENDER_TRANSPORT prior to running this test"
             if defined $ENV{EMAIL_SENDER_TRANSPORT};
