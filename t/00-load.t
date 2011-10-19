@@ -10,7 +10,6 @@ BEGIN {
         use_ok('Log::Fine::Formatter::Syslog');
         use_ok('Log::Fine::Formatter::Template');
         use_ok('Log::Fine::Handle');
-        use_ok('Log::Fine::Handle::Email');
         use_ok('Log::Fine::Handle::File');
         use_ok('Log::Fine::Handle::File::Timestamp');
         use_ok('Log::Fine::Handle::Console');
@@ -21,6 +20,23 @@ BEGIN {
         use_ok('Log::Fine::Levels::Java');
         use_ok('Log::Fine::Logger');
         use_ok('Log::Fine::Utils');
+
+    SKIP: {
+
+                eval "use Email::Sender";
+                skip "Email::Sender required for testing Email delivery", 1
+                    if $@;
+
+                eval "use Mail::RFC822::Address";
+                skip
+                    "Mail::RFC822::Address required for testing Email delivery",
+                    1
+                    if $@;
+
+                use_ok('Log::Fine::Handle::Email');
+
+        }
+
 }
 
 diag("Testing Log::Fine $Log::Fine::VERSION, Perl $], $^X");
