@@ -41,13 +41,15 @@ Provides messaging to one or more email addresses.
         ->new( name => 'email0',
                mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT,
                subject_formatter => $subjfmt,
-               body_formatter => $bodyfmt,
-               transport => Email::Sender::Transport::SMTP->new({
-                   host => smtp.example.com,
-                   port => 25,
-                }),
-               email_from => "alerts@example.com",
-               email_to => [ "critical_alerts@example.com" ],
+               body_formatter    => $bodyfmt,
+               header_from       => "alerts@example.com",
+               header_to         => [ "critical_alerts@example.com" ],
+               envelope          =>
+                 { to   => [ "critical_alerts@example.com" ],
+                   from => "alerts@example.com",
+                   transport =>
+                     Email::Sender::Transport::SMTP->new({ host => 'smtp.example.com' }),
+                 }
              );
 
     # register the handle
@@ -112,29 +114,43 @@ Mask to set the handle to (see L<Log::Fine::Handle>)
 
 =item  * subject_formatter
 
-A Log::Fine::Formatter object.  This template will be used to format
-the Email Subject Line.
+A Log::Fine::Formatter object.  Will be used to format the Email
+Subject Line.
 
 =item  * body_formatter
 
-A Log::Fine::Formatter object.  This template will be used to format
-the body of the message.
+A Log::Fine::Formatter object.  Will be used to format the body of the
+message.
 
-=item  * email_from
+=item  * header_from
 
-The person sending the email.  Will default to the current user at
-current host.
+String containing text to be placed in "From" header of generated
+email.
 
-=item  * email_to
+=item  * header_to
 
-The intended destination.  Note this value is passed directly to
-Email::Sender::Simple->create() and can be either a string or an array
-ref containing one or more email addresses.
+String containing text to be placed in "To" header of generated email.
+
+=item  * envelope
+
+[optional] hash ref containing envelope information for email:
+
+=over 8
+
+=item  + to
+
+array ref containing one or more destination addresses
+
+=item  + from
+
+String containing email sender
 
 =item  * transport
 
-[optional] An L<Email::Sender::Transport> object.  See
-L<Email::Sender::Manual> for further details.
+An L<Email::Sender::Transport> object.  See L<Email::Sender::Manual>
+for further details.
+
+=back
 
 =back
 
@@ -148,6 +164,8 @@ package Log::Fine::Handle::Email;
 use base qw( Log::Fine::Handle );
 
 #use Data::Dumper;
+use Email::Sender::Simple qw(sendmail);
+use Email::Simple;
 use Mail::RFC822::Address qw(valid validlist);
 use Log::Fine;
 use Log::Fine::Formatter;
@@ -174,15 +192,15 @@ sub msgWrite
         my $email =
             Email::Simple->create(
                  header => [
-                        To   => $self->{email_to},
-                        From => $self->{email_from},
+                        To   => $self->{header_to},
+                        From => $self->{header_from},
                         Subject =>
                             $self->{subject_formatter}->format($lvl, "", $skip),
                  ],
                  body => $self->{body_formatter}->format($lvl, $msg, $skip),
             );
 
-        $self->{transport}->send_email($email);
+        sendmail($email, $self->{envelope});
 
 }          # msgWrite()
 
@@ -199,42 +217,54 @@ sub _init
         # call the super object
         $self->SUPER::_init();
 
-        # verify that we can load the Email::Sender Module
-        eval "require Email::Sender";
-        $self->_fatal(
-"Email::Sender failed to load.  Please install Email::Sender via CPAN : $@"
-        ) if $@;
-
-        # verify that we can load the Email::Simple Module
-        eval "require Email::Simple";
-        $self->_fatal(
-"Email::Simple failed to load.  Please install Email::Simple via CPAN : $@"
-        ) if $@;
-
-        # Validate To address
-        $self->_fatal("Invalid destination email address : $self->{email_to}")
-            unless (
-                  defined $self->{email_to}
-                  and (($self->{email_to} =~ /\w/ and valid($self->{email_to}))
-                       or (ref $self->{email_to} eq "ARRAY"
-                           and validlist(join(", ", @{ $self->{email_to} })))));
+        # Make sure envelope is defined
+        $self->{envelope} ||= {};
 
         # Validate From address
-        unless (    defined $self->{email_from}
-                and $self->{email_from} =~ /\w/
-                and valid($self->{email_from})) {
-                $self->{email_from} =
+        if (not defined $self->{header_from}) {
+                $self->{header_from} =
                     printf("%s@%s", $self->_userName(), $self->_hostName());
+        } elsif (defined $self->{header_from}
+                 and not valid($self->{header_from})) {
+                $self->_fatal(
+                         "{header_from} must be a valid RFC 822 Email Address");
         }
 
-        # Validate Transport
-        if (not defined $self->{transport}) {
+        # Validate To address
+        $self->_fatal("{header_to} must be a valid RFC 822 Email Address")
+            unless (    defined $self->{header_to}
+                    and $self->{header_to} =~ /\w/
+                    and valid($self->{header_to}));
+
+        # Check envelope
+        $self->_fatal("{envelope} must be a valid hash ref")
+            unless (defined $self->{envelope}
+                    and ref $self->{envelope} eq "HASH");
+
+        # Grab a ref to envelope
+        my $envelope = $self->{envelope};
+
+        # Check Envelope Transport
+        if (defined $envelope->{transport}) {
+                my $transtype = ref $envelope->{transport};
                 $self->_fatal(
-"{transport} must be a valid Email::Sender::Transport object");
-        } else {
-                my $transtype = ref $self->{transport} || "{undef}";
-                $self->_fatal("Invalid Transport Object : $transtype")
-                    unless ($transtype =~ /^Email\:\:Sender\:\:Transport/);
+"{envelope}->{transport} must be a valid Email::Sender::Transport object : $transtype"
+                ) unless ($transtype =~ /^Email\:\:Sender\:\:Transport/);
+        }
+
+        # Check Envelope To
+        if (defined $envelope->{to}) {
+                $self->_fatal(
+"{envelope}->{to} must be an array ref containing one or more valid RFC 822 email addresses"
+                    )
+                    unless (ref $envelope->{to} eq "ARRAY"
+                            and validlist($envelope->{to}));
+        }
+
+        if (defined $envelope->{from}) {
+                $self->_fatal(
+"{envelope}->{from} must be a valid RFC 822 Email Address"
+                ) unless valid($envelope->{from});
         }
 
         # Validate subject formatter

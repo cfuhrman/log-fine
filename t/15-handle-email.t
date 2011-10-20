@@ -4,6 +4,8 @@
 # $Id$
 #
 
+BEGIN { $ENV{EMAIL_SENDER_TRANSPORT} = 'Test' }
+
 #use Data::Dumper;
 use Log::Fine;
 use Log::Fine::Formatter::Template;
@@ -11,11 +13,6 @@ use Log::Fine::Levels::Syslog qw( :macros :masks );
 use Test::More;
 
 {
-
-        # Check environmental variables
-        plan skip_all =>
-            "Unset EMAIL_SENDER_TRANSPORT prior to running this test"
-            if defined $ENV{EMAIL_SENDER_TRANSPORT};
 
         # See if we have Email::Sender installed
         eval "require Email::Sender";
@@ -31,7 +28,7 @@ use Test::More;
                         plan skip_all =>
 "Mail::RFC822::Address is not installed.  Unable to test Log::Fine::Handle::Email";
                 } else {
-                        plan tests => 8;
+                        plan tests => 7;
                 }
         }
 
@@ -83,22 +80,22 @@ EOF
                            mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT,
                            subject_formatter => $subjfmt,
                            body_formatter    => $bodyfmt,
-                           transport  => Email::Sender::Transport::Test->new(),
-                           email_from => $user,
-                           email_to   => $user
+                           header_from       => $user,
+                           header_to         => $user,
             );
 
         isa_ok($handle, "Log::Fine::Handle::Email");
-        can_ok($handle->{transport}, "send_email");
 
         # register the handle
         $log->registerHandle($handle);
 
-        $log->log(DEBG, "Debugging 14-handle-email.t");
-        ok(scalar @{ $handle->{transport}->{deliveries} } == 0);
+        $log->log(DEBG, "Debugging 15-handle-email.t");
+        ok( scalar @{ Email::Sender::Simple->default_transport->deliveries } ==
+                0);
 
         $log->log(CRIT, "Beware the weeping angels");
-        ok(scalar @{ $handle->{transport}->{deliveries} } == 1);
+        ok( scalar @{ Email::Sender::Simple->default_transport->deliveries } ==
+                1);
 
         #print STDERR Dumper $handle->{transport};
 
