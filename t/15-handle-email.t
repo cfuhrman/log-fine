@@ -53,7 +53,7 @@ use Test::More;
 
         # Create a formatted msg template
         my $msgtmpl = <<EOF;
-This is a test of Log::Fine::Handle::EMail.  The following message was
+This is a test of Log::Fine::Handle::Email.  The following message was
 delivered at %%TIME%%:
 
 --------------------------------------------------------------------
