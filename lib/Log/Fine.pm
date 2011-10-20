@@ -57,6 +57,11 @@ ways. Currently, the following handles are provided:
 
 Provides logging to C<STDERR> or C<STDOUT>
 
+=item  * L<Log::Fine::Handle::Email|Log::Fine::Handle::Email>
+
+Provides logging via email.  Useful for delivery to one or more pager
+addresses.
+
 =item  * L<Log::Fine::Handle::File|Log::Fine::Handle::File>
 
 Provides logging to a file
