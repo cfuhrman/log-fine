@@ -236,3 +236,12 @@
     Merged
 
   Prior to next release, merge in readme-pod-format branch
+* TODO [#B] More tests for L::F::H::E                                 :tests:
+
+  Add author-specific tests for Log::Fine::Handle::Email, more
+  specifically, email tests that actually generate email via
+  Email::Sender::Transport::SMTP or
+  Email::Sender::Transport::Sendmail.
+
+  These tests should be enabled via a special environmental variable,
+  say, ENABLE_AUTHOR_TESTS
