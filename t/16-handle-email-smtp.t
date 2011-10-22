@@ -16,7 +16,7 @@ use Test::More;
             unless defined $ENV{ENABLE_AUTHOR_TESTS};
 
         # Check environmental variables
-        plan skip_all => "Author only tests"
+        plan skip_all => "these tests are for testing by the author"
             unless $ENV{ENABLE_AUTHOR_TESTS};
         plan skip_all =>
             "Unset EMAIL_SENDER_TRANSPORT prior to running this test"
