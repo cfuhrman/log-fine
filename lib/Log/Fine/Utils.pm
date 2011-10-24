@@ -10,13 +10,15 @@ Provides a functional wrapper around Log::Fine.
     use Log::Fine::Handle;
     use Log::Fine::Handle::File;
     use Log::Fine::Handle::Syslog;
+    use Log::Fine::Levels::Syslog;
     use Log::Fine::Utils;
+    use Sys::Syslog;
 
     # set up some handles as you normally would.  First, a handler for
     # file logging:
     my $handle1 = Log::Fine::Handle::File
         ->new( name      => "file0",
-               mask      => Log::Fine::Handler->LOGMASK_ALL,
+               mask      => Log::Fine::Levels::Syslog->bitmaskAll(),
                formatter => Log::Fine::Formatter::Basic->new() );
 
     # and now a handle for syslog
