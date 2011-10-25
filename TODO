@@ -237,7 +237,10 @@
 
   Prior to next release, merge in readme-pod-format branch
 
-* TODO [#B] More tests for L::F::H::E                                 :tests:
+* DONE [#B] More tests for L::F::H::E                                 :tests:
+  CLOSED: [2011-10-24 Mon 16:41]
+  - CLOSING NOTE [2011-10-24 Mon 16:41] \\
+    Closing task
 
   Add author-specific tests for Log::Fine::Handle::Email, more
   specifically, email tests that actually generate email via

@@ -105,7 +105,7 @@ Log::Fine::Handle::Email->new();
 
 =item  * name
 
-[optional] Name of this object (see L<Log::Fine>).  Will be autoset if
+[optional] Name of this object (see L<Log::Fine>).  Will be auto-set if
 not specified.
 
 =item  * mask
