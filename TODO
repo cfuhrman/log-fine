@@ -254,3 +254,14 @@
 
    [2011-10-20 Thu 12:07] New file, t/16-handle-email-smtp.t created
    which generates an email.  Verified working.
+
+* TODO [#B] Figure out what to do with Log::Fine::Handle::File::Timestamp :handle:
+
+  Need to figure out what can be done with
+  Log::Fine::Handle::File::Timestamp which suffers from two issues:
+
+   1. The filename given is actually a date-stamp rather than a
+      time-stamp.
+
+   2. The filename will only change if the DATE changes, but not any
+      other values, such as hour or minute.
