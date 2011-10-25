@@ -255,7 +255,10 @@
    [2011-10-20 Thu 12:07] New file, t/16-handle-email-smtp.t created
    which generates an email.  Verified working.
 
-* TODO [#B] Figure out what to do with Log::Fine::Handle::File::Timestamp :handle:
+* DONE [#B] Figure out what to do with Log::Fine::Handle::File::Timestamp :handle:
+  CLOSED: [2011-10-25 Tue 16:48]
+  - CLOSING NOTE [2011-10-25 Tue 16:48] \\
+    Completed
 
   Need to figure out what can be done with
   Log::Fine::Handle::File::Timestamp which suffers from two issues:
