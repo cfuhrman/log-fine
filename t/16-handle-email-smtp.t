@@ -18,6 +18,8 @@ use Test::More;
         # Check environmental variables
         plan skip_all => "these tests are for testing by the author"
             unless $ENV{ENABLE_AUTHOR_TESTS};
+        plan skip_all => "cannot test SMTP under MsWin32 or cygwin"
+                if (($^O eq "MSWin32") || ($^O eq "cygwin"));
         plan skip_all =>
             "Unset EMAIL_SENDER_TRANSPORT prior to running this test"
             if defined $ENV{EMAIL_SENDER_TRANSPORT};
