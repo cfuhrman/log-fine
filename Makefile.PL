@@ -37,6 +37,7 @@ WriteMakefile(
                                   'Time::HiRes'           => 1.86,
                                   'Email::Sender'         => 0.110000,
                                   'Mail::RFC822::Address' => 0.3,
+                                  'Throwable'             => 0.102080,
                 }
         },
         dist => {
