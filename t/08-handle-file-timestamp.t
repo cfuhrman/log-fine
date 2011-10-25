@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 13;
+use Test::More tests => 15;
 
 use File::Spec::Functions;
 
@@ -18,6 +18,7 @@ use POSIX qw( strftime );
 {
 
         my $base = "fine.%y%m%d.log";
+        my $timebase = "fine.%Y%m%d%H%M%S.log";
         my $msg  = "We're so miserable it's stunning";
 
         # add a handle.  Note we use the default formatter.
@@ -71,4 +72,28 @@ use POSIX qw( strftime );
         # clean up
         $fh->close();
         unlink $file;
+
+        # Okay, now test with a different file name that changes per minute
+        # add a handle.  Note we use the default formatter.
+        my $timehandle =
+            Log::Fine::Handle::File::Timestamp->new(file      => $timebase,
+                                                    autoflush => 1);
+
+        isa_ok($timehandle, "Log::Fine::Handle");
+
+        # Write out a couple of files
+        $timehandle->msgWrite(INFO, $msg, 1);
+        my $t1 = $timehandle->{_expanded_filename};
+        sleep 1;
+
+        $timehandle->msgWrite(NOTI, $msg, 1);
+        my $t2 = $timehandle->{_expanded_filename};
+
+        ok($t1 ne $t2);
+
+        # Clean up
+        $timehandle->{_filehandle}->close();
+        unlink $t1;
+        unlink $t2;
+
 }
