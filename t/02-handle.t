@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 23;
+use Test::More tests => 24;
 
 #use Data::Dumper;
 use Log::Fine;
@@ -36,7 +36,8 @@ use Log::Fine::Levels::Syslog qw( :macros :masks );
         ok($handle->name() =~ /\w\d+$/);
 
         # make sure all methods are supported
-        can_ok($handle, $_) foreach (qw/ isLoggable msgWrite formatter /);
+        can_ok($handle, $_)
+            foreach (qw/ isLoggable msgWrite formatter bitmaskListEnabled /);
 
         $handle->formatter(Log::Fine::Formatter::Basic->new());
         ok($handle->formatter()->isa("Log::Fine::Formatter"));
