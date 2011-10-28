@@ -268,3 +268,16 @@
 
    2. The filename will only change if the DATE changes, but not any
       other values, such as hour or minute.
+* TODO [#C] Add method to print out log masks?                        :masks:
+
+  Have a method, ~bitmaskListEnabled()~, in Log::Fine::Handle to return
+  an array ref of defined logging masks.
+
+  For example:
+
+    #+begin_src perl
+    my @currentmasks = @{ $handle->bitmaskListEnabled() };
+    #+end_src
+
+  Need to figure out if I'm going to add this to 0.57 or save this
+  functionality for 0.58.
