@@ -268,7 +268,13 @@
 
    2. The filename will only change if the DATE changes, but not any
       other values, such as hour or minute.
-* TODO [#C] Add method to print out log masks?                        :masks:
+
+* DONE [#C] Add method to print out log masks?                        :masks:
+  CLOSED: [2011-10-28 Fri 14:11]
+  - CLOSING NOTE [2011-10-28 Fri 14:12] \\
+    Created new handle method, ~bitmaskListEnabled()~, which will return
+    an array (not an array ref) of enabled bitmasks for a given handle.
+    Also added associated unit tests.
 
   Have a method, ~bitmaskListEnabled()~, in Log::Fine::Handle to return
   an array ref of defined logging masks.
