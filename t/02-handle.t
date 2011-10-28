@@ -4,8 +4,9 @@
 # $Id$
 #
 
-use Test::More tests => 14;
+use Test::More tests => 23;
 
+#use Data::Dumper;
 use Log::Fine;
 use Log::Fine::Handle;
 use Log::Fine::Handle::String;
@@ -41,6 +42,38 @@ use Log::Fine::Levels::Syslog qw( :macros :masks );
         ok($handle->formatter()->isa("Log::Fine::Formatter"));
         ok($handle->isLoggable(CRIT));
         ok(!$handle->isLoggable(DEBG));
+
+        my @masks        = $handle->levelMap()->logMasks();
+        my @enabledmasks = $handle->bitmaskListEnabled();
+
+        ok(scalar @enabledmasks == 4);          # remember, our handle defined
+                                                # above only has 4 bitor'd masks
+
+        foreach my $mask (@enabledmasks) {
+                ok(
+                    $handle->isLoggable(
+                                  log($handle->levelMap()->maskToValue($mask)) /
+                                      log(2) - 1
+                    ));
+        }
+
+        # Get difference of arrays
+        my @union = my @intersection = my @difference = ();
+        my %count = ();
+        foreach my $element (@masks, @enabledmasks) { $count{$element}++ }
+        foreach my $element (keys %count) {
+                push @union, $element;
+                push @{ $count{$element} > 1 ? \@intersection : \@difference },
+                    $element;
+        }
+
+        foreach my $mask (@difference) {
+                ok(
+                    !$handle->isLoggable(
+                                  log($handle->levelMap()->maskToValue($mask)) /
+                                      log(2) - 1
+                    ));
+        }
 
     SKIP: {
 
