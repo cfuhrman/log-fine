@@ -46,6 +46,39 @@ our $VERSION = $Log::Fine::VERSION;
 
 =head1 METHODS
 
+=head2 bitmaskListEnabled
+
+Gets a list of enabled bit masks
+
+=head3 Returns
+
+An array containing a list of strings representing bitmasks
+enabled for this handle
+
+=cut
+
+sub bitmaskListEnabled
+{
+
+        my $self     = shift;
+        my $map      = $self->levelMap();
+        my @bitmasks = ();
+
+        # reminder: log() here is the perl logarthmic function (see
+        # perlfunc(3)) and is not to be confused with the name of this
+        # module ;)
+        foreach my $maskname ($map->logMasks()) {
+                push @bitmasks, $maskname
+                    if $self->isLoggable(
+                                    log($map->maskToValue($maskname)) / log(2) -
+                                        1
+                    );
+        }
+
+        return @bitmasks;
+
+}          # bitmaskListEnabled()
+
 =head2 formatter
 
 Getter/Setter for the objects formatter attribute

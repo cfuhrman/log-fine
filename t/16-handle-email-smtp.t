@@ -19,7 +19,9 @@ use Test::More;
         plan skip_all => "these tests are for testing by the author"
             unless $ENV{ENABLE_AUTHOR_TESTS};
         plan skip_all => "cannot test SMTP under MsWin32 or cygwin"
-                if (($^O eq "MSWin32") || ($^O eq "cygwin"));
+            if (($^O eq "MSWin32") || ($^O eq "cygwin"));
+        plan skip_all => "Email handle only supported in perl 5.8.3 or above"
+            if $^V lt v5.8.3;
         plan skip_all =>
             "Unset EMAIL_SENDER_TRANSPORT prior to running this test"
             if defined $ENV{EMAIL_SENDER_TRANSPORT};

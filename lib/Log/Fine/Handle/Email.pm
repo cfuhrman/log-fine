@@ -161,6 +161,8 @@ use warnings;
 
 package Log::Fine::Handle::Email;
 
+use 5.008_003;          # Email::Sender requires Moose which requires 5.8.3
+
 use base qw( Log::Fine::Handle );
 
 #use Data::Dumper;

@@ -43,29 +43,12 @@ package Log::Fine::Handle::File::Timestamp;
 
 use base qw( Log::Fine::Handle::File );
 
+#use Data::Dumper;
 use File::Spec::Functions;
 use FileHandle;
 use POSIX qw( strftime );
 
 our $VERSION = $Log::Fine::Handle::File::VERSION;
-
-# Constant: TODAY_FORMAT
-#
-# strftime-compatible format for today's date.
-
-use constant TODAY_FORMAT => "%Y%m%d";
-
-# Private Methods
-# --------------------------------------------------------------------
-
-{
-
-        my $today;
-
-        # getter/setter for today.
-        sub _Today { $today = shift || $today; return $today; }
-
-}
 
 =head1 OVERRIDDEN METHODS
 
@@ -79,16 +62,14 @@ sub fileHandle
 {
 
         my $self  = shift;
-        my $today = _Today();
 
         # return if we have a registered filehandle and the date is
         # still the same
         return $self->{_filehandle}
-            if (    defined $self->{_filehandle}
+                if ( not $self->_fileRotate()
+                     and defined $self->{_filehandle}
                 and $self->{_filehandle}->isa("IO::File")
-                and defined fileno($self->{_filehandle})
-                and defined $today
-                and strftime(TODAY_FORMAT, localtime(time)) eq $today);
+                and defined fileno($self->{_filehandle}));
 
         # we need a new file.  Close our filehandle if it exists
         $self->{_filehandle}->close()
@@ -98,7 +79,7 @@ sub fileHandle
 
         # generate file name
         my $filename =
-            catdir($self->{dir}, strftime($self->{file}, localtime(time)));
+            catdir($self->{dir}, $self->{_expanded_filename});
 
         # generate a new filehandle
         $self->{_filehandle} = FileHandle->new(">> " . $filename);
@@ -109,13 +90,37 @@ sub fileHandle
         # set autoflush if necessary
         $self->{_filehandle}->autoflush($self->{autoflush});
 
-        # reset today's date
-        _Today(strftime(TODAY_FORMAT, localtime(time)));
-
         # return the newly created file handle
         return $self->{_filehandle};
 
 }          # fileHandle();
+
+# --------------------------------------------------------------------
+
+##
+# Determines if we need a new file name or not
+#
+# @returns 1 if we need a file name, 0 otherwise
+
+sub _fileRotate
+{
+
+        my $self = shift;
+        my $filename = strftime($self->{file}, localtime(time));
+
+        if (not defined $self->{_expanded_filename}
+            or $self->{_expanded_filename} ne $filename) {
+                $self->{_expanded_filename} = $filename;
+                return 1;
+        } else {
+                return 0;
+        }
+
+        #
+        # NOT REACHED
+        #
+
+} # _fileName()
 
 =head1 BUGS
 
@@ -168,7 +173,7 @@ L<perl>, L<Log::Fine>, L<Log::Fine::Handle::File>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2008, 2010 Christopher M. Fuhrman, 
+Copyright (c) 2008, 2010-2011 Christopher M. Fuhrman, 
 All rights reserved.
 
 This program is free software licensed under the...

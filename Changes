@@ -1,5 +1,35 @@
 CHANGELOG
 
+2011-10-25  Christopher M. Fuhrman
+
+        * Merge branch 'master' of https://github.com/cfuhrman/log-fine
+        * Skip tests if run under MSWin32 or Cygwin
+        * Recommend Throwable
+
+2011-10-25  U-ADBRITEINC\cfuhrman
+
+        * Skip tests if run under MSWin32 or Cygwin
+
+2011-10-24  Christopher M. Fuhrman
+
+        * Add new handle, Log::Fine::Handle::Email
+        * Sync SYNOPSIS with reality
+        * Move isLoggable() regression tests to Log::Fine::Level::* tests
+
+2011-10-19  Christopher M. Fuhrman
+
+        * Add RCS-style keyword
+
+2011-09-29  Christopher M. Fuhrman
+
+        * Optimize methods for speed
+
+2011-08-04  Christopher M. Fuhrman
+
+        * Merge branch 'master' of https://github.com/cfuhrman/log-fine
+        * Bump version
+        * Bump version
+
 2011-07-22  Christopher M. Fuhrman
 
         * When getting the group IDs, be sure to use the FIRST value returned
@@ -310,16 +340,16 @@ CHANGELOG
 
         * Add missing perl modules to test
 
+2010-08-30  Christopher Fuhrman
+
+        * Add missing Log::Fine modules
+
 2010-08-30  Christopher M. Fuhrman
 
         * Remove redundant check
         * Add some anti-test-report logic
         * Tell Emacs what to do with itself
         * Explicitly require Sys::Syslog 0.13
-
-2010-08-30  Christopher Fuhrman
-
-        * Add missing Log::Fine modules
 
 2010-08-29  Christopher M. Fuhrman
 
