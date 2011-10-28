@@ -14,6 +14,9 @@ use Test::More;
 
 {
 
+        plan skip_all => "Email handle only supported in perl 5.8.3 or above"
+            if $^V lt v5.8.3;
+
         # See if we have Email::Sender installed
         eval "require Email::Sender";
 
