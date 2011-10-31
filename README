@@ -48,6 +48,10 @@ DESCRIPTION
     * Log::Fine::Handle::Console
         Provides logging to `STDERR' or `STDOUT'
 
+    * Log::Fine::Handle::Email
+        Provides logging via email. Useful for delivery to one or more pager
+        addresses.
+
     * Log::Fine::Handle::File
         Provides logging to a file
 
