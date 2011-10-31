@@ -1,7 +1,28 @@
 CHANGELOG
 
+2011-10-31  Christopher M. Fuhrman
+
+        * Regen
+
+2011-10-30  Christopher M. Fuhrman
+
+        * Make note that envelope is optional
+
+2011-10-28  Christopher M. Fuhrman
+
+        * Note perl 5.8.3 requirement
+        * Make sure Handle object supports bitmaskListEnabled()
+        * Update log mask TODO item
+        * Add new method, Log::Fine::Handle->bitmaskListEnabled()
+        * Add TODO item about bitmaskListEnabled()
+
 2011-10-25  Christopher M. Fuhrman
 
+        * Bump copyright
+        * Complete Timestamp TODO
+        * :Fine::Handle::File::Timestamp now properly rotates files <Log>
+        * Add TODO item about timestamped files
+        * Bump version
         * Merge branch 'master' of https://github.com/cfuhrman/log-fine
         * Skip tests if run under MSWin32 or Cygwin
         * Recommend Throwable
