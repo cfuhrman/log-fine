@@ -311,5 +311,10 @@
    1) Should this functionality be added to Template.pm or should
       Template.pm be overridden (L::F::F::Template::Custom)
 
+      I think just adding it to L::F::F::Template would not incur too
+      great a penalty
+
    2) Would there be demand for this functionality?
 
+      Perhaps for custom paging, say, for example, when you're sending
+      a page with a dynamic code in the subject line
