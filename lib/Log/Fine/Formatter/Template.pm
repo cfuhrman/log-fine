@@ -37,6 +37,21 @@ Formats log messages for output using a user-defined template spec.
     # format a msg
     my $str = $formatter->format(INFO, "Resistence is futile", 1);
 
+    # Create a template with a custom placeholder
+    my $counter = 0;
+
+    # Function that's invoked by the template engine
+    sub foobar { ++$counter; }
+
+    my $formatter = Log::Fine::Formatter::Template
+        ->new(
+          name             => 'template0',
+          template         => "[%%TIME%%] %%LEVEL%% (%%FILENAME%%:%%LINENO%%) (COUNT:%%FOOBAR%%) %%MSG%%\n",
+          timestamp_format => "%y-%m-%d %h:%m:%s",
+          custom_placeholders => {
+              FOOBAR => \&foobar,
+          });
+
 =head1 DESCRIPTION
 
 The template formatter allows the user to specify the log format via a
@@ -93,6 +108,26 @@ as C<%%MSG%%>
     +---------------+-----------------------------------+
     | %%GROUP%%     | User Group                        |
     +---------------+-----------------------------------+
+
+=head1 CUSTOM PLACEHOLDERS
+
+Custom placeholders may be defined as follows:
+
+  my $counter = 0;
+
+  sub foobar { return ++$counter; } # foobar()
+
+  # define a template formatter with a custom keyword, FOOBAR
+  my $template = Log::Fine::Formatter::Template
+      ->new(name      => 'template2',
+            template  => "[%%TIME%%] %%LEVEL%% (count:%%FOOBAR%%) %%MSG%%\n",
+            custom_placeholders => {
+                FOOBAR => \&foobar,
+            });
+
+Note that C<< $template->{custom_placeholders} >> is a hash ref with each
+key representing a new placeholder that points to a function ref.
+Like regular placeholders, custom placeholders are case-insensitive.
 
 =head1 METHODS
 
