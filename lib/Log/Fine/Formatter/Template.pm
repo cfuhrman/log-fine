@@ -181,7 +181,7 @@ sub _init
 
         # Do we have custom templates?
         $self->_templateValidate()
-            if defined $self->{custom_templates};
+            if defined $self->{custom_placeholders};
 
         # Set up some defaults
         $self->_fileName();
@@ -322,12 +322,12 @@ sub _placeHolders
                     if ($tmpl =~ /%%GROUP%%/i);
 
                 # Check for custom templates
-                if (defined $self->{custom_templates}) {
+                if (defined $self->{custom_placeholders}) {
 
-                        foreach
-                            my $template (keys %{ $self->{custom_templates} }) {
+                        foreach my $template (
+                                       keys %{ $self->{custom_placeholders} }) {
                                 $placeholders->{$template} =
-                                    $self->{custom_templates}->{$template}
+                                    $self->{custom_placeholders}->{$template}
                                     if ($tmpl =~ /%%${template}%%/i);
                         }
 
@@ -378,16 +378,17 @@ sub _templateValidate
 
         my $self = shift;
 
-        $self->_fatal("{custom_templates} must be a valid hash ref")
-            unless ref $self->{custom_templates} eq "HASH";
+        $self->_fatal("{custom_placeholders} must be a valid hash ref")
+            unless ref $self->{custom_placeholders} eq "HASH";
 
-        foreach my $template (keys %{ $self->{custom_templates} }) {
+        foreach my $template (keys %{ $self->{custom_placeholders} }) {
                 $self->_fatal(
                         sprintf(
 "custom template '%s' must point to a valid function ref : %s",
                                 $template,
-                                ref $self->{custom_templates}->{$template}))
-                    unless ref $self->{custom_templates}->{$template} eq "CODE";
+                                ref $self->{custom_placeholders}->{$template}))
+                    unless ref $self->{custom_placeholders}->{$template} eq
+                            "CODE";
         }
 
         return 1;

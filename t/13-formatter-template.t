@@ -117,9 +117,9 @@ my $counter = 0;
         # custom template
         my $log_custom =
             Log::Fine::Formatter::Template->new(
-                                  template         => "%%FOOBAR%%",
-                                  timestamp_format => "%Y%m%d",
-                                  custom_templates => { foobar => \&countplus, }
+                               template            => "%%FOOBAR%%",
+                               timestamp_format    => "%Y%m%d",
+                               custom_placeholders => { foobar => \&countplus, }
             );
 
         ok($log_custom->name() =~ /\w\d+$/);
