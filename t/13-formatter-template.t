@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 66;
+use Test::More tests => 69;
 
 #use Data::Dumper;
 use Log::Fine;
@@ -17,6 +17,9 @@ use File::Basename;
 use FileHandle;
 use POSIX qw( strftime );
 use Sys::Hostname;
+
+# A global for testing
+my $counter = 0;
 
 {
 
@@ -111,6 +114,16 @@ use Sys::Hostname;
 
         ok($log_group->name() =~ /\w\d+$/);
 
+        # custom template
+        my $log_custom =
+            Log::Fine::Formatter::Template->new(
+                                  template         => "%%FOOBAR%%",
+                                  timestamp_format => "%Y%m%d",
+                                  custom_templates => { foobar => \&countplus, }
+            );
+
+        ok($log_custom->name() =~ /\w\d+$/);
+
         # time
         my $log_time =
             Log::Fine::Formatter::Template->new(template         => "%%TIME%%",
@@ -159,6 +172,11 @@ use Sys::Hostname;
         ok($log_longhost->format(INFO, $msg, 0) =~ /$hostname/);
         ok($log_shorthost->format(INFO, $msg, 0) =~ /\w/);
 
+        # Note we test custom templates twice to see if dynamic
+        # content changed
+        ok($log_custom->format(INFO, $msg, 0) =~ /^$counter/);
+        ok($log_custom->format(INFO, $msg, 0) =~ /^$counter/);
+
     SKIP: {
 
                 skip
@@ -167,7 +185,8 @@ use Sys::Hostname;
                     if ($^O eq "MSWin32");
 
                 ok($log_user->format(INFO, $msg, 0) eq getpwuid($<));
-                ok($log_group->format(INFO, $msg, 0) eq getgrgid((split(" ", $())[0]));
+                ok($log_group->format(INFO, $msg, 0) eq
+                    getgrgid((split(" ", $())[0]));
 
         }
 
@@ -262,6 +281,8 @@ sub logFunc
         $logger->log(NOTI, $msg);
 
 }          # logFunc()
+
+sub countplus { return ++$counter; }
 
 # --------------------------------------------------------------------
 

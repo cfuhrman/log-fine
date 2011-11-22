@@ -179,6 +179,10 @@ sub _init
             unless (defined $self->{use_effective_id}
                     and $self->{use_effective_id} =~ /\d/);
 
+        # Do we have custom templates?
+        $self->_templateValidate()
+            if defined $self->{custom_templates};
+
         # Set up some defaults
         $self->_fileName();
         $self->_groupName();
@@ -317,6 +321,18 @@ sub _placeHolders
                 $placeholders->{group} = sub { return $self->{_groupName} }
                     if ($tmpl =~ /%%GROUP%%/i);
 
+                # Check for custom templates
+                if (defined $self->{custom_templates}) {
+
+                        foreach
+                            my $template (keys %{ $self->{custom_templates} }) {
+                                $placeholders->{$template} =
+                                    $self->{custom_templates}->{$template}
+                                    if ($tmpl =~ /%%${template}%%/i);
+                        }
+
+                }
+
                 $self->{_placeHolders} = $placeholders;
 
                 return $placeholders;
@@ -353,6 +369,30 @@ sub _userName
         return $self->{_userName};
 
 }          # _userName()
+
+##
+# Validator for custom templates
+
+sub _templateValidate
+{
+
+        my $self = shift;
+
+        $self->_fatal("{custom_templates} must be a valid hash ref")
+            unless ref $self->{custom_templates} eq "HASH";
+
+        foreach my $template (keys %{ $self->{custom_templates} }) {
+                $self->_fatal(
+                        sprintf(
+"custom template '%s' must point to a valid function ref : %s",
+                                $template,
+                                ref $self->{custom_templates}->{$template}))
+                    unless ref $self->{custom_templates}->{$template} eq "CODE";
+        }
+
+        return 1;
+
+}          # _templateValidate()
 
 =head1 MICROSOFT WINDOWS CAVEATS
 
