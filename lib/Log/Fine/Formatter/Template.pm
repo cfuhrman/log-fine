@@ -179,11 +179,6 @@ sub _init
             unless (defined $self->{use_effective_id}
                     and $self->{use_effective_id} =~ /\d/);
 
-        # Set use_effective_id to default
-        $self->{use_effective_id} = 1
-            unless (defined $self->{use_effective_id}
-                    and $self->{use_effective_id} =~ /\d/);
-
         # Set up some defaults
         $self->_fileName();
         $self->_groupName();
