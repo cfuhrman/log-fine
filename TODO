@@ -302,7 +302,7 @@
       ->new(name      => 'template2',
             template  => "[%%TIME%%] %%LEVEL%% (count:%%FOOBAR%%) %%MSG%%\n",
             custom_templates => {
-                FOOBAR => \&foobar(),                       
+                FOOBAR => \&foobar,                       
             });
   #+END_SRC
 
