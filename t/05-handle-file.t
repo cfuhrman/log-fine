@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 22;
+use Test::More tests => 26;
 
 use File::Spec::Functions;
 use FileHandle;
@@ -14,6 +14,8 @@ use Log::Fine::Handle;
 use Log::Fine::Handle::File;
 use Log::Fine::Levels::Syslog;
 use Log::Fine::Logger;
+
+use POSIX qw( tmpnam );
 
 {
 
@@ -105,5 +107,28 @@ use Log::Fine::Logger;
 
         # clean up
         unlink $file;
+
+        # Test abs path
+        my $tmpfile = tmpnam() || "/tmp/log-fine-test-file.log";
+
+        ok(defined $tmpfile);
+
+        # print STDERR "Temp file is $tmpfile\n";
+
+        my $tmphandle =
+            Log::Fine::Handle::File->new(file      => $tmpfile,
+                                         autoflush => 1);
+
+        isa_ok($tmphandle, "Log::Fine::Handle::File");
+
+        my $fh3 = $tmphandle->fileHandle();
+        isa_ok($fh3, "FileHandle");
+
+        $tmphandle->msgWrite(DEBG, $msg, 1);
+
+        ok(-f $tmpfile);
+
+        $fh3->close();
+        unlink $tmpfile;
 
 }

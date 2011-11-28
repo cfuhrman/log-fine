@@ -57,7 +57,8 @@ Directory to place the log file
 
 =item  * file
 
-Name of the log file
+Name of the log file.  Note that if the given file is an absolute
+path, then C<dir> will be ignored.
 
 =item  * autoclose
 
@@ -181,13 +182,17 @@ sub _init
         # call the super object
         $self->SUPER::_init();
 
-        # default directory is the current directory
-        $self->{dir} = "./"
-            unless (defined $self->{dir} and -d $self->{dir});
+        # default directory is the current directory unless file is an
+        # absolute path
+        if ($self->{file} =~ /^\//) {
+                $self->{dir} = "";
+        } elsif (not defined $self->{dir} or not -d $self->{dir}) {
+                $self->{dir} = "./";
+        }
 
         # default file name is the name of the invoking program
         # suffixed with ".log"
-        $self->{file} = basename $0 . ".log"
+        $self->{file} = basename($0) . ".log"
             unless defined $self->{file};
 
         # autoflush is disabled by default
