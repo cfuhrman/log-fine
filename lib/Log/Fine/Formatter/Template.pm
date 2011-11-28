@@ -359,11 +359,11 @@ sub _placeHolders
                 # Check for custom templates
                 if (defined $self->{custom_placeholders}) {
 
-                        foreach my $template (
+                        foreach my $placeholder (
                                        keys %{ $self->{custom_placeholders} }) {
-                                $placeholders->{$template} =
-                                    $self->{custom_placeholders}->{$template}
-                                    if ($tmpl =~ /%%${template}%%/i);
+                                $placeholders->{$placeholder} =
+                                    $self->{custom_placeholders}->{$placeholder}
+                                    if ($tmpl =~ /%%${placeholder}%%/i);
                         }
 
                 }
