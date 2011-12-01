@@ -325,3 +325,8 @@
 
   Catch the situation where a user defines two custom templates with
   the same key.  Do not forget to add appropriate unit tests for this.
+
+* TODO [#B] Make sure custom placeholders are stored uppercase    :templates:
+
+  Make sure custom placeholder keys are stored uppercase internally.
+  This will make checking for key collisions much easier.
