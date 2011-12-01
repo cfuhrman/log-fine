@@ -238,7 +238,7 @@ sub _init
                     and $self->{header_to} =~ /\w/
                     and valid($self->{header_to}));
 
-        # Check envelope
+        # Check (optional) envelope
         $self->_fatal("{envelope} must be a valid hash ref")
             unless (defined $self->{envelope}
                     and ref $self->{envelope} eq "HASH");

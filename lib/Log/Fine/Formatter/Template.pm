@@ -37,6 +37,21 @@ Formats log messages for output using a user-defined template spec.
     # format a msg
     my $str = $formatter->format(INFO, "Resistence is futile", 1);
 
+    # Create a template with a custom placeholder
+    my $counter = 0;
+
+    # Function that's invoked by the template engine
+    sub foobar { ++$counter; }
+
+    my $formatter = Log::Fine::Formatter::Template
+        ->new(
+          name             => 'template0',
+          template         => "[%%TIME%%] %%LEVEL%% (%%FILENAME%%:%%LINENO%%) (COUNT:%%FOOBAR%%) %%MSG%%\n",
+          timestamp_format => "%y-%m-%d %h:%m:%s",
+          custom_placeholders => {
+              FOOBAR => \&foobar,
+          });
+
 =head1 DESCRIPTION
 
 The template formatter allows the user to specify the log format via a
@@ -93,6 +108,26 @@ as C<%%MSG%%>
     +---------------+-----------------------------------+
     | %%GROUP%%     | User Group                        |
     +---------------+-----------------------------------+
+
+=head1 CUSTOM PLACEHOLDERS
+
+Custom placeholders may be defined as follows:
+
+  my $counter = 0;
+
+  sub foobar { return ++$counter; } # foobar()
+
+  # define a template formatter with a custom keyword, FOOBAR
+  my $template = Log::Fine::Formatter::Template
+      ->new(name      => 'template2',
+            template  => "[%%TIME%%] %%LEVEL%% (count:%%FOOBAR%%) %%MSG%%\n",
+            custom_placeholders => {
+                FOOBAR => \&foobar,
+            });
+
+Note that C<< $template->{custom_placeholders} >> is a hash ref with each
+key representing a new placeholder that points to a function ref.
+Like regular placeholders, custom placeholders are case-insensitive.
 
 =head1 METHODS
 
@@ -179,10 +214,9 @@ sub _init
             unless (defined $self->{use_effective_id}
                     and $self->{use_effective_id} =~ /\d/);
 
-        # Set use_effective_id to default
-        $self->{use_effective_id} = 1
-            unless (defined $self->{use_effective_id}
-                    and $self->{use_effective_id} =~ /\d/);
+        # Do we have custom templates?
+        $self->_templateValidate()
+            if defined $self->{custom_placeholders};
 
         # Set up some defaults
         $self->_fileName();
@@ -322,6 +356,18 @@ sub _placeHolders
                 $placeholders->{group} = sub { return $self->{_groupName} }
                     if ($tmpl =~ /%%GROUP%%/i);
 
+                # Check for custom templates
+                if (defined $self->{custom_placeholders}) {
+
+                        foreach my $placeholder (
+                                       keys %{ $self->{custom_placeholders} }) {
+                                $placeholders->{$placeholder} =
+                                    $self->{custom_placeholders}->{$placeholder}
+                                    if ($tmpl =~ /%%${placeholder}%%/i);
+                        }
+
+                }
+
                 $self->{_placeHolders} = $placeholders;
 
                 return $placeholders;
@@ -358,6 +404,31 @@ sub _userName
         return $self->{_userName};
 
 }          # _userName()
+
+##
+# Validator for custom templates
+
+sub _templateValidate
+{
+
+        my $self = shift;
+
+        $self->_fatal("{custom_placeholders} must be a valid hash ref")
+            unless ref $self->{custom_placeholders} eq "HASH";
+
+        foreach my $template (keys %{ $self->{custom_placeholders} }) {
+                $self->_fatal(
+                        sprintf(
+"custom template '%s' must point to a valid function ref : %s",
+                                $template,
+                                ref $self->{custom_placeholders}->{$template}))
+                    unless ref $self->{custom_placeholders}->{$template} eq
+                            "CODE";
+        }
+
+        return 1;
+
+}          # _templateValidate()
 
 =head1 MICROSOFT WINDOWS CAVEATS
 
@@ -429,7 +500,7 @@ L<perl>, L<Log::Fine::Formatter>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2008, 2009, 2010 Christopher M. Fuhrman, 
+Copyright (c) 2010-2011 Christopher M. Fuhrman, 
 All rights reserved.
 
 This program is free software licensed under the...

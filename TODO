@@ -287,3 +287,37 @@
 
   Need to figure out if I'm going to add this to 0.57 or save this
   functionality for 0.58.
+* DONE [#C] Add custom templates?                                 :templates:
+  CLOSED: [2011-11-22 Tue 10:51]
+  - CLOSING NOTE [2011-11-22 Tue 10:52] \\
+    Support added as of [[https://github.com/cfuhrman/log-fine/commit/fe15b6105aa9b4ca4f2ae230e43fdaa22a2d27e3][fe15b6105]].  Spiffy!
+
+  Extend L::F::F::Template to allow for custom template keys.
+  Ideally, this would work as follows:
+
+  #+BEGIN_SRC perl
+  my $counter = 0;
+
+  sub foobar { return ++$counter; } # foobar()
+
+  # define a template formatter with a custom keyword, FOOBAR
+  my $template = Log::Fine::Formatter::Template
+      ->new(name      => 'template2',
+            template  => "[%%TIME%%] %%LEVEL%% (count:%%FOOBAR%%) %%MSG%%\n",
+            custom_templates => {
+                FOOBAR => \&foobar,                       
+            });
+  #+END_SRC
+
+** Details:
+
+   1) Should this functionality be added to Template.pm or should
+      Template.pm be overridden (L::F::F::Template::Custom)
+
+      I think just adding it to L::F::F::Template would not incur too
+      great a penalty
+
+   2) Would there be demand for this functionality?
+
+      Perhaps for custom paging, say, for example, when you're sending
+      a page with a dynamic code in the subject line
