@@ -118,7 +118,10 @@ sub fileHandle
                 and defined fileno($self->{_filehandle}));
 
         # generate file name
-        my $filename = catdir($self->{dir}, $self->{file});
+        my $filename =
+            ($self->{dir} =~ /\w/)
+            ? catdir($self->{dir}, $self->{file})
+            : $self->{file};
 
         # otherwise create a new one
         $self->{_filehandle} = FileHandle->new(">> " . $filename);
