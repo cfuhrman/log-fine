@@ -321,3 +321,7 @@
 
       Perhaps for custom paging, say, for example, when you're sending
       a page with a dynamic code in the subject line
+* TODO [#B] Check for key collision in custom templates           :templates:
+
+  Catch the situation where a user defines two custom templates with
+  the same key.  Do not forget to add appropriate unit tests for this.
