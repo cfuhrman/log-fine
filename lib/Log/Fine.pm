@@ -341,7 +341,7 @@ sub _fatal
             $call[2] || 0,
             $msg || "No reason given";
 
-        croak $msg
+        confess $msg
             if ((    defined $self
                  and $self->isa("Log::Fine")
                  and not $self->{no_croak})
