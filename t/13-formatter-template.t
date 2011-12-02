@@ -126,7 +126,12 @@ my $counter = 0;
 
         eval {
 
-               # TODO: Redirect STDERR to the bit bucket
+               # note: this may or may not work under Windows
+               if ($^O eq "MSWin32") {
+                       open STDERR, "> NUL";
+               } else {
+                       open STDERR, "> /dev/null";
+               }
 
                my $log_badcustom =
                    Log::Fine::Formatter::Template->new(
