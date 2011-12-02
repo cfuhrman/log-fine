@@ -345,3 +345,8 @@
 
    [2011-12-01 Thu 21:41] Decided that placeholders are to be stored
    lowercase instead.
+
+* TODO [#B] Rename Template->_templateValidate()                  :templates:
+
+  Rename ~Template->_templateValidate()~ to some other method name
+  that has the word 'placeholder' in it.
