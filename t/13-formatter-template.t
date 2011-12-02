@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 69;
+use Test::More tests => 70;
 
 #use Data::Dumper;
 use Log::Fine;
@@ -123,6 +123,22 @@ my $counter = 0;
             );
 
         ok($log_custom->name() =~ /\w\d+$/);
+
+        eval {
+
+               # TODO: Redirect STDERR to the bit bucket
+
+               my $log_badcustom =
+                   Log::Fine::Formatter::Template->new(
+                                            template => "%%FOOBAR%% %%FooBar%%",
+                                            timestamp_format    => "%Y%m%d",
+                                            custom_placeholders => {
+                                                          foobar => \&countplus,
+                                                          FooBar => \&countplus,
+                                            });
+        };
+
+        ok($@ =~ /^Duplicate placeholder/);
 
         # time
         my $log_time =

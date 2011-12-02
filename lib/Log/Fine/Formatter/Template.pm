@@ -412,11 +412,13 @@ sub _templateValidate
 {
 
         my $self = shift;
+        my $ph   = {};
 
         $self->_fatal("{custom_placeholders} must be a valid hash ref")
             unless ref $self->{custom_placeholders} eq "HASH";
 
         foreach my $template (keys %{ $self->{custom_placeholders} }) {
+
                 $self->_fatal(
                         sprintf(
 "custom template '%s' must point to a valid function ref : %s",
@@ -424,6 +426,17 @@ sub _templateValidate
                                 ref $self->{custom_placeholders}->{$template}))
                     unless ref $self->{custom_placeholders}->{$template} eq
                             "CODE";
+
+                # Check for duplicate placeholders
+                if (defined $ph->{ lc($template) }) {
+                        $self->_fatal(
+                                sprintf(
+"Duplicate placeholder '%s' found.  Remember, placeholders are case-INsensitive",
+                                        $template));
+                } else {
+                        $ph->{ lc($template) } = 1;
+                }
+
         }
 
         return 1;
