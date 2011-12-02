@@ -215,7 +215,7 @@ sub _init
                     and $self->{use_effective_id} =~ /\d/);
 
         # Do we have custom templates?
-        $self->_templateValidate()
+        $self->_placeholderValidate()
             if defined $self->{custom_placeholders};
 
         # Set up some defaults
@@ -381,6 +381,45 @@ sub _placeHolders
 }          # _placeHolder()
 
 ##
+# Validator for custom placeholders
+
+sub _placeholderValidate
+{
+
+        my $self    = shift;
+        my $holders = {};
+
+        $self->_fatal("{custom_placeholders} must be a valid hash ref")
+            unless ref $self->{custom_placeholders} eq "HASH";
+
+        foreach my $placeholder (keys %{ $self->{custom_placeholders} }) {
+
+                $self->_fatal(
+                        sprintf(
+"custom template '%s' must point to a valid function ref : %s",
+                                $placeholder,
+                                ref $self->{custom_placeholders}->{$placeholder}
+                        ))
+                    unless ref $self->{custom_placeholders}->{$placeholder} eq
+                            "CODE";
+
+                # Check for duplicate placeholders
+                if (defined $holders->{ lc($placeholder) }) {
+                        $self->_fatal(
+                                sprintf(
+"Duplicate placeholder '%s' found.  Remember, placeholders are case-INsensitive",
+                                        $placeholder));
+                } else {
+                        $holders->{ lc($placeholder) } = 1;
+                }
+
+        }
+
+        return 1;
+
+}          # _placeholderValidate()
+
+##
 # Getter/Setter for user name
 
 sub _userName
@@ -404,44 +443,6 @@ sub _userName
         return $self->{_userName};
 
 }          # _userName()
-
-##
-# Validator for custom templates
-
-sub _templateValidate
-{
-
-        my $self = shift;
-        my $ph   = {};
-
-        $self->_fatal("{custom_placeholders} must be a valid hash ref")
-            unless ref $self->{custom_placeholders} eq "HASH";
-
-        foreach my $template (keys %{ $self->{custom_placeholders} }) {
-
-                $self->_fatal(
-                        sprintf(
-"custom template '%s' must point to a valid function ref : %s",
-                                $template,
-                                ref $self->{custom_placeholders}->{$template}))
-                    unless ref $self->{custom_placeholders}->{$template} eq
-                            "CODE";
-
-                # Check for duplicate placeholders
-                if (defined $ph->{ lc($template) }) {
-                        $self->_fatal(
-                                sprintf(
-"Duplicate placeholder '%s' found.  Remember, placeholders are case-INsensitive",
-                                        $template));
-                } else {
-                        $ph->{ lc($template) } = 1;
-                }
-
-        }
-
-        return 1;
-
-}          # _templateValidate()
 
 =head1 MICROSOFT WINDOWS CAVEATS
 
