@@ -321,7 +321,10 @@
 
       Perhaps for custom paging, say, for example, when you're sending
       a page with a dynamic code in the subject line
-* TODO [#B] Check for key collision in custom templates           :templates:
+* DONE [#B] Check for key collision in custom templates           :templates:
+  CLOSED: [2011-12-02 Fri 12:51]
+  - CLOSING NOTE [2011-12-02 Fri 12:51] \\
+    Code in place and unit tests are working properly.  Closing task
 
   Catch the situation where a user defines two custom templates with
   the same key.  Do not forget to add appropriate unit tests for this.
@@ -346,7 +349,11 @@
    [2011-12-01 Thu 21:41] Decided that placeholders are to be stored
    lowercase instead.
 
-* TODO [#B] Rename Template->_templateValidate()                  :templates:
+* DONE [#B] Rename Template->_templateValidate()                  :templates:
+  CLOSED: [2011-12-02 Fri 12:51]
+  - CLOSING NOTE [2011-12-02 Fri 12:52] \\
+    Completed.  ~_templateValidate()~ has been replaced with
+    ~_placeholderValidate()~
 
   Rename ~Template->_templateValidate()~ to some other method name
   that has the word 'placeholder' in it.
