@@ -145,8 +145,8 @@ METHODS
 
   _fatal
     Private method that is called when a fatal (nonrecoverable) condition is
-    encountered. Will call croak unless the {no_croak} attribute is set. For
-    internal Log::Fine use *only!*
+    encountered. Will call confess unless the {no_croak} attribute is set.
+    For internal Log::Fine use *only!*
 
     This method can be overridden per taste.
 
