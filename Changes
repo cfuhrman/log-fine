@@ -1,12 +1,69 @@
 CHANGELOG
 
+2011-12-02  Christopher M. Fuhrman
+
+        * Sync documentation w/ reality
+        * Replace croak with confess when calling ->_fatal()
+        * Close out template tasks
+        * Clean up function, variable names
+        * Redirect stderr to the bitbucket for bad custom template unit test
+
+2011-12-01  Christopher M. Fuhrman
+
+        * Add rename method task
+        * Update custom placeholder tasks
+        * Check for duplicate custom placeholders
+        * Add another TODO item for storing placeholder keys
+        * Add key collision TODO
+        * Just use {file} if {dir} is not defined
+
+2011-12-01  U-ADBRITEINC\cfuhrman
+
+        * Merge branch 'master' of http://github.com/cfuhrman/log-fine
+
+2011-11-28  Christopher M. Fuhrman
+
+        * Bump copyright
+        * :Fine::Handle::File can now accept a file name with absolute path <Log>
+        * perltidy
+        * Stress test custom placeholder functionality
+        * Correct copyright
+        * Be more consistent with variable names
+
+2011-11-22  Christopher M. Fuhrman
+
+        * Close out custom template TODO
+        * Update documentation
+        * s/custom_templates/custom_placeholders/
+        * Add support for custom placeholders
+        * Function refs must be set sans ()
+        * Lose redundant code block
+
+2011-11-16  Christopher M. Fuhrman
+
+        * Fill out details
+        * Brainstorm custom template macros
+
+2011-11-03  Christopher M. Fuhrman
+
+        * Post-pend function names with ()
+
+2011-11-02  Christopher M. Fuhrman
+
+        * Bump Copyright
+
 2011-10-31  Christopher M. Fuhrman
 
+        * Bump version
         * Regen
 
 2011-10-30  Christopher M. Fuhrman
 
         * Make note that envelope is optional
+
+2011-10-28  U-ADBRITEINC\cfuhrman
+
+        * Merge branch 'master' of http://github.com/cfuhrman/log-fine
 
 2011-10-28  Christopher M. Fuhrman
 
@@ -29,6 +86,8 @@ CHANGELOG
 
 2011-10-25  U-ADBRITEINC\cfuhrman
 
+        * Merge branch 'master' of http://github.com/cfuhrman/log-fine
+        * Skip tests if run under MSWin32 or Cygwin
         * Skip tests if run under MSWin32 or Cygwin
 
 2011-10-24  Christopher M. Fuhrman
