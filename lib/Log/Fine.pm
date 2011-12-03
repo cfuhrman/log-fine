@@ -315,7 +315,7 @@ This method can be overridden per taste.
 
 =item message
 
-Message passed to L<croak|Carp>.
+Message passed to L<confess|Carp>.
 
 =back
 
