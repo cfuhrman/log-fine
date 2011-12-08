@@ -271,12 +271,12 @@ sub _groupName
                             ? (split(" ", $ENV{EGID}))[0]
                             : 0;
                 } else {
-                        $self->{_groupname} = getgrgid((split(" ", $)))[0])
+                        $self->{_groupName} = getgrgid((split(" ", $)))[0])
                             || "nogroup";
                 }
         } else {
                 if ($^O =~ /MSWin32|cygwin/) {
-                        $self->{_groupname} =
+                        $self->{_groupName} =
                               (defined $ENV{GID})
                             ? (split(" ", $ENV{GID}))[0]
                             : 0;
