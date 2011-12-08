@@ -187,7 +187,7 @@ sub _init
 
         # default directory is the current directory unless file is an
         # absolute path
-        if ($self->{file} =~ /^\//) {
+        if ($self->{file} =~ /^\/|^[A-Za-z]:\\/) {
                 $self->{dir} = "";
         } elsif (not defined $self->{dir} or not -d $self->{dir}) {
                 $self->{dir} = "./";

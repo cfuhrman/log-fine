@@ -41,6 +41,7 @@ t/13-formatter-template.t
 t/14-handle-syslog-log_user.t
 t/15-handle-email.t
 t/16-handle-email-smtp.t
+t/17-handle-file-windows.t
 t/boilerplate.t
 t/pod-coverage.t
 t/pod.t
