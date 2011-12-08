@@ -10,13 +10,15 @@ Provides a functional wrapper around Log::Fine.
     use Log::Fine::Handle;
     use Log::Fine::Handle::File;
     use Log::Fine::Handle::Syslog;
+    use Log::Fine::Levels::Syslog;
     use Log::Fine::Utils;
+    use Sys::Syslog;
 
     # set up some handles as you normally would.  First, a handler for
     # file logging:
     my $handle1 = Log::Fine::Handle::File
         ->new( name      => "file0",
-               mask      => Log::Fine::Handler->LOGMASK_ALL,
+               mask      => Log::Fine::Levels::Syslog->bitmaskAll(),
                formatter => Log::Fine::Formatter::Basic->new() );
 
     # and now a handle for syslog
@@ -31,16 +33,17 @@ Provides a functional wrapper around Log::Fine.
     OpenLog( handles  => [ $handle1, [$handle2], ... ],
              levelmap => "Syslog" );
 
-    # Open new logging object with name "aux"
+    # Open new logging object with name "aux".  Note this will switch
+    # the current logger to "aux"
     OpenLog( name => "aux",
-             handles  => [ $handle1, [$handle2], ... ],
+             handles  => [ $handle1, [[$handle2], [...] ]],
              levelmap => "Syslog" );
 
     # Grab a ref to active logger
     my $current_logger = CurrentLogger();
 
     # Get name of current logger
-    my $loggername = $current_logger->name();
+    my $loggername = $current_logger()->name();
 
     # Switch back to GENERIC logger
     OpenLog( name => "GENERIC" );
@@ -89,7 +92,7 @@ our @EXPORT = qw( CurrentLogger ListLoggers Log OpenLog );
         sub _logfine
         {
                 $logfine = $_[0]
-                    if (defined $_[0] and $_[0]->isa("Log::Fine"));
+                    if (defined $_[0] and ref $_[0] eq "Log::Fine");
 
                 return $logfine;
         }
@@ -98,7 +101,7 @@ our @EXPORT = qw( CurrentLogger ListLoggers Log OpenLog );
         sub _logger
         {
                 $logger = $_[0]
-                    if (defined $_[0] and $_[0]->isa("Log::Fine::Logger"));
+                    if (defined $_[0] and ref $_[0] eq "Log::Fine::Logger");
 
                 return $logger;
         }
@@ -124,7 +127,7 @@ Currently active L<Log::Fine::Logger> object
 
 =cut
 
-sub CurrentLogger { return _logger() }
+sub CurrentLogger { return _logger(); }
 
 =head2 ListLoggers
 
@@ -253,12 +256,12 @@ sub OpenLog
         if (     defined _logfine()
              and defined _logger()
              and _logfine()->isa("Log::Fine")
-             and _logger->isa("Log::Fine::Logger")
-             and (_logger->name() =~ /\w/)
+             and _logger()->isa("Log::Fine::Logger")
+             and (_logger()->name() =~ /\w/)
              and grep(/$data{name}/, ListLoggers())) {
 
                 # set the current logger to the given name
-                _logger(_logfine->logger($data{name}));
+                _logger(_logfine()->logger($data{name}));
 
         } elsif (   not defined $data{handles}
                  or ref $data{handles} ne "ARRAY"
@@ -271,8 +274,8 @@ sub OpenLog
         } else {
 
                 # Instantiate a new Log::Fine::Logger object and store
-                _logger(_logfine->logger($data{name}));
-                _logger->registerHandle($_) foreach @{ $data{handles} };
+                _logger(_logfine()->logger($data{name}));
+                _logger()->registerHandle($_) foreach @{ $data{handles} };
 
         }
 
@@ -345,7 +348,7 @@ L<perl>, L<Log::Fine>, L<Log::Fine::Handle>, L<Log::Fine::Logger>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2008, 2010 Christopher M. Fuhrman, 
+Copyright (c) 2008, 2010, 2011 Christopher M. Fuhrman, 
 All rights reserved
 
 This program is free software licensed under the...

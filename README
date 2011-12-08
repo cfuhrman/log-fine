@@ -14,6 +14,9 @@ SYNOPSIS
         # specify a custom map
         my $fine = Log::Fine->new(levelmap => "Syslog");
 
+        # Get the name of the log object
+        my $name = $fine->name();
+
         # use logger() to get a new logger object.  If "foo" is not
         # defined then a new logger with the name "foo" will be created.
         my $log = Log::Fine->logger("foo");
@@ -44,6 +47,10 @@ DESCRIPTION
 
     * Log::Fine::Handle::Console
         Provides logging to `STDERR' or `STDOUT'
+
+    * Log::Fine::Handle::Email
+        Provides logging via email. Useful for delivery to one or more pager
+        addresses.
 
     * Log::Fine::Handle::File
         Provides logging to a file
@@ -138,8 +145,8 @@ METHODS
 
   _fatal
     Private method that is called when a fatal (nonrecoverable) condition is
-    encountered. Will call croak unless the {no_croak} attribute is set. For
-    internal Log::Fine use *only!*
+    encountered. Will call confess unless the {no_croak} attribute is set.
+    For internal Log::Fine use *only!*
 
     This method can be overridden per taste.
 

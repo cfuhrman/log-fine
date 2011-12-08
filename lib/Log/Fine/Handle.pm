@@ -46,9 +46,42 @@ our $VERSION = $Log::Fine::VERSION;
 
 =head1 METHODS
 
+=head2 bitmaskListEnabled
+
+Gets a list of enabled bit masks
+
+=head3 Returns
+
+An array containing a list of strings representing bitmasks
+enabled for this handle
+
+=cut
+
+sub bitmaskListEnabled
+{
+
+        my $self     = shift;
+        my $map      = $self->levelMap();
+        my @bitmasks = ();
+
+        # reminder: log() here is the perl logarithmic function (see
+        # perlfunc(3)) and is not to be confused with the name of this
+        # module ;)
+        foreach my $maskname ($map->logMasks()) {
+                push @bitmasks, $maskname
+                    if $self->isLoggable(
+                                    log($map->maskToValue($maskname)) / log(2) -
+                                        1
+                    );
+        }
+
+        return @bitmasks;
+
+}          # bitmaskListEnabled()
+
 =head2 formatter
 
-Getter/Setter for the object's formatter attribute
+Getter/Setter for the objects formatter attribute
 
 =head3 Parameters
 
@@ -73,11 +106,11 @@ sub formatter
         my $formatter = shift;
 
         # if the first argument is a valid formatter, then set the
-        # object's formatter attribute appropriately
+        # objects formatter attribute appropriately
         $self->{formatter} = $formatter
             if (defined $formatter and $formatter->isa("Log::Fine::Formatter"));
 
-        # return the object's formatter attribute
+        # return the objects formatter attribute
         return $self->{formatter};
 
 }          # formatter()
@@ -249,7 +282,7 @@ L<perl>, L<Log::Fine>, L<Log::Fine::Formatter>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2008, 2010 Christopher M. Fuhrman, 
+Copyright (c) 2008, 2010-2011 Christopher M. Fuhrman, 
 All rights reserved.
 
 This program is free software licensed under the...

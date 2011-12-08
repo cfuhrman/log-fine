@@ -236,3 +236,124 @@
     Merged
 
   Prior to next release, merge in readme-pod-format branch
+
+* DONE [#B] More tests for L::F::H::E                                 :tests:
+  CLOSED: [2011-10-24 Mon 16:41]
+  - CLOSING NOTE [2011-10-24 Mon 16:41] \\
+    Closing task
+
+  Add author-specific tests for Log::Fine::Handle::Email, more
+  specifically, email tests that actually generate email via
+  Email::Sender::Transport::SMTP or
+  Email::Sender::Transport::Sendmail.
+
+  These tests should be enabled via a special environmental variable,
+  say, ENABLE_AUTHOR_TESTS
+
+** Task Log
+
+   [2011-10-20 Thu 12:07] New file, t/16-handle-email-smtp.t created
+   which generates an email.  Verified working.
+
+* DONE [#B] Figure out what to do with Log::Fine::Handle::File::Timestamp :handle:
+  CLOSED: [2011-10-25 Tue 16:48]
+  - CLOSING NOTE [2011-10-25 Tue 16:48] \\
+    Completed
+
+  Need to figure out what can be done with
+  Log::Fine::Handle::File::Timestamp which suffers from two issues:
+
+   1. The filename given is actually a date-stamp rather than a
+      time-stamp.
+
+   2. The filename will only change if the DATE changes, but not any
+      other values, such as hour or minute.
+
+* DONE [#C] Add method to print out log masks?                        :masks:
+  CLOSED: [2011-10-28 Fri 14:11]
+  - CLOSING NOTE [2011-10-28 Fri 14:12] \\
+    Created new handle method, ~bitmaskListEnabled()~, which will return
+    an array (not an array ref) of enabled bitmasks for a given handle.
+    Also added associated unit tests.
+
+  Have a method, ~bitmaskListEnabled()~, in Log::Fine::Handle to return
+  an array ref of defined logging masks.
+
+  For example:
+
+    #+begin_src perl
+    my @currentmasks = @{ $handle->bitmaskListEnabled() };
+    #+end_src
+
+  Need to figure out if I'm going to add this to 0.57 or save this
+  functionality for 0.58.
+* DONE [#C] Add custom templates?                                 :templates:
+  CLOSED: [2011-11-22 Tue 10:51]
+  - CLOSING NOTE [2011-11-22 Tue 10:52] \\
+    Support added as of [[https://github.com/cfuhrman/log-fine/commit/fe15b6105aa9b4ca4f2ae230e43fdaa22a2d27e3][fe15b6105]].  Spiffy!
+
+  Extend L::F::F::Template to allow for custom template keys.
+  Ideally, this would work as follows:
+
+  #+BEGIN_SRC perl
+  my $counter = 0;
+
+  sub foobar { return ++$counter; } # foobar()
+
+  # define a template formatter with a custom keyword, FOOBAR
+  my $template = Log::Fine::Formatter::Template
+      ->new(name      => 'template2',
+            template  => "[%%TIME%%] %%LEVEL%% (count:%%FOOBAR%%) %%MSG%%\n",
+            custom_templates => {
+                FOOBAR => \&foobar,                       
+            });
+  #+END_SRC
+
+** Details:
+
+   1) Should this functionality be added to Template.pm or should
+      Template.pm be overridden (L::F::F::Template::Custom)
+
+      I think just adding it to L::F::F::Template would not incur too
+      great a penalty
+
+   2) Would there be demand for this functionality?
+
+      Perhaps for custom paging, say, for example, when you're sending
+      a page with a dynamic code in the subject line
+* DONE [#B] Check for key collision in custom templates           :templates:
+  CLOSED: [2011-12-02 Fri 12:51]
+  - CLOSING NOTE [2011-12-02 Fri 12:51] \\
+    Code in place and unit tests are working properly.  Closing task
+
+  Catch the situation where a user defines two custom templates with
+  the same key.  Do not forget to add appropriate unit tests for this.
+
+** Task log
+
+   [2011-12-01 Thu 21:40] Added key collision check and associated
+   unit test, although unit test currently generates spewage which
+   will need to be filtered.
+
+* DONE [#B] Make sure custom placeholders are stored uppercase    :templates:
+  CLOSED: [2011-12-01 Thu 21:42]
+  - CLOSING NOTE [2011-12-01 Thu 21:42] \\
+    Decided that placeholders are to be stored lowercase instead of
+    uppercase.  At any rate, this functionality has been implemented.
+
+  Make sure custom placeholder keys are stored uppercase internally.
+  This will make checking for key collisions much easier.
+
+** Task log
+
+   [2011-12-01 Thu 21:41] Decided that placeholders are to be stored
+   lowercase instead.
+
+* DONE [#B] Rename Template->_templateValidate()                  :templates:
+  CLOSED: [2011-12-02 Fri 12:51]
+  - CLOSING NOTE [2011-12-02 Fri 12:52] \\
+    Completed.  ~_templateValidate()~ has been replaced with
+    ~_placeholderValidate()~
+
+  Rename ~Template->_templateValidate()~ to some other method name
+  that has the word 'placeholder' in it.

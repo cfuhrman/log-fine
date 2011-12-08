@@ -97,7 +97,7 @@ use constant VALTOLVL_MAP => {
 
 Log masks can be exported for use in setting up individual handles
 (see L<Log::Fine::Handle>).  The following masks are exported into the
-caller's namespace:
+caller namespace:
 
 =over 4
 

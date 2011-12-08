@@ -171,7 +171,7 @@ sub testFormat
 
 Getter/Setter for a L<strftime(3)-compatible|strftime> format string.
 If passed with an argument, sets the objects strftime compatible
-string.  Otherwise, returns the object's format string.
+string.  Otherwise, returns the objects format string.
 
 =head3 Parameters
 

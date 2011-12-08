@@ -57,6 +57,11 @@ ways. Currently, the following handles are provided:
 
 Provides logging to C<STDERR> or C<STDOUT>
 
+=item  * L<Log::Fine::Handle::Email|Log::Fine::Handle::Email>
+
+Provides logging via email.  Useful for delivery to one or more pager
+addresses.
+
 =item  * L<Log::Fine::Handle::File|Log::Fine::Handle::File>
 
 Provides logging to a file
@@ -88,7 +93,7 @@ use Log::Fine::Levels;
 use Log::Fine::Logger;
 use POSIX qw( strftime );
 
-our $VERSION = '0.54';
+our $VERSION = '0.58';
 
 =head2 Formatters
 
@@ -299,7 +304,7 @@ sub name { return $_[0]->{name} || undef }
 =head2 _fatal
 
 Private method that is called when a fatal (nonrecoverable) condition
-is encountered.  Will call L<croak|Carp> unless the {no_croak}
+is encountered.  Will call L<confess|Carp> unless the {no_croak}
 attribute is set.  For internal Log::Fine use I<only!>
 
 This method can be overridden per taste.
@@ -310,7 +315,7 @@ This method can be overridden per taste.
 
 =item message
 
-Message passed to L<croak|Carp>.
+Message passed to L<confess|Carp>.
 
 =back
 
@@ -336,7 +341,7 @@ sub _fatal
             $call[2] || 0,
             $msg || "No reason given";
 
-        croak $msg
+        confess $msg
             if ((    defined $self
                  and $self->isa("Log::Fine")
                  and not $self->{no_croak})
@@ -355,7 +360,7 @@ sub _init
         # increment object count
         _incrObjectCount();
 
-        # we set the object's name unless it is already set for us
+        # we set the objects name unless it is already set for us
         unless (defined $self->{name} and $self->{name} =~ /\w/) {
 
                 # grab the class name

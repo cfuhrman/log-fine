@@ -57,7 +57,8 @@ Directory to place the log file
 
 =item  * file
 
-Name of the log file
+Name of the log file.  Note that if the given file is an absolute
+path, then C<dir> will be ignored.
 
 =item  * autoclose
 
@@ -117,7 +118,10 @@ sub fileHandle
                 and defined fileno($self->{_filehandle}));
 
         # generate file name
-        my $filename = catdir($self->{dir}, $self->{file});
+        my $filename =
+            ($self->{dir} =~ /\w/)
+            ? catdir($self->{dir}, $self->{file})
+            : $self->{file};
 
         # otherwise create a new one
         $self->{_filehandle} = FileHandle->new(">> " . $filename);
@@ -181,13 +185,17 @@ sub _init
         # call the super object
         $self->SUPER::_init();
 
-        # default directory is the current directory
-        $self->{dir} = "./"
-            unless (defined $self->{dir} and -d $self->{dir});
+        # default directory is the current directory unless file is an
+        # absolute path
+        if ($self->{file} =~ /^\//) {
+                $self->{dir} = "";
+        } elsif (not defined $self->{dir} or not -d $self->{dir}) {
+                $self->{dir} = "./";
+        }
 
         # default file name is the name of the invoking program
         # suffixed with ".log"
-        $self->{file} = basename $0 . ".log"
+        $self->{file} = basename($0) . ".log"
             unless defined $self->{file};
 
         # autoflush is disabled by default
@@ -268,7 +276,7 @@ L<perl>, L<Log::Fine>, L<Log::Fine::Handle>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2008, 2010 Christopher M. Fuhrman, 
+Copyright (c) 2008, 2010-2011 Christopher M. Fuhrman, 
 All rights reserved.
 
 This program is free software licensed under the...

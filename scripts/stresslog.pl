@@ -9,6 +9,7 @@ use warnings;
 
 use lib "lib";
 
+use File::Basename;
 use File::Slurp;
 use Getopt::Long;
 use Time::HiRes qw( gettimeofday tv_interval );
@@ -18,13 +19,19 @@ use Log::Fine::Handle::File;
 use Log::Fine::Formatter::Template;
 use Log::Fine::Levels::Syslog;
 
+# Globals
+my $linecount = 0;
+
 {
 
         my $input;
-        my $output = "fine.log";
+        my $output   = "fine.log";
+        my $docustom = 0;
 
         GetOptions("i=s" => \$input,
-                   "o=s" => \$output);
+                   "o=s" => \$output,
+                   "c"   => \$docustom
+        );
 
         die "Need input file"
             unless $input =~ /\w/;
@@ -47,7 +54,8 @@ use Log::Fine::Levels::Syslog;
             );
 
         my $handle =
-            Log::Fine::Handle::File->new(file      => $output,
+            Log::Fine::Handle::File->new(file      => basename($output),
+                                         dir       => dirname($output),
                                          autoflush => 1,
                                          formatter => $formatter
             );
@@ -78,6 +86,56 @@ use Log::Fine::Levels::Syslog;
                           scalar @lines,
                           $output, $t3
                   ));
+
+        # Do custom placeholder test
+        if ($docustom) {
+
+                $out->log(NOTI, "Beginning custom placeholder test");
+
+                my $linecountfile = sprintf("%s-lines.txt", $output);
+                my $counter = 0;
+                my $lineno =
+                    Log::Fine::Formatter::Template->new(
+                             template            => "%%LINENO%% %%MSG%%",
+                             custom_placeholders => { lineno => \&linetracker, }
+                    );
+
+                my $linehandle =
+                    Log::Fine::Handle::File->new(
+                                               file => basename($linecountfile),
+                                               dir  => dirname($linecountfile),
+                                               autoflush => 1,
+                                               formatter => $lineno
+                    );
+
+                $out->log(INFO, "Output will be directed to $linecountfile");
+
+                my $countlog = Log::Fine->logger("logger1");
+
+                $countlog->registerHandle($linehandle);
+
+                my $l1 = [gettimeofday];
+                for my $line (@lines) {
+                        $countlog->log(INFO, $line);
+                }
+                my $l2 = [gettimeofday];
+                my $l3 = tv_interval $l1, $l2;
+
+                $out->log(INFO, "Done");
+
+                $linehandle->fileHandle->close();
+                $out->log(INFO,
+                         sprintf("%d lines were written to %s in %0.5f seconds",
+                                 scalar @lines,
+                                 $linecountfile, $l3
+                         ));
+
+        }
+
         $out->log(NOTI, "Good bye");
 
 }
+
+# --------------------------------------------------------------------
+
+sub linetracker { return sprintf("%6d", ++$linecount); }
