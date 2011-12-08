@@ -124,6 +124,9 @@ my $counter = 0;
 
         ok($log_custom->name() =~ /\w\d+$/);
 
+        # save original STDERR
+        open my $saved_stderr, ">&STDERR";
+
         eval {
 
                # note: this may or may not work under Windows
@@ -144,6 +147,9 @@ my $counter = 0;
         };
 
         ok($@ =~ /^Duplicate placeholder/);
+
+        # restore original STDERR
+        open STDERR, ">&", $saved_stderr or die "open: $!";
 
         # time
         my $log_time =
