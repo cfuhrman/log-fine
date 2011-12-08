@@ -265,15 +265,25 @@ sub _groupName
         if (defined $self->{_groupName} and $self->{_groupName} =~ /\w/) {
                 return $self->{_groupName};
         } elsif ($self->{use_effective_id}) {
-                $self->{_groupName} =
-                      ($^O eq "MSWin32")
-                    ? (split(" ", $ENV{EGID}))[0] || 0
-                    : getgrgid((split(" ", $)))[0]) || "nogroup";
+                if ($^O eq "MSWin32") {
+                        $self->{_groupname} =
+                              (defined $ENV{EGID})
+                            ? (split(" ", $ENV{EGID}))[0]
+                            : 0;
+                } else {
+                        $self->{_groupname} = getgrgid((split(" ", $)))[0])
+                            || "nogroup";
+                }
         } else {
-                $self->{_groupName} =
-                      ($^O eq "MSWin32")
-                    ? (split(" ", $ENV{GID}))[0] || 0
-                    : getgrgid((split(" ", $())[0]) || "nogroup";
+                if ($^O eq "MSWin32") {
+                        $self->{_groupname} =
+                              (defined $ENV{GID})
+                            ? (split(" ", $ENV{GID}))[0]
+                            : 0;
+                } else {
+                        $self->{_groupname} = getgrgid((split(" ", $())[0])
+                            || "nogroup";
+                }
         }
 
         return $self->{_groupName};
