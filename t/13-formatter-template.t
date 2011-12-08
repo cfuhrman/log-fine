@@ -209,7 +209,7 @@ my $counter = 0;
                 skip
 "Cannot accurately test user and group placeholders under MSWin32 or cygwin",
                     2
-                    if ($^O =~ /MSWin32|cygwin/);
+                    if ($^O =~ /MSWin32/);
 
                 ok($log_user->format(INFO, $msg, 0) eq getpwuid($<));
                 ok($log_group->format(INFO, $msg, 0) eq
