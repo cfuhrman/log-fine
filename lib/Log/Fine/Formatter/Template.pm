@@ -265,7 +265,7 @@ sub _groupName
         if (defined $self->{_groupName} and $self->{_groupName} =~ /\w/) {
                 return $self->{_groupName};
         } elsif ($self->{use_effective_id}) {
-                if ($^O eq "MSWin32") {
+                if ($^O =~ /MSWin32|cygwin/) {
                         $self->{_groupname} =
                               (defined $ENV{EGID})
                             ? (split(" ", $ENV{EGID}))[0]
@@ -275,7 +275,7 @@ sub _groupName
                             || "nogroup";
                 }
         } else {
-                if ($^O eq "MSWin32") {
+                if ($^O =~ /MSWin32|cygwin/) {
                         $self->{_groupname} =
                               (defined $ENV{GID})
                             ? (split(" ", $ENV{GID}))[0]

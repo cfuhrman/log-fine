@@ -201,9 +201,9 @@ my $counter = 0;
     SKIP: {
 
                 skip
-"Cannot accurately test user and group placeholders under MSWin32",
+"Cannot accurately test user and group placeholders under MSWin32 or cygwin",
                     2
-                    if ($^O eq "MSWin32");
+                    if ($^O =~ /MSWin32|cygwin/);
 
                 ok($log_user->format(INFO, $msg, 0) eq getpwuid($<));
                 ok($log_group->format(INFO, $msg, 0) eq
