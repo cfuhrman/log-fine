@@ -90,6 +90,10 @@ use Log::Fine::Utils;
 
         ok(-f $file);
 
+        # Clean up
+        $fh->flush();
+        $fh->close();
+        $handle->fileHandle()->close();
         unlink $file;
 
 }

@@ -273,7 +273,8 @@ my $counter = 0;
         ok($logfunc =~ /^\[.*?\] NOTI main\:\:logFunc\:\d+ $msg/);
         ok($logpack =~ /^\[.*?\] ERR This\:\:Test\:\:doFunc\:\d+ $msg/);
 
-        # We're done.
+        # We're done so clean up
+        $handle->fileHandle()->close();
         unlink $logfile;
 
 }
