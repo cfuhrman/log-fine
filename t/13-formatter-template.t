@@ -207,7 +207,7 @@ my $counter = 0;
     SKIP: {
 
                 skip
-"Cannot accurately test user and group placeholders under MSWin32 or cygwin",
+"Cannot accurately test user and group placeholders under MSWin32",
                     2
                     if ($^O =~ /MSWin32/);
 
