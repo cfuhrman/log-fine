@@ -152,7 +152,7 @@ METHODS
 
     Parameters
     message
-        Message passed to croak.
+        Message passed to confess.
 
 ACKNOWLEDGMENTS
     I'd like the thank the following people for either inspiration or past

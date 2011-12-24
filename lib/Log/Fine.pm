@@ -93,7 +93,7 @@ use Log::Fine::Levels;
 use Log::Fine::Logger;
 use POSIX qw( strftime );
 
-our $VERSION = '0.58';
+our $VERSION = '0.59';
 
 =head2 Formatters
 
