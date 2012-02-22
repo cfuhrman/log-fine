@@ -380,7 +380,7 @@ Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
 
 =head1 SEE ALSO
 
-L<perl>, L<Log::Fine>, L<Log::Fine::Handle>
+L<perl>, L<Log::Fine>, L<Log::Fine::Handle>, L<Mail::RFC822::Address>
 
 =head1 COPYRIGHT & LICENSE
 
