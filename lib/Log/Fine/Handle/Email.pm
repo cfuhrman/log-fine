@@ -172,6 +172,7 @@ use Mail::RFC822::Address qw(valid validlist);
 use Log::Fine;
 use Log::Fine::Formatter;
 use Sys::Hostname;
+use Try::Tiny;
 
 our $VERSION = $Log::Fine::Handle::VERSION;
 
@@ -179,7 +180,11 @@ our $VERSION = $Log::Fine::Handle::VERSION;
 
 =head2 msgWrite
 
-See L<Log::Fine::Handle/msgWrite>
+Sends given message to specified recipient.  Note that
+L<Log::Fine/_fatal> will be called should there be a failure of
+delivery.
+
+See also L<Log::Fine::Handle/msgWrite>
 
 =cut
 
@@ -191,6 +196,7 @@ sub msgWrite
         my $msg  = shift;
         my $skip = shift;
 
+        # Construct email object
         my $email =
             Email::Simple->create(
                  header => [
@@ -202,7 +208,13 @@ sub msgWrite
                  body => $self->{body_formatter}->format($lvl, $msg, $skip),
             );
 
-        sendmail($email, $self->{envelope});
+        # And send!
+        try {
+                sendmail($email, $self->{envelope});
+        }
+        catch {
+                $self->_fatal("Unable to deliver email: $_");
+        }
 
 }          # msgWrite()
 
