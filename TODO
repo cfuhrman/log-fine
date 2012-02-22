@@ -357,3 +357,8 @@
 
   Rename ~Template->_templateValidate()~ to some other method name
   that has the word 'placeholder' in it.
+* TODO [#C] Create Log::Fine::Handle::SMTP                          :handles:
+
+  Create a new handle for simple email delivery.  This method will use
+  the standard Net::SMTP module for email delivery rather than the
+  fully-featured Email::Sender module.
