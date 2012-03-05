@@ -208,6 +208,10 @@ sub msgWrite
                  body => $self->{body_formatter}->format($lvl, $msg, $skip),
             );
 
+        # Set X-Mailer
+        $email->header_set("X-Mailer",
+                           sprintf("%s ver %s", ref $self, $VERSION));
+
         # And send!
         try {
                 sendmail($email, $self->{envelope});
