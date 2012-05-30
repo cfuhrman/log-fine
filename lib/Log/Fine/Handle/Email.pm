@@ -129,9 +129,13 @@ Name of email_handle to use.  The following modules are available:
 
 =over 8
 
-=item  - L<Log::Fine::Handle::Email::EmailSender>
+=item  - L<Log::Fine::Handle::Email::EmailSender> (EmailSender)
 
 Deliver email via the L<Email::Sender> module
+
+=item  - L<Log::Fine::Handle::Email::MIMELite> (MIMELite)
+
+Deliver email via the L<MIME::Lite> module
 
 =back
 

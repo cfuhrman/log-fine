@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 21;
+use Test::More tests => 22;
 
 sub not_in_file_ok
 {
@@ -55,6 +55,7 @@ module_boilerplate_ok('lib/Log/Fine/Formatter/Template.pm');
 module_boilerplate_ok('lib/Log/Fine/Handle.pm');
 module_boilerplate_ok('lib/Log/Fine/Handle/Email.pm');
 module_boilerplate_ok('lib/Log/Fine/Handle/Email/EmailSender.pm');
+module_boilerplate_ok('lib/Log/Fine/Handle/Email/MIMELite.pm');
 module_boilerplate_ok('lib/Log/Fine/Handle/File.pm');
 module_boilerplate_ok('lib/Log/Fine/Handle/File/Timestamp.pm');
 module_boilerplate_ok('lib/Log/Fine/Handle/Console.pm');
