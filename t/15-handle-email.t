@@ -4,8 +4,6 @@
 # $Id$
 #
 
-BEGIN { $ENV{EMAIL_SENDER_TRANSPORT} = 'Test' }
-
 #use Data::Dumper;
 use Log::Fine;
 use Log::Fine::Formatter::Template;
@@ -14,25 +12,12 @@ use Test::More;
 
 {
 
-        plan skip_all => "Email handle only supported in perl 5.8.3 or above"
-            if $^V lt v5.8.3;
-
-        # See if we have Email::Sender installed
         eval "require Email::Sender";
 
         if ($@) {
-                plan skip_all =>
-"Email::Sender is not installed.  Unable to test Log::Fine::Handle::Email";
+                plan skip_all => "Email::Sender is not installed.  Skipping (for now)";
         } else {
-
-                eval "require Mail::RFC822::Address";
-
-                if ($@) {
-                        plan skip_all =>
-"Mail::RFC822::Address is not installed.  Unable to test Log::Fine::Handle::Email";
-                } else {
-                        plan tests => 7;
-                }
+                plan tests => 5;
         }
 
         use_ok("Log::Fine::Handle::Email");
@@ -87,19 +72,7 @@ EOF
                            header_to         => $user,
             );
 
-        isa_ok($handle, "Log::Fine::Handle::Email");
-
-        # register the handle
-        $log->registerHandle($handle);
-
-        $log->log(DEBG, "Debugging 15-handle-email.t");
-        ok( scalar @{ Email::Sender::Simple->default_transport->deliveries } ==
-                0);
-
-        $log->log(CRIT, "Beware the weeping angels");
-        ok( scalar @{ Email::Sender::Simple->default_transport->deliveries } ==
-                1);
-
-        #print STDERR Dumper $handle->{transport};
+        # Note that the default should be an EmailSender class
+        isa_ok($handle, "Log::Fine::Handle::Email::EmailSender");
 
 }
