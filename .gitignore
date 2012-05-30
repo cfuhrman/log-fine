@@ -4,3 +4,6 @@
 Makefile.old
 :2eDS_Store
 .AppleDouble
+MYMETA.json
+MYMETA.yml
+Makefile
