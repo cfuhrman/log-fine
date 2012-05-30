@@ -365,7 +365,10 @@
   Create a new handle for simple email delivery.  This method will use
   the standard Net::SMTP module for email delivery rather than the
   fully-featured Email::Sender module.
-* TODO [#A] Re-organize Log::Fine::Handle::Email functionality
+* DONE [#A] Re-organize Log::Fine::Handle::Email functionality
+  CLOSED: [2012-05-30 Wed 16:01]
+  - CLOSING NOTE [2012-05-30 Wed 16:01] \\
+    Done
 
   This would work as follows:
 
@@ -384,4 +387,31 @@
       Email module to use. Default will be EmailSender.
 
     - ~msgWrite()~ must now be subclassed.
+
+** Task Log
+
+   [2012-05-30 Wed 15:56] Successfully reorganized
+   Log::Fine::Handle::Email and added two new submodules:
+
+   - Log::Fine::Handle::Email::EmailSender, which uses the
+     Email::Sender module for delivery
+
+   - Log::Fine::Handle::Email::MIMELite, which uses the MIME::Lite
+     module for delivery
+
+** TODO [#A] Get Email changes to release status[0/6]               :release:
+
+   - [ ] Come up with additional testing scenarios, if necessary
+
+   - [ ] Review POD documentation to make sure it's accurate
+
+   - [ ] Perltidy changed code
+
+   - [ ] Perhaps come up with testing to multiple addresses?
+
+   - [ ] Test on multiple platforms
+
+   - [ ] Release unto the world
+
+
 
