@@ -34,8 +34,6 @@ Provides messaging to one or more email addresses.
         ->new( name     => 'template2',
                template => $msgtmpl );
 
-    # Define an optional transport
-
     # register an email handle
     my $handle = Log::Fine::Handle::Email
         ->new( name => 'email0',
@@ -130,6 +128,7 @@ email.
 =item  * header_to
 
 String containing text to be placed in "To" header of generated email.
+Optionally, this can be an array ref containing multiple addresses
 
 =item  * envelope
 
@@ -233,15 +232,36 @@ sub _init
         }
 
         # Validate To address
-        $self->_fatal("{header_to} must be a valid RFC 822 Email Address")
-            unless (    defined $self->{header_to}
-                    and $self->{header_to} =~ /\w/
-                    and valid($self->{header_to}));
+        $self->_fatal("{header_to} must be either an array ref containing " .
+                      "valid email addresses or a string representing a " .
+                      "valid email address")
+                unless (defined $self->{header_to});
 
-        # Check (optional) envelope
-        $self->_fatal("{envelope} must be a valid hash ref")
-            unless (defined $self->{envelope}
-                    and ref $self->{envelope} eq "HASH");
+        # Check for array ref
+        if (ref $self->{header_to} eq "ARRAY") {
+
+                if (validlist($self->{header_to})) {
+                        $self->{header_to} = join(",", @{$self->{header_to}});
+                } else {
+                        $self->_fatal("{header_to} must contain valid RFC 822 email addresses");
+                }
+
+        } elsif (not valid($self->{header_to})) {
+                $self->_fatal("{header_to} must contain a valid RFC 822 email address");
+        }
+
+        # Validate subject formatter
+        $self->_fatal(
+                      "{subject_formatter} must be a valid Log::Fine::Formatter object")
+                unless (defined $self->{subject_formatter}
+                        and $self->{subject_formatter}->isa("Log::Fine::Formatter"));
+
+        # Validate body formatter
+        $self->_fatal(
+"{body_formatter} must be a valid Log::Fine::Formatter object : "
+                    . ref $self->{body_formatter} || "{undef}")
+            unless (defined $self->{body_formatter}
+                    and $self->{body_formatter}->isa("Log::Fine::Formatter"));
 
         # Grab a ref to envelope
         my $envelope = $self->{envelope};
