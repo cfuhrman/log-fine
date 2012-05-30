@@ -357,3 +357,33 @@
 
   Rename ~Template->_templateValidate()~ to some other method name
   that has the word 'placeholder' in it.
+
+* CANCELED [#C] Create Log::Fine::Handle::SMTP                      :handles:
+  CLOSED: [2012-05-29 Tue 17:10]
+  - CLOSING NOTE [2012-05-29 Tue 17:11] \\
+    Canceled.  I'm going to subclass this instead.
+
+  Create a new handle for simple email delivery.  This method will use
+  the standard Net::SMTP module for email delivery rather than the
+  fully-featured Email::Sender module.
+
+* TODO [#A] Re-organize Log::Fine::Handle::Email functionality
+
+  This would work as follows:
+
+  1) User would instantiate a Log::Fine::Handle::Email object,
+     optionally passing it the name of the submodule to load
+
+  2) Email handle would then determine the appropriate class to load
+     and return the appropriate instance
+
+  3) Note that the default will remain using the Email::Sender module
+     for email delivery since it's the most flexible
+
+** Minor API change
+
+    - Addition of hash item "module" to constructor for specifying
+      Email module to use. Default will be EmailSender.
+
+    - ~msgWrite()~ must now be subclassed.
+
