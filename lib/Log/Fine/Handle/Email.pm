@@ -7,8 +7,6 @@ Log::Fine::Handle::Email - Email log messages to one or more addresses
 
 Provides messaging to one or more email addresses.
 
-    use Email::Sender::Simple qw(sendmail);
-    use Email::Sender::Transport::SMTP qw();
     use Log::Fine;
     use Log::Fine::Handle::Email;
     use Log::Fine::Levels::Syslog;
@@ -44,12 +42,7 @@ Provides messaging to one or more email addresses.
                body_formatter    => $bodyfmt,
                header_from       => "alerts@example.com",
                header_to         => [ "critical_alerts@example.com" ],
-               envelope          =>
-                 { to   => [ "critical_alerts@example.com" ],
-                   from => "alerts@example.com",
-                   transport =>
-                     Email::Sender::Transport::SMTP->new({ host => 'smtp.example.com' }),
-                 }
+               email_handle      => "EmailSender",
              );
 
     # register the handle
@@ -65,41 +58,41 @@ more email addresses.  The intended use is for programs that need to
 alert a user in the event of a critical condition.  Conceivably, the
 destination address could be a pager or cell phone.
 
-=head2 Implementation Details
+=cut
 
-Log::Fine::Handle::Email uses the L<Email::Sender> framework for
-delivery of emails.  Users who wish to use Log::Fine::Handle::Email
-are I<strongly> encouraged to read the following documentation:
+use strict;
+use warnings;
 
-=over
+package Log::Fine::Handle::Email;
 
-=item  * L<Email::Sender::Manual>
+use base qw( Log::Fine::Handle );
 
-=item  * L<Email::Sender::Manual::Quickstart>
+use Carp;
+#use Data::Dumper;
+use Mail::RFC822::Address qw(valid validlist);
+use Log::Fine;
+use Log::Fine::Formatter;
+use Sys::Hostname;
 
-=item  * L<Email::Sender::Simple>
+our $VERSION = $Log::Fine::Handle::VERSION;
 
-=back
+# Constants
+# --------------------------------------------------------------------
 
-Be especially mindful of the following environment variables as they
-will take precedence when defining a transport:
+use constant DEFAULT_EMAIL_HANDLE => 'EmailSender';
 
-=over
+# --------------------------------------------------------------------
 
-=item  * C<EMAIL_SENDER_TRANSPORT>
+=head1 METHODS
 
-=item  * C<EMAIL_SENDER_TRANSPORT_host>
+=head2 new
 
-=item  * C<EMAIL_SENDER_TRANSPORT_port>
+Creates a new Log::Fine::Handle::Email subclass.  By default, this
+will be a L<Log::Fine::Handle::Email::EmailSender> class.
 
-=back
+=head3 Parameters
 
-See L<Email::Sender::Manual::Quickstart> for further details.
-
-=head2 Constructor Parameters
-
-The following parameters can be passed to
-Log::Fine::Handle::Email->new();
+Parameters are passed in hash-style, and thus may be passed in any order:
 
 =over
 
@@ -131,58 +124,69 @@ email.
 
 String containing text to be placed in "To" header of generated email.
 
+=item  * email_handle
+
+Name of email_handle to use.  The following modules are available:
+
+=over 8
+
+=item  - L<Log::Fine::Handle::Email::EmailSender>
+
+Deliver email via the L<Email::Sender> module
+
+=back
+
+By default L<Log::Fine::Handle::Email::EmailSender> will be used
+
 =item  * envelope
 
 [optional] hash ref containing envelope information for email:
 
 =over 8
 
-=item  + to
+=item  - to
 
 array ref containing one or more destination addresses
 
-=item  + from
+=item  - from
 
 String containing email sender
 
-=item  * transport
-
-An L<Email::Sender::Transport> object.  See L<Email::Sender::Manual>
-for further details.
-
 =back
 
 =back
+
+Additional parameters will be documented in each individual subclass.
 
 =cut
 
-use strict;
-use warnings;
+sub new
+{
 
-package Log::Fine::Handle::Email;
+        my $class  = shift;
+        my %params = @_;
 
-use 5.008_003;          # Email::Sender requires Moose which requires 5.8.3
+        my $emailClass = join("::", $class,
+                            $params{"email_handle"} || DEFAULT_EMAIL_HANDLE);
 
-use base qw( Log::Fine::Handle );
+        # validate the sub module
+        eval "require $emailClass";
 
-#use Data::Dumper;
-use Email::Sender::Simple qw(sendmail);
-use Email::Simple;
-use Mail::RFC822::Address qw(valid validlist);
-use Log::Fine;
-use Log::Fine::Formatter;
-use Sys::Hostname;
-use Try::Tiny;
+        # Do we have the class defined
+        confess "Error : Email Class $emailClass does not exist : $@"
+                if $@;
 
-our $VERSION = $Log::Fine::Handle::VERSION;
+        return $emailClass->new(%params);
 
-=head1 METHODS
+} # new()
 
 =head2 msgWrite
 
 Sends given message to specified recipient.  Note that
 L<Log::Fine/_fatal> will be called should there be a failure of
 delivery.
+
+B<Note:> This method I<must> be sub-classed!
 
 See also L<Log::Fine::Handle/msgWrite>
 
@@ -192,33 +196,18 @@ sub msgWrite
 {
 
         my $self = shift;
-        my $lvl  = shift;
-        my $msg  = shift;
-        my $skip = shift;
+        my $class = ref $self;
 
-        # Construct email object
-        my $email =
-            Email::Simple->create(
-                 header => [
-                        To   => $self->{header_to},
-                        From => $self->{header_from},
-                        Subject =>
-                            $self->{subject_formatter}->format($lvl, "", $skip),
-                 ],
-                 body => $self->{body_formatter}->format($lvl, $msg, $skip),
-            );
+        my $msg =
+            ($class eq 'Log::Fine::Handle::Email')
+            ? "direct call to abstract method msgWrite()!\n  See Log::Fine::Handle::Email documentation"
+            : "call to abstract method ${class}::msgWrite()";
 
-        # Set X-Mailer
-        $email->header_set("X-Mailer",
-                           sprintf("%s ver %s", ref $self, $VERSION));
+        $self->_fatal($msg);
 
-        # And send!
-        try {
-                sendmail($email, $self->{envelope});
-        }
-        catch {
-                $self->_fatal("Unable to deliver email: $_");
-        }
+        #
+        # NOT REACHED
+        #
 
 }          # msgWrite()
 
@@ -234,9 +223,6 @@ sub _init
 
         # call the super object
         $self->SUPER::_init();
-
-        # Make sure envelope is defined
-        $self->{envelope} ||= {};
 
         # Validate From address
         if (not defined $self->{header_from}) {
@@ -254,37 +240,6 @@ sub _init
                     and $self->{header_to} =~ /\w/
                     and valid($self->{header_to}));
 
-        # Check (optional) envelope
-        $self->_fatal("{envelope} must be a valid hash ref")
-            unless (defined $self->{envelope}
-                    and ref $self->{envelope} eq "HASH");
-
-        # Grab a ref to envelope
-        my $envelope = $self->{envelope};
-
-        # Check Envelope Transport
-        if (defined $envelope->{transport}) {
-                my $transtype = ref $envelope->{transport};
-                $self->_fatal(
-"{envelope}->{transport} must be a valid Email::Sender::Transport object : $transtype"
-                ) unless ($transtype =~ /^Email\:\:Sender\:\:Transport/);
-        }
-
-        # Check Envelope To
-        if (defined $envelope->{to}) {
-                $self->_fatal(
-"{envelope}->{to} must be an array ref containing one or more valid RFC 822 email addresses"
-                    )
-                    unless (ref $envelope->{to} eq "ARRAY"
-                            and validlist($envelope->{to}));
-        }
-
-        if (defined $envelope->{from}) {
-                $self->_fatal(
-"{envelope}->{from} must be a valid RFC 822 Email Address"
-                ) unless valid($envelope->{from});
-        }
-
         # Validate subject formatter
         $self->_fatal(
 "{subject_formatter} must be a valid Log::Fine::Formatter object")
@@ -297,6 +252,29 @@ sub _init
                     . ref $self->{body_formatter} || "{undef}")
             unless (defined $self->{body_formatter}
                     and $self->{body_formatter}->isa("Log::Fine::Formatter"));
+
+        # Grab a ref to envelope
+        my $envelope = $self->{envelope} || {};
+
+        # Check Envelope To
+        if (defined $envelope->{to} and $envelope->{to} =~ /\w/) {
+                $self->_fatal(
+"{envelope}->{to} must be an array ref containing one or more valid RFC 822 email addresses"
+                    )
+                    unless (ref $envelope->{to} eq "ARRAY"
+                            and validlist($envelope->{to}));
+        } else {
+                $envelope->{to} = [ $self->{header_to} ];
+        }
+
+        # Check envelope from
+        if (defined $envelope->{from} and $envelope->{from} =~ /\w/) {
+                $self->_fatal(
+"{envelope}->{from} must be a valid RFC 822 Email Address"
+                ) unless valid($envelope->{from});
+        } else {
+                $envelope->{from} = $self->{header_from};
+        }
 
         return $self;
 
@@ -400,7 +378,7 @@ L<perl>, L<Log::Fine>, L<Log::Fine::Handle>, L<Mail::RFC822::Address>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2011 Christopher M. Fuhrman, 
+Copyright (c) 2011-2012 Christopher M. Fuhrman, 
 All rights reserved.
 
 This program is free software licensed under the...
