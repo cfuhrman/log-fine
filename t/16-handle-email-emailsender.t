@@ -1,10 +1,11 @@
-#!perl
+#!perl -T
 
 #
 # $Id$
 #
 
-#use Data::Dumper;
+BEGIN { $ENV{EMAIL_SENDER_TRANSPORT} = 'Test' }
+
 use Log::Fine;
 use Log::Fine::Formatter::Template;
 use Log::Fine::Levels::Syslog qw( :macros :masks );
@@ -12,43 +13,20 @@ use Test::More;
 
 {
 
-        $ENV{ENABLE_AUTHOR_TESTS} = 0
-            unless defined $ENV{ENABLE_AUTHOR_TESTS};
-
-        # Check environmental variables
-        plan skip_all => "these tests are for testing by the author"
-            unless $ENV{ENABLE_AUTHOR_TESTS};
-        plan skip_all => "cannot test SMTP under MsWin32 or cygwin"
-            if (($^O eq "MSWin32") || ($^O eq "cygwin"));
-        plan skip_all => "Email handle only supported in perl 5.8.3 or above"
-            if $^V lt v5.8.3;
-        plan skip_all =>
-            "Unset EMAIL_SENDER_TRANSPORT prior to running this test"
-            if defined $ENV{EMAIL_SENDER_TRANSPORT};
-
         # See if we have Email::Sender installed
         eval "require Email::Sender";
 
         if ($@) {
                 plan skip_all =>
-"Email::Sender is not installed.  Unable to test Log::Fine::Handle::Email";
+"Email::Sender is not installed.  Unable to test Log::Fine::Handle::Email::EmailSender";
         } else {
-
-                eval "require Mail::RFC822::Address";
-
-                if ($@) {
-                        plan skip_all =>
-"Mail::RFC822::Address is not installed.  Unable to test Log::Fine::Handle::Email";
-                } else {
-                        plan tests => 6;
-                }
+                plan tests => 7;
         }
 
-        use_ok("Log::Fine::Handle::Email");
+        use_ok("Log::Fine::Handle::Email::EmailSender");
 
         # Load appropriate modules
         require Email::Sender::Simple;
-        require Email::Sender::Transport::SMTP;
 
         my $user =
             sprintf('%s@localhost', getlogin() || getpwuid($<) || "nobody");
@@ -96,23 +74,18 @@ EOF
                            header_to         => $user,
             );
 
-        isa_ok($handle, "Log::Fine::Handle::Email");
+        isa_ok($handle, "Log::Fine::Handle::Email::EmailSender");
 
         # register the handle
         $log->registerHandle($handle);
 
-        # Grab number of messages
-        my $msg_t1 = qx! mail -H | wc -l !;
+        $log->log(DEBG, "Debugging 16-handle-email-emailsender.t");
+        ok( scalar @{ Email::Sender::Simple->default_transport->deliveries } ==
+                0);
 
-        $log->log(DEBG, "Debugging 16-handle-email-smtp.t");
         $log->log(CRIT, "Beware the weeping angels");
+        ok( scalar @{ Email::Sender::Simple->default_transport->deliveries } ==
+                1);
 
-        # Give sendmail a chance to deliver
-        print STDERR "---- Sleeping for 5 seconds";
-        sleep 5;
-
-        my $msg_t2 = qx! mail -H | wc -l !;
-
-        ok($msg_t2 > $msg_t1);
 
 }
