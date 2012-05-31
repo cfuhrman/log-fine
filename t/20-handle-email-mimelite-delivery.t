@@ -4,7 +4,6 @@
 # $Id$
 #
 
-#use Data::Dumper;
 use Log::Fine;
 use Log::Fine::Formatter::Template;
 use Log::Fine::Levels::Syslog qw( :macros :masks );
@@ -18,37 +17,19 @@ use Test::More;
         # Check environmental variables
         plan skip_all => "these tests are for testing by the author"
             unless $ENV{ENABLE_AUTHOR_TESTS};
-        plan skip_all => "cannot test SMTP under MsWin32 or cygwin"
+        plan skip_all => "cannot test delivery under MsWin32 or cygwin"
             if (($^O eq "MSWin32") || ($^O eq "cygwin"));
-        plan skip_all => "Email handle only supported in perl 5.8.3 or above"
-            if $^V lt v5.8.3;
-        plan skip_all =>
-            "Unset EMAIL_SENDER_TRANSPORT prior to running this test"
-            if defined $ENV{EMAIL_SENDER_TRANSPORT};
 
-        # See if we have Email::Sender installed
-        eval "require Email::Sender";
+        # See if we have MIME::Lite installed
+        eval "require MIME::Lite";
 
         if ($@) {
-                plan skip_all =>
-"Email::Sender is not installed.  Unable to test Log::Fine::Handle::Email";
+                plan skip_all => "MIME::Lite is not installed.  Unable to test Log::Fine::Handle::MIMELite";
         } else {
-
-                eval "require Mail::RFC822::Address";
-
-                if ($@) {
-                        plan skip_all =>
-"Mail::RFC822::Address is not installed.  Unable to test Log::Fine::Handle::Email";
-                } else {
-                        plan tests => 6;
-                }
+                plan tests => 6;
         }
 
-        use_ok("Log::Fine::Handle::Email");
-
-        # Load appropriate modules
-        require Email::Sender::Simple;
-        require Email::Sender::Transport::SMTP;
+        use_ok("Log::Fine::Handle::Email::MIMELite");
 
         my $user =
             sprintf('%s@localhost', getlogin() || getpwuid($<) || "nobody");
@@ -94,9 +75,15 @@ EOF
                            body_formatter    => $bodyfmt,
                            header_from       => $user,
                            header_to         => $user,
-            );
+                           email_handle  => "MIMELite",
+                                          envelope => {
+                                                       method => 'smtp',
+                                                       options => [ "localhost" ],
+                                                      }
+                                         );
 
-        isa_ok($handle, "Log::Fine::Handle::Email");
+        isa_ok($handle, "Log::Fine::Handle::Email::MIMELite");
+
 
         # register the handle
         $log->registerHandle($handle);
@@ -104,7 +91,7 @@ EOF
         # Grab number of messages
         my $msg_t1 = qx! mail -H | wc -l !;
 
-        $log->log(DEBG, "Debugging 16-handle-email-smtp.t");
+        $log->log(DEBG, "Debugging $0");
         $log->log(CRIT, "Beware the weeping angels");
 
         # Give sendmail a chance to deliver

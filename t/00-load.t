@@ -1,6 +1,6 @@
 #!perl -T
 
-use Test::More tests => 18;
+use Test::More tests => 20;
 
 BEGIN {
         use_ok('Log::Fine');
@@ -10,6 +10,7 @@ BEGIN {
         use_ok('Log::Fine::Formatter::Syslog');
         use_ok('Log::Fine::Formatter::Template');
         use_ok('Log::Fine::Handle');
+        use_ok('Log::Fine::Handle::Email');
         use_ok('Log::Fine::Handle::File');
         use_ok('Log::Fine::Handle::File::Timestamp');
         use_ok('Log::Fine::Handle::Console');
@@ -33,7 +34,13 @@ BEGIN {
                     1
                     if $@;
 
-                use_ok('Log::Fine::Handle::Email');
+                use_ok('Log::Fine::Handle::Email::EmailSender');
+
+                eval "use MIME::Lite";
+                skip "MIME::Lite required for testing Email delivery via MIME::Lite", 1
+                        if $@;
+
+                use_ok('Log::Fine::Handle::Email::MIMELite');
 
         }
 

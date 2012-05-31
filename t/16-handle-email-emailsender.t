@@ -4,7 +4,8 @@
 # $Id$
 #
 
-#use Data::Dumper;
+BEGIN { $ENV{EMAIL_SENDER_TRANSPORT} = 'Test' }
+
 use Log::Fine;
 use Log::Fine::Formatter::Template;
 use Log::Fine::Levels::Syslog qw( :macros :masks );
@@ -12,19 +13,20 @@ use Test::More;
 
 {
 
+        # See if we have Email::Sender installed
         eval "require Email::Sender";
 
         if ($@) {
-                plan skip_all => "Email::Sender is not installed.  Skipping (for now)";
+                plan skip_all =>
+"Email::Sender is not installed.  Unable to test Log::Fine::Handle::Email::EmailSender";
         } else {
-                plan tests => 5;
+                plan tests => 7;
         }
 
-        use_ok("Log::Fine::Handle::Email");
+        use_ok("Log::Fine::Handle::Email::EmailSender");
 
         # Load appropriate modules
         require Email::Sender::Simple;
-        require Email::Sender::Transport::Test;
 
         my $user =
             sprintf('%s@localhost', getlogin() || getpwuid($<) || "nobody");
@@ -72,7 +74,18 @@ EOF
                            header_to         => $user,
             );
 
-        # Note that the default should be an EmailSender class
         isa_ok($handle, "Log::Fine::Handle::Email::EmailSender");
+
+        # register the handle
+        $log->registerHandle($handle);
+
+        $log->log(DEBG, "Debugging 16-handle-email-emailsender.t");
+        ok( scalar @{ Email::Sender::Simple->default_transport->deliveries } ==
+                0);
+
+        $log->log(CRIT, "Beware the weeping angels");
+        ok( scalar @{ Email::Sender::Simple->default_transport->deliveries } ==
+                1);
+
 
 }

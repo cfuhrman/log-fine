@@ -357,8 +357,61 @@
 
   Rename ~Template->_templateValidate()~ to some other method name
   that has the word 'placeholder' in it.
-* TODO [#C] Create Log::Fine::Handle::SMTP                          :handles:
+* CANCELED [#C] Create Log::Fine::Handle::SMTP                      :handles:
+  CLOSED: [2012-05-29 Tue 17:10]
+  - CLOSING NOTE [2012-05-29 Tue 17:11] \\
+    Canceled.  I'm going to subclass this instead.
 
   Create a new handle for simple email delivery.  This method will use
   the standard Net::SMTP module for email delivery rather than the
   fully-featured Email::Sender module.
+* DONE [#A] Re-organize Log::Fine::Handle::Email functionality
+  CLOSED: [2012-05-30 Wed 16:01]
+  - CLOSING NOTE [2012-05-30 Wed 16:01] \\
+    Done
+
+  This would work as follows:
+
+  1) User would instantiate a Log::Fine::Handle::Email object,
+     optionally passing it the name of the submodule to load
+
+  2) Email handle would then determine the appropriate class to load
+     and return the appropriate instance
+
+  3) Note that the default will remain using the Email::Sender module
+     for email delivery since it's the most flexible
+
+** Minor API change
+
+    - Addition of hash item "module" to constructor for specifying
+      Email module to use. Default will be EmailSender.
+
+    - ~msgWrite()~ must now be subclassed.
+
+** Task Log
+
+   [2012-05-30 Wed 15:56] Successfully reorganized
+   Log::Fine::Handle::Email and added two new submodules:
+
+   - Log::Fine::Handle::Email::EmailSender, which uses the
+     Email::Sender module for delivery
+
+   - Log::Fine::Handle::Email::MIMELite, which uses the MIME::Lite
+     module for delivery
+
+** TODO [#A] Get Email changes to release status[0/6]               :release:
+
+   - [ ] Come up with additional testing scenarios, if necessary
+
+   - [ ] Review POD documentation to make sure it's accurate
+
+   - [ ] Perltidy changed code
+
+   - [ ] Perhaps come up with testing to multiple addresses?
+
+   - [ ] Test on multiple platforms
+
+   - [ ] Release unto the world
+
+
+

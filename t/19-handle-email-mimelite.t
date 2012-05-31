@@ -4,7 +4,6 @@
 # $Id$
 #
 
-#use Data::Dumper;
 use Log::Fine;
 use Log::Fine::Formatter::Template;
 use Log::Fine::Levels::Syslog qw( :macros :masks );
@@ -12,19 +11,16 @@ use Test::More;
 
 {
 
-        eval "require Email::Sender";
+        # See if we have MIME::Lite installed
+        eval "require MIME::Lite";
 
         if ($@) {
-                plan skip_all => "Email::Sender is not installed.  Skipping (for now)";
+                plan skip_all => "MIME::Lite is not installed.  Unable to test Log::Fine::Handle::MIMELite";
         } else {
                 plan tests => 5;
         }
 
-        use_ok("Log::Fine::Handle::Email");
-
-        # Load appropriate modules
-        require Email::Sender::Simple;
-        require Email::Sender::Transport::Test;
+        use_ok("Log::Fine::Handle::Email::MIMELite");
 
         my $user =
             sprintf('%s@localhost', getlogin() || getpwuid($<) || "nobody");
@@ -70,9 +66,9 @@ EOF
                            body_formatter    => $bodyfmt,
                            header_from       => $user,
                            header_to         => $user,
+                           email_handle  => "MIMELite",
             );
 
-        # Note that the default should be an EmailSender class
-        isa_ok($handle, "Log::Fine::Handle::Email::EmailSender");
+        isa_ok($handle, "Log::Fine::Handle::Email::MIMELite");
 
 }

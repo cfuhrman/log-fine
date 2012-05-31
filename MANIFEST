@@ -14,6 +14,8 @@ lib/Log/Fine/Formatter/Template.pm
 lib/Log/Fine/Handle.pm
 lib/Log/Fine/Handle/Console.pm
 lib/Log/Fine/Handle/Email.pm
+lib/Log/Fine/Handle/Email/EmailSender.pm
+lib/Log/Fine/Handle/Email/MIMELite.pm
 lib/Log/Fine/Handle/File.pm
 lib/Log/Fine/Handle/File/Timestamp.pm
 lib/Log/Fine/Handle/Syslog.pm
@@ -40,8 +42,11 @@ t/12-levels-java.t
 t/13-formatter-template.t
 t/14-handle-syslog-log_user.t
 t/15-handle-email.t
-t/16-handle-email-smtp.t
+t/16-handle-email-emailsender.t
 t/17-handle-file-windows.t
+t/18-handle-email-emailsender-delivery.t
+t/19-handle-email-mimelite.t
+t/20-handle-email-mimelite-delivery.t
 t/boilerplate.t
 t/pod-coverage.t
 t/pod.t
