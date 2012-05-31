@@ -38,9 +38,15 @@ Provides messaging to one or more email addresses.
                mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT,
                subject_formatter => $subjfmt,
                body_formatter    => $bodyfmt,
-               header_from       => "alerts@example.com",
+               header_from       => "Critical Alerts <alerts@example.com>",
                header_to         => "critical_alerts@example.com",
-               email_handle      => "EmailSender",
+               email_handle      => "EmailSender",       # <-- default value
+               envelope          => {
+                   from => "alerts@example.com",
+                   to   => ["critical_alerts@example.com",
+                            "techoncall@example.com",
+                            "techops@example.com"],
+               }
              );
 
     # register the handle
@@ -55,6 +61,46 @@ Log::Fine::Handle::Email provides formatted message delivery to one or
 more email addresses.  The intended use is for programs that need to
 alert a user in the event of a critical condition.  Conceivably, the
 destination address could be a pager or cell phone.
+
+=head1 EMAIL INTERFACES
+
+Up until Log::Fine v0.59, the L<Email::Sender> framework was used to
+do the heavy lifting of delivery of emails.  While powerful and
+configurable, the Email::Sender framework required a hefty number of
+dependencies, some of which would not work on older versions of perl.
+In addition, some vendors did not include Email::Sender in their
+respective packaging systems, necessitating the use of CPAN.
+
+As there are numerous modules relating to email delivery in CPAN,
+Log::Fine::Handle::Email now makes use of "interface" classes which
+can be used specify how email is delivered.  Currently, the following
+classes are supported:
+
+=over
+
+=item  * L<Email::Sender>
+
+=item  * L<MIME::Lite>
+
+=back
+
+To maintain backward-compatibility with previous releases,
+Email::Sender is the default mechanism.
+
+=head2 Subclassing
+
+To sub-class this module, the following methods I<must> be provided:
+
+=over
+
+=item  * L</new>()
+
+=item  * L</msgWrite>()
+
+=back
+
+See the documentation below as well as the included interface modules
+for further details.
 
 =cut
 
@@ -87,6 +133,9 @@ use constant DEFAULT_EMAIL_HANDLE => 'EmailSender';
 
 Creates a new Log::Fine::Handle::Email subclass.  By default, this
 will be a L<Log::Fine::Handle::Email::EmailSender> class.
+
+When writing an interface for Log::Fine::Handle::Email, this method
+I<must> be sub-classed!
 
 =head3 Parameters
 
@@ -169,17 +218,17 @@ sub new
         my $class  = shift;
         my %params = @_;
 
-        my $emailClass = join("::", $class,
+        my $emailHandle = join("::", $class,
                             $params{"email_handle"} || DEFAULT_EMAIL_HANDLE);
 
         # validate the sub module
-        eval "require $emailClass";
+        eval "require $emailHandle";
 
         # Do we have the class defined
-        confess "Error : Email Class $emailClass does not exist : $@"
+        confess "Error : Email handle $emailHandle does not exist : $@"
                 if $@;
 
-        return $emailClass->new(%params);
+        return $emailHandle->new(%params);
 
 } # new()
 
