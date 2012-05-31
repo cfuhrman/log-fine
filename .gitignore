@@ -4,3 +4,8 @@
 Makefile.old
 :2eDS_Store
 .AppleDouble
+MYMETA.json
+MYMETA.yml
+Makefile
+blib
+pm_to_blib
