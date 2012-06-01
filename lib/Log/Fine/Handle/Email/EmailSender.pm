@@ -46,14 +46,14 @@ L<Email::Sender> module.
                mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT,
                subject_formatter => $subjfmt,
                body_formatter    => $bodyfmt,
-               header_from       => "alerts@example.com",
-               header_to         => "critical_alerts@example.com",
-               email_handle      => "EmailSender",  # <-- default value
+               header_from       => 'alerts@example.com',
+               header_to         => 'critical_alerts@example.com',
+               email_handle      => 'EmailSender',  # <-- default value
                envelope          => {
-                   to        => [ "critical_alerts@example.com",
-                                  "chris@example.com",
-                                  "joe@example.com"],
-                   from      => "alerts@example.com",
+                   to        => [ 'critical_alerts@example.com',
+                                  'chris@example.com',
+                                  'joe@example.com'],
+                   from      => 'alerts@example.com',
                    transport => $transport,
                }
              );
