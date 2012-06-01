@@ -38,7 +38,7 @@ use Test::More;
 
                 if ($@) {
                         plan skip_all =>
-"Mail::RFC822::Address is not installed.  Unable to test Log::Fine::Handle::Email";
+                                "Mail::RFC822::Address is not installed";
                 } else {
                         plan tests => 6;
                 }
@@ -65,8 +65,8 @@ use Test::More;
 
         # Create a formatted msg template
         my $msgtmpl = <<EOF;
-This is a test of Log::Fine::Handle::Email.  The following message was
-delivered at %%TIME%%:
+This is a test of Log::Fine::Handle::Email::EmailSender using Perl $].
+The following message was delivered at %%TIME%%:
 
 --------------------------------------------------------------------
 %%MSG%%

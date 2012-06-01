@@ -13,14 +13,22 @@ use Test::More;
 
 {
 
-        # See if we have Email::Sender installed
-        eval "require Email::Sender";
+        # See if we have Mail::RFC822::Address installed
+        eval "require Mail::RFC822::Address";
 
         if ($@) {
-                plan skip_all =>
-"Email::Sender is not installed.  Unable to test Log::Fine::Handle::Email::EmailSender";
+                plan skip_all => "Mail::RFC822::Address is not installed";
         } else {
-                plan tests => 7;
+
+                # See if we have Email::Sender installed
+                eval "require Email::Sender";
+
+                if ($@) {
+                        plan skip_all => "Email::Sender is not installed";
+                } else {
+                        plan tests => 7;
+                }
+
         }
 
         use_ok("Log::Fine::Handle::Email::EmailSender");

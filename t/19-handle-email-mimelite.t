@@ -11,14 +11,22 @@ use Test::More;
 
 {
 
-        # See if we have MIME::Lite installed
-        eval "require MIME::Lite";
+        # See if we have Mail::RFC822::Address installed
+        eval "require Mail::RFC822::Address";
 
         if ($@) {
-                plan skip_all =>
-"MIME::Lite is not installed.  Unable to test Log::Fine::Handle::Email::MIMELite";
+                plan skip_all => "Mail::RFC822::Address is not installed";
         } else {
-                plan tests => 5;
+
+                # See if we have MIME::Lite installed
+                eval "require MIME::Lite";
+
+                if ($@) {
+                        plan skip_all => "MIME::Lite is not installed";
+                } else {
+                        plan tests => 5;
+                }
+
         }
 
         use_ok("Log::Fine::Handle::Email::MIMELite");

@@ -25,7 +25,7 @@ use Test::More;
 
         if ($@) {
                 plan skip_all =>
-"MIME::Lite is not installed.  Unable to test Log::Fine::Handle::MIMELite";
+                        "MIME::Lite is not installed"
         } else {
                 plan tests => 6;
         }
@@ -47,8 +47,8 @@ use Test::More;
 
         # Create a formatted msg template
         my $msgtmpl = <<EOF;
-This is a test of Log::Fine::Handle::Email.  The following message was
-delivered at %%TIME%%:
+This is a test of Log::Fine::Handle::Email::MIMELite using Perl $].
+The following message was delivered at %%TIME%%:
 
 --------------------------------------------------------------------
 %%MSG%%
@@ -77,10 +77,7 @@ EOF
                            header_from       => $user,
                            header_to         => $user,
                            email_handle      => "MIMELite",
-                           envelope          => {
-                                         method  => 'smtp',
-                                         options => ["localhost"],
-                           });
+            );
 
         isa_ok($handle, "Log::Fine::Handle::Email::MIMELite");
 
