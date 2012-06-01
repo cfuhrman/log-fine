@@ -78,7 +78,6 @@ use base qw( Log::Fine::Handle::Email );
 
 #use Data::Dumper;
 use MIME::Lite;
-use Try::Tiny;
 
 our $VERSION = $Log::Fine::Handle::Email::VERSION;
 
@@ -151,18 +150,11 @@ sub msgWrite
                  'X-Mailer' => sprintf("%s ver %s", ref $self, $VERSION),
         );
 
-        try {
-
-                if (defined $self->{envelope}->{method}) {
-                        $mimeobj->send($self->{envelope}->{method},
-                                       @{ $self->{envelope}->{options} });
-                } else {
-                        $mimeobj->send();
-                }
-
-        }
-        catch {
-                $self->_fatal("Unable to deliver email: $_");
+        if (defined $self->{envelope}->{method}) {
+                $mimeobj->send($self->{envelope}->{method},
+                               @{ $self->{envelope}->{options} });
+        } else {
+                $mimeobj->send();
         }
 
 }          # msgWrite()
