@@ -197,11 +197,16 @@ sub msgWrite
         my $self  = shift;
         my $class = ref $self;
 
-        $self->_fatal(
-"direct call to abstract method msgWrite()!\n  See Log::Fine::Handle documentation"
-        ) if $class eq 'Log::Fine::Handle';
+        my $msg =
+            ($class eq 'Log::Fine::Handle')
+            ? "direct call to abstract method msgWrite()!\n  See Log::Fine::Handle documentation"
+            : "call to abstract method ${class}::msgWrite()";
 
-        $self->_fatal("call to abstract method ${class}::msgWrite()");
+        $self->_fatal($msg);
+
+        #
+        # NOT REACHED
+        #
 
 }          # msgWrite()
 
