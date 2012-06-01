@@ -15,7 +15,7 @@ use Test::More;
         eval "require MIME::Lite";
 
         if ($@) {
-                plan skip_all => "MIME::Lite is not installed.  Unable to test Log::Fine::Handle::MIMELite";
+                plan skip_all => "MIME::Lite is not installed.  Unable to test Log::Fine::Handle::Email::MIMELite";
         } else {
                 plan tests => 5;
         }
