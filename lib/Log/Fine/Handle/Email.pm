@@ -38,14 +38,14 @@ Provides messaging to one or more email addresses.
                mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT,
                subject_formatter => $subjfmt,
                body_formatter    => $bodyfmt,
-               header_from       => "Critical Alerts <alerts@example.com>",
-               header_to         => "critical_alerts@example.com",
+               header_from       => 'Critical Alerts <alerts@example.com>',
+               header_to         => 'critical_alerts@example.com',
                email_handle      => "EmailSender",       # <-- default value
                envelope          => {
-                   from => "alerts@example.com",
-                   to   => ["critical_alerts@example.com",
-                            "techoncall@example.com",
-                            "techops@example.com"],
+                   from => 'alerts@example.com',
+                   to   => ['critical_alerts@example.com',
+                            'techoncall@example.com',
+                            'techops@example.com'],
                }
              );
 
@@ -234,34 +234,14 @@ sub new
 
 =head2 msgWrite
 
-Sends given message to specified recipient.  Note that
-L<Log::Fine/_fatal> will be called should there be a failure of
-delivery.
-
-B<Note:> This method I<must> be sub-classed!
-
-See also L<Log::Fine::Handle/msgWrite>
+See L<Log::Fine::Handle/msgWrite>
 
 =cut
 
-sub msgWrite
-{
-
-        my $self = shift;
-        my $class = ref $self;
-
-        my $msg =
-            ($class eq 'Log::Fine::Handle::Email')
-            ? "direct call to abstract method msgWrite()!\n  See Log::Fine::Handle::Email documentation"
-            : "call to abstract method ${class}::msgWrite()";
-
-        $self->_fatal($msg);
-
-        #
-        # NOT REACHED
-        #
-
-}          # msgWrite()
+#
+# This space intentionally left blank as, by default, the SUPER method
+# will be called
+#
 
 # --------------------------------------------------------------------
 

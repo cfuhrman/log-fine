@@ -199,7 +199,7 @@ sub msgWrite
 
         my $msg =
             ($class eq 'Log::Fine::Handle')
-            ? "direct call to abstract method msgWrite()!\n  See Log::Fine::Handle documentation"
+            ? "direct call to abstract method msgWrite()!\n  See ${class} documentation"
             : "call to abstract method ${class}::msgWrite()";
 
         $self->_fatal($msg);
