@@ -341,6 +341,9 @@ sub _fatal
             $call[2] || 0,
             $msg || "No reason given";
 
+        $self->{_err_str} = $msg
+                if (defined $self and $self->isa("Log::Fine"));
+
         confess $msg
             if ((    defined $self
                  and $self->isa("Log::Fine")
