@@ -10,7 +10,6 @@ BEGIN {
         use_ok('Log::Fine::Formatter::Syslog');
         use_ok('Log::Fine::Formatter::Template');
         use_ok('Log::Fine::Handle');
-        use_ok('Log::Fine::Handle::Email');
         use_ok('Log::Fine::Handle::File');
         use_ok('Log::Fine::Handle::File::Timestamp');
         use_ok('Log::Fine::Handle::Console');
@@ -24,23 +23,24 @@ BEGIN {
 
     SKIP: {
 
-                eval "use Email::Sender";
-                skip "Email::Sender required for testing Email delivery", 1
-                    if $@;
+              eval "use Mail::RFC822::Address";
+              skip
+                  "Mail::RFC822::Address required for testing Email delivery",
+                      3
+                          if $@;
+              
+              eval "use Email::Sender";
+              skip "Email::Sender required for testing Email delivery", 2
+                  if $@;
 
-                eval "use Mail::RFC822::Address";
-                skip
-                    "Mail::RFC822::Address required for testing Email delivery",
-                    1
-                    if $@;
+              use_ok('Log::Fine::Handle::Email');
+              use_ok('Log::Fine::Handle::Email::EmailSender');
 
-                use_ok('Log::Fine::Handle::Email::EmailSender');
+              eval "use MIME::Lite";
+              skip "MIME::Lite required for testing Email delivery via MIME::Lite", 1
+                  if $@;
 
-                eval "use MIME::Lite";
-                skip "MIME::Lite required for testing Email delivery via MIME::Lite", 1
-                        if $@;
-
-                use_ok('Log::Fine::Handle::Email::MIMELite');
+              use_ok('Log::Fine::Handle::Email::MIMELite');
 
         }
 
