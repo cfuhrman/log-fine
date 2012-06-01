@@ -15,7 +15,8 @@ use Test::More;
         eval "require MIME::Lite";
 
         if ($@) {
-                plan skip_all => "MIME::Lite is not installed.  Unable to test Log::Fine::Handle::Email::MIMELite";
+                plan skip_all =>
+"MIME::Lite is not installed.  Unable to test Log::Fine::Handle::Email::MIMELite";
         } else {
                 plan tests => 5;
         }
@@ -66,7 +67,7 @@ EOF
                            body_formatter    => $bodyfmt,
                            header_from       => $user,
                            header_to         => $user,
-                           email_handle  => "MIMELite",
+                           email_handle      => "MIMELite",
             );
 
         isa_ok($handle, "Log::Fine::Handle::Email::MIMELite");

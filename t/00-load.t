@@ -23,24 +23,26 @@ BEGIN {
 
     SKIP: {
 
-              eval "use Mail::RFC822::Address";
-              skip
-                  "Mail::RFC822::Address required for testing Email delivery",
-                      3
-                          if $@;
-              
-              eval "use Email::Sender";
-              skip "Email::Sender required for testing Email delivery", 2
-                  if $@;
+                eval "use Mail::RFC822::Address";
+                skip
+                    "Mail::RFC822::Address required for testing Email delivery",
+                    3
+                    if $@;
 
-              use_ok('Log::Fine::Handle::Email');
-              use_ok('Log::Fine::Handle::Email::EmailSender');
+                eval "use Email::Sender";
+                skip "Email::Sender required for testing Email delivery", 2
+                    if $@;
 
-              eval "use MIME::Lite";
-              skip "MIME::Lite required for testing Email delivery via MIME::Lite", 1
-                  if $@;
+                use_ok('Log::Fine::Handle::Email');
+                use_ok('Log::Fine::Handle::Email::EmailSender');
 
-              use_ok('Log::Fine::Handle::Email::MIMELite');
+                eval "use MIME::Lite";
+                skip
+"MIME::Lite required for testing Email delivery via MIME::Lite",
+                    1
+                    if $@;
+
+                use_ok('Log::Fine::Handle::Email::MIMELite');
 
         }
 

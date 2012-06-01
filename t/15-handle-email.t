@@ -15,7 +15,8 @@ use Test::More;
         eval "require Email::Sender";
 
         if ($@) {
-                plan skip_all => "Email::Sender is not installed.  Skipping (for now)";
+                plan skip_all =>
+                    "Email::Sender is not installed.  Skipping (for now)";
         } else {
                 plan tests => 5;
         }

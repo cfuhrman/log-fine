@@ -87,5 +87,4 @@ EOF
         ok( scalar @{ Email::Sender::Simple->default_transport->deliveries } ==
                 1);
 
-
 }

@@ -103,8 +103,8 @@ use warnings;
 
 package Log::Fine::Handle::Email::EmailSender;
 
-use 5.008_003; # Email::Sender requires Moose which requires perl
-               # v5.8.3
+use 5.008_003;          # Email::Sender requires Moose which requires perl
+                        # v5.8.3
 
 use base qw( Log::Fine::Handle::Email );
 
@@ -113,7 +113,6 @@ use Email::Simple;
 use Try::Tiny;
 
 our $VERSION = $Log::Fine::Handle::Email::VERSION;
-
 
 =head1 METHODS
 
@@ -157,14 +156,14 @@ L<Email::Sender::Manual> for further details.
 sub new
 {
 
-        my $class = shift;
+        my $class  = shift;
         my %params = @_;
 
         my $self = bless \%params, $class;
 
         return $self->_init();
 
-} # new()
+}          # new()
 
 =head2 msgWrite
 
@@ -208,7 +207,7 @@ sub msgWrite
                 $self->_fatal("Unable to deliver email: $_");
         }
 
-} # msgWrite()
+}          # msgWrite()
 
 # --------------------------------------------------------------------
 
@@ -226,7 +225,8 @@ sub _init
         my $envelope = $self->{envelope};
 
         # Check envelope transport
-        if (defined $envelope->{transport} and not defined $ENV{EMAIL_SENDER_TRANSPORT}) {
+        if (defined $envelope->{transport}
+             and not defined $ENV{EMAIL_SENDER_TRANSPORT}) {
                 my $transtype = ref $envelope->{transport};
 
                 $self->_fatal(
@@ -236,7 +236,7 @@ sub _init
 
         return $self;
 
-} # _init()
+}          # _init()
 
 =head1 BUGS
 

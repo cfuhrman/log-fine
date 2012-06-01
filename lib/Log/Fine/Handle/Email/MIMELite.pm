@@ -82,7 +82,6 @@ use Try::Tiny;
 
 our $VERSION = $Log::Fine::Handle::Email::VERSION;
 
-
 =head1 METHODS
 
 =head2 new
@@ -117,14 +116,14 @@ Array ref containing options specific to the above method
 sub new
 {
 
-        my $class = shift;
+        my $class  = shift;
         my %params = @_;
 
         my $self = bless \%params, $class;
 
         return $self->_init();
 
-} # new()
+}          # new()
 
 =head2 msgWrite
 
@@ -145,26 +144,28 @@ sub msgWrite
         my $skip = shift;
 
         my $mimeobj = MIME::Lite->new(
-                                  From => $self->{header_from},
-                                  To => $self->{header_to},
-                                  Subject => $self->{subject_formatter}->format($lvl, "", $skip),
-                                  Data => $self->{body_formatter}->format($lvl, $msg, $skip),
-                                  'X-Mailer' => sprintf("%s ver %s", ref $self, $VERSION),
-                                 );
+                 From    => $self->{header_from},
+                 To      => $self->{header_to},
+                 Subject => $self->{subject_formatter}->format($lvl, "", $skip),
+                 Data    => $self->{body_formatter}->format($lvl, $msg, $skip),
+                 'X-Mailer' => sprintf("%s ver %s", ref $self, $VERSION),
+        );
 
         try {
 
                 if (defined $self->{envelope}->{method}) {
-                        $mimeobj->send($self->{envelope}->{method}, @{$self->{envelope}->{options}});
+                        $mimeobj->send($self->{envelope}->{method},
+                                       @{ $self->{envelope}->{options} });
                 } else {
                         $mimeobj->send();
                 }
 
-        } catch {
+        }
+        catch {
                 $self->_fatal("Unable to deliver email: $_");
         }
 
-} # msgWrite()
+}          # msgWrite()
 
 # --------------------------------------------------------------------
 
@@ -180,21 +181,22 @@ sub _init
         $self->SUPER::_init();
 
         my $envelope = $self->{envelope};
-        my $options  = $self->{envelope}->{options} || [];
+        my $options = $self->{envelope}->{options} || [];
 
         if (defined $envelope->{method}) {
 
-                $self->_fatal("{envelope}->{method} must be a valid MIME::Lite method")
-                        if ($envelope->{method} !~ /\w/);
+                $self->_fatal(
+                        "{envelope}->{method} must be a valid MIME::Lite method"
+                ) if ($envelope->{method} !~ /\w/);
                 $self->_fatal("{envelope}->{options} must be a valid array ref")
-                        if (defined $options and ref $options ne "ARRAY");
+                    if (defined $options and ref $options ne "ARRAY");
                 $self->{envelope}->{options} = $options;
 
         }
 
         return $self;
 
-} # _init()
+}          # _init()
 
 =head1 BUGS
 

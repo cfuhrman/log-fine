@@ -112,6 +112,7 @@ package Log::Fine::Handle::Email;
 use base qw( Log::Fine::Handle );
 
 use Carp;
+
 #use Data::Dumper;
 use Mail::RFC822::Address qw(valid validlist);
 use Log::Fine;
@@ -218,19 +219,19 @@ sub new
         my $class  = shift;
         my %params = @_;
 
-        my $emailHandle = join("::", $class,
-                            $params{"email_handle"} || DEFAULT_EMAIL_HANDLE);
+        my $emailHandle =
+            join("::", $class, $params{"email_handle"} || DEFAULT_EMAIL_HANDLE);
 
         # validate the sub module
         eval "require $emailHandle";
 
         # Do we have the class defined
         confess "Error : Email handle $emailHandle does not exist : $@"
-                if $@;
+            if $@;
 
         return $emailHandle->new(%params);
 
-} # new()
+}          # new()
 
 =head2 msgWrite
 
@@ -267,29 +268,32 @@ sub _init
         }
 
         # Validate To address
-        $self->_fatal("{header_to} must be either an array ref containing " .
-                      "valid email addresses or a string representing a " .
-                      "valid email address")
-                unless (defined $self->{header_to});
+        $self->_fatal(  "{header_to} must be either an array ref containing "
+                      . "valid email addresses or a string representing a "
+                      . "valid email address")
+            unless (defined $self->{header_to});
 
         # Check for array ref
         if (ref $self->{header_to} eq "ARRAY") {
 
                 if (validlist($self->{header_to})) {
-                        $self->{header_to} = join(",", @{$self->{header_to}});
+                        $self->{header_to} = join(",", @{ $self->{header_to} });
                 } else {
-                        $self->_fatal("{header_to} must contain valid RFC 822 email addresses");
+                        $self->_fatal(
+"{header_to} must contain valid RFC 822 email addresses");
                 }
 
         } elsif (not valid($self->{header_to})) {
-                $self->_fatal("{header_to} must contain a valid RFC 822 email address");
+                $self->_fatal(
+                        "{header_to} must contain a valid RFC 822 email address"
+                );
         }
 
         # Validate subject formatter
         $self->_fatal(
-                      "{subject_formatter} must be a valid Log::Fine::Formatter object")
-                unless (defined $self->{subject_formatter}
-                        and $self->{subject_formatter}->isa("Log::Fine::Formatter"));
+"{subject_formatter} must be a valid Log::Fine::Formatter object")
+            unless (defined $self->{subject_formatter}
+                   and $self->{subject_formatter}->isa("Log::Fine::Formatter"));
 
         # Validate body formatter
         $self->_fatal(

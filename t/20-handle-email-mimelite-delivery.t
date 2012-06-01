@@ -24,7 +24,8 @@ use Test::More;
         eval "require MIME::Lite";
 
         if ($@) {
-                plan skip_all => "MIME::Lite is not installed.  Unable to test Log::Fine::Handle::MIMELite";
+                plan skip_all =>
+"MIME::Lite is not installed.  Unable to test Log::Fine::Handle::MIMELite";
         } else {
                 plan tests => 6;
         }
@@ -75,15 +76,13 @@ EOF
                            body_formatter    => $bodyfmt,
                            header_from       => $user,
                            header_to         => $user,
-                           email_handle  => "MIMELite",
-                                          envelope => {
-                                                       method => 'smtp',
-                                                       options => [ "localhost" ],
-                                                      }
-                                         );
+                           email_handle      => "MIMELite",
+                           envelope          => {
+                                         method  => 'smtp',
+                                         options => ["localhost"],
+                           });
 
         isa_ok($handle, "Log::Fine::Handle::Email::MIMELite");
-
 
         # register the handle
         $log->registerHandle($handle);
