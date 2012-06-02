@@ -38,7 +38,7 @@ use Test::More;
 
                 if ($@) {
                         plan skip_all =>
-                                "Mail::RFC822::Address is not installed";
+                            "Mail::RFC822::Address is not installed";
                 } else {
                         plan tests => 6;
                 }
@@ -102,7 +102,8 @@ EOF
         $log->registerHandle($handle);
 
         # Grab number of messages
-        my $msg_t1 = qx! mail -H | wc -l !;
+        my $msg_t1 =
+            ($^O eq "solaris") ? qx! mailx -H | wc -l ! : qx! mail -H | wc -l !;
 
         $log->log(DEBG, "Debugging $0");
         $log->log(CRIT, "Beware the weeping angels");
@@ -111,7 +112,8 @@ EOF
         print STDERR "---- Sleeping for 5 seconds";
         sleep 5;
 
-        my $msg_t2 = qx! mail -H | wc -l !;
+        my $msg_t2 =
+            ($^O eq "solaris") ? qx! mailx -H | wc -l ! : qx! mail -H | wc -l !;
 
         ok($msg_t2 > $msg_t1);
 
