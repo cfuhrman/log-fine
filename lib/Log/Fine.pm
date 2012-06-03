@@ -303,9 +303,11 @@ sub name { return $_[0]->{name} || undef }
 
 =head2 _fatal
 
-Private method that is called when a fatal (nonrecoverable) condition
-is encountered.  Will call L<confess|Carp> unless the {no_croak}
-attribute is set.  For internal Log::Fine use I<only!>
+Private internal method that is called when a fatal (nonrecoverable)
+condition is encountered.  Unless the C<{no_croak}> attribute is
+defined, this method will call L<confess|Carp>.  Also, should the user
+elect to set C<{no_croak}>, then the objects C<{_err_str}> attribute
+will contain a string representing the error message.
 
 This method can be overridden per taste.
 
