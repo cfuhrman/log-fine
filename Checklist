@@ -1,12 +1,15 @@
 Checklist for CPAN Release
 ==========================
 
-1) Bump version in Log::Fine
+1) Bump copyright year in changed files if necessary (do not forget
+   the LICENSE file!)
 
-2) Update CHANGES (use vclog)
+2) Bump version in Log::Fine
 
-3) Regenerate README if necessary (use pod2readme)
+3) Update CHANGES (use vclog)
 
-4) Tag new release based on VERSION
+4) Regenerate README if necessary (use pod2readme)
 
-5) Release unto the world
+5) Tag new release based on VERSION
+
+6) Release unto the world
