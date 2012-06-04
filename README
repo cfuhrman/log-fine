@@ -144,9 +144,11 @@ METHODS
     String containing name of object, otherwise undef
 
   _fatal
-    Private method that is called when a fatal (nonrecoverable) condition is
-    encountered. Will call confess unless the {no_croak} attribute is set.
-    For internal Log::Fine use *only!*
+    Private internal method that is called when a fatal (nonrecoverable)
+    condition is encountered. Unless the `{no_croak}' attribute is defined,
+    this method will call confess. Also, should the user elect to set
+    `{no_croak}', then the objects `{_err_str}' attribute will contain a
+    string representing the error message.
 
     This method can be overridden per taste.
 
@@ -218,7 +220,7 @@ SEE ALSO
     Log::Fine::Logger, Log::Fine::Utils, Sys::Syslog
 
 COPYRIGHT & LICENSE
-    Copyright (c) 2008-2011 Christopher M. Fuhrman, All rights reserved.
+    Copyright (c) 2008-2012 Christopher M. Fuhrman, All rights reserved.
 
     This program is free software licensed under the...
 

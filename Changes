@@ -1,7 +1,68 @@
 CHANGELOG
 
+2012-06-04  Christopher M. Fuhrman
+
+        * Bump version
+
+2012-06-03  Christopher M. Fuhrman
+
+        * Document {_err_str}
+        * Do not forget to bump copyright year in necessary files
+
+2012-06-02  Christopher M. Fuhrman
+
+        * Use the mailx(1) command for grabbing headers under solaris
+
+2012-06-01  Christopher M. Fuhrman
+
+        * Recommend Try::Tiny v0.11
+        * Various test fixes
+        * :Tiny does not install under perl 5.6.2 <Try>
+        * perltidy
+        * Set object's {_err_str} when _fatal() is called
+        * Specify correct module name when skipping
+        * Correct code syntax in SYNOPSIS
+
+2012-05-31  Christopher M. Fuhrman
+
+        * Remove msgWrite() from Email.pm as it is not needed
+        * Clean up msgWrite() logic
+        * Ensure Mail::RFC822::Address is present
+        * Merge branch 'master' of https://github.com/cfuhrman/log-fine
+        * Add additional POD documentation
+        * Update Email re-organization task
+        * Add new Email Handle, MIMELite
+        * Add new EmailSender Email Handle class
+        * {header_to} option can now be either a string or an array ref
+        * :Fine::Handle::Email must now be subclassed <Log>
+        * Add new subclassing TODO item
+        * Merge branch 'EMAIL-REFACTOR'
+        * Add blib and pm_to_blib to list of ignored items
+        * Add additional POD documentation
+
+2012-05-30  Christopher M. Fuhrman
+
+        * Update Email re-organization task
+        * Add new Email Handle, MIMELite
+        * Add new EmailSender Email Handle class
+        * {header_to} option can now be either a string or an array ref
+        * Add the following files:
+        * :Fine::Handle::Email must now be subclassed <Log>
+        * Add new subclassing TODO item
+
+2012-03-05  Christopher M. Fuhrman
+
+        * Add X-Mailer header
+
+2012-02-22  Christopher M. Fuhrman
+
+        * Add task for creating Log::Fine::Handle::SMTP
+        * Wrap call to sendmail() in try-catch block
+        * See Also Mail::RFC822::Address
+
 2011-12-24  Christopher M. Fuhrman
 
+        * Bump version
         * Only save STDERR on newer versions of perl
 
 2011-12-15  Christopher M. Fuhrman
@@ -30,6 +91,10 @@ CHANGELOG
         * Clean up function, variable names
         * Redirect stderr to the bitbucket for bad custom template unit test
 
+2011-12-01  U-ADBRITEINC\cfuhrman
+
+        * Merge branch 'master' of http://github.com/cfuhrman/log-fine
+
 2011-12-01  Christopher M. Fuhrman
 
         * Add rename method task
@@ -38,10 +103,6 @@ CHANGELOG
         * Add another TODO item for storing placeholder keys
         * Add key collision TODO
         * Just use {file} if {dir} is not defined
-
-2011-12-01  U-ADBRITEINC\cfuhrman
-
-        * Merge branch 'master' of http://github.com/cfuhrman/log-fine
 
 2011-11-28  Christopher M. Fuhrman
 
@@ -95,6 +156,12 @@ CHANGELOG
         * Add new method, Log::Fine::Handle->bitmaskListEnabled()
         * Add TODO item about bitmaskListEnabled()
 
+2011-10-25  U-ADBRITEINC\cfuhrman
+
+        * Merge branch 'master' of http://github.com/cfuhrman/log-fine
+        * Skip tests if run under MSWin32 or Cygwin
+        * Skip tests if run under MSWin32 or Cygwin
+
 2011-10-25  Christopher M. Fuhrman
 
         * Bump copyright
@@ -105,12 +172,6 @@ CHANGELOG
         * Merge branch 'master' of https://github.com/cfuhrman/log-fine
         * Skip tests if run under MSWin32 or Cygwin
         * Recommend Throwable
-
-2011-10-25  U-ADBRITEINC\cfuhrman
-
-        * Merge branch 'master' of http://github.com/cfuhrman/log-fine
-        * Skip tests if run under MSWin32 or Cygwin
-        * Skip tests if run under MSWin32 or Cygwin
 
 2011-10-24  Christopher M. Fuhrman
 
