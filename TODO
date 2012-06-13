@@ -387,3 +387,95 @@
 
     - ~msgWrite()~ must now be subclassed.
 
+* TODO [#C] Brainstorm ideas for LOGFINE-0-61                    :brainstorm:
+
+  Ideally, I'd like to get Log::Fine "enterprise-ready", by adding a
+  number of features and improvements aimed at stability
+
+** Allow for Handle enabling/disabling
+
+   This would involve the addition of the following methods to
+   ~Handle.pm~:
+
+    - ~enable()~
+
+    - ~disable()~
+
+   To facilitate this, a Logger object must be able to reference a
+   handle by name, so the following changes would have to be made to
+   ~Logger.pm~:
+
+    1) Add new method, ~handleByName~ for retrieving a handle by its
+       name.  Would take a string representing a handle name.  If it
+       can't find the associated handle, then return undef.
+
+    2) Add new method, ~listHandles~ for retrieving a list of
+       registered handles.
+
+    Also, ~isLoggable~ would have to handle enabled or disabled
+    handles
+
+    Probably not going to implement this without a good use case, but
+    listing it here anyway.
+
+** Add internal logging method
+
+   Add the ability for Log::Fine to log itself.  By default, use a new
+   handle, ~Null~ and log to that (any logging there goes into the
+   ether).  The user can specify one or more handles on construction,
+   like so:
+
+   #+BEGIN_SRC perl
+   use Log::Fine;
+   use Log::Fine::Handle::Console;
+   use Log::Fine::Levels::Syslog qw( :masks );
+
+   my $loghandle =
+       Log::Fine::Handle::Console->new(
+           name => 'int_logger',
+           mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT,
+           use_stderr => 1,
+       );
+
+   my $log = Log::Fine->new(int_log_handle => [ $loghandle ]);
+   #+END_SRC
+
+   This would create a new internal logger object.
+
+** Have ~registerHandle()~ accept more than one Handles
+
+   Just need to have ~registerHandle()~ check to see if it's being fed
+   an array ref and then make sure all elements in that array are
+   ~Handle~ objects
+
+** Allow ~_fatal()~ to be given its own callback
+
+   Have ~_fatal()~ detect if it has a custom callback function and
+   execute that instead of the default code
+
+   #+BEGIN_SRC perl
+   use Log::Fine;
+
+   my $errorcount = 0;
+
+   my $log = Log::Fine->new(fatal_cb => \&myfatal);
+
+   sub myfatal {
+       my $class = shift;
+       my $msg   = shift;
+
+       $errorcount++;
+
+       printf ("%03d: %s said %s\n",
+               $errorcount, $class, $msg);
+
+   }
+
+   #+END_SRC
+
+** Check FileHandles in ~Handle::File~ objects
+
+   Need to make sure we can print and whatnot in ~Handle::File~
+   objects.  Might also want to make sure directory exists before we
+   instantiate.
+
