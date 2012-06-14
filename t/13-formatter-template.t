@@ -124,18 +124,7 @@ my $counter = 0;
 
         ok($log_custom->name() =~ /\w\d+$/);
 
-        # save original STDERR on newer versions of perl
-        open my $saved_stderr, ">&STDERR"
-            if $^V ge v5.8.0;
-
         eval {
-
-               # note: this may or may not work under Windows
-               if ($^O eq "MSWin32") {
-                       open STDERR, "> NUL";
-               } else {
-                       open STDERR, "> /dev/null";
-               }
 
                my $log_badcustom =
                    Log::Fine::Formatter::Template->new(
@@ -148,10 +137,6 @@ my $counter = 0;
         };
 
         ok($@ =~ /^Duplicate placeholder/);
-
-        # restore original STDERR
-        open STDERR, ">&", $saved_stderr or die "open: $!"
-            if $^V ge v5.8.0;
 
         # time
         my $log_time =
