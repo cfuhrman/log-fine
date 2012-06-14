@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 25;
+use Test::More tests => 24;
 
 #use Data::Dumper;
 use Log::Fine;
@@ -76,27 +76,14 @@ use Log::Fine::Levels::Syslog qw( :macros :masks );
                     ));
         }
 
-    SKIP: {
+        eval {
 
-                eval "use Test::Output";
+               my $badhandle = Log::Fine::Handle->new();
 
-                skip
-"Test::Output 0.10 or above required for testing Console output",
-                    2
-                    if $@;
+               $badhandle->msgWrite(INFO, "This test should choke");
 
-                my $msg =
-"Stop by this disaster town, we put our eyes to the sun and say 'Hello!'";
-                my $badhandle = Log::Fine::Handle->new(no_croak => 1);
+        };
 
-                stderr_like(sub { $badhandle->msgWrite(INFO, $msg) },
-                            qr/direct call to abstract method/,
-                            'Test Direct Abstract Call'
-                );
-
-                ok(defined $badhandle->{_err_str}
-                    and $badhandle->{_err_str} =~ /\w/);
-
-        }
+        ok($@ =~ /direct call to abstract method/);
 
 }
