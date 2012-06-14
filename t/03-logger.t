@@ -66,40 +66,25 @@ use Log::Fine::Logger;
         ok($logger->incrSkip() == 6);
         ok($logger->decrSkip() == 5);
 
-    SKIP: {
+        # Create an invalid logger for testing
+        my $badlog = $log->logger("badlogger");
 
-                eval "use Test::Output 0.10";
+        # Call logger without a name
+        eval { my $foo = Log::Fine::Logger->new(); };
 
-                skip
-"Test::Output 0.10 or above required for testing Console output",
-                    3
-                    if $@;
+        ok($@ =~ /Loggers need names/);
 
-                # Create a valid logger for testing
-                my $badlog = $log->logger("badlogger");
+        # Test for no handles defined
+        eval {
+                $badlog->log(INFO,
+                             "It was lightning headaches and sweet avalanche");
+        };
 
-                $badlog->{no_croak} = 1;
+        ok($@ =~ /No handles defined/);
 
-                stderr_like(
-                        sub {
-                                my $foo = Log::Fine::Logger->new(no_croak => 1);
-                        },
-                        qr/Loggers need names/,
-                        'logger(): Invoked without name'
-                );
-                stderr_like(
-                        sub {
-                                $badlog->log(INFO,
-"It was lightning headaches and sweet avalanche"
-                                );
-                        },
-                        qr/No handles defined/,
-                        'log(): Invoke without handle'
-                );
-                stderr_like(sub { $badlog->registerHandle() },
-                            qr/must be a valid/,
-                            'registerHandle(): Invoke without handle');
+        # Test bad call to registerHandle()
+        eval { $badlog->registerHandle(); };
 
-        }
+        ok($@ =~ /must be a valid/);
 
 }
