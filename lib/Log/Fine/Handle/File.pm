@@ -221,8 +221,11 @@ sub DESTROY
 
         # close our filehandle if necessary.
         $self->{_filehandle}->close()
-            if (defined $self->{_filehandle}
-                and $self->{_filehandle}->isa("IO::File"));
+            if (    defined $self->{_filehandle}
+                and ref $self->{_filehandle}
+                and UNIVERSAL::can($self->{_filehandle}, 'isa')
+                and $self->{_filehandle}->isa("IO::File")
+                and defined fileno($self->{_filehandle}));
 
 }          # DESTROY
 

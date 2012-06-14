@@ -108,7 +108,10 @@ sub formatter
         # if the first argument is a valid formatter, then set the
         # objects formatter attribute appropriately
         $self->{formatter} = $formatter
-            if (defined $formatter and $formatter->isa("Log::Fine::Formatter"));
+            if (    defined $formatter
+                and ref $formatter
+                and UNIVERSAL::can($formatter, 'isa')
+                and $formatter->isa("Log::Fine::Formatter"));
 
         # return the objects formatter attribute
         return $self->{formatter};
@@ -229,7 +232,9 @@ sub _init
 
         # set the default formatter
         $self->{formatter} = Log::Fine::Formatter::Basic->new()
-            unless (defined $self->{formatter}
+            unless (    defined $self->{formatter}
+                    and ref $self->{formatter}
+                    and UNIVERSAL::can($self->{formatter}, 'isa')
                     and $self->{formatter}->isa("Log::Fine::Formatter"));
 
         # Victory!

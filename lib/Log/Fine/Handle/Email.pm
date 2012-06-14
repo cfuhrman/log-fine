@@ -252,15 +252,19 @@ sub _init
 
         # Validate subject formatter
         $self->_fatal(
-                      "{subject_formatter} must be a valid Log::Fine::Formatter object")
-                unless (defined $self->{subject_formatter}
-                        and $self->{subject_formatter}->isa("Log::Fine::Formatter"));
+"{subject_formatter} must be a valid Log::Fine::Formatter object")
+            unless (   defined $self->{subject_formatter}
+                   and ref $self->{subject_formatter}
+                   and UNIVERSAL::can($self->{subject_formatter}, 'isa')
+                   and $self->{subject_formatter}->isa("Log::Fine::Formatter"));
 
         # Validate body formatter
         $self->_fatal(
 "{body_formatter} must be a valid Log::Fine::Formatter object : "
                     . ref $self->{body_formatter} || "{undef}")
-            unless (defined $self->{body_formatter}
+            unless (    defined $self->{body_formatter}
+                    and ref $self->{body_formatter}
+                    and UNIVERSAL::can($self->{body_formatter}, 'isa')
                     and $self->{body_formatter}->isa("Log::Fine::Formatter"));
 
         # Grab a ref to envelope
