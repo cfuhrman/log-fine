@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 21;
+use Test::More tests => 22;
 
 use Log::Fine;
 use Log::Fine::Handle::String;
@@ -85,6 +85,11 @@ use Log::Fine::Logger;
         # Test bad call to registerHandle()
         eval { $badlog->registerHandle(); };
 
-        ok($@ =~ /must be a valid/);
+        ok($@ =~ /^first argument must either be a valid Log/);
+
+        # Test bad array to registerHandle()
+        eval { $badlog->registerHandle([ $handle, $logger ]); };
+
+        ok($@ =~ /^Array ref must contain valid Log/);
 
 }
