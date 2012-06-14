@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 16;
+use Test::More tests => 18;
 
 use File::Spec::Functions;
 use FileHandle;
@@ -41,7 +41,13 @@ use Log::Fine::Utils;
         # Should be one logger defined now
         ok(scalar ListLoggers() == 1);
         ok(grep("GENERIC", ListLoggers()));
-        ok(CurrentLogger()->name() eq "GENERIC");
+
+        my @loggers    = ListLoggers();
+        my $cur_logger = CurrentLogger();
+
+        isa_ok($cur_logger, 'Log::Fine::Logger');
+        can_ok($cur_logger, 'name');
+        ok($cur_logger->name() eq "GENERIC");
 
         #print STDERR "\n1) About to log\n\n";
 

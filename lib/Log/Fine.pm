@@ -139,6 +139,8 @@ To install Log::Fine:
                 my $map = shift;
 
                 if (     defined $map
+                     and ref $map
+                     and UNIVERSAL::can($map, 'isa')
                      and $map->isa("Log::Fine::Levels")
                      and not $levelmap) {
                         $levelmap = $map;
@@ -275,8 +277,10 @@ sub logger
         # store and return a newly created logger object with the
         # given name
         _logger()->{$name} = Log::Fine::Logger->new(name => $name)
-            unless (defined _logger()->{$name}
-                    and _logger()->{$name}->isa("Log::Fine::Logger"));
+            unless (    defined _logger()->{$name}
+                    and ref _logger()->{$name}
+                    and UNIVERSAL::can(_logger()->{$name}, 'isa')
+                    and _logger()->{$name}->isa('Log::Fine::Logger'));
 
         # return the logger
         return _logger()->{$name};
@@ -333,11 +337,18 @@ sub _error
                 $msg = shift;
         }
 
-        if (defined $self and $self->isa("Log::Fine") and $self->{no_croak}) {
-                $self->{_err_msg} = $msg;
-                cluck $msg;
-        } elsif (defined $self and $self->isa("Log::Fine")) {
-                $self->_fatal($msg);
+        if (     defined $self
+             and ref $self
+             and UNIVERSAL::can($self, 'isa')
+             and $self->isa("Log::Fine")) {
+
+                if ($self->{no_croak}) {
+                        $self->{_err_msg} = $msg;
+                        cluck $msg;
+                } else {
+                        $self->_fatal($msg);
+                }
+
         } else {
                 _fatal($msg);
         }
@@ -409,7 +420,9 @@ sub _init
 
         # Set our levels if we need to
         _levelMap(Log::Fine::Levels->new($self->{levelmap}))
-            unless (defined _levelMap()
+            unless (    defined _levelMap()
+                    and ref _levelMap()
+                    and UNIVERSAL::can(_levelMap(), 'isa')
                     and _levelMap()->isa("Log::Fine::Levels"));
 
         # Victory!

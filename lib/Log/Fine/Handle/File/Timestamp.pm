@@ -61,25 +61,28 @@ See L<Log::Fine::Handle::File/fileHandle>
 sub fileHandle
 {
 
-        my $self  = shift;
+        my $self = shift;
 
         # return if we have a registered filehandle and the date is
         # still the same
         return $self->{_filehandle}
-                if ( not $self->_fileRotate()
-                     and defined $self->{_filehandle}
+            if (    not $self->_fileRotate()
+                and defined $self->{_filehandle}
+                and ref $self->{_filehandle}
+                and UNIVERSAL::can($self->{_filehandle}, 'isa')
                 and $self->{_filehandle}->isa("IO::File")
                 and defined fileno($self->{_filehandle}));
 
         # we need a new file.  Close our filehandle if it exists
         $self->{_filehandle}->close()
             if (    defined $self->{_filehandle}
+                and ref $self->{_filehandle}
+                and UNIVERSAL::can($self->{_filehandle}, 'isa')
                 and $self->{_filehandle}->isa("IO::File")
                 and defined fileno($self->{_filehandle}));
 
         # generate file name
-        my $filename =
-            catdir($self->{dir}, $self->{_expanded_filename});
+        my $filename = catdir($self->{dir}, $self->{_expanded_filename});
 
         # generate a new filehandle
         $self->{_filehandle} = FileHandle->new(">> " . $filename);
@@ -109,7 +112,7 @@ sub _fileRotate
         my $filename = strftime($self->{file}, localtime(time));
 
         if (not defined $self->{_expanded_filename}
-            or $self->{_expanded_filename} ne $filename) {
+             or $self->{_expanded_filename} ne $filename) {
                 $self->{_expanded_filename} = $filename;
                 return 1;
         } else {
@@ -120,7 +123,7 @@ sub _fileRotate
         # NOT REACHED
         #
 
-} # _fileName()
+}          # _fileName()
 
 =head1 BUGS
 
