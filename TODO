@@ -1,6 +1,10 @@
 # -*- mode: org -*-
 
+#
 #+TODO: TODO BLOCKED | DONE CANCELED
+#
+#+TITLE: TODO items for Log::Fine
+#+AUTHOR: Christopher M. Fuhrman
 
 * DONE [#B] Rename Template->_templateValidate()                  :templates:
   CLOSED: [2011-12-02 Fri 12:51]
@@ -45,7 +49,7 @@
   Ideally, I'd like to get Log::Fine "enterprise-ready", by adding a
   number of features and improvements aimed at stability
 
-** Allow for Handle enabling/disabling
+** TODO [#C] Allow for Handle enabling/disabling
 
    This would involve the addition of the following methods to
    ~Handle.pm~:
@@ -58,20 +62,20 @@
    handle by name, so the following changes would have to be made to
    ~Logger.pm~:
 
-    1) Add new method, ~handleByName~ for retrieving a handle by its
+    1) Add new method, ~handleByName()~ for retrieving a handle by its
        name.  Would take a string representing a handle name.  If it
        can't find the associated handle, then return undef.
 
-    2) Add new method, ~listHandles~ for retrieving a list of
+    2) Add new method, ~listHandles()~ for retrieving a list of
        registered handles.
 
+    3) Optionally, just tell the user to keep track of handle names on
+       their own.
+
     Also, ~isLoggable~ would have to handle enabled or disabled
-    handles
+    handles.
 
-    Probably not going to implement this without a good use case, but
-    listing it here anyway.
-
-** Add internal logging method
+** TODO [#A] Add internal logging method
 
    Add the ability for Log::Fine to log itself.  By default, use a new
    handle, ~Null~ and log to that (any logging there goes into the
@@ -85,7 +89,7 @@
 
    my $loghandle =
        Log::Fine::Handle::Console->new(
-           name => 'int_logger',
+           name => 'logfine_logger',
            mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT,
            use_stderr => 1,
        );
@@ -95,40 +99,26 @@
 
    This would create a new internal logger object.
 
-** Have ~registerHandle()~ accept more than one Handles
+** TODO [#B] Have ~registerHandle()~ accept more than one Handles
 
    Just need to have ~registerHandle()~ check to see if it's being fed
    an array ref and then make sure all elements in that array are
-   ~Handle~ objects
+   ~Handle~ objects.
 
-** Allow ~_fatal()~ to be given its own callback
-
-   Have ~_fatal()~ detect if it has a custom callback function and
-   execute that instead of the default code
-
-   #+BEGIN_SRC perl
-   use Log::Fine;
-
-   my $errorcount = 0;
-
-   my $log = Log::Fine->new(fatal_cb => \&myfatal);
-
-   sub myfatal {
-       my $class = shift;
-       my $msg   = shift;
-
-       $errorcount++;
-
-       printf ("%03d: %s said %s\n",
-               $errorcount, $class, $msg);
-
-   }
-
-   #+END_SRC
-
-** Check FileHandles in ~Handle::File~ objects
+** TODO [#A] Check File Handles in ~Handle::File~ objects
 
    Need to make sure we can print and whatnot in ~Handle::File~
    objects.  Might also want to make sure directory exists before we
    instantiate.
+
+** TODO [#C] Make ~Sys::Syslog~ testing optional
+
+   Make ~Sys::Syslog~ testing optional.  This way, I can test
+   ~Log::Fine~ on some systems where ~Sys::Syslog~ is either not
+   installed or older than version 0.13 (which is the minimally
+   required version for ~Log::Fine~).
+
+** TODO [#A] Add ~_error()~ class
+
+   By default, ~_error()~ class will call ~_fatal()~.
 
