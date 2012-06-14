@@ -204,7 +204,7 @@ sub msgWrite
                 sendmail($email, $self->{envelope});
         }
         catch {
-                $self->_fatal("Unable to deliver email: $_");
+                $self->_error("Unable to deliver email: $_");
         }
 
 }          # msgWrite()

@@ -88,7 +88,7 @@ package Log::Fine;
 
 require 5.006;
 
-use Carp;
+use Carp qw( cluck confess );
 use Log::Fine::Levels;
 use Log::Fine::Logger;
 use POSIX qw( strftime );
@@ -301,15 +301,56 @@ sub name { return $_[0]->{name} || undef }
 
 # --------------------------------------------------------------------
 
-=head2 _fatal
+=head2 _error
 
-Private internal method that is called when a fatal (nonrecoverable)
-condition is encountered.  Unless the C<{no_croak}> attribute is
-defined, this method will call L<confess|Carp>.  Also, should the user
-elect to set C<{no_croak}>, then the objects C<{_err_str}> attribute
-will contain a string representing the error message.
+Private internal method that is called when an error condition is
+encountered.  Will call L<_fatal> unless {no_croak} is defined.
 
 This method can be overridden per taste.
+
+=head3 Parameters
+
+=over
+
+=item message
+
+Message passed to L<confess|Carp>.
+
+=back
+
+=cut
+
+sub _error
+{
+        my $self;
+        my $msg;
+
+        # how were we called?
+        if (scalar @_ > 1) {
+                $self = shift;
+                $msg  = shift;
+        } else {
+                $msg = shift;
+        }
+
+        if (defined $self and $self->isa("Log::Fine") and $self->{no_croak}) {
+                $self->{_err_msg} = $msg;
+                cluck $msg;
+        } elsif (defined $self and $self->isa("Log::Fine")) {
+                $self->_fatal($msg);
+        } else {
+                _fatal($msg);
+        }
+
+}
+
+=head2 _fatal
+
+Private internal method that is called when a fatal (non-recoverable)
+condition is encountered.  Calls L<confess|Carp> with given error
+message.
+
+While this method can be overridden, this is generally not advised.
 
 =head3 Parameters
 
@@ -328,7 +369,6 @@ sub _fatal
 
         my $self;
         my $msg;
-        my @call = caller;
 
         # how were we called?
         if (scalar @_ > 1) {
@@ -338,19 +378,11 @@ sub _fatal
                 $msg = shift;
         }
 
-        printf STDERR "\n[%s] {%s@%d} FATAL : %s\n",
-            strftime("%c", localtime(time)), $call[0] || "{undef}",
-            $call[2] || 0,
-            $msg || "No reason given";
+        confess $msg;
 
-        $self->{_err_str} = $msg
-            if (defined $self and $self->isa("Log::Fine"));
-
-        confess $msg
-            if ((    defined $self
-                 and $self->isa("Log::Fine")
-                 and not $self->{no_croak})
-                or (not defined $self));
+        #
+        # NOT REACHED
+        #
 
 }          # _fatal()
 

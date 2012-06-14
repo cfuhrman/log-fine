@@ -160,7 +160,7 @@ sub msgWrite
             if defined $self->{formatter};
 
         # print the message to the log file
-        print $fh $msg;
+        print $fh $msg or $self->_error("Cannot write to file handle : $!");
 
         # if autoclose is set, then close the file handle.  This will
         # force the creation of a new filehandle next time this method

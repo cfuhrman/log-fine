@@ -84,7 +84,7 @@ sub fileHandle
         # generate a new filehandle
         $self->{_filehandle} = FileHandle->new(">> " . $filename);
 
-        $self->_fatal("Unable to open log file $filename : $!\n")
+        $self->_error("Unable to open log file $filename : $!\n")
             unless defined $self->{_filehandle};
 
         # set autoflush if necessary
