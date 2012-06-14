@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 12;
+use Test::More tests => 14;
 
 use Log::Fine qw( :macros :masks );
 use Log::Fine::Levels;
@@ -25,6 +25,10 @@ use Log::Fine::Levels;
 
         # make sure we got a valid object
         isa_ok($log, "Log::Fine::Logger");
+
+        # make sure _error() and _fatal() are present
+        ok($log->can("_error"));
+        ok($log->can("_fatal"));
 
         # check name
         ok($log->can("name"));
