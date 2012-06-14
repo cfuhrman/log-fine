@@ -145,7 +145,7 @@ sub log
 
 =head2 registerHandle
 
-Registers the given L<Log::Fine::Handle> object with the logging
+Register one or more L<Log::Fine::Handle> objects with the logging
 facility.
 
 =head3 Parameters
@@ -154,7 +154,8 @@ facility.
 
 =item  * handle
 
-A valid L<Log::Fine::Handle> subclass
+Can either be a valid Log::Fine::Handle object or an array ref
+containing one or more Log::Fine::Handle objects
 
 =back
 
@@ -167,22 +168,38 @@ The object
 sub registerHandle
 {
 
-        my $self   = shift;
-        my $handle = shift;
-
-        # validate handle
-        $self->_fatal(
-                    "first argument must be a valid Log::Fine::Handle object\n")
-            unless (defined $handle
-                    and $handle->isa("Log::Fine::Handle"));
+        my $self = shift;
+        my $obj  = shift;
 
         # initialize handles if we haven't already
         $self->{_handles} = []
             unless (defined $self->{_handles}
                     and ref $self->{_handles} eq "ARRAY");
 
-        # save the handle
-        push @{ $self->{_handles} }, $handle;
+        if (     defined $obj
+             and ref $obj
+             and UNIVERSAL::can($obj, 'isa')
+             and $obj->isa('Log::Fine::Handle')) {
+                push @{ $self->{_handles} }, $obj;
+        } elsif (defined $obj and ref $obj eq 'ARRAY' and scalar @{$obj} > 0) {
+
+                foreach my $handle (@{$obj}) {
+                        $self->_fatal(
+"Array ref must contain valid Log::Fine::Handle objects")
+                            unless (    defined $handle
+                                    and ref $handle
+                                    and UNIVERSAL::can($handle, 'isa')
+                                    and $handle->isa('Log::Fine::Handle'));
+                }
+
+                push @{ $self->{_handles} }, @{$obj};
+
+        } else {
+                $self->_fatal("first argument must either be a "
+                        . "valid Log::Fine::Handle object\n"
+                        . "or an array ref containing one or more valid Log::Fine::Handle objects\n"
+                );
+        }
 
         return $self;
 
