@@ -216,7 +216,10 @@
 
    Add some additional unit tests to Utils to give a thorough workout
 
-** TODO Add one more unit test for Log::Fine::Handle::Syslog
+** DONE Add one more unit test for Log::Fine::Handle::Syslog
+   CLOSED: [2012-06-14 Thu 08:23]
+   - CLOSING NOTE [2012-06-14 Thu 08:27] \\
+     Test added in commit [[https://github.com/cfuhrman/log-fine/commit/af77faf5215a1cae054480bee5eaba42e6d33a87#t/14-handle-syslog-log_user.t][af77faf]].
 
    Need a separate unit test for testing Log::Fine::Handle::Syslog
    with a different facility so as to avoid the situation encoutered
@@ -399,19 +402,22 @@
    - Log::Fine::Handle::Email::MIMELite, which uses the MIME::Lite
      module for delivery
 
-** TODO [#A] Get Email changes to release status[0/6]               :release:
+** DONE [#A] Get Email changes to release status[6/6]               :release:
+   CLOSED: [2012-06-14 Thu 09:48]
+   - CLOSING NOTE [2012-06-14 Thu 09:48] \\
+     This was done ages ago
 
-   - [ ] Come up with additional testing scenarios, if necessary
+   - [X] Come up with additional testing scenarios, if necessary
 
-   - [ ] Review POD documentation to make sure it's accurate
+   - [X] Review POD documentation to make sure it's accurate
 
-   - [ ] Perltidy changed code
+   - [X] Perltidy changed code
 
-   - [ ] Perhaps come up with testing to multiple addresses?
+   - [X] Perhaps come up with testing to multiple addresses?
 
-   - [ ] Test on multiple platforms
+   - [X] Test on multiple platforms
 
-   - [ ] Release unto the world
+   - [X] Release unto the world
 
 
 
