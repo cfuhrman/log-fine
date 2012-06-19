@@ -72,7 +72,7 @@
     3) Optionally, just tell the user to keep track of handle names on
        their own.
 
-    Also, ~isLoggable~ would have to handle enabled or disabled
+    Also, ~isLoggable()~ would have to handle enabled or disabled
     handles.
 
 ** TODO [#A] Add internal logging method
@@ -99,13 +99,19 @@
 
    This would create a new internal logger object.
 
-** TODO [#B] Have ~registerHandle()~ accept more than one Handles
+** DONE [#B] Have ~registerHandle()~ accept more than one Handles
+   CLOSED: [2012-06-18 Mon 22:53]
+   - CLOSING NOTE [2012-06-18 Mon 22:54] \\
+     Added in [[https://github.com/cfuhrman/log-fine/commit/7d4cd749c9b49e94b079511bae30c40aceb25d11#lib/Log/Fine/Logger.pm][7d4cd74]]
 
    Just need to have ~registerHandle()~ check to see if it's being fed
    an array ref and then make sure all elements in that array are
    ~Handle~ objects.
 
-** TODO [#A] Check File Handles in ~Handle::File~ objects
+** DONE [#A] Check File Handles in ~Handle::File~ objects
+   CLOSED: [2012-06-18 Mon 22:56]
+   - CLOSING NOTE [2012-06-18 Mon 22:56] \\
+     File handles are now checked in [[https://github.com/cfuhrman/log-fine/commit/83192fa5e631daac1310715e05aaea2e51d30a94#lib/Log/Fine/Handle/File.pm][83192fa]]
 
    Need to make sure we can print and whatnot in ~Handle::File~
    objects.  Might also want to make sure directory exists before we
@@ -118,7 +124,10 @@
    installed or older than version 0.13 (which is the minimally
    required version for ~Log::Fine~).
 
-** TODO [#A] Add ~_error()~ class
+** DONE [#A] Add ~_error()~ method
+   CLOSED: [2012-06-18 Mon 22:56]
+   - CLOSING NOTE [2012-06-18 Mon 22:57] \\
+     ~_error()~ added in [[https://github.com/cfuhrman/log-fine/commit/83192fa5e631daac1310715e05aaea2e51d30a94#lib/Log/Fine/Handle/File.pm][83192fa]]
 
-   By default, ~_error()~ class will call ~_fatal()~.
+   By default, ~_error()~ method will call ~_fatal()~.
 
