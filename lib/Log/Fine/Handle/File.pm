@@ -111,28 +111,27 @@ sub fileHandle
 
         my $self = shift;
 
-        # if we already have a file handle defined, return it
+        # Should we already have a file handle defined, return it
         return $self->{_filehandle}
             if (    defined $self->{_filehandle}
                 and $self->{_filehandle}->isa("IO::File")
                 and defined fileno($self->{_filehandle}));
 
-        # generate file name
+        # Generate file name
         my $filename =
             ($self->{dir} =~ /\w/)
             ? catdir($self->{dir}, $self->{file})
             : $self->{file};
 
-        # otherwise create a new one
+        # Otherwise create a new one
         $self->{_filehandle} = FileHandle->new(">> " . $filename);
 
         $self->_fatal("Unable to open log file $filename : $!\n")
             unless defined $self->{_filehandle};
 
-        # set autoflush if necessary
+        # Set autoflush if necessary
         $self->{_filehandle}->autoflush($self->{autoflush});
 
-        # return the newly created file handle
         return $self->{_filehandle};
 
 }          # fileHandle()
@@ -151,21 +150,25 @@ sub msgWrite
         my $msg  = shift;
         my $skip = shift;
 
-        # grab a ref to our file handle
+        # Grab a ref to our file handle
         my $fh = $self->fileHandle();
 
-        # if we have a formatter defined, then use that, otherwise, just
-        # print the raw message
+        # Should we have a formatter defined, then use that,
+        # otherwise, just print the raw message
         $msg = $self->{formatter}->format($lvl, $msg, $skip)
             if defined $self->{formatter};
 
-        # print the message to the log file
         print $fh $msg or $self->_error("Cannot write to file handle : $!");
 
-        # if autoclose is set, then close the file handle.  This will
-        # force the creation of a new filehandle next time this method
-        # is called
-        $self->fileHandle()->close() if $self->{autoclose};
+        # Should {autoclose} be set, then close the file handle.  This
+        # will force the creation of a new filehandle the next time
+        # this method is called
+        if ($self->{autoclose}) {
+                $self->_error(
+                              sprintf("Unable to close filehandle to %s : %s",
+                                      catdir($self->{dir}, $self->{file}), $!
+                              )) unless $self->fileHandle()->close();
+        }
 
         # Victory!
         return $self;
@@ -182,10 +185,10 @@ sub _init
 
         my $self = shift;
 
-        # call the super object
+        # Perform any necessary upper class initializations
         $self->SUPER::_init();
 
-        # default directory is the current directory unless file is an
+        # Default directory is the current directory unless file is an
         # absolute path
         if ($self->{file} =~ /^\/|^[A-Za-z]:\\/) {
                 $self->{dir} = "";
@@ -193,7 +196,7 @@ sub _init
                 $self->{dir} = "./";
         }
 
-        # default file name is the name of the invoking program
+        # Default file name is the name of the invoking program
         # suffixed with ".log"
         $self->{file} = basename($0) . ".log"
             unless defined $self->{file};
@@ -212,14 +215,14 @@ sub _init
 }          # _init()
 
 ##
-# called when this object is destroyed
+# Called when this object is destroyed
 
 sub DESTROY
 {
 
         my $self = shift;
 
-        # close our filehandle if necessary.
+        # Close our filehandle if necessary.
         $self->{_filehandle}->close()
             if (    defined $self->{_filehandle}
                 and ref $self->{_filehandle}
