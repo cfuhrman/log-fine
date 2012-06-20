@@ -1,6 +1,6 @@
 #!perl -T
 
-use Test::More tests => 18;
+use Test::More tests => 17;
 
 BEGIN {
         use_ok('Log::Fine');
@@ -14,7 +14,6 @@ BEGIN {
         use_ok('Log::Fine::Handle::File');
         use_ok('Log::Fine::Handle::File::Timestamp');
         use_ok('Log::Fine::Handle::Null');
-        use_ok('Log::Fine::Handle::Syslog');
         use_ok('Log::Fine::Handle::String');
         use_ok('Log::Fine::Levels');
         use_ok('Log::Fine::Levels::Syslog');
