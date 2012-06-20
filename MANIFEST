@@ -18,6 +18,7 @@ lib/Log/Fine/Handle/Email/EmailSender.pm
 lib/Log/Fine/Handle/Email/MIMELite.pm
 lib/Log/Fine/Handle/File.pm
 lib/Log/Fine/Handle/File/Timestamp.pm
+lib/Log/Fine/Handle/Null.pm
 lib/Log/Fine/Handle/Syslog.pm
 lib/Log/Fine/Handle/String.pm
 lib/Log/Fine/Levels.pm
@@ -47,6 +48,7 @@ t/17-handle-file-windows.t
 t/18-handle-email-emailsender-delivery.t
 t/19-handle-email-mimelite.t
 t/20-handle-email-mimelite-delivery.t
+t/21-handle-null.t
 t/boilerplate.t
 t/pod-coverage.t
 t/pod.t
