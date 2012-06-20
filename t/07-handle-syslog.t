@@ -14,7 +14,7 @@ use Log::Fine::Levels::Syslog;
 {
 
         # See if we have Sys::Syslog installed
-        eval "use Sys::Syslog 0.13";
+        eval "use Sys::Syslog qw( :standard :macros )";
 
         if ($@) {
                 plan skip_all =>
@@ -47,19 +47,33 @@ use Log::Fine::Levels::Syslog;
         # Syslog-specific attributes
         ok($handle->{ident} eq basename $0);
         ok($handle->{logopts} =~ /pid/);
-        ok($handle->{facility} == LOG_LOCAL0);
+        ok($handle->{facility} == Sys::Syslog->LOG_LOCAL0);
+
+        # save original STDERR on newer versions of perl
+        open my $saved_stderr, ">&STDERR"
+            if $^V ge v5.8.0;
 
         # write a test message
         $handle->msgWrite(INFO, $msg, 1);
 
         # Make sure we can't define more than one handle
         eval {
-                open STDERR, '>/dev/null';
+
+                # note: this may or may not work under Windows
+                if ($^O eq "MSWin32") {
+                        open STDERR, "> NUL";
+                } else {
+                        open STDERR, "> /dev/null";
+                }
+
                 my $console =
-                    Log::Fine::Handle::Syslog->new(facility => LOG_USER,
+                    Log::Fine::Handle::Syslog->new(facility => Sys::Syslog->LOG_USER,
                                                    ident    => "badhandle");
-                close STDERR;
         };
+
+        # restore original STDERR
+        open STDERR, ">&", $saved_stderr or die "open: $!"
+            if $^V ge v5.8.0;
 
         ok(defined $@);
         ok($@ =~ /One and _only_ one/);
