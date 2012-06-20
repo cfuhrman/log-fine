@@ -110,7 +110,11 @@
     Also, ~isLoggable()~ would have to handle enabled or disabled
     handles.
 
-** TODO [#A] Add internal logging method
+** CANCELED [#A] Add internal logging method
+   CLOSED: [2012-06-20 Wed 10:18]
+   - CLOSING NOTE [2012-06-20 Wed 10:23] \\
+     Will not implement.  I'm going to simply rely on sending messages to
+     STDERR.
 
    Add the ability for Log::Fine to log itself.  By default, use a new
    handle, ~Null~ and log to that (any logging there goes into the
