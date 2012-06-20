@@ -16,6 +16,7 @@ lib/Log/Fine/Handle/Console.pm
 lib/Log/Fine/Handle/Email.pm
 lib/Log/Fine/Handle/File.pm
 lib/Log/Fine/Handle/File/Timestamp.pm
+lib/Log/Fine/Handle/Null.pm
 lib/Log/Fine/Handle/Syslog.pm
 lib/Log/Fine/Handle/String.pm
 lib/Log/Fine/Levels.pm
@@ -42,6 +43,7 @@ t/14-handle-syslog-log_user.t
 t/15-handle-email.t
 t/16-handle-email-smtp.t
 t/17-handle-file-windows.t
+t/18-handle-null.t
 t/boilerplate.t
 t/pod-coverage.t
 t/pod.t

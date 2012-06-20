@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 20;
+use Test::More tests => 21;
 
 sub not_in_file_ok
 {
@@ -53,10 +53,11 @@ module_boilerplate_ok('lib/Log/Fine/Formatter/Detailed.pm');
 module_boilerplate_ok('lib/Log/Fine/Formatter/Syslog.pm');
 module_boilerplate_ok('lib/Log/Fine/Formatter/Template.pm');
 module_boilerplate_ok('lib/Log/Fine/Handle.pm');
+module_boilerplate_ok('lib/Log/Fine/Handle/Console.pm');
 module_boilerplate_ok('lib/Log/Fine/Handle/Email.pm');
 module_boilerplate_ok('lib/Log/Fine/Handle/File.pm');
 module_boilerplate_ok('lib/Log/Fine/Handle/File/Timestamp.pm');
-module_boilerplate_ok('lib/Log/Fine/Handle/Console.pm');
+module_boilerplate_ok('lib/Log/Fine/Handle/Null.pm');
 module_boilerplate_ok('lib/Log/Fine/Handle/Syslog.pm');
 module_boilerplate_ok('lib/Log/Fine/Handle/String.pm');
 module_boilerplate_ok('lib/Log/Fine/Levels.pm');
