@@ -84,13 +84,13 @@ use constant LVLTOVAL_MAP => {
 
 # Default value-to-level hash
 use constant VALTOLVL_MAP => {
-                               0 => "SEVERE",
-                               1 => "WARNING",
-                               2 => "INFO",
-                               3 => "CONFIG",
-                               4 => "FINE",
-                               5 => "FINER",
-                               6 => "FINEST",
+                               LVLTOVAL_MAP->{SEVERE}  => "SEVERE",
+                               LVLTOVAL_MAP->{WARNING} => "WARNING",
+                               LVLTOVAL_MAP->{INFO}    => "INFO",
+                               LVLTOVAL_MAP->{CONFIG}  => "CONFIG",
+                               LVLTOVAL_MAP->{FINE}    => "FINE",
+                               LVLTOVAL_MAP->{FINER}   => "FINER",
+                               LVLTOVAL_MAP->{FINEST}  => "FINEST",
 };          # VALTOLVL_MAP{}
 
 =head2 Log Masks
