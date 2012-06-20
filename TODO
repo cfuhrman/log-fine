@@ -164,7 +164,10 @@
    objects.  Might also want to make sure directory exists before we
    instantiate.
 
-** TODO [#C] Make ~Sys::Syslog~ testing optional
+** DONE [#C] Make ~Sys::Syslog~ testing optional
+   CLOSED: [2012-06-20 Wed 12:13]
+   - CLOSING NOTE [2012-06-20 Wed 12:14] \\
+     Done.  See [[https://github.com/cfuhrman/log-fine/commit/712422917c182e785d5c0435b10ec397babde61e][7124229]].
 
    Make ~Sys::Syslog~ testing optional.  This way, I can test
    ~Log::Fine~ on some systems where ~Sys::Syslog~ is either not
