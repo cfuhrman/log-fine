@@ -21,7 +21,7 @@ Provides logging to nowhere in particular
 
 =head1 DESCRIPTION
 
-The null handle provides logging to C</dev/null> (a.k.a. C</NUL>).
+The null handle provides logging to nowhere in particular.
 
 =cut
 
