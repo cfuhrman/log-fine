@@ -80,7 +80,11 @@
   Ideally, I'd like to get Log::Fine "enterprise-ready", by adding a
   number of features and improvements aimed at stability
 
-** TODO [#C] Allow for Handle enabling/disabling
+** CANCELED [#C] Allow for Handle enabling/disabling
+   CLOSED: [2012-06-19 Tue 21:32]
+   - CLOSING NOTE [2012-06-19 Tue 21:33] \\
+     Holding off this functionality as it would require an API change which
+     I am loathe to do.  Also, do people really need this functionality?
 
    This would involve the addition of the following methods to
    ~Handle.pm~:
