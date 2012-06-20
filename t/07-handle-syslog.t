@@ -18,7 +18,7 @@ use Log::Fine::Levels::Syslog;
 
         if ($@) {
                 plan skip_all =>
-                    "Sys::Syslog 0.13 or greater required for testing";
+                    "Sys::Syslog 0.13 or above required for testing";
         } else {
                 plan tests => 12;
         }
