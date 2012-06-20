@@ -103,6 +103,14 @@
 
    This would create a new internal logger object.
 
+*** DONE Create Null handle
+    CLOSED: [2012-06-19 Tue 22:19]
+    - CLOSING NOTE [2012-06-19 Tue 22:19] \\
+      Done.  See [[https://github.com/cfuhrman/log-fine/commit/d8cea7efcff4a8735d65726a404c27bb14d3bebb][d8cea7e]].
+
+    Create Null handle which will be the default internal logging
+    handle
+
 ** DONE [#B] Have ~registerHandle()~ accept more than one Handles
    CLOSED: [2012-06-18 Mon 22:53]
    - CLOSING NOTE [2012-06-18 Mon 22:54] \\
