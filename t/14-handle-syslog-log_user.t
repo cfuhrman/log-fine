@@ -13,23 +13,8 @@ use Log::Fine::Levels::Syslog;
 
 {
 
-        # save original STDERR on newer versions of perl
-        open my $saved_stderr, ">&STDERR"
-            if $^V ge v5.8.0;
-
-        # note: this may or may not work under Windows
-        if ($^O eq "MSWin32") {
-                open STDERR, "> NUL";
-        } else {
-                open STDERR, "> /dev/null";
-        }
-
         # See if we have Sys::Syslog installed
         eval "use Sys::Syslog qw( :standard :macros )";
-
-        # restore original STDERR
-        open STDERR, ">&", $saved_stderr or die "open: $!"
-            if $^V ge v5.8.0;
 
         if ($@) {
                 plan skip_all =>
@@ -51,7 +36,7 @@ use Log::Fine::Levels::Syslog;
         ok($log->name() =~ /\w\d+$/);
 
         # add a handle.  Note we use the default formatter.
-        my $handle = Log::Fine::Handle::Syslog->new(facility => LOG_USER);
+        my $handle = Log::Fine::Handle::Syslog->new(facility => Sys::Syslog->LOG_USER);
 
         # do some validation
         ok($handle->isa("Log::Fine::Handle"));
@@ -64,10 +49,10 @@ use Log::Fine::Levels::Syslog;
         # Syslog-specific attributes
         ok($handle->{ident} eq basename $0);
         ok($handle->{logopts} =~ /pid/);
-        ok($handle->{facility} == LOG_USER);
+        ok($handle->{facility} == Sys::Syslog->LOG_USER);
 
         # save original STDERR on newer versions of perl
-        open $saved_stderr, ">&STDERR"
+        open my $saved_stderr, ">&STDERR"
             if $^V ge v5.8.0;
 
         # write a test message
@@ -84,7 +69,7 @@ use Log::Fine::Levels::Syslog;
                 }
 
                 my $console =
-                    Log::Fine::Handle::Syslog->new(facility => LOG_LOCAL0,
+                    Log::Fine::Handle::Syslog->new(facility => Sys::Syslog->LOG_LOCAL0,
                                                    ident    => "badhandle");
         };
 
