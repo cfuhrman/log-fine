@@ -197,7 +197,27 @@
 
      - [[http://search.cpan.org/~jenda/Mail-Sender-0.8.21/Sender.pm][Mail::Sender]]
 
-** TODO [#B] Optimize msgWrite() where appropriate                  :handles:
+** CANCELED [#B] Optimize ~msgWrite()~ where appropriate            :handles:
+   CLOSED: [2012-06-21 Thu 11:15]
+   - CLOSING NOTE [2012-06-21 Thu 11:17] \\
+     Originally, I intended to replace instances such as these:
+     
+         #+BEGIN_SRC perl
+         my $self = shift;
+         my $lvl  = shift;
+         my $msg  = shift;
+         my $skip = shift;
+         #+END_SRC
+     
+     with
+     
+         #+BEGIN_SRC perl
+         my ($self, $lvl, $msg, $skip) = @_;
+         #+END_SRC
+
+     But speed testing indicates that there is more of a speed penalty with
+     using the ~@_~ notation than simply making multiple calls to ~shift()~, so
+     no need to optimize
 
 
 * Footnotes
