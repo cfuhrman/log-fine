@@ -168,7 +168,7 @@ sub new
 =head2 msgWrite
 
 Sends given message via Email::Sender module.  Note that
-L<Log::Fine/_fatal> will be called should there be a failure of
+L<Log::Fine/_error> will be called should there be a failure of
 delivery.
 
 See also L<Log::Fine::Handle/msgWrite>
