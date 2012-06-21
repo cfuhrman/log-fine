@@ -11,7 +11,7 @@ Syslog.
     use Log::Fine;
     use Log::Fine::Levels::Syslog;
 
-    # grab a logging object
+    # Grab a logging object
     my $log = Log::Fine->getLogger("foo0");
 
     # Note that INFO and EMER are provided by the
@@ -184,13 +184,13 @@ sub AUTOLOAD
         # Get the method name
         my $name = $AUTOLOAD;
 
-        # strip out package prefix
+        # Strip out package prefix
         $name =~ s/.*://;
 
         # Return on DESTROY
         return if $name eq 'DESTROY';
 
-        # make sure we have a valid function
+        # Make sure we have a valid function
         croak(
                sprintf("[%s] {%s} FATAL : %s\n",
                        strftime("%c", localtime(time)),
@@ -198,7 +198,7 @@ sub AUTOLOAD
                        "Invalid function name : $name"
                )) unless (exists $ok_fields{$name});
 
-        # evaluate and return the appropriate level
+        # Evaluate and return the appropriate level
         eval "sub $name { return $ok_fields{$name} }";
         goto &$name;
 

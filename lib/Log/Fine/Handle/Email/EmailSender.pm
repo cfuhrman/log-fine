@@ -58,10 +58,10 @@ L<Email::Sender> module.
                }
              );
 
-    # register the handle
+    # Register the handle
     $log->registerHandle($handle);
 
-    # log something
+    # Log something
     $log->log(CRIT, "Beware the weeping angels");
 
 =head1 DESCRIPTION
@@ -219,7 +219,7 @@ sub _init
 
         my $self = shift;
 
-        # call the super object
+        # Perform any necessary upper class initializations
         $self->SUPER::_init();
 
         my $envelope = $self->{envelope};

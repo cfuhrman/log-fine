@@ -14,7 +14,7 @@ Provides logging to syslog()
     # Get a new logger
     my $log = Log::Fine->logger("foo");
 
-    # register a syslog handle
+    # Create a new syslog handle
     my $handle = Log::Fine::Handle::Syslog
         ->new( name  => 'syslog0',
                mask  => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT | LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO,
@@ -22,10 +22,10 @@ Provides logging to syslog()
                logopts => 'pid',
                facility => LOG_LEVEL0 );
 
-    # register the handle
+    # Register the handle
     $log->registerHandle($handle);
 
-    # log something
+    # Log something
     $log->(INFO, "Opened new log handle");
 
 =head1 DESCRIPTION
@@ -100,10 +100,9 @@ sub msgWrite
         my $skip = shift;               # NOT USED
         my $map  = LOG_MAPPING;
 
-        # write to syslog
+        # Write to syslog
         syslog($map->{$lvl}, $msg);
 
-        # Victory!
         return $self;
 
 }          # msgWrite()
@@ -118,7 +117,7 @@ sub _init
 
         my $self = shift;
 
-        # call the super object
+        # Perform any necessary upper class initializations
         $self->SUPER::_init();
 
         # Make sure we have one and only one syslog object defined
@@ -126,23 +125,22 @@ sub _init
                       sprintf("One and _only_ one %s object may be defined",
                               ref $self)) if _flag();
 
-        # set ident
+        # Set ident
         $self->{ident} = basename $0;
 
-        # set the default logopts (to be passed to Sys::Syslog::openlog()
+        # Set the default logopts (to be passed to Sys::Syslog::openlog()
         $self->{logopts} = "pid"
             unless (defined $self->{logopts} and $self->{logopts} =~ /\w+/);
 
-        # set the default facility
+        # Set the default facility
         $self->{facility} = LOG_LOCAL0
             unless (defined $self->{facility}
                     and $self->{facility} =~ /\w+/);
 
-        # open the syslog connection and set flag
+        # Open the syslog connection and set flag
         openlog($self->{ident}, $self->{logopts}, $self->{facility});
         _flag(1);
 
-        # Victory!
         return $self;
 
 }          # _init()

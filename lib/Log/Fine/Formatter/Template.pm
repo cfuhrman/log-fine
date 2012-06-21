@@ -10,10 +10,10 @@ Formats log messages for output using a user-defined template spec.
     use Log::Fine::Formatter::Template;
     use Log::Fine::Handle::Console;
 
-    # instantiate a handle
+    # Instantiate a handle
     my $handle = Log::Fine::Handle::Console->new();
 
-    # instantiate a formatter
+    # Instantiate a formatter
     my $formatter = Log::Fine::Formatter::Template
         ->new(
           name             => 'template0',
@@ -21,7 +21,7 @@ Formats log messages for output using a user-defined template spec.
           timestamp_format => "%y-%m-%d %h:%m:%s"
     );
 
-    # set the formatter
+    # Set the formatter
     $handle->formatter( formatter => $formatter );
 
     # When displaying user or group information, use the effective
@@ -34,7 +34,7 @@ Formats log messages for output using a user-defined template spec.
           use_effective_id => 1,
     );
 
-    # format a msg
+    # Format a msg
     my $str = $formatter->format(INFO, "Resistence is futile", 1);
 
     # Create a template with a custom placeholder
@@ -117,7 +117,7 @@ Custom placeholders may be defined as follows:
 
   sub foobar { return ++$counter; } # foobar()
 
-  # define a template formatter with a custom keyword, FOOBAR
+  # Define a template formatter with a custom keyword, FOOBAR
   my $template = Log::Fine::Formatter::Template
       ->new(name      => 'template2',
             template  => "[%%TIME%%] %%LEVEL%% (count:%%FOOBAR%%) %%MSG%%\n",
@@ -186,7 +186,6 @@ sub format
                 $tmpl =~ s/%%${holder}%%/$value/ig;
         }
 
-        # return the formatted string
         return $tmpl;
 
 }          # format()
@@ -201,7 +200,7 @@ sub _init
 
         my $self = shift;
 
-        # perform super initializations
+        # Perform any necessary upper class initializations
         $self->SUPER::_init();
 
         # Make sure that template is defined
@@ -224,7 +223,6 @@ sub _init
         $self->_hostName();
         $self->_userName();
 
-        # Victory
         return $self;
 
 }          # _init()
@@ -237,18 +235,12 @@ sub _fileName
 
         my $self = shift;
 
-        # If {_fileName} is already cached, then return it, otherwise
+        # Should {_fileName} be already cached, then return it, otherwise
         # get the file name, cache it, and return
-        if (defined $self->{_fileName} and $self->{_fileName} =~ /\w/) {
-                return $self->{_fileName};
-        } else {
-                $self->{_fileName} = basename $0;
-                return $self->{_fileName};
-        }
+        $self->{_fileName} = basename $0
+            unless (defined $self->{_fileName} and $self->{_fileName} =~ /\w/);
 
-        #
-        # NOT REACHED
-        #
+        return $self->{_fileName};
 
 }          # _fileName()
 
@@ -260,8 +252,8 @@ sub _groupName
 
         my $self = shift;
 
-        # If {_groupName} is already cached, then return it, otherwise get
-        # the group name, cache it, and return
+        # Should {_groupName} be already cached, then return it,
+        # otherwise get the group name, cache it, and return
         if (defined $self->{_groupName} and $self->{_groupName} =~ /\w/) {
                 return $self->{_groupName};
         } elsif ($self->{use_effective_id}) {
@@ -298,18 +290,12 @@ sub _hostName
 
         my $self = shift;
 
-        # If {_fullHost} is already cached, then return it, otherwise
-        # get hostname, cache it, and return
-        if (defined $self->{_fullHost} and $self->{_fullHost} =~ /\w/) {
-                return $self->{_fullHost};
-        } else {
-                $self->{_fullHost} = hostname() || "{undef}";
-                return $self->{_fullHost};
-        }
+        # Should {_fullHost} be already cached, then return it,
+        # otherwise get hostname, cache it, and return
+        $self->{_fullHost} = hostname() || "{undef}"
+            unless (defined $self->{_fullHost} and $self->{_fullHost} =~ /\w/);
 
-        #
-        # NOT REACHED
-        #
+        return $self->{_fullHost};
 
 }          # _hostName()
 
@@ -322,7 +308,7 @@ sub _placeHolders
         my $self = shift;
         my $tmpl = shift;
 
-        # If {_placeHolders} is already cached, then return it,
+        # Should {_placeHolders} be already cached, then return it,
         # otherwise generate placeholders and return
         if (defined $self->{_placeHolders}
              and ref $self->{_placeHolders} eq "HASH") {
@@ -405,8 +391,8 @@ sub _placeholderValidate
         foreach my $placeholder (keys %{ $self->{custom_placeholders} }) {
 
                 $self->_fatal(
-                        sprintf(
-"custom template '%s' must point to a valid function ref : %s",
+                        sprintf("custom template '%s' must point to "
+                                    . "a valid function ref : %s",
                                 $placeholder,
                                 ref $self->{custom_placeholders}->{$placeholder}
                         ))
@@ -416,9 +402,10 @@ sub _placeholderValidate
                 # Check for duplicate placeholders
                 if (defined $holders->{ lc($placeholder) }) {
                         $self->_fatal(
-                                sprintf(
-"Duplicate placeholder '%s' found.  Remember, placeholders are case-INsensitive",
-                                        $placeholder));
+                                sprintf("Duplicate placeholder '%s' found.  "
+                                            . "Remember, placeholders are case-INsensitive",
+                                        $placeholder
+                                ));
                 } else {
                         $holders->{ lc($placeholder) } = 1;
                 }
@@ -437,8 +424,8 @@ sub _userName
 
         my $self = shift;
 
-        # If {_userName} is already cached, then return it, otherwise get
-        # the user name, cache it, and return
+        # Should {_userName} be already cached, then return it,
+        # otherwise get the user name, cache it, and return
         if (defined $self->{_userName} and $self->{_userName} =~ /\w/) {
                 return $self->{_userName};
         } elsif ($self->{use_effective_id}) {

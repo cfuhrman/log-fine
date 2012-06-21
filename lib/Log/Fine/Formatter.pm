@@ -15,15 +15,15 @@ Provides a formatting facility for log messages
       timestamp_format => "%Y-%m-%d %H:%M:%S"
     );
 
-    # by default, the handle will set its formatter to
+    # By default, the handle will set its formatter to
     # Log::Fine::Formatter::Basic.  If that's not what you want, set
     # it to preference.
     $handle->formatter($formatter);
 
-    # set the time-stamp to "YYYY-MM-DD HH:MM:SS"
+    # Set the time-stamp to "YYYY-MM-DD HH:MM:SS"
     $formatter->timeStamp("%Y-%m-%d %H:%M:%S");
 
-    # high resolution timestamps with milliseconds are
+    # High resolution timestamps with milliseconds are
     # supported thus:
     my $hires_formatter =
       Log::Fine::Formatter::Basic->new(
@@ -212,41 +212,40 @@ sub _init
 
         my $self = shift;
 
-        # perform super initializations
+        # Perform any necessary upper class initializations
         $self->SUPER::_init();
 
-        # verify that we can load the Time::HiRes module
+        # Verify that we can load the Time::HiRes module
         if ($self->{hires}) {
 
                 eval "require Time::HiRes";
-                $self->_fatal(
-"Time::HiRes failed to load.  Please install Time::HiRes via CPAN : $@"
-                ) if $@;
+                $self->_fatal(  "Time::HiRes failed to load.  "
+                              .  "Please install Time::HiRes via CPAN : $@")
+                    if $@;
 
-                # set {timestamp_format} to default high precision
+                # Set {timestamp_format} to default high precision
                 # format if necessary.
                 $self->{timestamp_format} = $self->LOG_TIMESTAMP_FORMAT_PRECISE
                     unless (defined $self->{timestamp_format}
                             and $self->{timestamp_format} =~ /\w+/);
 
-                # set {precision} to default if necessary
+                # Set {precision} to default if necessary
                 $self->{precision} = $self->LOG_TIMESTAMP_DEFAULT_PRECISION
                     unless (defined $self->{precision}
                             and $self->{precision} =~ /^\d+$/);
 
                 $self->{_precision_format_str} =
-                    "%.0" . $self->{precision} . "f";
+                    "%.0" . $self->{precision} .  "f";
 
         } else {
 
-                # set {timestamp_format} to the default if necessary
+                # Set {timestamp_format} to the default if necessary
                 $self->{timestamp_format} = $self->LOG_TIMESTAMP_FORMAT
                     unless (defined $self->{timestamp_format}
                             and $self->{timestamp_format} =~ /\w+/);
 
         }
 
-        # Victory!
         return $self;
 
 }          # _init()
@@ -276,7 +275,6 @@ sub _formatTime
                 $seconds = time;
         }
 
-        # return the formatted time
         return strftime($fmt, localtime($seconds));
 
 }          # _formatTime()

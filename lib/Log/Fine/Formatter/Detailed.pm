@@ -10,18 +10,18 @@ Formats log messages for output in a detailed format.
     use Log::Fine::Formatter::Detailed;
     use Log::Fine::Handle::Console;
 
-    # instantiate a handle
+    # Instantiate a handle
     my $handle = Log::Fine::Handle::Console->new();
 
-    # instantiate a formatter
+    # Instantiate a formatter
     my $formatter = Log::Fine::Formatter::Detailed
         ->new( name             => 'detail0',
                timestamp_format => "%y-%m-%d %h:%m:%s" );
 
-    # set the formatter
+    # Set the formatter
     $handle->formatter( formatter => $formatter );
 
-    # format a msg
+    # Format a msg
     my $str = $formatter->format(INFO, "Resistence is futile", 1);
 
 =head1 DESCRIPTION
@@ -104,13 +104,13 @@ sub format
         # Set skip to default if need be
         $skip = Log::Fine::Logger->LOG_SKIP_DEFAULT unless (defined $skip);
 
-        # get the caller
+        # Get the caller
         my @c = caller($skip);
 
-        # did our call to caller() come up empty?
+        # Did our call to caller() come up empty?
         if (scalar @c == 0) {
 
-                # just include the script name
+                # Just include the script name
                 return
                     sprintf("[%s] %-4s (%s) %s\n",
                             $self->_formatTime(),
@@ -119,7 +119,7 @@ sub format
 
         } elsif (defined $c[0] and $c[0] eq "main") {
 
-                # just include the script name and line number
+                # Just include the script name and line number
                 return
                     sprintf("[%s] %-4s (%s:%d) %s\n",
                             $self->_formatTime(),
@@ -128,7 +128,7 @@ sub format
 
         }
 
-        # log package, subroutine, and line number
+        # Log package, subroutine, and line number
         return
             sprintf("[%s] %-4s (%s():%d) %s\n",
                     $self->_formatTime(),

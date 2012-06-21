@@ -10,16 +10,16 @@ Sets up an output handle for log messages
     use Log::Fine;
     use Log::Fine::Handle;
 
-    # instantiate the handle (default values shown)
+    # Instantiate the handle (default values shown)
     my $handle = Log::Fine::Handle::Foo
         ->new( name      => "foo0",
                mask      => Log::Fine::Handle->DEFAULT_LOGMASK,
                formatter => Log::Fine::Formatter:Basic->new() );
 
-    # see if a handle is loggable at a given level
+    # See if a handle is loggable at a given level
     my $rc = $handle->isLoggable(INFO);
 
-    # write a message
+    # Write a message
     $handle->msgWrite(INFO, "Informational message", 1);
 
 =head1 DESCRIPTION
@@ -64,7 +64,7 @@ sub bitmaskListEnabled
         my $map      = $self->levelMap();
         my @bitmasks = ();
 
-        # reminder: log() here is the perl logarithmic function (see
+        # Reminder: log() here is the perl logarithmic function (see
         # perlfunc(3)) and is not to be confused with the name of this
         # module ;)
         foreach my $maskname ($map->logMasks()) {
@@ -103,7 +103,7 @@ sub formatter
         my $self      = shift;
         my $formatter = shift;
 
-        # if the first argument is a valid formatter, then set the
+        # Should the first argument is a valid formatter, then set the
         # objects formatter attribute appropriately
         $self->{formatter} = $formatter
             if (    defined $formatter
@@ -145,7 +145,7 @@ sub isLoggable
         # Return undef if level is not defined
         return unless defined $lvl;
 
-        # convert level to value if we are given a string, otherwise
+        # Convert level to value if we are given a string, otherwise
         # use value as is.
         my $val =
             ($lvl =~ /^\d+$/) ? $lvl : $self->levelMap()->levelToValue($lvl);
@@ -155,7 +155,7 @@ sub isLoggable
 
         my $shifted = 2 << $val;
 
-        # bitand the level and the mask to see if we're loggable
+        # Bitand the level and the mask to see if we're loggable
         return (($self->{mask} & $shifted) == $shifted) ? 1 : undef;
 
 }          # isLoggable()
@@ -221,21 +221,20 @@ sub _init
 
         my $self = shift;
 
-        # perform super initializations
+        # Perform any necessary upper class initializations
         $self->SUPER::_init();
 
-        # set default bitmask
+        # Set default bitmask
         $self->{mask} = $self->levelMap()->bitmaskAll()
             unless defined $self->{mask};
 
-        # set the default formatter
+        # Set the default formatter
         $self->{formatter} = Log::Fine::Formatter::Basic->new()
             unless (    defined $self->{formatter}
                     and ref $self->{formatter}
                     and UNIVERSAL::can($self->{formatter}, 'isa')
                     and $self->{formatter}->isa("Log::Fine::Formatter"));
 
-        # Victory!
         return $self;
 
 }          # _init()

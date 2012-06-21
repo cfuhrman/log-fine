@@ -77,15 +77,14 @@ sub msgWrite
         my $msg  = shift;
         my $skip = shift;          # NOT USED
 
-        # make sure we load the appropriate formatter
+        # Validate formatter
         eval "require " . ref $self->{formatter};
 
-        # if we have a formatter defined, then use that, otherwise, just
-        # print the raw message
+        # Should we have a formatter defined, then use that,
+        # otherwise, just print the raw message
         $msg = $self->{formatter}->format($lvl, $msg, $skip)
             if defined $self->{formatter};
 
-        # Victory!
         return $msg;
 
 }          # msgWrite()

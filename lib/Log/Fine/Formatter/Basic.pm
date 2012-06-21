@@ -11,18 +11,18 @@ applications.
     use Log::Fine::Formatter::Basic;
     use Log::Fine::Handle::Console;
 
-    # instantiate a handle
+    # Instantiate a handle
     my $handle = Log::Fine::Handle::Console->new();
 
-    # instantiate a formatter
+    # Instantiate a formatter
     my $formatter = Log::Fine::Formatter::Basic
         ->new( name             => 'basic0',
                timestamp_format => "%y-%m-%d %h:%m:%s" );
 
-    # set the formatter
+    # Set the formatter
     $handle->formatter( formatter => $formatter );
 
-    # format a msg
+    # Format a msg
     my $str = $formatter->format(INFO, "Resistance is futile", 1);
 
 =head1 DESCRIPTION
@@ -90,7 +90,7 @@ sub format
         my $msg  = shift;
         my $skip = shift;          # NOT USED
 
-        # return the formatted string
+        # Return the formatted string
         return
             sprintf("[%s] %-4s %s\n",
                     $self->_formatTime(), $self->levelMap()->valueToLevel($lvl),

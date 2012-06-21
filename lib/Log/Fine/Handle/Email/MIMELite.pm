@@ -34,7 +34,7 @@ L<MIME::Lite> module.
         ->new( name     => 'template2',
                template => $msgtmpl );
 
-    # register an email handle
+    # Register an email handle
     my $handle = Log::Fine::Handle::Email
         ->new( name => 'email0',
                mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT,
@@ -51,10 +51,10 @@ L<MIME::Lite> module.
                }
              );
 
-    # register the handle
+    # Register the handle
     $log->registerHandle($handle);
 
-    # log something
+    # Log something
     $log->log(CRIT, "Beware the weeping angels");
 
 =head1 DESCRIPTION
@@ -171,7 +171,7 @@ sub _init
 
         my $self = shift;
 
-        # call the super object
+        # Perform any necessary upper class initializations
         $self->SUPER::_init();
 
         my $envelope = $self->{envelope};

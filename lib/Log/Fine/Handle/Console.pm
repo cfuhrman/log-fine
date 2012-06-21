@@ -10,19 +10,19 @@ Provides logging to either C<STDERR> or C<STDOUT>.
     # Get a new logger
     my $log = Log::Fine->logger("foo");
 
-    # register a file handle
+    # Register a file handle
     my $handle = Log::Fine::Handle::Console
         ->new( name => 'myname',
                mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT | LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO,
                use_stderr => undef );
 
-    # you can set logging to STDERR per preference
+    # You can set logging to STDERR per preference
     $handle->{use_stderr} = 1;
 
-    # register the handle
+    # Register the handle
     $log->registerHandle($handle);
 
-    # log something
+    # Log something
     $log->(INFO, "Opened new log handle");
 
 =head1 DESCRIPTION
@@ -59,19 +59,18 @@ sub msgWrite
         my $msg  = shift;
         my $skip = shift;
 
-        # if we have a formatter defined, then use that, otherwise, just
-        # print the raw message
+        # Should we have a formatter defined, then use that,
+        # otherwise, just print the raw message
         $msg = $self->{formatter}->format($lvl, $msg, $skip)
             if defined $self->{formatter};
 
-        # where do we send the message to?
+        # Where do we send the message to?
         if (defined $self->{use_stderr}) {
                 print STDERR $msg;
         } else {
                 print STDOUT $msg;
         }
 
-        # Victory!
         return $self;
 
 }          # msgWrite()
@@ -86,14 +85,13 @@ sub _init
 
         my $self = shift;
 
-        # call the super object
+        # Perform any necessary upper class initializations
         $self->SUPER::_init();
 
-        # by default, we print messages to STDOUT
+        # By default, we print messages to STDOUT
         $self->{use_stderr} = undef
             unless (exists $self->{use_stderr});
 
-        # Victory!
         return $self;
 
 }          # _init()

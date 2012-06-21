@@ -20,10 +20,10 @@ Provides logging to a time-stamped file
                dir  => "/var/log",
                file => "myapp.%y%m%d.log" );
 
-    # register the handle
+    # Register the handle
     $log->registerHandle($handle);
 
-    # log something
+    # Log something
     $log->(INFO, "Opened new log handle");
 
 
@@ -63,7 +63,7 @@ sub fileHandle
 
         my $self = shift;
 
-        # return if we have a registered filehandle and the date is
+        # Return if we have a registered filehandle and the date is
         # still the same
         return $self->{_filehandle}
             if (    not $self->_fileRotate()
@@ -73,7 +73,7 @@ sub fileHandle
                 and $self->{_filehandle}->isa("IO::File")
                 and defined fileno($self->{_filehandle}));
 
-        # we need a new file.  Close our filehandle if it exists
+        # We need a new file.  Close our filehandle if it exists
         $self->{_filehandle}->close()
             if (    defined $self->{_filehandle}
                 and ref $self->{_filehandle}
@@ -81,19 +81,18 @@ sub fileHandle
                 and $self->{_filehandle}->isa("IO::File")
                 and defined fileno($self->{_filehandle}));
 
-        # generate file name
+        # Generate file name
         my $filename = catdir($self->{dir}, $self->{_expanded_filename});
 
-        # generate a new filehandle
+        # Generate a new filehandle
         $self->{_filehandle} = FileHandle->new(">> " . $filename);
 
         $self->_error("Unable to open log file $filename : $!\n")
             unless defined $self->{_filehandle};
 
-        # set autoflush if necessary
+        # Set autoflush if necessary
         $self->{_filehandle}->autoflush($self->{autoflush});
 
-        # return the newly created file handle
         return $self->{_filehandle};
 
 }          # fileHandle();
