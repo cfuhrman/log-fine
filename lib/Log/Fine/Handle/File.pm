@@ -114,6 +114,8 @@ sub fileHandle
         # Should we already have a file handle defined, return it
         return $self->{_filehandle}
             if (    defined $self->{_filehandle}
+                and ref $self->{_filehandle}
+                and UNIVERSAL::can($self->{_filehandle}, 'isa')
                 and $self->{_filehandle}->isa("IO::File")
                 and defined fileno($self->{_filehandle}));
 
