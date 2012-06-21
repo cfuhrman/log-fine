@@ -127,7 +127,7 @@ sub new
 =head2 msgWrite
 
 Sends given email message via MIME::Lite module.  Note that
-L<Log::Fine/_fatal> will be called should there be a failure of
+L<Log::Fine/_error> will be called should there be a failure of
 delivery.
 
 See also L<Log::Fine::Handle/msgWrite>
@@ -152,9 +152,11 @@ sub msgWrite
 
         if (defined $self->{envelope}->{method}) {
                 $mimeobj->send($self->{envelope}->{method},
-                               @{ $self->{envelope}->{options} });
+                               @{ $self->{envelope}->{options} }) or
+                                       $self->_error("Unable to deliver email: $_");
         } else {
-                $mimeobj->send();
+                $mimeobj->send() or
+                        $self->_error("Unable to deliver email: $_");
         }
 
 }          # msgWrite()
