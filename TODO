@@ -181,7 +181,7 @@
 
    By default, ~_error()~ method will call ~_fatal()~.
 
-** TODO [#A] Replace ~MIME::Lite~
+** TODO [#A] Replace ~MIME::Lite~                                   :handles:
 
    MIME::Lite is no longer maintained[fn:1], so need to use another
    perl module instead.  I'll need to find an appropriate module that
@@ -196,6 +196,8 @@
      - [[http://search.cpan.org/~markov/MailTools-2.09/lib/Mail/Send.pod][Mail::Send]]
 
      - [[http://search.cpan.org/~jenda/Mail-Sender-0.8.21/Sender.pm][Mail::Sender]]
+
+** TODO [#B] Optimize msgWrite() where appropriate                  :handles:
 
 
 * Footnotes
