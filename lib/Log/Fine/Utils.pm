@@ -189,7 +189,10 @@ sub Log
         # validate logger has been set
         Log::Fine->_fatal(  "Logging system has not been set up "
                           . "(See Log::Fine::Utils::OpenLog())")
-            unless (defined $log and $log->isa("Log::Fine::Logger"));
+            unless (    defined $log
+                    and ref $log
+                    and UNIVERSAL::can($log, 'isa')
+                    and $log->isa("Log::Fine::Logger"));
 
         # make sure we log the correct calling method
         $log->incrSkip();
@@ -199,8 +202,6 @@ sub Log
         return 1;
 
 }          # Log()
-
-# This documentation needs to be elaborated on!
 
 =head2 OpenLog
 
@@ -281,13 +282,13 @@ sub OpenLog
 
         } else {
 
-                # Create a new logger
+                # Create logger, register handle(s), and store for
+                # future use.
                 my $logger = _logfine()->logger($data{name});
 
-                # And register given handles
+                # Note that registerHandle() will take care of handle
+                # validation.
                 $logger->registerHandle($data{handles});
-
-                # And store it
                 _logger($logger);
 
         }
