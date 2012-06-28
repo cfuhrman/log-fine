@@ -133,7 +133,10 @@
    objects.  Might also want to make sure directory exists before we
    instantiate.
 
-** TODO [#C] Make ~Sys::Syslog~ testing optional
+** DONE [#C] Make ~Sys::Syslog~ testing optional
+   CLOSED: [2012-06-28 Thu 13:28]
+   - CLOSING NOTE [2012-06-28 Thu 13:29] \\
+     Done.  See [[https://github.com/cfuhrman/log-fine/commit/fa339e5c23fc36238fe39b43bcb617f503c173fe][fa339e5]].
 
    Make ~Sys::Syslog~ testing optional.  This way, I can test
    ~Log::Fine~ on some systems where ~Sys::Syslog~ is either not
@@ -147,7 +150,12 @@
 
    By default, ~_error()~ method will call ~_fatal()~.
 
-** TODO [#A] Replace ~MIME::Lite~                                   :handles:
+** DONE [#A] Replace ~MIME::Lite~                                   :handles:
+   CLOSED: [2012-06-28 Thu 13:25]
+   - CLOSING NOTE [2012-06-28 Thu 13:27] \\
+     I've completely stripped out Email Handle subclassing, so it's safe to
+     close this task.  Email::Sender seems to be robust enough for most use
+     cases so continue to use that.
 
    MIME::Lite is no longer maintained[fn:1], so need to use another
    perl module instead.  I'll need to find an appropriate module that
