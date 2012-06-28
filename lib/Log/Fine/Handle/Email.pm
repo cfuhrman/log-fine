@@ -171,12 +171,17 @@ use Mail::RFC822::Address qw(valid validlist);
 use Log::Fine;
 use Log::Fine::Formatter;
 use Sys::Hostname;
+use Try::Tiny;
 
 our $VERSION = $Log::Fine::Handle::VERSION;
 
 =head1 METHODS
 
 =head2 msgWrite
+
+Sends given message via Email::Sender module.  Note that
+L<Log::Fine/_error> will be called should there be a failure of
+delivery.
 
 See L<Log::Fine::Handle/msgWrite>
 
@@ -201,7 +206,17 @@ sub msgWrite
                  body => $self->{body_formatter}->format($lvl, $msg, $skip),
             );
 
-        sendmail($email, $self->{envelope});
+        # Set X-Mailer
+        $email->header_set("X-Mailer",
+                           sprintf("%s ver %s", ref $self, $VERSION));
+
+        # And send!
+        try {
+                sendmail($email, $self->{envelope});
+        }
+        catch {
+                $self->_error("Unable to deliver email: $_");
+        }
 
 }          # msgWrite()
 
