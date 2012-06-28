@@ -191,6 +191,9 @@
 
     2) Fairly lightweight
 
+   Another option is to strip out the Email subclassing entirely and
+   go back to using only Email::Sender.
+
 *** Candidates
 
      - [[http://search.cpan.org/~markov/MailTools-2.09/lib/Mail/Send.pod][Mail::Send]]
