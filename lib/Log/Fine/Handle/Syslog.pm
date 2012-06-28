@@ -147,11 +147,6 @@ sub _init
 
 }          # _init()
 
-##
-# called when this object is destroyed
-
-sub DESTROY { closelog(); }
-
 =head1 BUGS
 
 Please report any bugs or feature requests to
