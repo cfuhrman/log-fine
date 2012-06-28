@@ -147,3 +147,48 @@
 
    By default, ~_error()~ method will call ~_fatal()~.
 
+** TODO [#A] Replace ~MIME::Lite~                                   :handles:
+
+   MIME::Lite is no longer maintained[fn:1], so need to use another
+   perl module instead.  I'll need to find an appropriate module that
+   meets the following criteria:
+
+    1) Compatible with perl v5.6.0
+
+    2) Fairly lightweight
+
+   Another option is to strip out the Email subclassing entirely and
+   go back to using only Email::Sender.
+
+*** Candidates
+
+     - [[http://search.cpan.org/~markov/MailTools-2.09/lib/Mail/Send.pod][Mail::Send]]
+
+     - [[http://search.cpan.org/~jenda/Mail-Sender-0.8.21/Sender.pm][Mail::Sender]]
+
+** CANCELED [#B] Optimize ~msgWrite()~ where appropriate            :handles:
+   CLOSED: [2012-06-21 Thu 11:15]
+   - CLOSING NOTE [2012-06-21 Thu 11:17] \\
+     Originally, I intended to replace instances such as these:
+     
+         #+BEGIN_SRC perl
+         my $self = shift;
+         my $lvl  = shift;
+         my $msg  = shift;
+         my $skip = shift;
+         #+END_SRC
+     
+     with
+     
+         #+BEGIN_SRC perl
+         my ($self, $lvl, $msg, $skip) = @_;
+         #+END_SRC
+
+     But speed testing indicates that there is more of a speed penalty with
+     using the ~@_~ notation than simply making multiple calls to ~shift()~, so
+     no need to optimize
+
+
+* Footnotes
+
+[fn:1] http://search.cpan.org/~rjbs/MIME-Lite-3.028/lib/MIME/Lite.pm#WAIT!
