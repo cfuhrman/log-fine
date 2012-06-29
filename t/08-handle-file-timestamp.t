@@ -17,11 +17,11 @@ use POSIX qw( strftime );
 
 {
 
-        my $base = "fine.%y%m%d.log";
+        my $base     = "fine.%y%m%d.log";
         my $timebase = "fine.%Y%m%d%H%M%S.log";
-        my $msg  = "We're so miserable it's stunning";
+        my $msg      = "We're so miserable it's stunning";
 
-        # add a handle.  Note we use the default formatter.
+        # Add a handle.  Note we use the default formatter.
         my $handle =
             Log::Fine::Handle::File::Timestamp->new(file      => $base,
                                                     autoflush => 1);
@@ -32,7 +32,7 @@ use POSIX qw( strftime );
 
         ok($handle->name() =~ /\w\d+$/);
 
-        # these should be set to their default values
+        # These should be set to their default values
         ok($handle->{mask} == $handle->levelMap()->bitmaskAll());
         ok($handle->{formatter}->isa("Log::Fine::Formatter::Basic"));
 
@@ -41,35 +41,35 @@ use POSIX qw( strftime );
         ok($handle->{dir}  eq "./");
         ok($handle->{autoflush} == 1);
 
-        # remove the file if it exists so as not to confuse ourselves
+        # Remove the file if it exists so as not to confuse ourselves
         unlink $base if -e $base;
 
-        # write a test message
+        # Write a test message
         $handle->msgWrite(INFO, $msg, 1);
 
-        # construct the full name of the file
+        # Construct the full name of the file
         my $file = strftime($base, localtime(time));
 
-        # see if a file handle was properly constructed
+        # See if a file handle was properly constructed
         ok($handle->{_filehandle}->isa("IO::File"));
 
-        # now check the file
+        # Now check the file
         ok(-e $file);
 
-        # close the file handle and reopen
+        # Close the file handle and reopen
         $handle->{_filehandle}->close();
 
         my $fh = FileHandle->new(catdir($handle->{dir}, $file));
 
-        # see if a file handle was properly constructed
+        # See if a file handle was properly constructed
         ok($fh->isa("IO::File"));
 
-        # read in the file
+        # Read in the file
         while (<$fh>) {
                 ok(/^\[.*?\] \w+ $msg/);
         }
 
-        # clean up
+        # Clean up
         $fh->close();
         unlink $file;
 

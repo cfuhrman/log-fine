@@ -24,7 +24,7 @@ use Log::Fine::Levels::Syslog;
                 plan tests => 19;
         }
 
-        # create a basic formatter
+        # Create a basic formatter
         my $basic = Log::Fine::Formatter::Basic->new(hires => 1);
 
         isa_ok($basic, "Log::Fine::Formatter::Basic");
@@ -35,22 +35,22 @@ use Log::Fine::Levels::Syslog;
         ok($basic->timeStamp() eq
             Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT_PRECISE);
 
-        # format a message
+        # Format a message
         my $msg = "Stop by this disaster town";
         my $log0 = $basic->format(INFO, $msg, 1);
 
         # see if the format is correct
         ok($log0 =~ /^\[.*?\] \w+ $msg/);
 
-        # make sure we can change the timestamp format
+        # Make sure we can change the timestamp format
         $basic->timeStamp("%Y%m%d%H%M%S.%%millis%%");
 
         my $log1 = $basic->format(INFO, $msg, 1);
 
-        # see if the format is correct
+        # See if the format is correct
         ok($log1 =~ /^\[\d{14}\.\d+\] \w+ $msg/);
 
-        # now create a detailed formatter
+        # Now create a detailed formatter
         my $detailed = Log::Fine::Formatter::Detailed->new(hires => 1);
 
         isa_ok($detailed, "Log::Fine::Formatter::Detailed");
@@ -61,7 +61,7 @@ use Log::Fine::Levels::Syslog;
         ok($detailed->timeStamp() eq
             Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT_PRECISE);
 
-        # format a message
+        # Format a message
         my $log2 = $detailed->format(INFO, $msg, 1);
 
         ok($log2 =~ /^\[\d\d\:\d\d\:\d\d\.\d{5,5}\] \w+ \(.*?\) $msg/);
@@ -118,7 +118,7 @@ use Log::Fine::Levels::Syslog;
 
 }
 
-# this subroutine is for testing the detailed formatter
+# This subroutine is for testing the detailed formatter
 
 sub myfunc
 {

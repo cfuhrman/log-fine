@@ -85,7 +85,7 @@ EOF
         isa_ok($subjfmt, "Log::Fine::Formatter::Template");
         isa_ok($bodyfmt, "Log::Fine::Formatter::Template");
 
-        # register an email handle
+        # Register an email handle
         my $handle =
             Log::Fine::Handle::Email->new(
                            name => 'email11',
@@ -98,7 +98,7 @@ EOF
 
         isa_ok($handle, "Log::Fine::Handle::Email");
 
-        # register the handle
+        # Register the handle
         $log->registerHandle($handle);
 
         # Grab number of messages

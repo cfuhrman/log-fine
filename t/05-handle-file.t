@@ -22,7 +22,7 @@ use POSIX qw( tmpnam );
         my $file = "fine.log";
         my $msg  = "We're so miserable it's stunning";
 
-        # get a logger
+        # Get a logger
         my $log = Log::Fine->logger("handlefile0");
 
         isa_ok($log, "Log::Fine::Logger");
@@ -30,12 +30,12 @@ use POSIX qw( tmpnam );
 
         ok($log->name() =~ /\w\d+$/);
 
-        # add a handle.  Note we use the default formatter.
+        # Add a handle.  Note we use the default formatter.
         my $handle =
             Log::Fine::Handle::File->new(file      => $file,
                                          autoflush => 1);
 
-        # do some validation
+        # Do some validation
         isa_ok($handle, "Log::Fine::Handle");
         can_ok($handle, "name");
         can_ok($handle, "levelMap");
@@ -43,7 +43,7 @@ use POSIX qw( tmpnam );
 
         ok($handle->name() =~ /\w\d+$/);
 
-        # these should be set to their default values
+        # These should be set to their default values
         ok($handle->{mask} == $handle->levelMap()->bitmaskAll());
         ok($handle->{formatter}->isa("Log::Fine::Formatter::Basic"));
 
@@ -53,35 +53,35 @@ use POSIX qw( tmpnam );
         ok($handle->{autoflush} == 1);
         ok($handle->{autoclose} == 0);
 
-        # remove the file if it exists so as not to confuse ourselves
+        # Remove the file if it exists so as not to confuse ourselves
         unlink $file if -e $file;
 
-        # write a test message
+        # Write a test message
         $handle->msgWrite(INFO, $msg, 1);
 
-        # grab a ref to our filehandle
+        # Grab a ref to our filehandle
         my $fh = $handle->fileHandle();
 
-        # see if a file handle was properly constructed
+        # See if a file handle was properly constructed
         isa_ok($fh, "IO::File");
 
-        # now check the file
+        # Now check the file
         ok(-e $file);
 
-        # close the file handle and reopen
+        # Close the file handle and reopen
         $fh->close();
 
         $fh = FileHandle->new(catdir($handle->{dir}, $file));
 
-        # see if a file handle was properly constructed
+        # See if a file handle was properly constructed
         isa_ok($fh, "IO::File");
 
-        # read in the file
+        # Read in the file
         while (<$fh>) {
                 ok(/^\[.*?\] \w+ $msg/);
         }
 
-        # clean up
+        # Clean up
         $fh->close();
         unlink $file;
 
@@ -96,7 +96,7 @@ use POSIX qw( tmpnam );
         can_ok($closehandle, "fileHandle");
         can_ok($closehandle, "msgWrite");
 
-        # grab a ref to the FileHandle object
+        # Grab a ref to the FileHandle object
         my $fh2 = $closehandle->fileHandle();
 
         # Write something out and make sure our filehandle is closed
@@ -105,7 +105,7 @@ use POSIX qw( tmpnam );
         # fileno will return undef if $fh2 is a closed filehandle
         ok(not defined fileno $fh2);
 
-        # clean up
+        # Clean up
         unlink $file;
 
         # Test abs path

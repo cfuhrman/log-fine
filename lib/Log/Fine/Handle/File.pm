@@ -13,7 +13,7 @@ Provides logging to a file
     # Get a new logger
     my $log = Log::Fine->logger("foo");
 
-    # register a file handle (default values shown)
+    # Create a file handle (default values shown)
     my $handle = Log::Fine::Handle::File
         ->new( name => 'file0',
                mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT | LOGMASK_ERR | LOGMASK_WARNING | LOGMASK_NOTICE | LOGMASK_INFO,
@@ -21,10 +21,10 @@ Provides logging to a file
                file => "myapp.log",
                autoflush => 0 );
 
-    # register the handle
+    # Register the handle
     $log->registerHandle($handle);
 
-    # log something
+    # Log something
     $log->(INFO, "Opened new log handle");
 
 =head1 DESCRIPTION
@@ -172,7 +172,6 @@ sub msgWrite
                               )) unless $self->fileHandle()->close();
         }
 
-        # Victory!
         return $self;
 
 }          # msgWrite()
@@ -211,7 +210,6 @@ sub _init
         $self->{autoclose} = 0
             unless defined $self->{autoclose};
 
-        # Victory!
         return $self;
 
 }          # _init()

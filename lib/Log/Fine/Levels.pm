@@ -9,17 +9,17 @@ Provides logging translations
 
     use Log::Fine::Levels;
 
-    # instantiate the levels object using the default translations
+    # Instantiate the levels object using the default translations
     my $levels = Log::Fine::Levels->new();
 
-    # instantiate the levels object using customized translations
+    # Instantiate the levels object using customized translations
     my $levels = Log::Fine::Levels->new("Java");
 
     # Supported methods
     my @l = $levels->logLevels();   # grab list of levels
     my @m = $levels->logMasks();    # grab list of masks
 
-    # translation methods
+    # Translation methods
     my $val     = $levels->levelToValue("INFO");
     my $bitmask = $levels->maskToValue("LOGMASK_INFO");
     my $lvl     = $levels->valueToLevel(3);
@@ -99,17 +99,15 @@ sub new
         my $class = shift;
         my $lvlmap = shift || DEFAULT_LEVELMAP;
 
-        # construct the subclass
+        # Construct the string containing name of sub-class
         my $levelClass = join("::", $class, $lvlmap);
 
-        # validate levelclass
+        # Validate levelclass and return if successful
         eval "require $levelClass";
 
-        # Do we have the class defined?
         confess "Error : Level Class $levelClass does not exist : $@"
             if $@;
 
-        # return the new subclass
         return $levelClass->new();
 
 }          # new()
@@ -128,9 +126,7 @@ sub bitmaskAll
 {
 
         my $self = shift;
-
-        # variable for storing the total bitmask
-        my $mask = 0;
+        my $mask = 0;             # bitmask
 
         # bitor all the mask values together
         $mask |= $self->MASK_MAP->{$_} foreach (keys %{ $self->MASK_MAP });
@@ -179,9 +175,10 @@ sub logLevels
         my $self = shift;
         my @lvls;
 
-        # construct array sorted by level value (ascending) and return
+        # Construct array sorted by level value (ascending) and return
         push @lvls, $self->VALTOLVL_MAP->{$_}
             foreach (sort { $a <=> $b } (keys %{ $self->VALTOLVL_MAP }));
+
         return @lvls;
 
 }          # logLevels()
@@ -204,12 +201,13 @@ sub logMasks
         my $vtom = {};
         my @masks;
 
-        # build hash of mask values to mask names
+        # Build hash of mask values to mask names
         $vtom->{ $self->MASK_MAP->{$_} } = $_
             foreach (keys %{ $self->MASK_MAP });
 
-        # construct array sorted by mask value (ascending) and return
+        # Construct array sorted by mask value (ascending) and return
         push @masks, $vtom->{$_} foreach (sort { $a <=> $b } (keys %{$vtom}));
+
         return @masks;
 
 }          # logMasks()

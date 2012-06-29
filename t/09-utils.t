@@ -27,14 +27,14 @@ use Log::Fine::Utils;
         isa_ok($handle, "Log::Fine::Handle");
         can_ok($handle, "name");
 
-        # remove the file if it exists so as not to confuse ourselves
+        # Remove the file if it exists so as not to confuse ourselves
         unlink $file if -e $file;
 
         # Make sure there are no loggers defined
         ok(not defined ListLoggers() or scalar ListLoggers() == 0);
         ok(not defined CurrentLogger());
 
-        # open the logging sub-system
+        # Open the logging sub-system
         OpenLog(handles  => [$handle],
                 levelmap => "Java");
 
@@ -51,23 +51,23 @@ use Log::Fine::Utils;
 
         #print STDERR "\n1) About to log\n\n";
 
-        # log a message
+        # Log a message
         Log(FINE, $msg);
 
-        # check the file
+        # Check the file
         ok(-f $file);
 
         my $fh = FileHandle->new(catdir($handle->{dir}, $file));
 
-        # see if a file handle was properly constructed
+        # See if a file handle was properly constructed
         isa_ok($fh, "IO::File");
 
-        # read in the file
+        # Read in the file
         while (<$fh>) {
                 ok(/^\[.*?\] \w+ $msg/);
         }
 
-        # clean up
+        # Clean up
         #$fh->close();
         #unlink $file;
 

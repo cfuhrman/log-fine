@@ -11,7 +11,7 @@ java.utils.logging
     use Log::Fine;
     use Log::Fine::Levels::Java;
 
-    # grab a logging object
+    # Grab a logging object
     my $log = Log::Fine->getLogger("foo1");
 
     # Note that FINER and SEVERE are provided by the
@@ -175,7 +175,7 @@ sub AUTOLOAD
         # Get the method name
         my $name = $AUTOLOAD;
 
-        # strip out package prefix
+        # Strip out package prefix
         $name =~ s/.*://;
 
         # Return on DESTROY
@@ -189,7 +189,7 @@ sub AUTOLOAD
                        "Invalid function name : $name"
                )) unless (exists $ok_fields{$name});
 
-        # evaluate and return the appropriate level
+        # Evaluate and return the appropriate level
         eval "sub $name { return $ok_fields{$name} }";
         goto &$name;
 

@@ -10,17 +10,17 @@ Formats messages in a style similar to syslog(1)
     use Log::Fine::Formatter::Syslog;
     use Log::Fine::Handle::Console;
 
-    # instantiate a handle
+    # Instantiate a handle
     my $handle = Log::Fine::Handle::Console->new();
 
-    # instantiate a formatter
+    # Instantiate a formatter
     my $formatter = Log::Fine::Formatter::Syslog
         ->new( name => 'syslog0');
 
-    # set the formatter
+    # Set the formatter
     $handle->formatter( formatter => $formatter );
 
-    # format a msg
+    # Format a msg
     my $str = $formatter->format(INFO, "Resistence is futile", 1);
 
 =head1 DESCRIPTION
@@ -95,11 +95,10 @@ sub format
         my $self = shift;
         my $lvl  = shift;
         my $msg  = shift;
-        my $skip = shift;
-        my $host = (split(/\./, hostname))[0];
+        my $skip =
+            (defined $_[0]) ? shift : Log::Fine::Logger->LOG_SKIP_DEFAULT;
 
-        # Set skip to default if need be
-        $skip = Log::Fine::Logger->LOG_SKIP_DEFAULT unless (defined $skip);
+        my $host = (split(/\./, hostname))[0];
 
         return
             sprintf("%s %s %s[%d]: %s\n",

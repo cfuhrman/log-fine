@@ -10,16 +10,16 @@ use Log::Fine;
 use Log::Fine::Handle::Console;
 use Log::Fine::Levels::Syslog;
 
-# set message
+# Set message
 my $msg =
     "Stop by this disaster town, we put our eyes to the sun and say 'Hello!'";
 
-# add a handle.  Note we use the default formatter.
+# Add a handle.  Note we use the default formatter.
 my $handle = Log::Fine::Handle::Console->new();
 
 {
 
-        # see if we have Test::Output installed
+        # See if we have Test::Output installed
         eval "use Test::Output 0.10";
 
         if ($@) {
@@ -34,7 +34,7 @@ my $handle = Log::Fine::Handle::Console->new();
 
         ok($handle->name() =~ /\w\d+$/);
 
-        # get a logger
+        # Get a logger
         my $log = Log::Fine->logger("handleconsole0");
 
         isa_ok($log, "Log::Fine");
@@ -42,7 +42,7 @@ my $handle = Log::Fine::Handle::Console->new();
 
         ok($log->name() =~ /\w\d+$/);
 
-        # do some validation
+        # Do some validation
         isa_ok($handle,              "Log::Fine::Handle");
         isa_ok($handle->{formatter}, "Log::Fine::Formatter::Basic");
         can_ok($handle, "name");
@@ -50,7 +50,7 @@ my $handle = Log::Fine::Handle::Console->new();
 
         ok($handle->name() =~ /\w\d+$/);
 
-        # these should be set to their default values
+        # These should be set to their default values
         ok($handle->{mask} == $handle->levelMap()->bitmaskAll());
         ok($handle->{formatter}->isa("Log::Fine::Formatter::Basic"));
 
@@ -58,7 +58,7 @@ my $handle = Log::Fine::Handle::Console->new();
         ok(!$handle->{use_stderr});
         stdout_like(\&writer, qr/$msg/, 'Test STDOUT');
 
-        # test STDOUT
+        # Test STDOUT
         $handle->{use_stderr} = 1;
 
         ok($handle->{use_stderr});

@@ -11,27 +11,27 @@ Provides fine-grained logging and tracing.
     use Log::Fine::Levels::Syslog;                # exports log levels
     use Log::Fine::Levels::Syslog qw( :masks );   # exports masks and levels
 
-    # build a Log::Fine object
+    # Build a Log::Fine object
     my $fine = Log::Fine->new();
 
-    # specify a custom map
+    # Specify a custom map
     my $fine = Log::Fine->new(levelmap => "Syslog");
 
     # Get the name of the log object
     my $name = $fine->name();
 
-    # use logger() to get a new logger object.  If "foo" is not
+    # Use logger() to get a new logger object.  If "foo" is not
     # defined then a new logger with the name "foo" will be created.
     my $log = Log::Fine->logger("foo");
 
-    # get list of names of defined logger objects
+    # Get list of names of defined logger objects
     my @loggers = $log->listLoggers();
 
-    # register a handle, in this case a handle that logs to console.
+    # Register a handle, in this case a handle that logs to console.
     my $handle = Log::Fine::Handle::Console->new();
     $log->registerHandle( $handle );
 
-    # log a message
+    # Log a message
     $log->log(INFO, "Log object successfully initialized");
 
 =head1 DESCRIPTION
@@ -77,7 +77,7 @@ Provides logging to L<syslog>
 =back
 
 See the relevant perldoc information for more information.  Additional
-handlers can be defined to the user's taste.
+handlers can be defined to user taste.
 
 =cut
 
@@ -125,12 +125,12 @@ To install Log::Fine:
 
 {
 
-        # private global variables
+        # Private global variables
         my $levelmap;
         my $loggers  = {};
         my $objcount = 0;
 
-        # getter/setter for levelMap.  Note that levelMap can only be
+        # Getter/setter for levelMap.  Note that levelMap can only be
         # set _once_.  Once levelmap is set, any other value passed,
         # whether a valid object or not, will be ignored!
         sub _levelMap
@@ -203,13 +203,12 @@ sub new
         my $class = shift;
         my %h     = @_;
 
-        # bless the hash into a class
+        # Bless the hash into a class
         my $self = bless \%h, $class;
 
-        # perform any necessary initializations
+        # Perform any necessary initializations
         $self->_init();
 
-        # return the bless'd object
         return $self;
 
 }          # new()
@@ -269,20 +268,19 @@ sub logger
         my $self = shift;
         my $name = shift;          # name of logger
 
-        # validate name
+        # Validate name
         $self->_fatal("First parameter must be a valid name!")
             unless (defined $name and $name =~ /\w/);
 
-        # If the requested logger is found, then return it, otherwise
-        # store and return a newly created logger object with the
-        # given name
+        # Should the requested logger be found, then return it,
+        # otherwise store and return a newly created logger object
+        # with the given name
         _logger()->{$name} = Log::Fine::Logger->new(name => $name)
             unless (    defined _logger()->{$name}
                     and ref _logger()->{$name}
                     and UNIVERSAL::can(_logger()->{$name}, 'isa')
                     and _logger()->{$name}->isa('Log::Fine::Logger'));
 
-        # return the logger
         return _logger()->{$name};
 
 }          # logger()
@@ -329,7 +327,7 @@ sub _error
         my $self;
         my $msg;
 
-        # how were we called?
+        # How were we called?
         if (scalar @_ > 1) {
                 $self = shift;
                 $msg  = shift;
@@ -381,7 +379,7 @@ sub _fatal
         my $self;
         my $msg;
 
-        # how were we called?
+        # How were we called?
         if (scalar @_ > 1) {
                 $self = shift;
                 $msg  = shift;
@@ -405,10 +403,9 @@ sub _init
 
         my $self = shift;
 
-        # increment object count
         _incrObjectCount();
 
-        # we set the objects name unless it is already set for us
+        # We set the objects name unless it is already set for us
         unless (defined $self->{name} and $self->{name} =~ /\w/) {
 
                 # grab the class name
@@ -425,7 +422,6 @@ sub _init
                     and UNIVERSAL::can(_levelMap(), 'isa')
                     and _levelMap()->isa("Log::Fine::Levels"));
 
-        # Victory!
         return $self;
 
 }          # _init()

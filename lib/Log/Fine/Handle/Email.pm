@@ -34,7 +34,7 @@ Provides messaging to one or more email addresses.
         ->new( name     => 'template2',
                template => $msgtmpl );
 
-    # register an email handle
+    # Create an Email Handle
     my $handle = Log::Fine::Handle::Email
         ->new( name => 'email0',
                mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT,
@@ -50,10 +50,10 @@ Provides messaging to one or more email addresses.
                  }
              );
 
-    # register the handle
+    # Register the handle
     $log->registerHandle($handle);
 
-    # log something
+    # Log something
     $log->log(CRIT, "Beware the weeping angels");
 
 =head1 DESCRIPTION
@@ -230,7 +230,7 @@ sub _init
 
         my $self = shift;
 
-        # call the super object
+        # Perform any necessary upper class initializations
         $self->SUPER::_init();
 
         # Make sure envelope is defined
@@ -247,36 +247,38 @@ sub _init
         }
 
         # Validate To address
-        $self->_fatal("{header_to} must be either an array ref containing " .
-                      "valid email addresses or a string representing a " .
-                      "valid email address")
-                unless (defined $self->{header_to});
+        $self->_fatal(  "{header_to} must be either an array ref containing "
+                      . "valid email addresses or a string representing a "
+                      . "valid email address")
+            unless (defined $self->{header_to});
 
         # Check for array ref
         if (ref $self->{header_to} eq "ARRAY") {
 
                 if (validlist($self->{header_to})) {
-                        $self->{header_to} = join(",", @{$self->{header_to}});
+                        $self->{header_to} = join(",", @{ $self->{header_to} });
                 } else {
-                        $self->_fatal("{header_to} must contain valid RFC 822 email addresses");
+                        $self->_fatal(  "{header_to} must contain valid "
+                                      . "RFC 822 email addresses");
                 }
 
         } elsif (not valid($self->{header_to})) {
-                $self->_fatal("{header_to} must contain a valid RFC 822 email address");
+                $self->_fatal(  "{header_to} must contain a valid "
+                              . "RFC 822 email address");
         }
 
         # Validate subject formatter
-        $self->_fatal(
-"{subject_formatter} must be a valid Log::Fine::Formatter object")
+        $self->_fatal(  "{subject_formatter} must be a valid "
+                      . "Log::Fine::Formatter object")
             unless (   defined $self->{subject_formatter}
                    and ref $self->{subject_formatter}
                    and UNIVERSAL::can($self->{subject_formatter}, 'isa')
                    and $self->{subject_formatter}->isa("Log::Fine::Formatter"));
 
         # Validate body formatter
-        $self->_fatal(
-"{body_formatter} must be a valid Log::Fine::Formatter object : "
-                    . ref $self->{body_formatter} || "{undef}")
+        $self->_fatal(  "{body_formatter} must be a valid "
+                      . "Log::Fine::Formatter object : "
+                      . ref $self->{body_formatter} || "{undef}")
             unless (    defined $self->{body_formatter}
                     and ref $self->{body_formatter}
                     and UNIVERSAL::can($self->{body_formatter}, 'isa')
@@ -288,36 +290,39 @@ sub _init
         # Check Envelope Transport
         if (defined $envelope->{transport}) {
                 my $transtype = ref $envelope->{transport};
-                $self->_fatal(
-"{envelope}->{transport} must be a valid Email::Sender::Transport object : $transtype"
-                ) unless ($transtype =~ /^Email\:\:Sender\:\:Transport/);
+                $self->_fatal(  "{envelope}->{transport} must be a valid "
+                              . "Email::Sender::Transport object : $transtype")
+                    unless ($transtype =~ /^Email\:\:Sender\:\:Transport/);
         }
 
         # Check Envelope To
         if (defined $envelope->{to}) {
-                $self->_fatal(
-"{envelope}->{to} must be an array ref containing one or more valid RFC 822 email addresses"
-                    )
+                $self->_fatal(  "{envelope}->{to} must be an "
+                              . "array ref containing one or more valid "
+                              . "RFC 822 email addresses")
                     unless (ref $envelope->{to} eq "ARRAY"
                             and validlist($envelope->{to}));
         }
 
-        if (defined $envelope->{from}) {
-                $self->_fatal(
-"{envelope}->{from} must be a valid RFC 822 Email Address"
-                ) unless valid($envelope->{from});
+        # Check envelope from
+        if (defined $envelope->{from} and $envelope->{from} =~ /\w/) {
+                $self->_fatal(  "{envelope}->{from} must be a "
+                              . "valid RFC 822 Email Address")
+                    unless valid($envelope->{from});
+        } else {
+                $envelope->{from} = $self->{header_from};
         }
 
         # Validate subject formatter
-        $self->_fatal(
-"{subject_formatter} must be a valid Log::Fine::Formatter object")
+        $self->_fatal(  "{subject_formatter} must be a valid "
+                      . "Log::Fine::Formatter object")
             unless (defined $self->{subject_formatter}
                    and $self->{subject_formatter}->isa("Log::Fine::Formatter"));
 
         # Validate body formatter
-        $self->_fatal(
-"{body_formatter} must be a valid Log::Fine::Formatter object : "
-                    . ref $self->{body_formatter} || "{undef}")
+        $self->_fatal(  "{body_formatter} must be a valid "
+                      . "Log::Fine::Formatter object : "
+                      . ref $self->{body_formatter} || "{undef}")
             unless (defined $self->{body_formatter}
                     and $self->{body_formatter}->isa("Log::Fine::Formatter"));
 
@@ -333,18 +338,12 @@ sub _hostName
 
         my $self = shift;
 
-        # If {_fullHost} is already cached, then return it, otherwise
-        # get hostname, cache it, and return
-        if (defined $self->{_fullHost} and $self->{_fullHost} =~ /\w/) {
-                return $self->{_fullHost};
-        } else {
-                $self->{_fullHost} = hostname() || "{undef}";
-                return $self->{_fullHost};
-        }
+        # Should {_fullHost} be already cached, then return it,
+        # otherwise get hostname, cache it, and return
+        $self->{_fullHost} = hostname() || "{undef}"
+            unless (defined $self->{_fullHost} and $self->{_fullHost} =~ /\w/);
 
-        #
-        # NOT REACHED
-        #
+        return $self->{_fullHost};
 
 }          # _hostName()
 
@@ -356,8 +355,8 @@ sub _userName
 
         my $self = shift;
 
-        # If {_userName} is already cached, then return it, otherwise get
-        # the user name, cache it, and return
+        # Should {_userName} be already cached, then return it,
+        # otherwise get the user name, cache it, and return
         if (defined $self->{_userName} and $self->{_userName} =~ /\w/) {
                 return $self->{_userName};
         } elsif ($self->{use_effective_id}) {

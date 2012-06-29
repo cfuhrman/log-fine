@@ -14,14 +14,14 @@ Provides a functional wrapper around Log::Fine.
     use Log::Fine::Utils;
     use Sys::Syslog;
 
-    # set up some handles as you normally would.  First, a handler for
+    # Set up some handles as you normally would.  First, a handler for
     # file logging:
     my $handle1 = Log::Fine::Handle::File
         ->new( name      => "file0",
                mask      => Log::Fine::Levels::Syslog->bitmaskAll(),
                formatter => Log::Fine::Formatter::Basic->new() );
 
-    # and now a handle for syslog
+    # And now a handle for syslog
     my $handle2 = Log::Fine::Handle::Syslog
         ->new( name      => "syslog0",
                mask      => LOGMASK_EMERG | LOGMASK_CRIT | LOGMASK_ERR,
@@ -29,7 +29,7 @@ Provides a functional wrapper around Log::Fine.
                logopts   => 'pid',
                facility  => LOG_LEVEL0 );
 
-    # open the logging subsystem with the default name "GENERIC"
+    # Open the logging subsystem with the default name "GENERIC"
     OpenLog( handles  => [ $handle1, [$handle2], ... ],
              levelmap => "Syslog" );
 
@@ -186,7 +186,7 @@ sub Log
         my $msg = shift;
         my $log = _logger();
 
-        # validate logger has been set
+        # Validate logger has been set
         Log::Fine->_fatal(  "Logging system has not been set up "
                           . "(See Log::Fine::Utils::OpenLog())")
             unless (    defined $log
@@ -194,7 +194,7 @@ sub Log
                     and UNIVERSAL::can($log, 'isa')
                     and $log->isa("Log::Fine::Logger"));
 
-        # make sure we log the correct calling method
+        # Make sure we log the correct calling method
         $log->incrSkip();
         $log->log($lvl, $msg);
         $log->decrSkip();
@@ -256,7 +256,7 @@ sub OpenLog
         $data{name} = "GENERIC"
             unless (defined $data{name} and $data{name} =~ /\w/);
 
-        # If no Log::Fine object is defined, generate one
+        # Should no Log::Fine object is defined, generate one
         _logfine(
                  Log::Fine->new(name     => "Utils",
                                 levelmap => $data{levelmap}
@@ -277,7 +277,7 @@ sub OpenLog
              and _logger()->name() =~ /\w/
              and grep(/$data{name}/, ListLoggers())) {
 
-                # set the current logger to the given name
+                # Set the current logger to the given name
                 _logger(_logfine()->logger($data{name}));
 
         } else {

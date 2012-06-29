@@ -10,19 +10,19 @@ Provides an object through which to log.
     use Log::Fine;
     use Log::Fine::Logger;
 
-    # get a new logging object
+    # Get a new logging object
     my $log = Log::Fine->logger("mylogger");
 
-    # alternatively, specify a custom map
+    # Alternatively, specify a custom map
     my $log = Log::Fine->logger("mylogger", "Syslog");
 
-    # register a handle
+    # Register a handle
     $log->registerHandle( Log::Fine::Handle::Console->new() );
 
-    # log a message
+    # Log a message
     $log->log(DEBG, "This is a really cool module!");
 
-    # illustrate use of the log skip API
+    # Illustrate use of the log skip API
     package Some::Package::That::Overrides::Log::Fine::Logger;
 
     use base qw( Log::Fine::Logger );
@@ -33,9 +33,9 @@ Provides an object through which to log.
         my $lvl  = shift;
         my $msg  = shift;
 
-        # do some custom stuff to message
+        # Do some custom stuff to message
 
-        # make sure the formatter logs the correct calling method.
+        # Make sure the formatter logs the correct calling method.
         $self->incrSkip();
         $self->SUPER::log($lvl, $msg);
         $self->decrSkip();
@@ -126,19 +126,18 @@ sub log
         my $lvl  = shift;
         my $msg  = shift;
 
-        # see if we have any handles defined
+        # See if we have any handles defined
         $self->_fatal("No handles defined!")
             unless (    defined $self->{_handles}
                     and ref $self->{_handles} eq "ARRAY"
                     and scalar @{ $self->{_handles} } > 0);
 
-        # iterate through each handle, logging as appropriate
+        # Iterate through each handle, logging as appropriate
         foreach my $handle (@{ $self->{_handles} }) {
                 $handle->msgWrite($lvl, $msg, $self->{_skip})
                     if $handle->isLoggable($lvl);
         }
 
-        # Victory
         return $self;
 
 }          # log()
@@ -171,7 +170,7 @@ sub registerHandle
         my $self = shift;
         my $obj  = shift;
 
-        # initialize handles if we haven't already
+        # Initialize handles if we haven't already
         $self->{_handles} = []
             unless (defined $self->{_handles}
                     and ref $self->{_handles} eq "ARRAY");
@@ -184,8 +183,8 @@ sub registerHandle
         } elsif (defined $obj and ref $obj eq 'ARRAY' and scalar @{$obj} > 0) {
 
                 foreach my $handle (@{$obj}) {
-                        $self->_fatal(
-"Array ref must contain valid Log::Fine::Handle objects")
+                        $self->_fatal(  "Array ref must contain valid "
+                                      . "Log::Fine::Handle objects")
                             unless (    defined $handle
                                     and ref $handle
                                     and UNIVERSAL::can($handle, 'isa')
@@ -195,10 +194,10 @@ sub registerHandle
                 push @{ $self->{_handles} }, @{$obj};
 
         } else {
-                $self->_fatal("first argument must either be a "
-                        . "valid Log::Fine::Handle object\n"
-                        . "or an array ref containing one or more valid Log::Fine::Handle objects\n"
-                );
+                $self->_fatal(  "first argument must either be a "
+                              . "valid Log::Fine::Handle object\n"
+                              . "or an array ref containing one or more "
+                              . "valid Log::Fine::Handle objects\n");
         }
 
         return $self;
@@ -223,7 +222,7 @@ sub skip
         my $self = shift;
         my $val  = shift;
 
-        # if we are given a value, then set skip
+        # Should we be given a value, then set skip
         $self->{_skip} = $val
             if (defined $val and $val =~ /^\d+$/);
 
@@ -241,11 +240,11 @@ sub _init
 
         my $self = shift;
 
-        # validate name
+        # Validate name
         $self->_fatal("Loggers need names!")
             unless (defined $self->{name} and $self->{name} =~ /^\w+$/);
 
-        # set logskip if necessary
+        # Set logskip if necessary
         $self->{_skip} = LOG_SKIP_DEFAULT
             unless ($self->{_skip} and $self->{_skip} =~ /\d+/);
 

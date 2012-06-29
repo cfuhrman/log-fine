@@ -31,14 +31,14 @@ use POSIX qw(strftime);
 
         isa_ok($log, "Log::Fine");
 
-        # add file handle
+        # Add file handle
         my $handle =
             Log::Fine::Handle::File->new(file      => $file,
                                          autoflush => 1);
 
         isa_ok($handle, "Log::Fine::Handle");
 
-        # remove the file if it exists so as not to confuse ourselves
+        # Remove the file if it exists so as not to confuse ourselves
         unlink $file if -e $file;
 
         # Write a test message
@@ -47,16 +47,16 @@ use POSIX qw(strftime);
         ok(-f $file);
         $handle->fileHandle()->close();
 
-        # grab a ref to our filehandle
+        # Grab a ref to our filehandle
         my $fh = FileHandle->new($file);
         isa_ok($fh, "IO::File");
 
-        # read in the file
+        # Read in the file
         while (<$fh>) {
                 ok(/^\[.*?\] \w+ $msg/);
         }
 
-        # clean up
+        # Clean up
         $fh->close();
         unlink $file;
 

@@ -74,7 +74,7 @@ my $counter = 0;
 
         ok($log_filename->name() =~ /\w\d+$/);
 
-        # short hostname
+        # Short hostname
         my $log_shorthost =
             Log::Fine::Formatter::Template->new(template => "%%HOSTSHORT%%",
                                                 timestamp_format => "%Y%m%d");
@@ -151,7 +151,7 @@ my $counter = 0;
         # Note we test time first to avoid a possible race condition
         # that would occur at the end of every month.
 
-        # validate
+        # Validate
         ok($log_time->format(INFO, $msg, 0) eq
             strftime("%Y%m", localtime(time)));
         ok($log_level->format(INFO, $msg, 0) eq "INFO");

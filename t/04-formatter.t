@@ -15,14 +15,14 @@ use Log::Fine::Levels::Syslog;
 
 {
 
-        # create a basic formatter
+        # Create a basic formatter
         my $basic = Log::Fine::Formatter::Basic->new();
 
         isa_ok($basic, "Log::Fine::Formatter::Basic");
         can_ok($basic, "name");
         can_ok($basic, "timeStamp");
 
-        # all objects should have names
+        # All objects should have names
         ok($basic->name() =~ /\w\d+$/);
         ok($basic->timeStamp() eq Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
 
@@ -33,22 +33,22 @@ use Log::Fine::Levels::Syslog;
 
         isa_ok($lvls, "Log::Fine::Levels");
 
-        # format a message
+        # Format a message
         my $msg = "Stop by this disaster town";
         my $log0 = $basic->format(INFO, $msg, 1);
 
-        # see if the format is correct
+        # See if the format is correct
         ok($log0 =~ /^\[.*?\] \w+ $msg/);
 
-        # make sure we can change the timestamp format
+        # Make sure we can change the timestamp format
         $basic->timeStamp("%Y%m%d%H%M%S");
 
         my $log1 = $basic->format(INFO, $msg, 1);
 
-        # see if the format is correct
+        # See if the format is correct
         ok($log1 =~ /^\[\d{14,14}\] \w+ $msg/);
 
-        # now create a detailed formatter
+        # Now create a detailed formatter
         my $detailed = Log::Fine::Formatter::Detailed->new();
 
         isa_ok($detailed, "Log::Fine::Formatter::Detailed");
@@ -60,7 +60,7 @@ use Log::Fine::Levels::Syslog;
         ok($detailed->timeStamp() eq
             Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
 
-        # format a message
+        # Format a message
         my $log2 = $detailed->format(INFO, $msg, 1);
 
         ok($log2 =~ /^\[.*?\] \w+ \(.*?\) $msg/);
@@ -81,7 +81,7 @@ use Log::Fine::Levels::Syslog;
 
         #print STDERR "\n$log4\n";
 
-        # now create a syslog formatter
+        # Now create a syslog formatter
         my $syslog = Log::Fine::Formatter::Syslog->new();
 
         isa_ok($syslog, "Log::Fine::Formatter::Syslog");
@@ -92,7 +92,7 @@ use Log::Fine::Levels::Syslog;
         ok($syslog->timeStamp() eq
             Log::Fine::Formatter::Syslog->LOG_TIMESTAMP_FORMAT);
 
-        # format a message
+        # Format a message
         my $log5 = $syslog->format(INFO, $msg, 1);
 
         # Uncomment to deliberately fail the next test

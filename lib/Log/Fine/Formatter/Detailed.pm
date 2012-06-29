@@ -10,18 +10,18 @@ Formats log messages for output in a detailed format.
     use Log::Fine::Formatter::Detailed;
     use Log::Fine::Handle::Console;
 
-    # instantiate a handle
+    # Instantiate a handle
     my $handle = Log::Fine::Handle::Console->new();
 
-    # instantiate a formatter
+    # Instantiate a formatter
     my $formatter = Log::Fine::Formatter::Detailed
         ->new( name             => 'detail0',
                timestamp_format => "%y-%m-%d %h:%m:%s" );
 
-    # set the formatter
+    # Set the formatter
     $handle->formatter( formatter => $formatter );
 
-    # format a msg
+    # Format a msg
     my $str = $formatter->format(INFO, "Resistence is futile", 1);
 
 =head1 DESCRIPTION
@@ -99,42 +99,36 @@ sub format
         my $self = shift;
         my $lvl  = shift;
         my $msg  = shift;
-        my $skip = shift;
+        my $skip =
+            (defined $_[0]) ? shift : Log::Fine::Logger->LOG_SKIP_DEFAULT;
 
-        # Set skip to default if need be
-        $skip = Log::Fine::Logger->LOG_SKIP_DEFAULT unless (defined $skip);
-
-        # get the caller
+        # Variable(s)
+        my $str;
         my @c = caller($skip);
 
-        # did our call to caller() come up empty?
+        # Formatted string returned depends on outcome of caller()
         if (scalar @c == 0) {
-
-                # just include the script name
-                return
-                    sprintf("[%s] %-4s (%s) %s\n",
-                            $self->_formatTime(),
-                            $self->levelMap()->valueToLevel($lvl),
-                            basename($0), $msg);
-
+                $str = sprintf("[%s] %-4s (%s) %s\n",
+                               $self->_formatTime(),
+                               $self->levelMap()->valueToLevel($lvl),
+                               basename($0), $msg);
         } elsif (defined $c[0] and $c[0] eq "main") {
-
-                # just include the script name and line number
-                return
+                $str =
                     sprintf("[%s] %-4s (%s:%d) %s\n",
                             $self->_formatTime(),
                             $self->levelMap()->valueToLevel($lvl),
                             basename($c[1]), $c[2], $msg);
-
+        } else {
+                $str = sprintf("[%s] %-4s (%s():%d) %s\n",
+                               $self->_formatTime(),
+                               $self->levelMap()->valueToLevel($lvl),
+                               (caller($skip + 1))[3] || "{undef}",
+                               $c[2] || 0,
+                               $msg
+                );
         }
 
-        # log package, subroutine, and line number
-        return
-            sprintf("[%s] %-4s (%s():%d) %s\n",
-                    $self->_formatTime(),
-                    $self->levelMap()->valueToLevel($lvl),
-                    (caller($skip + 1))[3] || "{undef}",
-                    $c[2] || 0, $msg);
+        return $str;
 
 }          # format()
 

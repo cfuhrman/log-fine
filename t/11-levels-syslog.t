@@ -23,7 +23,7 @@ my $msg =
 
         my $levels = Log::Fine::Levels::Syslog->new();
 
-        # levels should be a *::Syslog object
+        # Levels should be a *::Syslog object
         isa_ok($levels, "Log::Fine::Levels::Syslog");
 
         # validate methods
@@ -31,14 +31,14 @@ my $msg =
             foreach (
                     qw/ new bitmaskAll levelToValue maskToValue valueToLevel /);
 
-        # build mask to level map
+        # Build mask to level map
         my @levels = $levels->logLevels();
         my @masks  = $levels->logMasks();
 
         ok(scalar @levels > 0);
         ok(scalar @masks > 0);
 
-        # make sure levels are in ascending order by val;
+        # Make sure levels are in ascending order by val;
         my $val = 0;
         foreach my $level (@levels) {
                 next if $ltov->{$level} == 0;
@@ -46,7 +46,7 @@ my $msg =
                 $val = $ltov->{$level};
         }
 
-        # make sure masks are ascending order by val
+        # Make sure masks are ascending order by val
         $val = 0;
         foreach my $mask (@masks) {
                 next if $mtov->{$mask} == 0;
@@ -54,7 +54,7 @@ my $msg =
                 $val = $mtov->{$mask};
         }
 
-        # variable for holding bitmask
+        # Variable for holding bitmask
         my $bitmask = 0;
 
         for (my $i = 0; $i < scalar @levels; $i++) {
@@ -68,11 +68,11 @@ my $msg =
         ok($bitmask == $levels->bitmaskAll());
         ok($levels->MASK_MAP($_) =~ /\d/) foreach (@masks);
 
-        # initialize some Log::Fine objects
+        # Initialize some Log::Fine objects
         my $log    = Log::Fine->new();
         my $handle = Log::Fine::Handle::String->new();
 
-        # validate handle types
+        # Validate handle types
         isa_ok($handle, "Log::Fine::Handle");
 
         # resort levels and masks
@@ -85,17 +85,17 @@ my $msg =
                 $mtolv->{ $mtov->{ $masks[$i] } } = $ltov->{ $levels[$i] };
         }
 
-        # validate default attributes
+        # Validate default attributes
         ok($handle->{mask} == $log->levelMap()->bitmaskAll());
 
-        # build array of mask values
+        # Build array of mask values
         my @mv;
         push @mv, $mtov->{$_} foreach (@masks);
 
-        # clear bitmask
+        # Clear bitmask
         $handle->{mask} = 0;
 
-        # now recursive test isLoggable() with sorted values of masks
+        # Now recursive test isLoggable() with sorted values of masks
         testmask(0, sort { $a <=> $b } @mv);
 
 }
@@ -108,13 +108,13 @@ sub testmask
         my $bitmask = shift;
         my @masks   = @_;
 
-        # return if there are no more elements to test
+        # Return if there are no more elements to test
         return unless scalar @masks;
 
-        # shift topmost mask off
+        # Shift topmost mask off
         my $lvlmask = shift @masks;
 
-        # validate lvlmask
+        # Validate lvlmask
         ok($lvlmask =~ /\d/);
 
         # Determine lvl and create a new handle
@@ -127,16 +127,16 @@ sub testmask
 
         ok(!$handle->isLoggable(eval "$lvl"));
 
-        # recurse downward again
+        # Recurse downward again
         testmask($handle->{mask}, @masks);
 
-        # now we do positive testing
+        # Now we do positive testing
         $handle->{mask} |= $lvlmask;
 
         # Do a positive test
         ok($handle->isLoggable(eval "$lvl"));
 
-        # now that the bitmask has been set iterate downward again
+        # Now that the bitmask has been set iterate downward again
         testmask($handle->{mask}, @masks);
 
 }          # testmask()
