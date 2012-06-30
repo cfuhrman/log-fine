@@ -74,12 +74,18 @@ sub fileHandle
                 and defined fileno($self->{_filehandle}));
 
         # We need a new file.  Close our filehandle if it exists
-        $self->{_filehandle}->close()
-            if (    defined $self->{_filehandle}
-                and ref $self->{_filehandle}
-                and UNIVERSAL::can($self->{_filehandle}, 'isa')
-                and $self->{_filehandle}->isa("IO::File")
-                and defined fileno($self->{_filehandle}));
+        if (     defined $self->{_filehandle}
+             and ref $self->{_filehandle}
+             and UNIVERSAL::can($self->{_filehandle}, 'isa')
+             and $self->{_filehandle}->isa("IO::File")
+             and defined fileno($self->{_filehandle})) {
+
+                $self->_error(
+                              sprintf("Unable to close file handle to %s : %s",
+                                      $self->{_expanded_filename}, $!
+                              )) unless $self->{_filehandle}->close();
+
+        }
 
         # Generate file name
         my $filename = catdir($self->{dir}, $self->{_expanded_filename});
