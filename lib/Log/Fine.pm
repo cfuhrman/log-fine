@@ -340,7 +340,10 @@ sub _error
              and UNIVERSAL::can($self, 'isa')
              and $self->isa("Log::Fine")) {
 
-                if ($self->{no_croak}) {
+                if (defined $self->{err_callback}
+                     and ref $self->{err_callback} eq "CODE") {
+                        &{ $self->{err_callback} }($msg);
+                } elsif ($self->{no_croak}) {
                         $self->{_err_msg} = $msg;
                         cluck $msg;
                 } else {
@@ -413,6 +416,12 @@ sub _init
                 $self->{name} =~ /\:(\w+)$/;
                 $self->{name} = lc($+) . _objectCount();
 
+        }
+
+        # Validate {err_callback}
+        if (defined $self->{err_callback}) {
+                $self->_fatal("{err_callback} must be a valid code ref")
+                    unless ref $self->{err_callback} eq "CODE";
         }
 
         # Set our levels if we need to
