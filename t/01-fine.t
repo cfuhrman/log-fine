@@ -4,7 +4,7 @@
 # $Id$
 #
 
-use Test::More tests => 14;
+use Test::More tests => 21;
 
 use Log::Fine qw( :macros :masks );
 use Log::Fine::Levels;
@@ -49,5 +49,32 @@ use Log::Fine::Levels;
 
         ok(scalar @loggers > 0);
         ok(grep("com0", @loggers));
+
+        # Test error callback
+        my $counter = 0;
+        my $cbname  = "with_callback";
+        my $fine2 = Log::Fine->new(
+                             name         => $cbname,
+                             err_callback => sub { my $msg = shift; ++$counter }
+        );
+
+        isa_ok($fine2, "Log::Fine");
+        can_ok($fine2, "_error");
+        ok($fine2->name() eq $cbname);
+        ok(ref $fine2->{err_callback} eq "CODE");
+
+        $fine2->_error("I threw an error");
+        ok($counter == 1);
+        $fine2->_error("And here's another");
+        ok($counter == 2);
+
+        # Make sure we cannot pass a non-code ref
+        eval {
+                my $fine3 =
+                    Log::Fine->new(name         => "badcb",
+                                   err_callback => $counter);
+        };
+
+        ok($@ =~ /must be a valid code ref/);
 
 }
