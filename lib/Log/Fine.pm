@@ -187,13 +187,18 @@ for further details
 =item  * no_croak
 
 [optional] If set to true, then do not L<croak|Carp> when
-L</"_fatal()"> is called.
+L<_error> is called.
+
+=item  * err_callback
+
+[optional] If defined to a valid CODE ref, then this subroutine will
+be called instead of L<_fatal> when L<_error> is called.
 
 =back
 
 =head3 Returns
 
-The newly bless'd object
+The newly blessed object
 
 =cut
 
@@ -306,7 +311,7 @@ sub name { return $_[0]->{name} || undef }
 =head2 _error
 
 Private internal method that is called when an error condition is
-encountered.  Will call L<_fatal> unless {no_croak} is defined.
+encountered.  Will call L<_fatal> unless C<{no_croak}> is defined.
 
 This method can be overridden per taste.
 
