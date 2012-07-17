@@ -24,7 +24,10 @@
   the standard Net::SMTP module for email delivery rather than the
   fully-featured Email::Sender module.
 
-* TODO [#A] Re-organize Log::Fine::Handle::Email functionality
+* CANCELED [#A] Re-organize Log::Fine::Handle::Email functionality
+  CLOSED: [2012-07-16 Mon 17:06]
+  - CLOSING NOTE [2012-07-16 Mon 17:07] \\
+    Will not implement
 
   This would work as follows:
 
@@ -44,7 +47,10 @@
 
     - ~msgWrite()~ must now be subclassed.
 
-* TODO [#C] Brainstorm ideas for LOGFINE-0-61                    :brainstorm:
+* DONE [#C] Brainstorm ideas for LOGFINE-0-61                    :brainstorm:
+  CLOSED: [2012-07-16 Mon 17:07]
+  - CLOSING NOTE [2012-07-16 Mon 17:07] \\
+    Done
 
   Ideally, I'd like to get Log::Fine "enterprise-ready", by adding a
   number of features and improvements aimed at stability
