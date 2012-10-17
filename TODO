@@ -9,10 +9,10 @@
 * DONE [#B] Rename Template->_templateValidate()                  :templates:
   CLOSED: [2011-12-02 Fri 12:51]
   - CLOSING NOTE [2011-12-02 Fri 12:52] \\
-    Completed.  ~_templateValidate()~ has been replaced with
-    ~_placeholderValidate()~
+    Completed.  =_templateValidate()= has been replaced with
+    =_placeholderValidate()=
 
-  Rename ~Template->_templateValidate()~ to some other method name
+  Rename =Template->_templateValidate()= to some other method name
   that has the word 'placeholder' in it.
 
 * CANCELED [#C] Create Log::Fine::Handle::SMTP                      :handles:
@@ -45,7 +45,7 @@
     - Addition of hash item "module" to constructor for specifying
       Email module to use. Default will be EmailSender.
 
-    - ~msgWrite()~ must now be subclassed.
+    - =msgWrite()= must now be subclassed.
 
 * DONE [#C] Brainstorm ideas for LOGFINE-0-61                    :brainstorm:
   CLOSED: [2012-07-16 Mon 17:07]
@@ -62,27 +62,27 @@
      I am loathe to do.  Also, do people really need this functionality?
 
    This would involve the addition of the following methods to
-   ~Handle.pm~:
+   =Handle.pm=:
 
-    - ~enable()~
+    - =enable()=
 
-    - ~disable()~
+    - =disable()=
 
    To facilitate this, a Logger object must be able to reference a
    handle by name, so the following changes would have to be made to
-   ~Logger.pm~:
+   =Logger.pm=:
 
-    1) Add new method, ~handleByName()~ for retrieving a handle by its
+    1) Add new method, =handleByName()= for retrieving a handle by its
        name.  Would take a string representing a handle name.  If it
        can't find the associated handle, then return undef.
 
-    2) Add new method, ~listHandles()~ for retrieving a list of
+    2) Add new method, =listHandles()= for retrieving a list of
        registered handles.
 
     3) Optionally, just tell the user to keep track of handle names on
        their own.
 
-    Also, ~isLoggable()~ would have to handle enabled or disabled
+    Also, =isLoggable()= would have to handle enabled or disabled
     handles.
 
 ** CANCELED [#A] Add internal logging method
@@ -92,7 +92,7 @@
      STDERR.
 
    Add the ability for Log::Fine to log itself.  By default, use a new
-   handle, ~Null~ and log to that (any logging there goes into the
+   handle, =Null= and log to that (any logging there goes into the
    ether).  The user can specify one or more handles on construction,
    like so:
 
@@ -121,42 +121,42 @@
     Create Null handle which will be the default internal logging
     handle
 
-** DONE [#B] Have ~registerHandle()~ accept more than one Handles
+** DONE [#B] Have =registerHandle()= accept more than one Handles
    CLOSED: [2012-06-18 Mon 22:53]
    - CLOSING NOTE [2012-06-18 Mon 22:54] \\
      Added in [[https://github.com/cfuhrman/log-fine/commit/7d4cd749c9b49e94b079511bae30c40aceb25d11#lib/Log/Fine/Logger.pm][7d4cd74]]
 
-   Just need to have ~registerHandle()~ check to see if it's being fed
+   Just need to have =registerHandle()= check to see if it's being fed
    an array ref and then make sure all elements in that array are
-   ~Handle~ objects.
+   =Handle= objects.
 
-** DONE [#A] Check File Handles in ~Handle::File~ objects
+** DONE [#A] Check File Handles in =Handle::File= objects
    CLOSED: [2012-06-18 Mon 22:56]
    - CLOSING NOTE [2012-06-18 Mon 22:56] \\
      File handles are now checked in [[https://github.com/cfuhrman/log-fine/commit/83192fa5e631daac1310715e05aaea2e51d30a94#lib/Log/Fine/Handle/File.pm][83192fa]]
 
-   Need to make sure we can print and whatnot in ~Handle::File~
+   Need to make sure we can print and whatnot in =Handle::File=
    objects.  Might also want to make sure directory exists before we
    instantiate.
 
-** DONE [#C] Make ~Sys::Syslog~ testing optional
+** DONE [#C] Make =Sys::Syslog= testing optional
    CLOSED: [2012-06-28 Thu 13:28]
    - CLOSING NOTE [2012-06-28 Thu 13:29] \\
      Done.  See [[https://github.com/cfuhrman/log-fine/commit/fa339e5c23fc36238fe39b43bcb617f503c173fe][fa339e5]].
 
-   Make ~Sys::Syslog~ testing optional.  This way, I can test
-   ~Log::Fine~ on some systems where ~Sys::Syslog~ is either not
+   Make =Sys::Syslog= testing optional.  This way, I can test
+   =Log::Fine= on some systems where =Sys::Syslog= is either not
    installed or older than version 0.13 (which is the minimally
-   required version for ~Log::Fine~).
+   required version for =Log::Fine=).
 
-** DONE [#A] Add ~_error()~ method
+** DONE [#A] Add =_error()= method
    CLOSED: [2012-06-18 Mon 22:56]
    - CLOSING NOTE [2012-06-18 Mon 22:57] \\
-     ~_error()~ added in [[https://github.com/cfuhrman/log-fine/commit/83192fa5e631daac1310715e05aaea2e51d30a94#lib/Log/Fine/Handle/File.pm][83192fa]]
+     =_error()= added in [[https://github.com/cfuhrman/log-fine/commit/83192fa5e631daac1310715e05aaea2e51d30a94#lib/Log/Fine/Handle/File.pm][83192fa]]
 
-   By default, ~_error()~ method will call ~_fatal()~.
+   By default, =_error()= method will call =_fatal()=.
 
-** DONE [#A] Replace ~MIME::Lite~                                   :handles:
+** DONE [#A] Replace =MIME::Lite=                                   :handles:
    CLOSED: [2012-06-28 Thu 13:25]
    - CLOSING NOTE [2012-06-28 Thu 13:27] \\
      I've completely stripped out Email Handle subclassing, so it's safe to
@@ -176,11 +176,11 @@
 
 *** Candidates
 
-     - [[http://search.cpan.org/~markov/MailTools-2.09/lib/Mail/Send.pod][Mail::Send]]
+     - [[http://search.cpan.org/=markov/MailTools-2.09/lib/Mail/Send.pod][Mail::Send]]
 
-     - [[http://search.cpan.org/~jenda/Mail-Sender-0.8.21/Sender.pm][Mail::Sender]]
+     - [[http://search.cpan.org/=jenda/Mail-Sender-0.8.21/Sender.pm][Mail::Sender]]
 
-** CANCELED [#B] Optimize ~msgWrite()~ where appropriate            :handles:
+** CANCELED [#B] Optimize =msgWrite()= where appropriate            :handles:
    CLOSED: [2012-06-21 Thu 11:15]
    - CLOSING NOTE [2012-06-21 Thu 11:17] \\
      Originally, I intended to replace instances such as these:
@@ -199,10 +199,10 @@
          #+END_SRC
 
      But speed testing indicates that there is more of a speed penalty with
-     using the ~@_~ notation than simply making multiple calls to ~shift()~, so
+     using the =@_= notation than simply making multiple calls to =shift()=, so
      no need to optimize
 
 
 * Footnotes
 
-[fn:1] http://search.cpan.org/~rjbs/MIME-Lite-3.028/lib/MIME/Lite.pm#WAIT!
+[fn:1] http://search.cpan.org/=rjbs/MIME-Lite-3.028/lib/MIME/Lite.pm#WAIT!
