@@ -165,13 +165,12 @@ use 5.008_003;          # Email::Sender requires Moose which requires 5.8.3
 use base qw( Log::Fine::Handle );
 
 #use Data::Dumper;
-use Email::Sender::Simple qw(sendmail);
+use Email::Sender::Simple qw(try_to_sendmail);
 use Email::Simple;
 use Mail::RFC822::Address qw(valid validlist);
 use Log::Fine;
 use Log::Fine::Formatter;
 use Sys::Hostname;
-use Try::Tiny;
 
 our $VERSION = $Log::Fine::Handle::VERSION;
 
@@ -210,13 +209,8 @@ sub msgWrite
         $email->header_set("X-Mailer",
                            sprintf("%s ver %s", ref $self, $VERSION));
 
-        # And send!
-        try {
-                sendmail($email, $self->{envelope});
-        }
-        catch {
-                $self->_error("Unable to deliver email: $_");
-        }
+        $self->_error("Unable to deliver email: $_")
+            unless (try_to_sendmail($email, $self->{envelope}));
 
 }          # msgWrite()
 
@@ -422,7 +416,7 @@ L<perl>, L<Log::Fine>, L<Log::Fine::Handle>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2011 Christopher M. Fuhrman, 
+Copyright (c) 2011-2012 Christopher M. Fuhrman, 
 All rights reserved.
 
 This program is free software licensed under the...
