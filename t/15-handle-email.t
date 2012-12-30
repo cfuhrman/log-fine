@@ -31,11 +31,13 @@ use Test::More;
                         plan skip_all =>
 "Mail::RFC822::Address is not installed.  Unable to test Log::Fine::Handle::Email";
                 } else {
-                        plan tests => 7;
+                        plan tests => 8;
                 }
         }
 
         use_ok("Log::Fine::Handle::Email");
+
+        my $email_sender_version = $Email::Sender::VERSION;
 
         # Load appropriate modules
         require Email::Sender::Simple;
@@ -89,17 +91,28 @@ EOF
 
         isa_ok($handle, "Log::Fine::Handle::Email");
 
+        my $transport = Email::Sender::Simple->default_transport;
+        ok(ref $transport eq "Email::Sender::Transport::Test");
+
         # Register the handle
         $log->registerHandle($handle);
 
         $log->log(DEBG, "Debugging 15-handle-email.t");
-        ok( scalar @{ Email::Sender::Simple->default_transport->deliveries } ==
-                0);
+        if ($email_sender_version < 0.120000) {
+                ok(scalar @{ $transport->deliveries } == 0);
+        } else {
+                ok(scalar $transport->deliveries == 0);
+        }
+
+        $transport->clear_deliveries();
 
         $log->log(CRIT, "Beware the weeping angels");
-        ok( scalar @{ Email::Sender::Simple->default_transport->deliveries } ==
-                1);
+        if ($email_sender_version < 0.120000) {
+                ok(scalar @{ $transport->deliveries } == 1);
+        } else {
+                ok(scalar $transport->deliveries == 1);
+        }
 
-        #print STDERR Dumper $handle->{transport};
+        #print STDERR Dumper $transport->deliveries();
 
 }
