@@ -33,7 +33,6 @@ WriteMakefile(
                                   'Email::Sender'         => 0.110000,
                                   'Mail::RFC822::Address' => 0.3,
                                   'Throwable'             => 0.102080,
-                                  'Try::Tiny'             => 0.11,
                 }
         },
         dist => {
