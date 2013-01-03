@@ -93,7 +93,7 @@ use Log::Fine::Levels;
 use Log::Fine::Logger;
 use POSIX qw( strftime );
 
-our $VERSION = '0.59';
+our $VERSION = '0.61';
 
 =head2 Formatters
 
@@ -533,7 +533,7 @@ L<Log::Fine::Logger>, L<Log::Fine::Utils>, L<Sys::Syslog>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2008-2011 Christopher M. Fuhrman, 
+Copyright (c) 2008-2011, 2013 Christopher M. Fuhrman, 
 All rights reserved.
 
 This program is free software licensed under the...

@@ -8,27 +8,27 @@ SYNOPSIS
         use Log::Fine::Levels::Syslog;                # exports log levels
         use Log::Fine::Levels::Syslog qw( :masks );   # exports masks and levels
 
-        # build a Log::Fine object
+        # Build a Log::Fine object
         my $fine = Log::Fine->new();
 
-        # specify a custom map
+        # Specify a custom map
         my $fine = Log::Fine->new(levelmap => "Syslog");
 
         # Get the name of the log object
         my $name = $fine->name();
 
-        # use logger() to get a new logger object.  If "foo" is not
+        # Use logger() to get a new logger object.  If "foo" is not
         # defined then a new logger with the name "foo" will be created.
         my $log = Log::Fine->logger("foo");
 
-        # get list of names of defined logger objects
+        # Get list of names of defined logger objects
         my @loggers = $log->listLoggers();
 
-        # register a handle, in this case a handle that logs to console.
+        # Register a handle, in this case a handle that logs to console.
         my $handle = Log::Fine::Handle::Console->new();
         $log->registerHandle( $handle );
 
-        # log a message
+        # Log a message
         $log->log(INFO, "Log object successfully initialized");
 
 DESCRIPTION
@@ -62,7 +62,7 @@ DESCRIPTION
         Provides logging to syslog
 
     See the relevant perldoc information for more information. Additional
-    handlers can be defined to the user's taste.
+    handlers can be defined to user taste.
 
   Formatters
     A formatter specifies how Log::Fine displays messages. When a message is
@@ -102,11 +102,14 @@ METHODS
         for further details
 
     * no_croak
-        [optional] If set to true, then do not croak when "_fatal()" is
-        called.
+        [optional] If set to true, then do not croak when _error is called.
+
+    * err_callback
+        [optional] If defined to a valid CODE ref, then this subroutine will
+        be called instead of _fatal when _error is called.
 
     Returns
-    The newly bless'd object
+    The newly blessed object
 
   listLoggers
     Provides list of currently defined loggers
@@ -143,12 +146,21 @@ METHODS
     Returns
     String containing name of object, otherwise undef
 
-  _fatal
-    Private method that is called when a fatal (nonrecoverable) condition is
-    encountered. Will call confess unless the {no_croak} attribute is set.
-    For internal Log::Fine use *only!*
+  _error
+    Private internal method that is called when an error condition is
+    encountered. Will call _fatal unless `{no_croak}' is defined.
 
     This method can be overridden per taste.
+
+    Parameters
+    message
+        Message passed to confess.
+
+  _fatal
+    Private internal method that is called when a fatal (non-recoverable)
+    condition is encountered. Calls confess with given error message.
+
+    While this method can be overridden, this is generally not advised.
 
     Parameters
     message
@@ -218,7 +230,8 @@ SEE ALSO
     Log::Fine::Logger, Log::Fine::Utils, Sys::Syslog
 
 COPYRIGHT & LICENSE
-    Copyright (c) 2008-2011 Christopher M. Fuhrman, All rights reserved.
+    Copyright (c) 2008-2011, 2013 Christopher M. Fuhrman, All rights
+    reserved.
 
     This program is free software licensed under the...
 

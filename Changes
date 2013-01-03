@@ -1,829 +1,784 @@
-CHANGELOG
-
-2011-12-24  Christopher M. Fuhrman
-
-        * Only save STDERR on newer versions of perl
-
-2011-12-15  Christopher M. Fuhrman
-
-        * Update skip message to reflect reality
-
-2011-12-08  Christopher M. Fuhrman
-
-        * getgrgid() works under cygwin
-        * Correct instance of vivification
-        * Save and restore original STDERR
-        * Make sure the Log::Fine::Handle::File filehandle is closed
-        * Use $ENV{GID} and $ENV{EGID} under cygwin
-        * Check for absolute path under MSWin32
-        * Reduce spewage by checking $ENV{EGID} and $ENV{GID}
-        * Merge branch 'master' of https://github.com/cfuhrman/log-fine
-
-2011-12-02  Christopher M. Fuhrman
-
-        * Oversight
-        * Bump version
-        * Regen
-        * Sync documentation w/ reality
-        * Replace croak with confess when calling ->_fatal()
-        * Close out template tasks
-        * Clean up function, variable names
-        * Redirect stderr to the bitbucket for bad custom template unit test
-
-2011-12-01  Christopher M. Fuhrman
-
-        * Add rename method task
-        * Update custom placeholder tasks
-        * Check for duplicate custom placeholders
-        * Add another TODO item for storing placeholder keys
-        * Add key collision TODO
-        * Just use {file} if {dir} is not defined
-
-2011-12-01  U-ADBRITEINC\cfuhrman
-
-        * Merge branch 'master' of http://github.com/cfuhrman/log-fine
-
-2011-11-28  Christopher M. Fuhrman
-
-        * Bump copyright
-        * :Fine::Handle::File can now accept a file name with absolute path <Log>
-        * perltidy
-        * Stress test custom placeholder functionality
-        * Correct copyright
-        * Be more consistent with variable names
-
-2011-11-22  Christopher M. Fuhrman
-
-        * Close out custom template TODO
-        * Update documentation
-        * s/custom_templates/custom_placeholders/
-        * Add support for custom placeholders
-        * Function refs must be set sans ()
-        * Lose redundant code block
-
-2011-11-16  Christopher M. Fuhrman
-
-        * Fill out details
-        * Brainstorm custom template macros
-
-2011-11-03  Christopher M. Fuhrman
-
-        * Post-pend function names with ()
-
-2011-11-02  Christopher M. Fuhrman
-
-        * Bump Copyright
-
-2011-10-31  Christopher M. Fuhrman
-
-        * Bump version
-        * Regen
-
-2011-10-30  Christopher M. Fuhrman
-
-        * Make note that envelope is optional
-
-2011-10-28  U-ADBRITEINC\cfuhrman
-
-        * Merge branch 'master' of http://github.com/cfuhrman/log-fine
-
-2011-10-28  Christopher M. Fuhrman
-
-        * Note perl 5.8.3 requirement
-        * Make sure Handle object supports bitmaskListEnabled()
-        * Update log mask TODO item
-        * Add new method, Log::Fine::Handle->bitmaskListEnabled()
-        * Add TODO item about bitmaskListEnabled()
-
-2011-10-25  Christopher M. Fuhrman
-
-        * Bump copyright
-        * Complete Timestamp TODO
-        * :Fine::Handle::File::Timestamp now properly rotates files <Log>
-        * Add TODO item about timestamped files
-        * Bump version
-        * Merge branch 'master' of https://github.com/cfuhrman/log-fine
-        * Skip tests if run under MSWin32 or Cygwin
-        * Recommend Throwable
-
-2011-10-25  U-ADBRITEINC\cfuhrman
-
-        * Merge branch 'master' of http://github.com/cfuhrman/log-fine
-        * Skip tests if run under MSWin32 or Cygwin
-        * Skip tests if run under MSWin32 or Cygwin
-
-2011-10-24  Christopher M. Fuhrman
-
-        * Add new handle, Log::Fine::Handle::Email
-        * Sync SYNOPSIS with reality
-        * Move isLoggable() regression tests to Log::Fine::Level::* tests
-
-2011-10-19  Christopher M. Fuhrman
-
-        * Add RCS-style keyword
-
-2011-09-29  Christopher M. Fuhrman
-
-        * Optimize methods for speed
-
-2011-08-04  Christopher M. Fuhrman
-
-        * Merge branch 'master' of https://github.com/cfuhrman/log-fine
-        * Bump version
-        * Bump version
-
-2011-07-22  Christopher M. Fuhrman
-
-        * When getting the group IDs, be sure to use the FIRST value returned
-
-2011-07-12  Christopher M. Fuhrman
-
-        * Grammar
-
-2011-07-06  Christopher M. Fuhrman
-
-        * Use ref to determine object type
-
-2011-05-18  Christopher M. Fuhrman
-
-        * Bump version
-        * Auditing for documentation correctness
-
-2011-05-12  Christopher M. Fuhrman
-
-        * Merge branch 'master' of https://github.com/cfuhrman/log-fine
-
-2011-03-28  Christopher M. Fuhrman
-
-        * Update tasks
-        * Merge branch 'UNIT-TEST-CLEANUP-2011'
-        * Merge branch 'readme-pod-format'
-        * perltidy
-        * Switch to Test::More
-        * Add POD readme branch TODO
-        * Add TODO for unit tests
-        * Provide name() example usage
-        * Initial entry of README.pod
-
-2011-03-19  Christopher M. Fuhrman
-
-        * Bump version
-        * Merge branch 'master' of https://github.com/cfuhrman/log-fine
-        * Add unit tests for non-default syslog facilities
-        * Cancel todo
-
-2011-03-18  Christopher M. Fuhrman
-
-        * :Fine::_fatal() will croak if called directly <Log>
-        * Close out name() task
-        * Test $obj->name()
-        * Add more unit tests
-        * perltidy
-        * Update with LOG-UTIL-LOGTRACKING changes
-        * Remove GetLogName()
-        * Implement Log::Fine::Utils::CurrentLogger()
-        * Add {no_croak} option to list of parameters accepted by OpenLog()
-        * Store pointer to current logger
-        * Further brainstorming
-        * Implement Log::Fine->name()
-        * Brainstorming
-        * Documentation consistency nit
-
-2011-03-11  Christopher M. Fuhrman
-
-        * Elaborate GetLogName() TODO
-        * Add TODO for GetLogName()
-        * Merge branches 'master', 'master', 'master', 'master', 'master', 'master', 'master', 'master' and 'master' of https://github.com/cfuhrman/log-fine
-        * Properly match date string when LC_TIME is set to de_DE.utf8
-
-2011-02-25  Christopher M. Fuhrman
-
-        * Document GetLogName()
-        * Add tests for GetLogName()
-        * Add new function, GetLogName()
-        * Comment out unused Data::Dumper module
-
-2011-02-08  Christopher M. Fuhrman
-
-        * Bump version
-        * :Fine::Utils now supports multiple loggers <Log>
-
-2011-02-07  Christopher M. Fuhrman
-
-        * Merge branches 'master', 'master', 'master', 'master', 'master', 'master', 'master' and 'master' of https://github.com/cfuhrman/log-fine
-        * Bump version
-
-2011-02-06  Christopher M. Fuhrman
-
-        * Expand RCS keywords in Makefile.PL
-
-2011-02-05  Christopher M. Fuhrman
-
-        * Just require Sys::Syslog 0.13
-        * No longer need META.yml since it's auto-generated for us
-        * Let Makefile.PL generate an appropriate META.yml file
-
-2011-02-02  Christopher M. Fuhrman
-
-        * Regen
-        * Add installation instructions
-
-2011-01-30  Christopher M. Fuhrman
-
-        * Minor formatting tweaks
-
-2011-01-11  Christopher M. Fuhrman
-
-        * Bump version
-        * Close out multi-logger task
-
-2011-01-10  Christopher M. Fuhrman
-
-        * Update
-        * Merge branches 'master', 'master', 'master', 'master', 'master', 'master' and 'master' of https://github.com/cfuhrman/log-fine
-        * Regen
-        * perltidy
-        * Merge branch 'LOG-UTIL-MULTILOGGER'
-        * Code optimizations
-
-2011-01-09  Christopher M. Fuhrman
-
-        * Document new multi-logger functionality
-        * Make POD documentation more consistent with perlmodstyle(1)
-
-2011-01-08  Christopher M. Fuhrman
-
-        * Clean up code
-        * Store copy of Log::Fine object
-
-2011-01-07  Christopher M. Fuhrman
-
-        * Make sure filehandle is open
-        * Update TODO with Utils task information
-        * Initial stab at having Utils support multiple loggers
-        * Add support for listing defined logger objects
-        * Brainstorm additional ideas
-
-2011-01-06  Christopher M. Fuhrman
-
-        * Ignore files generated by perltidy and 'make clean'
-        * Add support for variable-precision high-resolution timestamps
-        * Properly handle space at beginning of line caused by certain locales
-        * Merge branches 'master', 'master', 'master', 'master', 'master' and 'master' of https://github.com/cfuhrman/log-fine
-        * Bump Version
-        * Bump Version
-        * Bump Version
-        * Merge branches 'master', 'master', 'master', 'master' and 'master' of https://github.com/cfuhrman/log-fine
-
-2011-01-03  Christopher M. Fuhrman
-
-        * Happy New Years!  Bump copyright year as appropriate
-        * Correct invocation to _fatal()
-        * Add some thoughts on extending Utils
-        * Clarify _fatal() documentation
-        * Merge branches 'master', 'master', 'master' and 'master' of https://github.com/cfuhrman/log-fine
-
-2011-01-02  Christopher M. Fuhrman
-
-        * Spacing
-        * Use _fatal() for croaking
-
-2010-12-31  Christopher M. Fuhrman
-
-        * Bump version
-        * Decided against switching to Module::Build so cancel TODO
-        * Close out Formatter template class TODO
-        * Optimize how $skip is set
-        * Merge branch 'TEMPLATE-OPTIMIZATION'
-        * Do not call $self->_placeHolders($tmpl) unless we need to
-
-2010-12-28  Christopher M. Fuhrman
-
-        * perltidy
-        * s/{_used_placeholders}/{_placeholders}/g
-        * Relocate placeholder generation to separate getter/setter
-
-2010-12-21  Christopher M. Fuhrman
-
-        * consistency nit <Minor>
-
-2010-12-16  Christopher M. Fuhrman
-
-        * Merge branches 'master' and 'master' of https://github.com/cfuhrman/log-fine
-
-2010-12-15  Christopher M. Fuhrman
-
-        * Refresh
-        * Stop the unit test from lying to syslog
-
-2010-12-12  Christopher M. Fuhrman
-
-        * Bump version
-        * Correct instance where incorrect stack frame was logged
-        * Correct instance where incorrect stack frame was logged
-        * When subroutine name cannot be determined, assume main()
-        * Add additional tests
-        * Add debuggery in case I need it
-        * When subroutine name cannot be determined, assume main()
-        * Add additional tests
-
-2010-12-11  Christopher M. Fuhrman
-
-        * Correct incorrect stack frame logging issue
-        * Correct incorrect stack frame logging issue
-
-2010-12-07  Christopher M. Fuhrman
-
-        * Comment verbiage
-        * Further Optimizations
-
-2010-12-04  Christopher M. Fuhrman
-
-        * First attempt to optimize Template.pm
-
-2010-12-03  Christopher M. Fuhrman
-
-        * Update
-
-2010-12-02  Christopher M. Fuhrman
-
-        * Bump version
-        * Close out stress test script TODO
-        * Add note about support for log format templates
-        * Merge branch 'master' of https://github.com/cfuhrman/log-fine
-        * Ship stresslog.pl
-
-2010-12-01  Christopher M. Fuhrman
-
-        * Expand *.pl files
-        * Initial entry
-        * Merge branch 'master' into STRESS-SCRIPT
-        * Add format() example
-        * Add MICROSOFT WINDOWS CAVEATS section
-        * Closed out formatter tests TODO
-        * Place L::F::F::Template tests into separate file
-        * Add TODO about breaking up 04-formatter.t tests
-        * Overcome MSWin32 strftime(3) deficiencies
-        * MSWin32 does not support getgrgid() or getpwuid()
-
-2010-11-28  Christopher M. Fuhrman
-
-        * Update
-        * Match documentation w/ reality
-        * Verbiage
-
-2010-11-27  Christopher M. Fuhrman
-
-        * Merge branch 'TEMPLATE-SUPPORT'
-        * Bump version
-
-2010-11-26  Christopher M. Fuhrman
-
-        * Regen
-        * Merge branch 'TEMPLATE-SUPPORT'
-        * Final TODO item about speed
-        * Add note about speed
-        * %%millis%% placeholder is now case-insensitive
-        * s/_fullhost/_fullHost/
-        * Reference getter/setters as methods
-        * Close out some TODO elements
-        * Update with TODO items
-        * Test combination string and lower-case placeholders
-        * More notes
-
-2010-11-25  Christopher M. Fuhrman
-
-        * Make POD documentation more assertive
-        * Brainstorming
-        * Correct SYNOPSIS
-        * Oops!  Add support for filename and line number
-        * Update POD documentation
-        * Update with new Template class
-        * Update
-        * Initial entry
-
-2010-11-24  Christopher M. Fuhrman
-
-        * Regen
-        * Add Login and Group
-        * Initial ideas for template options
-        * Update TODO entries
-        * Switch TODO file to use org-mode
-        * Add $VERSION
-        * Add CONTRIBUTING section
-        * Add note about template class
-        * Bump version
-        * perltidy
-        * Make sure user can define one and _only_ one L::F::H::S object
-        * Revert "Do not call closelog() if this is perl 5.8.9"
-        * Revert "Add CAVEATS"
-        * Revert "Clarify CAVEATS"
-
-2010-11-23  Christopher M. Fuhrman
-
-        * Bump version
-        * Clarify CAVEATS
-        * Add CAVEATS
-        * Do not call closelog() if this is perl 5.8.9
-        * Use different ident when testing multiple handles
-
-2010-11-21  Christopher M. Fuhrman
-
-        * Bump version
-        * Lose RCS-style keywords
-        * Log failed line
-        * Revert "Add rcs-keyword attribute to TODO"
-        * Add rcs-keyword attribute to TODO
-        * Initial entry
-        * Remind myself to tell the world about git
-        * Bump version
-        * Use a facility that is supported by older versions of perl
-
-2010-11-17  Christopher M. Fuhrman
-
-        * Bump version
-        * Correct typo
-
-2010-10-02  Christopher M. Fuhrman
-
-        * Add README
-        * regen
-        * Revert "Remove Revision Information"
-        * Revert "Remove Revision Information"
-        * Initial entry
-        * Commenting & Documentation clean-up
-
-2010-09-21  Christopher M. Fuhrman
-
-        * Add missing perl modules to test
-
-2010-08-30  Christopher Fuhrman
-
-        * Add missing Log::Fine modules
-
-2010-08-30  Christopher M. Fuhrman
-
-        * Remove redundant check
-        * Add some anti-test-report logic
-        * Tell Emacs what to do with itself
-        * Explicitly require Sys::Syslog 0.13
-
-2010-08-29  Christopher M. Fuhrman
-
-        * _fatal() has been documented
-
-2010-08-28  Christopher M. Fuhrman
-
-        * Refresh
-        * Remove Revision Information
-        * Remove Revision Information
-        * Bump version
-
-2010-07-05  Christopher M. Fuhrman
-
-        * Clean up comments where appropriate
-
-2010-05-10  Christopher M. Fuhrman
-
-        * Optimize code where appropriate
-        * Mollify Perl::Critic
-
-2010-05-09  Christopher M. Fuhrman
-
-        * perltidy
-        * Add support for {autoclose}
-        * Document constructor arguments
-        * Explicitly set {autoflush} to 0 unless it is already defined.
-        * Sync
-        * More verbiage
-        * Verbiage
-        * Minor cleanups
-
-2010-05-08  Christopher M. Fuhrman
-
-        * Document _fatal()
-
-2010-04-19  Christopher M. Fuhrman
-
-        * Improve documentation where applicable
-
-2010-04-09  Christopher M. Fuhrman
-
-        * use, don't require Log::Fine::Logger
-        * Commenting
-        * Replace getter/setter functions with single function
-
-2010-04-05  Christopher M. Fuhrman
-
-        * Set svn:ignore on sub-directories
-
-2010-03-15  Christopher M. Fuhrman
-
-        * Bump version
-        * Modified Formatter::Syslog unit tests to support multiple locales.
-
-2010-03-12  Christopher M. Fuhrman
-
-        * Revert -r221
-        * Test multiple locales
-
-2010-03-09  Christopher M. Fuhrman
-
-        * Modify regex to handle non-English month representations found in other locales.  This commit addresses the following CPAN Reports:
-        * Initial shot at supporting Chinese
-        * Branch to address the following:
-
-2010-03-06  Christopher M. Fuhrman
-
-        * Remind myself to tag new release based on $Log::Fine::VERSION
-        * Bump version and update Changes
-
-2010-03-03  Christopher M. Fuhrman
-
-        * Add new formatter, Syslog
-        * Refer to LOG_TIMESTAMP_FORMAT* via object
-
-2010-01-03  Christopher M. Fuhrman
-
-        * Add README for changes found in v0.30
-        * Style changes
-        * _formatTime() replaces _getFmtTime()
-        * Update documentation to match reality
-        * Add 0.30 Changes
-        * Regen based on r200 of Fine.pm
-        * Happy New Years!  Bump copyright year as appropriate
-        * Bump version
-        * Add support for configurable levelmaps when using Utils.pm
-        * Use a single private getter/setter, _logger
-        * Merge in changes from ^/branches/LOGCONFIG
-        * perltidy before merge to trunk
-        * Revert -r150:148
-
-2009-12-31  Christopher M. Fuhrman
-
-        * Make sure methods are declared in alphabetical order.
-        * Update
-        * Use bullet points as appropriate
-        * Update documentation
-        * Replace getSkip() with skip()
-        * Replace getFileHandle() with fileHandle()
-        * Replace setFormatter() with formatter()
-        * Replace setTimestamp() and getTimestamp() with timeStamp().
-        * Add support for java.util.logging levels
-        * Add Levels classes and associated unit tests to manifest
-
-2009-12-30  Christopher M. Fuhrman
-
-        * Merge in changes from ERROR_HANDLE branch
-        * perltidy
-        * Add some negative tests
-        * Add some fine-grained validity checking to Logger.  Also, clean up error message in Formatter.pm
-        * We skip 2 tests, not 3 if Test::Output isn't installed
-        * Test Error handling
-        * Add secret option "no_croak".  I need to document this.
-        * Use Test::Output for trapping error messages
-        * Elaborate on error messages
-        * Add new method, Log::Fine::_fatal() for handling error situations. Note that this can be overridden.
-        * Optimize logLevels()
-        * logMasks() now returns masks in ascending order by mask value
-        * Branch for development of better error handling
-
-2009-12-29  Christopher M. Fuhrman
-
-        * Fix Utils.pm which now passes unit tests.  While here, do some other touch-ups.
-
-2009-12-15  Christopher M. Fuhrman
-
-        * perltidy
-        * Port comprehensive testing from ^/branches/LOGCONFIG branch
-
-2009-09-29  Christopher M. Fuhrman
-
-        * Switch to new API (s/getLogger/logger/g)
-
-2009-09-28  Christopher M. Fuhrman
-
-        * Make Log::Fine::Levels compatible.
-        * Add support for new Log::Fine::Levels to Log::Fine::Handle.  While here:
-
-2009-09-22  Christopher M. Fuhrman
-
-        * Add new method, bitmaskAll() for returning a mask with all possible values enabled
-        * Make the following changes to Log::Fine:
-        * Add Log::Fine::Levels* to tests
-
-2009-09-17  Christopher M. Fuhrman
-
-        * Remove support for clone, which isn't really needed
-
-2009-09-16  Christopher M. Fuhrman
-
-        * Mention that this class is the default for Log::Fine::Levels
-        * Possible TODO: Tutorial for extending Levels class
-        * Fill in SYNOPSIS and DESCRIPTION of pod documentation
-
-2009-09-09  Christopher M. Fuhrman
-
-        * Fill in POD documentation for Syslog module
-
-2009-09-08  Christopher M. Fuhrman
-
-        * :Fine::Levels::Syslog will now export log levels and log masks via Exporter/AutoLoader <Log>
-        * Fix tyop
-
-2009-09-07  Christopher M. Fuhrman
-
-        * Set levels when initializing any Log::Fine based class.  Use new Levels class where applicable.  Add new API, getLevels, for getting the stored Levels object
-
-2009-09-03  Christopher M. Fuhrman
-
-        * Correctly match revision number.  Also fix spacing
-        * Use subversion revision for version number
-        * Initial entry of Levels class and associated Syslog class Also added unit test
-        * Directory for holding level definitions
-        * Branch for development of configurable log levels
-
-2009-08-16  Christopher M. Fuhrman
-
-        * Add ideas about levels and callback.
-
-2009-02-06  Christopher M. Fuhrman
-
-        * Add 10-hires test to manifest.
-        * Optmize high-resolution time calculation
-
-2009-02-05  Christopher M. Fuhrman
-
-        * Minor formatting change
-        * Remind myself to regenerate README when making a release.
-        * Update to latest wish list
-        * regen
-
-2009-02-04  Christopher M. Fuhrman
-
-        * Bump version and copyright date in Fine.pm
-        * Bump copyright date
-        * Update documentation to include information about high-resolution timestamps.
-        * perltidy
-        * Add support for fine-grained logging via the Time::HiRes module.  Also add associated test to make sure things work okay.
-
-2008-12-12  Christopher M. Fuhrman
-
-        * Update date
-        * Oops.  Forgot to include Carp!
-        * Add error checking to Log() and OpenLog().  Also include CAVEATS section.
-
-2008-12-09  Christopher M. Fuhrman
-
-        * Mention Log::Fine::Utils.
-
-2008-12-08  Christopher M. Fuhrman
-
-        * Fix tyop
-        * Bump version to 0.21
-        * perltidy
-        * Add new module, Log::Fine::Utils which provides a functional interface to Log::Fine.  Also add associated test file and update manifest.
-
-2008-08-26  Christopher M. Fuhrman
-
-        * Don't forget to test Log::Fine::Handle::File::Timestamp.  Reorder testing of modules while we're here.
-        * Add item for loadable log levels
-
-2008-07-23  Christopher M. Fuhrman
-
-        * Avoid redundant testing
-        * Be more intelligent about testing mask combinations.  Not completely comprehesive, but getting there.
-
-2008-07-05  Christopher M. Fuhrman
-
-        * Maybe switch to Module::Build?
-        * We can just use Test::Simple for handle tests
-        * Bump version
-        * Make sure we only use Sys::Syslog when we need to
-        * Updated to include bitmask testing
-        * Welcome to 0.20
-        * Implemented
-        * Add test to make sure we don't log when we're not supposed to.  This brings the total number of tests for this file to 132.
-
-2008-07-04  Christopher M. Fuhrman
-
-        * Handles do not need {level} attribute anymore.  Remove from tests while we're at it.
-        * Properly test mask combinations
-
-2008-07-02  Christopher M. Fuhrman
-
-        * Update for version 0.15
-        * Welcome to version 0.15
-        * Add TODO and include in Manifest
-        * Do bitmasking properly.
-
-2008-06-30  Christopher M. Fuhrman
-
-        * Optimize how we grab the class name in _init()
-
-2008-06-07  Christopher M. Fuhrman
-
-        * Update changelog
-
-2008-06-06  Christopher M. Fuhrman
-
-        * regen
-        * Welcome to 0.14
-        * Set continuation indentation to 4 per http://www.openbsd.org/cgi-bin/man.cgi?query=style&apropos=0&sektion=0&manpath=OpenBSD+4.3&arch=i386&format=html
-
-2008-06-03  Christopher M. Fuhrman
-
-        * Grammar fix ;)
-
-2008-05-27  Christopher M. Fuhrman
-
-        * Welcome to 0.13!
-        * Addition of Checklist for when I make commits
-        * Bump version to reflect minor fixes
-        * Version 0.12
-        * Bump version
-        * Require version 0.13 of Sys::Syslog.  Apparently older versions did not export tags we need.
-
-2008-05-25  Christopher M. Fuhrman
-
-        * Final perltidy before release
-        * Make sure Chris Josephs is also mentioned.
-        * Bump version before release
-
-2008-05-24  Christopher M. Fuhrman
-
-        * Effective immediately, Log::Fine is distributed under the 2-clause BSD license.
-        * Link clean-up
-        * Clean up POD for HTML format
-
-2008-05-23  Christopher M. Fuhrman
-
-        * Welcome to 0.05
-        * regen
-        * Proof-read POD documentation.  Clean-ups and elaborations where necessary.
-
-2008-05-22  Christopher M. Fuhrman
-
-        * regen
-        * Audit POD documentation
-        * regen
-        * We are now at version 0.04
-        * Add API for adjusting the timestamp within log messages.  Also add a sanity check for Formatter->format().
-        * Give inspirational credit as appropriate.  Also update documentation here and there.
-
-2008-05-21  Christopher M. Fuhrman
-
-        * Lose redundant logger test
-        * Reference file handle directly in test to avoid confusion.
-        * Fix context leak ;)
-        * Skip tests if Test::Output isn't installed
-        * Use Test::Output to validate printing to STDERR & STDOUT
-        * Lose some redundant POD documentation that slipped in.
-        * Fix small case of context leaking ;)
-        * Replace lib/Log/Fine/Handle/Test.pm with ../String.pm and update references as appropriate
-        * Make sure that a logger object's name doesn't include any funky characters
-
-2008-05-20  Christopher M. Fuhrman
-
-        * Elaborate on cloning
-        * Add cloning capabilities.
-        * Oops.  s/output/console/
-        * Bump version
-        * Add two new shorthand masks: LOGMASK_ALL (for all log masks) and LOGMASK_ERROR (for LOGMASK_ERR and below).
-        * Per suggestion from Dan, rename Output.pm to Console.pm and update references accordingly.
-
-2008-05-16  Christopher M. Fuhrman
-
-        * Add api for adjusting log skip.  Also renamed {skip} to {_skip} indicating that it's a value that shouldn't be touched.
-
-2008-05-15  Christopher M. Fuhrman
-
-        * Make sure we store any new Logger object that's created.  Various pod and code clean-ups while I'm here.
-
-2008-05-09  Christopher M. Fuhrman
-
-        * Add some tests for both log levels and masks.
-        * Bump version
-        * All good boys clean up after themselves!
-
-2008-05-08  Christopher M. Fuhrman
-
-        * Blank meta file so 'make dist' works
-        * Initial entry of Log::Fine::Handle::File::Timestamp and associated unit test.
-        * Lose $VERSION.  Also add SEE ALSO section
-        * Revert -r12.  Test.pm needed to pass 'make test'
-        * :Fine::Handle::Test is no longer necessary.  Removing. <Log>
-        * Lose $VERSION which is only necessary in Fine.pm
-        * Clean up POD documentation
-
-2008-05-07  Christopher M. Fuhrman
-
-        * new objects now take a regular hash rather than a hash ref.
-        * Replace all instances of BSDLog with Fine as appropriate.
-        * Move BSDLog.pm and friends to Fine to reflect the name of this module: Log::Fine
-        * The great massive perltidy into KNF!
-        * Set svn:keywords as appropriate
-        * Copy imported Log::BSDLog from LOG-BSDLOG vendor tag
-        * Initial import of Log::BSDLog
-        * New repository setup
+2012-12-29
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Make tests compatible with Email::Sender version >= 0.120000 (21:37:44)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Remove Try::Tiny from recommendations (20:51:06)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Use try_to_sendmail() method for Email delivery (20:49:49)
+
+2012-10-17
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Switch from using "~" to delimit fixed-width text to "=" (14:32:33)
+
+2012-08-25
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Initial revision of quick-n-dirty ChangeLog generation script (20:01:03)
+
+2012-07-16
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Close out tasks (17:08:03)
+
+2012-06-03
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Do not forget to bump copyright year in necessary files (12:03:35)
+
+2012-07-04
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Document {err_callback} (13:57:31)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add unit tests for {err_callback} functionality (13:47:19)
+
+2012-07-03
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add callback functionality for _error() (06:51:23)
+
+2012-06-29
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Call _error() if we are unable to close the file handle (17:33:36)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Code and comment clean-ups (16:04:00)
+
+2012-06-28
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Close out Sys::Syslog and MIME::Lite tasks (13:30:37)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Capture potentially fatal errors (12:42:15)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add the following TODO items: (11:32:55)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Do not call Sys::Syslog::closelog() on destruction (09:50:52)
+
+2012-06-21
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Be consistent with file handle validation (10:39:29)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Make sure Log() has a valid logging object (10:20:22)
+
+2012-06-20
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Make testing messages consistent (12:10:00)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Reference Sys::Syslog macros explicitly (12:06:26)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Cancel internal logging method (10:46:43)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Remove Sys::Syslog as a requirement (10:46:20)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Reference VALTOLVL_MAP values from LVLTOVAL_MAP (10:30:53)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update misleading DESCRIPTION (09:17:29)
+
+2012-06-19
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add and close null handle creation task (22:19:33)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Cancel enable/disable task (22:16:24)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Initial entry of Null Handle (22:15:29)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Correct bug reporting email address (22:02:33)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> _error() if we are unable to close file handle (11:26:01)
+
+2012-06-18
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Close out TODO items (23:01:27)
+
+2012-06-14
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add additional sanity checks (16:31:22)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> registerHandle() can now accept array refs (12:40:20)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add new method _error() (10:00:08)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Remove requirement for Test::Output (11:16:48)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update TODO list for LOGFINE-0-61 (09:48:07)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Remove older closed TODO items (08:30:06)
+
+2012-06-13
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Brainstorm ideas for v0.61 (13:11:14)
+
+2012-06-02
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Use the mailx(1) command for grabbing headers under solaris (09:37:56)
+
+2012-06-01
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Recommend Try::Tiny v0.11 (10:24:02)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Set object's {_err_str} when _fatal() is called (07:48:14)
+
+2012-05-31
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Clean up msgWrite() logic (17:32:55)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add blib and pm_to_blib to list of ignored items (16:21:19)
+
+2012-05-30
+	* Christopher M. Fuhrman <cfuhrman@panix.com> {header_to} option can now be either a string or an array ref (13:21:56)
+
+2012-05-29
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add new subclassing TODO item (17:37:30)
+
+2011-12-24
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (05:00:41)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Only save STDERR on newer versions of perl (04:53:58)
+
+2011-12-15
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update skip message to reflect reality (11:05:27)
+
+2011-12-08
+	* Christopher M. Fuhrman <cfuhrman@panix.com> getgrgid() works under cygwin (15:07:30)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Correct instance of vivification (14:58:29)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Save and restore original STDERR (14:56:56)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Make sure the Log::Fine::Handle::File filehandle is closed (14:24:46)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Use $ENV{GID} and $ENV{EGID} under cygwin (13:43:32)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Check for absolute path under MSWin32 (13:15:31)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Reduce spewage by checking $ENV{EGID} and $ENV{GID} (12:28:26)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branch 'master' of https://github.com/cfuhrman/log-fine (11:40:22)
+
+2011-12-02
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Oversight (16:43:01)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (16:29:19)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Regen (16:33:28)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Sync documentation w/ reality (13:01:21)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Replace croak with confess when calling ->_fatal() (12:56:32)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Close out template tasks (12:53:29)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Clean up function, variable names (12:51:25)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Redirect stderr to the bitbucket for bad custom template unit test (12:46:10)
+
+2011-12-01
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add rename method task (21:44:33)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update custom placeholder tasks (21:42:57)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Check for duplicate custom placeholders (21:40:11)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add another TODO item for storing placeholder keys (14:21:07)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add key collision TODO (14:18:01)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Just use {file} if {dir} is not defined (13:33:15)
+	* U-ADBRITEINC\cfuhrman <cfuhrman@ws2.AdBriteInc.local> Merge branch 'master' of http://github.com/cfuhrman/log-fine (13:10:58)
+
+2011-11-28
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump copyright (13:14:58)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Log::Fine::Handle::File can now accept a file name with absolute path (13:13:59)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> perltidy (12:38:06)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Stress test custom placeholder functionality (12:37:02)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Correct copyright (11:22:23)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Be more consistent with variable names (11:12:29)
+
+2011-11-22
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Close out custom template TODO (10:52:32)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update documentation (10:48:05)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> s/custom_templates/custom_placeholders/ (10:32:27)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add support for custom placeholders (10:29:29)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Function refs must be set sans () (10:22:25)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Lose redundant code block (09:53:52)
+
+2011-11-16
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Fill out details (12:58:40)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Brainstorm custom template macros (12:30:26)
+
+2011-11-03
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Post-pend function names with () (22:14:38)
+
+2011-11-02
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump Copyright (21:39:12)
+
+2011-10-31
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (11:24:41)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Regen (11:21:42)
+
+2011-10-30
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Make note that envelope is optional (11:35:16)
+
+2011-10-28
+	* U-ADBRITEINC\cfuhrman <cfuhrman@ws2.AdBriteInc.local> Merge branch 'master' of http://github.com/cfuhrman/log-fine (16:17:20)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Note perl 5.8.3 requirement (15:27:22)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Make sure Handle object supports bitmaskListEnabled() (14:23:31)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update log mask TODO item (14:12:57)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add new method, Log::Fine::Handle->bitmaskListEnabled() (14:11:06)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add TODO item about bitmaskListEnabled() (10:44:42)
+
+2011-10-25
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump copyright (17:05:33)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Complete Timestamp TODO (16:48:36)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Log::Fine::Handle::File::Timestamp now properly rotates files (16:48:07)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add TODO item about timestamped files (16:00:49)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (13:55:15)
+	* U-ADBRITEINC\cfuhrman <cfuhrman@ws2.AdBriteInc.local> Merge branch 'master' of http://github.com/cfuhrman/log-fine (13:39:25)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branch 'master' of https://github.com/cfuhrman/log-fine (13:37:07)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Skip tests if run under MSWin32 or Cygwin (13:14:07)
+	* U-ADBRITEINC\cfuhrman <cfuhrman@ws2.AdBriteInc.local> Skip tests if run under MSWin32 or Cygwin (13:14:07)
+	* U-ADBRITEINC\cfuhrman <cfuhrman@ws2.AdBriteInc.local> Skip tests if run under MSWin32 or Cygwin (13:14:07)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Recommend Throwable (11:58:03)
+
+2011-10-03
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add new handle, Log::Fine::Handle::Email (15:54:41)
+
+2011-10-24
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Sync SYNOPSIS with reality (15:51:40)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Move isLoggable() regression tests to Log::Fine::Level::* tests (15:07:44)
+
+2011-10-19
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add RCS-style keyword (15:45:37)
+
+2011-09-29
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Optimize methods for speed (13:31:39)
+
+2011-08-04
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branch 'master' of https://github.com/cfuhrman/log-fine (09:26:13)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (09:20:33)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (09:20:33)
+
+2011-07-22
+	* Christopher M. Fuhrman <cfuhrman@panix.com> When getting the group IDs, be sure to use the FIRST value returned (13:31:15)
+
+2011-07-12
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Grammar (18:17:27)
+
+2011-07-06
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Use ref to determine object type (11:45:06)
+
+2011-05-18
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (09:45:45)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Auditing for documentation correctness (08:54:46)
+
+2011-05-12
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branch 'master' of https://github.com/cfuhrman/log-fine (17:16:13)
+
+2011-03-28
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update tasks (16:08:17)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branch 'UNIT-TEST-CLEANUP-2011' (15:50:55)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branch 'readme-pod-format' (15:50:48)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> perltidy (15:49:29)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Switch to Test::More (15:48:36)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add POD readme branch TODO (12:49:57)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add TODO for unit tests (12:47:32)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Provide name() example usage (12:44:58)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Initial entry of README.pod (12:29:49)
+
+2011-03-19
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (14:19:14)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branch 'master' of https://github.com/cfuhrman/log-fine (14:02:43)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add unit tests for non-default syslog facilities (12:45:52)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Cancel todo (12:34:04)
+
+2011-03-18
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Log::Fine::_fatal() will croak if called directly (17:40:07)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Close out name() task (17:03:36)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Test $obj->name() (17:02:29)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add more unit tests (16:24:34)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> perltidy (16:13:04)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update with LOG-UTIL-LOGTRACKING changes (16:10:57)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Remove GetLogName() (16:07:34)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Implement Log::Fine::Utils::CurrentLogger() (15:52:13)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add {no_croak} option to list of parameters accepted by OpenLog() (15:42:43)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Store pointer to current logger (14:37:39)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Further brainstorming (14:36:02)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Implement Log::Fine->name() (12:29:11)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Brainstorming (12:21:42)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Documentation consistency nit (12:13:56)
+
+2011-03-11
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Elaborate GetLogName() TODO (15:36:41)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add TODO for GetLogName() (15:35:39)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branches 'master', 'master', 'master', 'master', 'master', 'master', 'master', 'master' and 'master' of https://github.com/cfuhrman/log-fine (14:31:41)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Properly match date string when LC_TIME is set to de_DE.utf8 (14:20:56)
+
+2011-02-25
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Document GetLogName() (15:43:09)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add tests for GetLogName() (15:40:50)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add new function, GetLogName() (15:36:08)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Comment out unused Data::Dumper module (15:30:39)
+
+2011-02-08
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (10:52:47)
+	* Christopher M. Fuhrman <cfuhrman@vc75.vc.panix.com> Log::Fine::Utils now supports multiple loggers (09:28:27)
+
+2011-02-07
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branches 'master', 'master', 'master', 'master', 'master', 'master', 'master' and 'master' of https://github.com/cfuhrman/log-fine (14:41:33)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (14:32:57)
+
+2011-02-06
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Expand RCS keywords in Makefile.PL (16:00:44)
+
+2011-02-05
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Just require Sys::Syslog 0.13 (13:49:39)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> No longer need META.yml since it's auto-generated for us (13:26:24)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Let Makefile.PL generate an appropriate META.yml file (13:20:06)
+
+2011-02-02
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Regen (09:40:52)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add installation instructions (09:35:30)
+
+2011-01-30
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Minor formatting tweaks (11:37:46)
+
+2011-01-11
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (08:34:02)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Close out multi-logger task (08:29:50)
+
+2011-01-10
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update (12:05:38)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branches 'master', 'master', 'master', 'master', 'master', 'master' and 'master' of https://github.com/cfuhrman/log-fine (11:32:10)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Regen (11:27:07)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> perltidy (11:22:50)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branch 'LOG-UTIL-MULTILOGGER' (11:20:03)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Code optimizations (11:19:40)
+
+2011-01-09
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Document new multi-logger functionality (11:58:09)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Make POD documentation more consistent with perlmodstyle(1) (11:41:32)
+
+2011-01-08
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Clean up code (17:03:06)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Store copy of Log::Fine object (16:30:46)
+
+2011-01-07
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Make sure filehandle is open (15:44:31)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update TODO with Utils task information (15:37:14)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Initial stab at having Utils support multiple loggers (15:34:37)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add support for listing defined logger objects (12:06:08)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Brainstorm additional ideas (11:56:32)
+
+2011-01-06
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Ignore files generated by perltidy and 'make clean' (21:41:50)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add support for variable-precision high-resolution timestamps (20:42:37)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Properly handle space at beginning of line caused by certain locales (20:37:50)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branches 'master', 'master', 'master', 'master', 'master' and 'master' of https://github.com/cfuhrman/log-fine (17:15:56)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump Version (17:01:53)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump Version (16:40:17)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump Version (13:00:03)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branches 'master', 'master', 'master', 'master' and 'master' of https://github.com/cfuhrman/log-fine (12:23:51)
+
+2011-01-03
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Happy New Years!  Bump copyright year as appropriate (13:35:12)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Correct invocation to _fatal() (13:27:18)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add some thoughts on extending Utils (10:16:50)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Clarify _fatal() documentation (10:05:14)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branches 'master', 'master', 'master' and 'master' of https://github.com/cfuhrman/log-fine (09:27:42)
+
+2011-01-02
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Spacing (12:15:47)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Use _fatal() for croaking (11:35:00)
+
+2010-12-31
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (12:35:13)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Decided against switching to Module::Build so cancel TODO (12:05:38)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Close out Formatter template class TODO (12:03:20)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Optimize how $skip is set (11:01:57)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branch 'TEMPLATE-OPTIMIZATION' (10:38:06)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Do not call $self->_placeHolders($tmpl) unless we need to (10:13:12)
+
+2010-12-28
+	* Christopher M. Fuhrman <cfuhrman@panix.com> perltidy (18:04:17)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> s/{_used_placeholders}/{_placeholders}/g (18:02:55)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Relocate placeholder generation to separate getter/setter (18:01:42)
+
+2010-12-21
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Minor: consistency nit (08:51:56)
+
+2010-12-16
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branches 'master' and 'master' of https://github.com/cfuhrman/log-fine (16:13:55)
+
+2010-12-15
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Refresh (17:47:59)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Stop the unit test from lying to syslog (17:39:38)
+
+2010-12-12
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (11:58:48)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Correct instance where incorrect stack frame was logged (11:54:02)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Correct instance where incorrect stack frame was logged (11:54:02)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> When subroutine name cannot be determined, assume main() (11:34:28)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add additional tests (11:23:26)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add debuggery in case I need it (11:26:53)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> When subroutine name cannot be determined, assume main() (11:26:14)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add additional tests (11:23:26)
+
+2010-12-11
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Correct incorrect stack frame logging issue (23:44:39)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Correct incorrect stack frame logging issue (22:33:21)
+
+2010-12-07
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Comment verbiage (16:27:50)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Further Optimizations (16:25:18)
+
+2010-12-04
+	* Christopher M. Fuhrman <cfuhrman@panix.com> First attempt to optimize Template.pm (11:20:21)
+
+2010-12-03
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update (16:39:27)
+
+2010-12-02
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (22:42:59)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Close out stress test script TODO (22:38:49)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add note about support for log format templates (11:45:37)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branch 'master' of https://github.com/cfuhrman/log-fine (11:12:59)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Ship stresslog.pl (11:12:39)
+
+2010-12-01
+	* Christopher M. Fuhrman <cfuhrman@adbrite.com> Expand *.pl files (16:16:02)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Initial entry (15:16:13)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branch 'master' into STRESS-SCRIPT (14:10:50)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add format() example (14:04:40)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add MICROSOFT WINDOWS CAVEATS section (12:22:48)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Closed out formatter tests TODO (12:14:15)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Place L::F::F::Template tests into separate file (12:06:03)
+	* Christopher M. Fuhrman <cfuhrman@adbrite.com> Add TODO about breaking up 04-formatter.t tests (10:00:15)
+	* Christopher M. Fuhrman <cfuhrman@adbrite.com> Overcome MSWin32 strftime(3) deficiencies (09:56:20)
+	* Christopher M. Fuhrman <cfuhrman@adbrite.com> MSWin32 does not support getgrgid() or getpwuid() (09:42:22)
+
+2010-11-28
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update (10:48:00)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Match documentation w/ reality (10:27:22)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Verbiage (10:20:53)
+
+2010-11-27
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branch 'TEMPLATE-SUPPORT' (14:13:21)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (14:03:43)
+
+2010-11-26
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Regen (22:22:20)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge branch 'TEMPLATE-SUPPORT' (22:19:52)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Final TODO item about speed (22:19:34)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add note about speed (22:18:01)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> %%millis%% placeholder is now case-insensitive (21:23:28)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> s/_fullhost/_fullHost/ (21:18:29)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Reference getter/setters as methods (11:26:23)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Close out some TODO elements (11:25:09)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update with TODO items (11:21:11)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Test combination string and lower-case placeholders (11:18:48)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> More notes (10:45:15)
+
+2010-11-25
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Make POD documentation more assertive (21:24:39)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Brainstorming (21:17:11)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Correct SYNOPSIS (20:47:12)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Oops!  Add support for filename and line number (19:54:32)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update POD documentation (19:44:02)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update with new Template class (19:06:38)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update (18:53:08)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Initial entry (17:55:40)
+
+2010-11-24
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Regen (13:39:33)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add Login and Group (13:25:47)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Initial ideas for template options (12:58:03)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update TODO entries (11:57:11)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Switch TODO file to use org-mode (11:50:39)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add $VERSION (11:35:38)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add CONTRIBUTING section (11:20:20)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add note about template class (10:32:09)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (10:20:26)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> perltidy (10:14:20)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Make sure user can define one and _only_ one L::F::H::S object (10:13:32)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Revert "Do not call closelog() if this is perl 5.8.9" (09:37:48)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Revert "Add CAVEATS" (09:37:39)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Revert "Clarify CAVEATS" (09:37:04)
+
+2010-11-23
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (21:12:29)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Clarify CAVEATS (21:09:38)
+	* Christopher M. Fuhrman <cfuhrman@scuzzbuilder.local> Add CAVEATS (20:46:08)
+	* Christopher M. Fuhrman <cfuhrman@scuzzbuilder.local> Do not call closelog() if this is perl 5.8.9 (20:13:47)
+	* Christopher M. Fuhrman <cfuhrman@scuzzbuilder.local> Use different ident when testing multiple handles (19:42:51)
+
+2010-11-21
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (22:41:34)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Lose RCS-style keywords (22:39:33)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Log failed line (22:36:11)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Revert "Add rcs-keyword attribute to TODO" (21:28:50)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add rcs-keyword attribute to TODO (21:24:10)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Initial entry (21:19:24)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Remind myself to tell the world about git (18:00:37)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (17:00:29)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Use a facility that is supported by older versions of perl (13:08:22)
+
+2010-11-17
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (06:34:10)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Correct typo (06:07:24)
+
+2010-10-02
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add README (15:57:51)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> regen (15:57:34)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Revert "Remove Revision Information" (15:53:49)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Revert "Remove Revision Information" (15:53:42)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Initial entry (15:45:04)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Commenting & Documentation clean-up (15:43:16)
+
+2010-09-21
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add missing perl modules to test (10:05:48)
+
+2010-08-30
+	* Christopher Fuhrman <cfuhrman@cmf-iMac.local> Add missing Log::Fine modules (22:20:45)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Remove redundant check (17:40:12)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add some anti-test-report logic (17:36:15)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Tell Emacs what to do with itself (17:16:53)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Explicitly require Sys::Syslog 0.13 (16:53:34)
+
+2010-08-29
+	* Christopher M. Fuhrman <cfuhrman@panix.com> _fatal() has been documented (11:38:49)
+
+2010-08-28
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Refresh (12:42:00)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Remove Revision Information (12:34:08)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Remove Revision Information (12:30:42)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (11:04:13)
+
+2010-07-05
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Clean up comments where appropriate (11:34:49)
+
+2010-05-10
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Optimize code where appropriate (13:50:51)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Mollify Perl::Critic (11:36:44)
+
+2010-05-09
+	* Christopher M. Fuhrman <cfuhrman@panix.com> perltidy (13:35:07)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add support for {autoclose} (13:33:43)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Document constructor arguments (12:45:22)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Explicitly set {autoflush} to 0 unless it is already defined. (12:30:32)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Sync (12:10:50)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> More verbiage (12:00:24)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Verbiage (11:59:39)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Minor cleanups (11:58:59)
+
+2010-05-08
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Document _fatal() (12:23:31)
+
+2010-04-19
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Improve documentation where applicable (10:37:34)
+
+2010-04-09
+	* Christopher M. Fuhrman <cfuhrman@panix.com> use, don't require Log::Fine::Logger (12:01:13)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Commenting (11:27:48)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Replace getter/setter functions with single function (11:24:59)
+
+2010-04-05
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Set svn:ignore on sub-directories (16:14:19)
+
+2010-03-15
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (12:01:25)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Modified Formatter::Syslog unit tests to support multiple locales. (11:56:20)
+
+2010-03-12
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Revert -r221 (12:41:57)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Test multiple locales (12:12:58)
+
+2010-03-09
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Modify regex to handle non-English month representations found in other locales.  This commit addresses the following CPAN Reports: (21:55:27)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Initial shot at supporting Chinese (20:39:50)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Branch to address the following: (19:27:54)
+
+2010-03-06
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Remind myself to tag new release based on $Log::Fine::VERSION (12:43:10)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version and update Changes (12:32:33)
+
+2010-03-03
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add new formatter, Syslog (10:55:27)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Refer to LOG_TIMESTAMP_FORMAT* via object (10:48:47)
+
+2010-01-03
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add README for changes found in v0.30 (13:07:42)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Style changes (13:06:25)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> _formatTime() replaces _getFmtTime() (12:58:08)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update documentation to match reality (12:47:27)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add 0.30 Changes (12:29:07)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Regen based on r200 of Fine.pm (12:22:18)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Happy New Years!  Bump copyright year as appropriate (12:20:44)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (12:06:19)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add support for configurable levelmaps when using Utils.pm (12:03:49)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Use a single private getter/setter, _logger (11:40:19)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge in changes from ^/branches/LOGCONFIG (11:30:43)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> perltidy before merge to trunk (11:25:58)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Revert -r150:148 (09:48:17)
+
+2009-12-31
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Make sure methods are declared in alphabetical order. (16:40:10)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update (16:21:38)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Use bullet points as appropriate (16:17:50)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update documentation (15:55:24)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Replace getSkip() with skip() (15:33:59)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Replace getFileHandle() with fileHandle() (15:03:23)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Replace setFormatter() with formatter() (14:43:04)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Replace setTimestamp() and getTimestamp() with timeStamp(). (14:28:28)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add support for java.util.logging levels (13:41:34)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add Levels classes and associated unit tests to manifest (13:33:28)
+
+2009-12-30
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Merge in changes from ERROR_HANDLE branch (17:41:46)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> perltidy (17:36:29)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add some negative tests (17:29:21)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add some fine-grained validity checking to Logger.  Also, clean up error message in Formatter.pm (17:29:01)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> We skip 2 tests, not 3 if Test::Output isn't installed (15:28:54)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Test Error handling (15:27:56)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add secret option "no_croak".  I need to document this. (15:26:36)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Use Test::Output for trapping error messages (14:59:29)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Elaborate on error messages (14:58:18)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add new method, Log::Fine::_fatal() for handling error situations. Note that this can be overridden. (14:17:36)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Optimize logLevels() (13:32:17)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> logMasks() now returns masks in ascending order by mask value (13:22:50)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Branch for development of better error handling (11:17:38)
+
+2009-12-29
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Fix Utils.pm which now passes unit tests.  While here, do some other touch-ups. (23:29:47)
+
+2009-12-15
+	* Christopher M. Fuhrman <cfuhrman@panix.com> perltidy (15:11:27)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Port comprehensive testing from ^/branches/LOGCONFIG branch (14:54:18)
+
+2009-09-29
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Switch to new API (s/getLogger/logger/g) (12:05:27)
+
+2009-09-28
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Make Log::Fine::Levels compatible. (15:58:16)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add support for new Log::Fine::Levels to Log::Fine::Handle.  While here: (09:57:08)
+
+2009-09-22
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add new method, bitmaskAll() for returning a mask with all possible values enabled (14:23:18)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Make the following changes to Log::Fine: (14:06:04)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add Log::Fine::Levels* to tests (13:58:07)
+
+2009-09-17
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Remove support for clone, which isn't really needed (09:03:07)
+
+2009-09-16
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Mention that this class is the default for Log::Fine::Levels (17:13:41)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Possible TODO: Tutorial for extending Levels class (15:10:57)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Fill in SYNOPSIS and DESCRIPTION of pod documentation (15:10:33)
+
+2009-09-09
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Fill in POD documentation for Syslog module (11:30:32)
+
+2009-09-08
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Log::Fine::Levels::Syslog will now export log levels and log masks via Exporter/AutoLoader (11:44:21)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Fix tyop (11:41:36)
+
+2009-09-07
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Set levels when initializing any Log::Fine based class.  Use new Levels class where applicable.  Add new API, getLevels, for getting the stored Levels object (22:53:22)
+
+2009-09-03
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Correctly match revision number.  Also fix spacing (11:03:34)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Use subversion revision for version number (10:50:47)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Initial entry of Levels class and associated Syslog class Also added unit test (10:43:28)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Directory for holding level definitions (10:04:10)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Branch for development of configurable log levels (09:35:28)
+
+2009-08-16
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add ideas about levels and callback. (22:48:10)
+
+2009-02-06
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add 10-hires test to manifest. (11:39:31)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Optmize high-resolution time calculation (11:25:55)
+
+2009-02-05
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Minor formatting change (10:02:50)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Remind myself to regenerate README when making a release. (10:02:30)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update to latest wish list (10:01:51)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> regen (10:01:33)
+
+2009-02-04
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version and copyright date in Fine.pm (16:07:58)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump copyright date (15:46:05)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update documentation to include information about high-resolution timestamps. (15:38:13)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> perltidy (11:13:40)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add support for fine-grained logging via the Time::HiRes module.  Also add associated test to make sure things work okay. (10:56:12)
+
+2008-12-12
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update date (18:10:40)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Oops.  Forgot to include Carp! (15:06:58)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add error checking to Log() and OpenLog().  Also include CAVEATS section. (15:04:58)
+
+2008-12-09
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Mention Log::Fine::Utils. (09:26:43)
+
+2008-12-08
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Fix tyop (13:32:56)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version to 0.21 (13:21:16)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> perltidy (13:18:13)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add new module, Log::Fine::Utils which provides a functional interface to Log::Fine.  Also add associated test file and update manifest. (13:15:27)
+
+2008-08-26
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Don't forget to test Log::Fine::Handle::File::Timestamp.  Reorder testing of modules while we're here. (11:34:05)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add item for loadable log levels (11:28:01)
+
+2008-07-23
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Avoid redundant testing (10:55:38)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Be more intelligent about testing mask combinations.  Not completely comprehesive, but getting there. (06:00:34)
+
+2008-07-05
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Maybe switch to Module::Build? (11:07:36)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> We can just use Test::Simple for handle tests (11:03:49)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (10:57:23)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Make sure we only use Sys::Syslog when we need to (10:56:24)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Updated to include bitmask testing (10:55:42)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Welcome to 0.20 (10:54:27)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Implemented (10:53:35)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add test to make sure we don't log when we're not supposed to.  This brings the total number of tests for this file to 132. (08:33:22)
+
+2008-07-04
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Handles do not need {level} attribute anymore.  Remove from tests while we're at it. (15:56:06)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Properly test mask combinations (15:51:46)
+
+2008-07-02
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update for version 0.15 (15:16:46)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Welcome to version 0.15 (15:12:41)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add TODO and include in Manifest (15:12:08)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Do bitmasking properly. (15:11:44)
+
+2008-06-30
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Optimize how we grab the class name in _init() (06:59:55)
+
+2008-06-07
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update changelog (00:03:49)
+
+2008-06-06
+	* Christopher M. Fuhrman <cfuhrman@panix.com> regen (09:42:48)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Welcome to 0.14 (09:37:03)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Set continuation indentation to 4 per http://www.openbsd.org/cgi-bin/man.cgi?query=style&apropos=0&sektion=0&manpath=OpenBSD+4.3&arch=i386&format=html (09:36:28)
+
+2008-06-03
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Grammar fix ;) (16:48:45)
+
+2008-05-27
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Welcome to 0.13! (14:01:20)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Addition of Checklist for when I make commits (13:58:49)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version to reflect minor fixes (13:48:17)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Version 0.12 (08:53:57)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (08:49:27)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Require version 0.13 of Sys::Syslog.  Apparently older versions did not export tags we need. (08:48:53)
+
+2008-05-26
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Update META information to match reality.  Also bump version (10:20:50)
+
+2008-05-25
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Final perltidy before release (15:16:14)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Make sure Chris Josephs is also mentioned. (15:14:22)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version before release (14:53:03)
+
+2008-05-24
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Effective immediately, Log::Fine is distributed under the 2-clause BSD license. (15:35:46)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Link clean-up (14:22:57)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Clean up POD for HTML format (14:11:42)
+
+2008-05-23
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Welcome to 0.05 (09:45:54)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> regen (09:06:04)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Proof-read POD documentation.  Clean-ups and elaborations where necessary. (09:05:16)
+
+2008-05-22
+	* Christopher M. Fuhrman <cfuhrman@panix.com> regen (17:27:38)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Audit POD documentation (17:26:47)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> regen (09:43:33)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> We are now at version 0.04 (09:19:19)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add API for adjusting the timestamp within log messages.  Also add a sanity check for Formatter->format(). (09:15:04)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Give inspirational credit as appropriate.  Also update documentation here and there. (08:53:08)
+
+2008-05-21
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Lose redundant logger test (16:03:36)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Reference file handle directly in test to avoid confusion. (15:53:29)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Fix context leak ;) (15:49:51)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Skip tests if Test::Output isn't installed (14:03:20)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Use Test::Output to validate printing to STDERR & STDOUT (13:57:52)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Lose some redundant POD documentation that slipped in. (08:48:33)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Fix small case of context leaking ;) (07:28:35)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Replace lib/Log/Fine/Handle/Test.pm with ../String.pm and update references as appropriate (07:26:37)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Make sure that a logger object's name doesn't include any funky characters (07:15:50)
+
+2008-05-20
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Elaborate on cloning (22:21:04)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add cloning capabilities. (13:36:06)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Oops.  s/output/console/ (13:17:47)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (13:15:08)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add two new shorthand masks: LOGMASK_ALL (for all log masks) and LOGMASK_ERROR (for LOGMASK_ERR and below). (13:04:08)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Per suggestion from Dan, rename Output.pm to Console.pm and update references accordingly. (11:40:09)
+
+2008-05-16
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add api for adjusting log skip.  Also renamed {skip} to {_skip} indicating that it's a value that shouldn't be touched. (16:19:32)
+
+2008-05-15
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Make sure we store any new Logger object that's created.  Various pod and code clean-ups while I'm here. (16:14:03)
+
+2008-05-09
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Add some tests for both log levels and masks. (18:00:57)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version (12:37:31)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> All good boys clean up after themselves! (11:24:46)
+
+2008-05-08
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Blank meta file so 'make dist' works (17:42:17)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Initial entry of Log::Fine::Handle::File::Timestamp and associated unit test. (17:17:09)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Lose $VERSION.  Also add SEE ALSO section (10:50:29)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Revert -r12.  Test.pm needed to pass 'make test' (10:39:37)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Log::Fine::Handle::Test is no longer necessary.  Removing. (10:07:50)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Lose $VERSION which is only necessary in Fine.pm (10:06:42)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Clean up POD documentation (09:46:57)
+
+2008-05-07
+	* Christopher M. Fuhrman <cfuhrman@panix.com> new objects now take a regular hash rather than a hash ref. (23:02:29)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Replace all instances of BSDLog with Fine as appropriate. (17:04:37)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Move BSDLog.pm and friends to Fine to reflect the name of this module: Log::Fine (16:47:30)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> The great massive perltidy into KNF! (16:28:42)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Set svn:keywords as appropriate (16:25:34)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Copy imported Log::BSDLog from LOG-BSDLOG vendor tag (16:24:25)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Initial import of Log::BSDLog (16:17:23)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> New repository setup (16:14:49)
 

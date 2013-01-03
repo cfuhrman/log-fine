@@ -246,7 +246,7 @@ L<http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/Level.html>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2010 Christopher M. Fuhrman, 
+Copyright (c) 2010, 2013 Christopher M. Fuhrman, 
 All rights reserved.
 
 This program is free software licensed under the...

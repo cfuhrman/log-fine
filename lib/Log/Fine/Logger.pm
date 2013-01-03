@@ -302,7 +302,7 @@ L<perl>, L<Log::Fine>, L<Log::Fine::Handle>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2008, 2010 Christopher M. Fuhrman, 
+Copyright (c) 2008, 2010, 2013 Christopher M. Fuhrman, 
 All rights reserved
 
 This program is free software licensed under the...

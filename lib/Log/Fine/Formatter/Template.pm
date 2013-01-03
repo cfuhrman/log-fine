@@ -511,7 +511,7 @@ L<perl>, L<Log::Fine::Formatter>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2010-2011 Christopher M. Fuhrman, 
+Copyright (c) 2010-2011, 2013 Christopher M. Fuhrman, 
 All rights reserved.
 
 This program is free software licensed under the...

@@ -254,7 +254,7 @@ L<perl>, L<syslog>, L<Log::Fine>, L<Log::Fine::Levels>, L<Sys::Syslog>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (c) 2009, 2010 Christopher M. Fuhrman, 
+Copyright (c) 2009, 2010, 2013 Christopher M. Fuhrman, 
 All rights reserved.
 
 This program is free software licensed under the...
