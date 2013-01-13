@@ -1,9 +1,5 @@
 #!perl -T
 
-#
-# $Id$
-#
-
 BEGIN { $ENV{EMAIL_SENDER_TRANSPORT} = 'Test' }
 
 #use Data::Dumper;

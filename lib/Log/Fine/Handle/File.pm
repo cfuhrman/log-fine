@@ -268,10 +268,6 @@ L<http://search.cpan.org/dist/Log-Fine>
 
 =back
 
-=head1 REVISION INFORMATION
-
-  $Id$
-
 =head1 AUTHOR
 
 Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>

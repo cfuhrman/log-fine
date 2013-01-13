@@ -1,9 +1,5 @@
 #!perl
 
-#
-# $Id$
-#
-
 #use Data::Dumper;
 use Log::Fine;
 use Log::Fine::Formatter::Template;
