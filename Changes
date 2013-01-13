@@ -1,3 +1,10 @@
+2013-01-13
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Remove Revision ID Information (13:14:15)
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Revert "Remove Sys::Syslog as a requirement" (13:01:59)
+
+2013-01-03
+	* Christopher M. Fuhrman <cfuhrman@panix.com> Bump version to 0.61 (12:09:29)
+
 2012-12-29
 	* Christopher M. Fuhrman <cfuhrman@panix.com> Make tests compatible with Email::Sender version >= 0.120000 (21:37:44)
 	* Christopher M. Fuhrman <cfuhrman@panix.com> Remove Try::Tiny from recommendations (20:51:06)
