@@ -2,6 +2,8 @@
 
 use Test::More;
 
+use File::Temp qw/ :mktemp /;
+
 use Log::Fine;
 use Log::Fine::Handle::File;
 use Log::Fine::Levels::Syslog;
@@ -18,8 +20,11 @@ use POSIX qw(strftime);
                 plan tests => 5;
         }
 
-        my $file = sprintf("C:\\WINDOWS\\Temp\\log-fine-$$-%s",
-                           strftime("%Y%m%d%H%M%S", localtime(time)));
+        my ($tempfh, $file) = mkstemp("logfinewindowsXXXXXX");
+
+        # We do not need $tempfh so close it
+        $tempfh->close();
+
         my $msg = "Smoke me a kipper, I'll be back for breakfast";
 
         # Get a logger
