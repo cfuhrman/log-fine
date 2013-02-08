@@ -3,6 +3,7 @@
 use Test::More tests => 26;
 
 use File::Spec::Functions;
+use File::Temp qw/ :mktemp /;
 use FileHandle;
 
 use Log::Fine;
@@ -10,8 +11,6 @@ use Log::Fine::Handle;
 use Log::Fine::Handle::File;
 use Log::Fine::Levels::Syslog;
 use Log::Fine::Logger;
-
-use POSIX qw( tmpnam );
 
 {
 
@@ -45,7 +44,7 @@ use POSIX qw( tmpnam );
 
         # File-specific attributes
         ok($handle->{file} eq $file);
-        ok($handle->{dir}  eq "./");
+        ok($handle->{dir} eq "./");
         ok($handle->{autoflush} == 1);
         ok($handle->{autoclose} == 0);
 
@@ -105,9 +104,11 @@ use POSIX qw( tmpnam );
         unlink $file;
 
         # Test abs path
-        my $tmpfile = tmpnam() || "/tmp/log-fine-test-file.log";
+        my ($tempfh, $tmpfile) = mkstemp("logfinehandletmpXXXXXX");
 
         ok(defined $tmpfile);
+
+        $tempfh->close();
 
         # print STDERR "Temp file is $tmpfile\n";
 
