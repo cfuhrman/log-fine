@@ -86,7 +86,7 @@ use warnings;
 
 package Log::Fine;
 
-require 5.006;
+require 5.008003;
 
 use Carp qw( cluck confess );
 use Log::Fine::Levels;

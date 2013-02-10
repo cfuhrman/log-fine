@@ -1,5 +1,9 @@
 # -*- mode: cperl -*-
 
+BEGIN {
+        require 5.008003;
+}
+
 use strict;
 use warnings;
 use ExtUtils::MakeMaker;
@@ -8,6 +12,7 @@ use Sys::Syslog 0.13;
 
 # Write our Makefile
 WriteMakefile(
+        ABSTRACT      => 'Yet another logging framework',
         NAME          => 'Log::Fine',
         AUTHOR        => 'Christopher M. Fuhrman <cfuhrman@panix.com>',
         LICENSE       => 'bsd',
