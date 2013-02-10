@@ -14,7 +14,7 @@ use Test::More;
         # Check environmental variables
         plan skip_all => "these tests are for testing by the author"
             unless $ENV{ENABLE_AUTHOR_TESTS};
-        plan skip_all => "cannot test SMTP under MsWin32 or cygwin"
+        plan skip_all => "cannot test SMTP under MSWin32 or cygwin"
             if (($^O eq "MSWin32") || ($^O eq "cygwin"));
         plan skip_all => "Email handle only supported in perl 5.8.3 or above"
             if $^V lt v5.8.3;
@@ -55,8 +55,9 @@ use Test::More;
         # Create a formatter for subject line
         my $subjfmt =
             Log::Fine::Formatter::Template->new(
-                      name     => 'email-subject',
-                      template => "%%LEVEL%% : Test of Log::Fine::Handle::Email"
+                     name     => 'email-subject',
+                     template => "%%LEVEL%% : Test of Log::Fine::Handle::Email",
+                     timestamp_format => '%c',
             );
 
         # Create a formatted msg template
