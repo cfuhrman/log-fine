@@ -9,20 +9,21 @@
 
 use Test::More;
 
-use File::Temp qw/ :mktemp /;
-
 use Log::Fine;
 use Log::Fine::Handle::File;
 use Log::Fine::Levels::Syslog;
 use Log::Fine::Logger;
 
+use File::Temp qw/ :mktemp /;
 use FileHandle;
 use POSIX qw(strftime);
 
 {
 
         if ($^O ne "MSWin32") {
-                plan skip_all => "Tests for MSWin32 environment only";
+                my $not_cygwin = ($^O ne "cygwin") ? "" : "(not cygwin) ";
+                plan skip_all =>
+                    "Tests for MSWin32 ${not_cygwin}environment only";
         } else {
                 plan tests => 5;
         }
