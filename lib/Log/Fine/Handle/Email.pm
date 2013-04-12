@@ -144,7 +144,7 @@ array ref containing one or more destination addresses
 
 String containing email sender
 
-=item  * transport
+=item  + transport
 
 An L<Email::Sender::Transport> object.  See L<Email::Sender::Manual>
 for further details.
