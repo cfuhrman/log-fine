@@ -17,7 +17,6 @@ WriteMakefile(
         AUTHOR        => 'Christopher M. Fuhrman <cfuhrman@panix.com>',
         LICENSE       => 'bsd',
         VERSION_FROM  => 'lib/Log/Fine.pm',
-        ABSTRACT_FROM => 'lib/Log/Fine.pm',
         PL_FILES      => {},
         PREREQ_PM     => {
                        'Test::More'  => 0,
