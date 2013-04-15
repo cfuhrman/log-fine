@@ -99,8 +99,7 @@ EOF
         $log->registerHandle($handle);
 
         # Grab number of messages
-        my $msg_t1 =
-            ($^O eq "solaris") ? qx! mailx -H | wc -l ! : qx! mail -H | wc -l !;
+        my $msg_t1 = mailGetCount();
 
         $log->log(DEBG, "Debugging 16-handle-email-smtp.t");
         $log->log(CRIT, "Beware the weeping angels");
@@ -109,9 +108,27 @@ EOF
         print STDERR "---- Sleeping for 5 seconds";
         sleep 5;
 
-        my $msg_t2 =
-            ($^O eq "solaris") ? qx! mailx -H | wc -l ! : qx! mail -H | wc -l !;
+        my $msg_t2 = mailGetCount();
 
         ok($msg_t2 > $msg_t1);
 
 }
+
+sub mailGetCount
+{
+
+        my $count = 0;
+
+        # Since Log::Fine supports perl v5.8.3, which doesn't have the
+        # "switch" feature, roll our own Switch statement
+    SWITCH: {
+                ($^O =~ /solaris/)
+                    && do { $count = qx! mailx -H | wc -l !; last SWITCH };
+                ($^O =~ /openbsd/)
+                    && do { $count = qx! echo "h" | mail | wc -l !; last SWITCH };
+                $count = qx! mail -H | wc -l !;
+        }
+
+        return $count;
+
+}          # mailGetCount()
