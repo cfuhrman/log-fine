@@ -124,7 +124,8 @@ sub mailGetCount
     SWITCH: {
                 ($^O =~ /solaris/)
                     && do { $count = qx! mailx -H | wc -l !; last SWITCH };
-                ($^O =~ /openbsd/)
+                ($^O =~ /openbsd/
+                     or ($^O =~ /linux/ and (-f "/etc/debian_version")))
                     && do { $count = qx! echo "h" | mail | wc -l !; last SWITCH };
                 $count = qx! mail -H | wc -l !;
         }
