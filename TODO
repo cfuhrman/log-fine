@@ -203,6 +203,11 @@
      no need to optimize
 
 
+* TODO Use TEMP environment variable under Windows                  :testing:
+
+  =17-handle-file-windows.t= :: Use the environmental variable TEMP
+  for determining path of TEMP directory under MS Windows
+
 * Footnotes
 
 [fn:1] http://search.cpan.org/=rjbs/MIME-Lite-3.028/lib/MIME/Lite.pm#WAIT!
