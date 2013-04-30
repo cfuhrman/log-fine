@@ -61,8 +61,8 @@ use POSIX qw(strftime);
         # Write a test message
         $handle->msgWrite(INFO, $msg, 1);
 
-        ok(-e $file);
         $handle->fileHandle()->close();
+        ok(-e $file);
 
         # Grab a ref to our filehandle
         my $fh = FileHandle->new($file);
