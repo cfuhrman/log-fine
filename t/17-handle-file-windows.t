@@ -14,7 +14,7 @@ use Log::Fine::Handle::File;
 use Log::Fine::Levels::Syslog;
 use Log::Fine::Logger;
 
-use File::Temp qw/ :mktemp /;
+use File::Temp;
 use FileHandle;
 use POSIX qw(strftime);
 
@@ -28,7 +28,15 @@ use POSIX qw(strftime);
                 plan tests => 5;
         }
 
-        my ($tempfh, $file) = mkstemp('C:\WINDOWS\Temp\LFXXXXXX');
+        my $tempfh = File::Temp->new(
+                              TEMPLATE => 'LFXXXXXX',
+                              DIR => ($ENV{TEMP} =~ /^([-\@\w.\\:]+)$/ && -d $1)
+                              ? $1
+                              : 'C:\\WINDOWS\\Temp',
+                              SUFFIX => '.log'
+        );
+
+        my $file = $tempfh->filename();
 
         # We do not need $tempfh so close it
         $tempfh->close();
