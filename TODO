@@ -203,7 +203,10 @@
      no need to optimize
 
 
-* TODO Use TEMP environment variable under Windows                  :testing:
+* DONE Use TEMP environment variable under Windows                  :testing:
+  CLOSED: [2013-04-30 Tue 10:39]
+  - CLOSING NOTE [2013-04-30 Tue 10:39] \\
+    Done.  To be released in LOGFINE-0-64
 
   =17-handle-file-windows.t= :: Use the environmental variable TEMP
   for determining path of TEMP directory under MS Windows
