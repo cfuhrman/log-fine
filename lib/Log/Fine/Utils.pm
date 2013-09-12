@@ -252,11 +252,11 @@ sub OpenLog
 
         my %data = @_;
 
-        # Set name to a default if need be
+        # Set name to a default value if need be
         $data{name} = "GENERIC"
             unless (defined $data{name} and $data{name} =~ /\w/);
 
-        # Should no Log::Fine object is defined, generate one
+        # Should no Log::Fine object be defined, generate one
         _logfine(
                  Log::Fine->new(name     => "Utils",
                                 levelmap => $data{levelmap}
