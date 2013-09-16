@@ -79,11 +79,11 @@ use POSIX qw( strftime );
 
         # Write out a couple of files
         $timehandle->msgWrite(INFO, $msg, 1);
-        my $t1 = $timehandle->{_expanded_filename};
+        my $t1 = $timehandle->{_filename};
         sleep 1;
 
         $timehandle->msgWrite(NOTI, $msg, 1);
-        my $t2 = $timehandle->{_expanded_filename};
+        my $t2 = $timehandle->{_filename};
 
         ok($t1 ne $t2);
 

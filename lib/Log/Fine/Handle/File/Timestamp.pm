@@ -62,42 +62,21 @@ sub fileHandle
 {
 
         my $self = shift;
+        my $filename = strftime($self->{file}, localtime(time));
 
-        # Return if we have a registered filehandle and the date is
-        # still the same
-        return $self->{_filehandle}
-            if (    not $self->_fileRotate()
-                and defined $self->{_filehandle}
-                and ref $self->{_filehandle}
-                and UNIVERSAL::can($self->{_filehandle}, 'isa')
-                and $self->{_filehandle}->isa("IO::File")
-                and defined fileno($self->{_filehandle}));
-
-        # We need a new file.  Close our filehandle if it exists
         if (     defined $self->{_filehandle}
              and ref $self->{_filehandle}
              and UNIVERSAL::can($self->{_filehandle}, 'isa')
              and $self->{_filehandle}->isa("IO::File")
              and defined fileno($self->{_filehandle})) {
 
-                $self->_error(
-                              sprintf("Unable to close file handle to %s : %s",
-                                      $self->{_expanded_filename}, $!
-                              )) unless $self->{_filehandle}->close();
+                # We rotate the file if the expanded name has changed
+                $self->_fileHandle($filename, 1)
+                    if ($self->{_filename} ne $filename);
 
+        } else {
+                $self->_fileHandle($filename);
         }
-
-        # Generate file name
-        my $filename = catdir($self->{dir}, $self->{_expanded_filename});
-
-        # Generate a new filehandle
-        $self->{_filehandle} = FileHandle->new(">> " . $filename);
-
-        $self->_error("Unable to open log file $filename : $!\n")
-            unless defined $self->{_filehandle};
-
-        # Set autoflush if necessary
-        $self->{_filehandle}->autoflush($self->{autoflush});
 
         return $self->{_filehandle};
 
@@ -106,30 +85,46 @@ sub fileHandle
 # --------------------------------------------------------------------
 
 ##
-# Determines if we need a new file name or not.  Note that
-# {_expanded_filename} will be set to new value if we need to rotate
+# Sets new file handle
 #
-# @returns 1 if we need a file name, 0 otherwise
+# @param filename - filename to use
+# @param doclose  - [default:undef] specifies whether we close
+#                   the existing filehandle or not
+#
+# @returns a valid fileHandle object
 
-sub _fileRotate
+sub _fileHandle
 {
 
-        my $self = shift;
-        my $filename = strftime($self->{file}, localtime(time));
+        my $self     = shift;
+        my $filename = shift;
+        my $doclose  = shift || undef;
 
-        if (not defined $self->{_expanded_filename}
-             or $self->{_expanded_filename} ne $filename) {
-                $self->{_expanded_filename} = $filename;
-                return 1;
-        } else {
-                return 0;
+        # Validate filename
+        $self->_error("First parameter must be a valid string")
+            unless (defined $filename and $filename =~ /\w/);
+
+        # Close existing file handle
+        if ($doclose) {
+                $self->{_filehandle}->close()
+                    || $self->_error(
+                               sprintf("Unable to close file handle to %s : %s",
+                                       $filename, $!
+                               ));
         }
 
-        #
-        # NOT REACHED
-        #
+        $self->{_filehandle} = FileHandle->new(">> " . $filename)
+            || $self->error("Unable to open log file $filename : $!\n");
 
-}          # _fileName()
+        # Set autoflush if necessary
+        $self->{_filehandle}->autoflush($self->{autoflush});
+
+        # Update cached file name
+        $self->{_filename} = $filename;
+
+        return $self->{_filehandle};
+
+}          # _fileHandle()
 
 =head1 BUGS
 
