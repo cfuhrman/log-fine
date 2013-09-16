@@ -211,6 +211,11 @@
   =17-handle-file-windows.t= :: Use the environmental variable TEMP
   for determining path of TEMP directory under MS Windows
 
+* TODO Find out why tests are leaving files behind
+
+  Apparently, when =make test= is run, files are left behind.  All
+  good boys must clean up after themselves!
+
 * Footnotes
 
 [fn:1] http://search.cpan.org/=rjbs/MIME-Lite-3.028/lib/MIME/Lite.pm#WAIT!
