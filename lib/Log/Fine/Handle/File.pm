@@ -166,10 +166,11 @@ sub msgWrite
         # will force the creation of a new filehandle the next time
         # this method is called
         if ($self->{autoclose}) {
-                $self->_error(
-                              sprintf("Unable to close filehandle to %s : %s",
-                                      catdir($self->{dir}, $self->{file}), $!
-                              )) unless $self->fileHandle()->close();
+                $fh->close()
+                    || $self->_error(
+                                sprintf("Unable to close filehandle to %s : %s",
+                                        catdir($self->{dir}, $self->{file}), $!
+                                ));
         }
 
         return $self;
