@@ -1,5 +1,70 @@
 CHANGELOG
 
+2013-09-17  Christopher M. Fuhrman
+
+      * Correct potential race condition when closing file handle
+        
+        When autoclose is set, be sure to close the active file handle rather
+        than calling $self->fileHandle().  This avoids a potential race
+        condition that could leave a dangling file handle under certain
+        conditions.
+      * Close out leftover file task
+        
+        Files were left over by previous code that was never committed
+
+2013-09-16  Christopher M. Fuhrman
+
+      * Add TODO about file spewage
+        
+        Add a TODO item about leftover files
+      * Optimize fileHandle() method
+        
+        Optimize fileHandle() method by consolidating file handle checks.
+        Introduce a new private method, _fileHandle(), which generates a new
+        file handle and remove the unused fileRotate() method.
+
+2013-09-12  Christopher M. Fuhrman
+
+      * Clean up some commentary
+        
+        Let's be grammatically correct, shall we?
+
+2013-04-30  Christopher M. Fuhrman
+
+      * Close temporary filehandle before checking for assoc. file
+        
+        When checking for the existence of a file, be sure to close the
+        relevant filehandle so as to force a write.  This should hopefully
+        address http://www.cpantesters.org/cpan/report/232fa78c-6c36-1014-9b5a-e713937b1b84
+      * Close out TEMP environment variable task
+      * Use the TEMP environmental variable to get temporary file path
+        
+        Use the Windows TEMP environmental variable to get temporary file
+        path.  While here, switch to using File::Temp->new() to create
+        temporary file for testing.
+        
+        Tested under:
+        
+         - ActiveState Perl v5.14.2
+         - StrawBerry Perl v5.16.3
+      * Add TODO to use TEMP Environmental variable
+        
+        Add a TODO item to use TEMP[1] environmental variable when using
+        Windows.
+        
+        Footnotes:
+        [1]  http://environmentvariables.org/Temp
+
+2013-04-16  Christopher M. Fuhrman
+
+      * Bump version to 0.63
+        
+        Bump version to 0.63 and update Changes accordingly.  Note return of
+        vclog[1] generated Changes file
+        
+        Footnotes:
+        [1]  http://rubyworks.github.io/vclog/
+
 2013-04-15  Christopher M. Fuhrman
 
       * Properly call mail(1) when using Debian GNU/Linux
