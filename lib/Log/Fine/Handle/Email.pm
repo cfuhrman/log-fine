@@ -196,6 +196,9 @@ BEGIN {
                         last;
                 }
 
+                # Reset $@ just in case
+                undef $@;
+
         }
 
 }
