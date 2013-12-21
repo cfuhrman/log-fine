@@ -20,15 +20,7 @@ use Test::More;
                 plan skip_all =>
 "Email::Sender is not installed.  Unable to test Log::Fine::Handle::Email";
         } else {
-
-                eval "require Mail::RFC822::Address";
-
-                if ($@) {
-                        plan skip_all =>
-"Mail::RFC822::Address is not installed.  Unable to test Log::Fine::Handle::Email";
-                } else {
-                        plan tests => 9;
-                }
+                plan tests => 9;
         }
 
         use_ok("Log::Fine::Handle::Email");
