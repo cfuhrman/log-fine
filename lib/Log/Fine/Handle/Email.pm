@@ -488,6 +488,16 @@ sub _validate_mail_rfc822_address
 
 }          # _validate_mail_rfc822_address()
 
+=head1 CAVEATS
+
+Note that the L<Email::Valid> module does not use the same checking
+algorithms as L<Mail::RFC822::Address>.  Email addresses considered
+valid under one module may not be considered valid under the other.
+For example, under Mail::RFC822::Address, C<jsmith@localhost> is
+considered a valid address while Email::Valid will reject it.
+Consider researching each module prior to making a determination as to
+which is acceptable for your environment and needs.
+
 =head1 BUGS
 
 Please report any bugs or feature requests to
