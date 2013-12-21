@@ -27,7 +27,7 @@ use Test::More;
                         plan skip_all =>
 "Mail::RFC822::Address is not installed.  Unable to test Log::Fine::Handle::Email";
                 } else {
-                        plan tests => 8;
+                        plan tests => 9;
                 }
         }
 
@@ -41,6 +41,7 @@ use Test::More;
 
         my $user =
             sprintf('%s@localhost', getlogin() || getpwuid($<) || "nobody");
+
         my $log = Log::Fine->logger("email0");
 
         isa_ok($log, "Log::Fine");
@@ -85,6 +86,7 @@ EOF
                            header_to         => $user,
             );
 
+        ok($handle->_test_validate_default($user));
         isa_ok($handle, "Log::Fine::Handle::Email");
 
         my $transport = Email::Sender::Simple->default_transport;

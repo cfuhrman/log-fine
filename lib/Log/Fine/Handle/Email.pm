@@ -164,15 +164,45 @@ use 5.008_003;          # Email::Sender requires Moose which requires 5.8.3
 
 use base qw( Log::Fine::Handle );
 
+use Carp qw(carp);
+
 #use Data::Dumper;
 use Email::Sender::Simple qw(try_to_sendmail);
 use Email::Simple;
-use Mail::RFC822::Address qw(valid validlist);
 use Log::Fine;
 use Log::Fine::Formatter;
 use Sys::Hostname;
 
+BEGIN {
+
+        my @modules = ('Mail::RFC822::Address', 'Default');
+
+        foreach my $module (@modules) {
+
+                if ($module eq 'Default') {
+                        *_isValid = \&_validate_default;
+                        carp 'Using default email validation.  ' .
+                                'Consider Mail::RFC822::Address\n';
+                        last;
+                }
+
+                eval "{ require $module }";
+
+                unless ($@) {
+                        my $sub = '_validate_' . lc($module);
+                        $sub =~ s/\:\:/_/g;
+
+                        *_isValid = \&{$sub};
+                        last;
+                }
+
+        }
+
+}
+
 our $VERSION = $Log::Fine::Handle::VERSION;
+
+# --------------------------------------------------------------------
 
 =head1 METHODS
 
@@ -235,7 +265,7 @@ sub _init
                 $self->{header_from} =
                     printf("%s@%s", $self->_userName(), $self->_hostName());
         } elsif (defined $self->{header_from}
-                 and not valid($self->{header_from})) {
+                 and not _isValid($self->{header_from})) {
                 $self->_fatal(
                          "{header_from} must be a valid RFC 822 Email Address");
         }
@@ -249,14 +279,14 @@ sub _init
         # Check for array ref
         if (ref $self->{header_to} eq "ARRAY") {
 
-                if (validlist($self->{header_to})) {
+                if (_isValid($self->{header_to})) {
                         $self->{header_to} = join(",", @{ $self->{header_to} });
                 } else {
                         $self->_fatal(  "{header_to} must contain valid "
                                       . "RFC 822 email addresses");
                 }
 
-        } elsif (not valid($self->{header_to})) {
+        } elsif (not _isValid($self->{header_to})) {
                 $self->_fatal(  "{header_to} must contain a valid "
                               . "RFC 822 email address");
         }
@@ -295,14 +325,14 @@ sub _init
                               . "array ref containing one or more valid "
                               . "RFC 822 email addresses")
                     unless (ref $envelope->{to} eq "ARRAY"
-                            and validlist($envelope->{to}));
+                            and _isValid($envelope->{to}));
         }
 
         # Check envelope from
         if (defined $envelope->{from} and $envelope->{from} =~ /\w/) {
                 $self->_fatal(  "{envelope}->{from} must be a "
                               . "valid RFC 822 Email Address")
-                    unless valid($envelope->{from});
+                    unless _isValid($envelope->{from});
         } else {
                 $envelope->{from} = $self->{header_from};
         }
@@ -342,6 +372,11 @@ sub _hostName
 }          # _hostName()
 
 ##
+# Tests using the _validate_default method
+
+sub _test_validate_default { return _validate_default($_[1]) }
+
+##
 # Getter/Setter for user name
 
 sub _userName
@@ -365,6 +400,63 @@ sub _userName
         return $self->{_userName};
 
 }          # _userName()
+
+##
+# Default email address checker
+#
+# Parameters:
+#
+#  - addy : either a scalar containing a string to check or an array
+#           ref containing one or more strings to check
+#
+# Returns:
+#
+#  1 on success, 0 otherwise
+
+sub _validate_default
+{
+
+        my $addy = shift;
+
+        if (ref $addy eq "ARRAY") {
+                foreach my $address (@{$addy}) {
+                        return undef
+                            unless $address =~
+/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+\@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+                }
+        } else {
+                return undef
+                    unless ($addy =~
+/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+\@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+                    );
+        }
+
+}          # _validate_default()
+
+##
+# Validate email address via Mail::RFC822::Address
+#
+# Parameters:
+#
+#  - addy : either a scalar containing a string to check or an array
+#           ref containing one or more strings to check
+#
+# Returns:
+#
+#  1 on success, undef otherwise
+
+sub _validate_mail_rfc822_address
+{
+
+        my $addy = shift;
+
+        if (ref $addy eq "ARRAY") {
+                return Mail::RFC822::Address::validlist($addy);
+        } else {
+                return Mail::RFC822::Address::valid($addy);
+        }
+
+}          # _validate_mail_rfc822_address()
 
 =head1 BUGS
 
