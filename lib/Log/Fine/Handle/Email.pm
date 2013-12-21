@@ -175,7 +175,7 @@ use Sys::Hostname;
 
 BEGIN {
 
-        my @modules = ('Mail::RFC822::Address', 'Default');
+        my @modules = ('Mail::RFC822::Address', 'Email::Valid', 'Default');
 
         foreach my $module (@modules) {
 
@@ -428,6 +428,36 @@ sub _validate_default
         }
 
 }          # _validate_default()
+
+##
+# Validate email address via Email::Valid
+#
+# Parameters:
+#
+#  - addy : either a scalar containing a string to check or an array
+#           ref containing one or more strings to check
+#
+# Returns:
+#
+#  1 on success, undef otherwise
+
+sub _validate_email_valid
+{
+
+        my $self = shift;
+        my $addy = shift;
+
+        my $validator = Email::Valid->new();
+
+        if (ref $addy eq 'ARRAY') {
+                foreach my $address (@{$addy}) {
+                        return undef unless $validator->address($address);
+                }
+        } else {
+                return undef unless $validator->address($addy);
+        }
+
+}          # _validate_email_valid()
 
 ##
 # Validate email address via Mail::RFC822::Address
