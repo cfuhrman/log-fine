@@ -220,6 +220,10 @@
   Apparently, when =make test= is run, files are left behind.  All
   good boys must clean up after themselves!
 
+* TODO Use flexible Mail::RFC822::Address
+
+   - Put some logic behind email address validation
+
 * Footnotes
 
 [fn:1] http://search.cpan.org/=rjbs/MIME-Lite-3.028/lib/MIME/Lite.pm#WAIT!
