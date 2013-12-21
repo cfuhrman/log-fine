@@ -86,8 +86,10 @@ EOF
                            header_to         => $user,
             );
 
-        ok($handle->_test_validate_default($user));
         isa_ok($handle, "Log::Fine::Handle::Email");
+
+        # Quick validation using default method
+        ok($handle->_validate_default($user));
 
         my $transport = Email::Sender::Simple->default_transport;
         ok(ref $transport eq "Email::Sender::Transport::Test");

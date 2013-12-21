@@ -181,8 +181,8 @@ BEGIN {
 
                 if ($module eq 'Default') {
                         *_isValid = \&_validate_default;
-                        carp 'Using default email validation.  ' .
-                                'Consider Mail::RFC822::Address\n';
+                        carp 'Using default email validation.  '
+                            . 'Consider Mail::RFC822::Address\n';
                         last;
                 }
 
@@ -265,7 +265,7 @@ sub _init
                 $self->{header_from} =
                     printf("%s@%s", $self->_userName(), $self->_hostName());
         } elsif (defined $self->{header_from}
-                 and not _isValid($self->{header_from})) {
+                 and not $self->_isValid($self->{header_from})) {
                 $self->_fatal(
                          "{header_from} must be a valid RFC 822 Email Address");
         }
@@ -279,14 +279,14 @@ sub _init
         # Check for array ref
         if (ref $self->{header_to} eq "ARRAY") {
 
-                if (_isValid($self->{header_to})) {
+                if ($self->_isValid($self->{header_to})) {
                         $self->{header_to} = join(",", @{ $self->{header_to} });
                 } else {
                         $self->_fatal(  "{header_to} must contain valid "
                                       . "RFC 822 email addresses");
                 }
 
-        } elsif (not _isValid($self->{header_to})) {
+        } elsif (not $self->_isValid($self->{header_to})) {
                 $self->_fatal(  "{header_to} must contain a valid "
                               . "RFC 822 email address");
         }
@@ -325,14 +325,14 @@ sub _init
                               . "array ref containing one or more valid "
                               . "RFC 822 email addresses")
                     unless (ref $envelope->{to} eq "ARRAY"
-                            and _isValid($envelope->{to}));
+                            and $self->_isValid($envelope->{to}));
         }
 
         # Check envelope from
         if (defined $envelope->{from} and $envelope->{from} =~ /\w/) {
                 $self->_fatal(  "{envelope}->{from} must be a "
                               . "valid RFC 822 Email Address")
-                    unless _isValid($envelope->{from});
+                    unless $self->_isValid($envelope->{from});
         } else {
                 $envelope->{from} = $self->{header_from};
         }
@@ -372,11 +372,6 @@ sub _hostName
 }          # _hostName()
 
 ##
-# Tests using the _validate_default method
-
-sub _test_validate_default { return _validate_default($_[1]) }
-
-##
 # Getter/Setter for user name
 
 sub _userName
@@ -411,11 +406,12 @@ sub _userName
 #
 # Returns:
 #
-#  1 on success, 0 otherwise
+#  1 on success, undef otherwise
 
 sub _validate_default
 {
 
+        my $self = shift;
         my $addy = shift;
 
         if (ref $addy eq "ARRAY") {
@@ -448,6 +444,7 @@ sub _validate_default
 sub _validate_mail_rfc822_address
 {
 
+        my $self = shift;
         my $addy = shift;
 
         if (ref $addy eq "ARRAY") {
