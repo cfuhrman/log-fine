@@ -444,7 +444,7 @@ sub _userName
 =head1 MICROSOFT WINDOWS CAVEATS
 
 Under Microsoft Windows operating systems (WinXP, Win2003, Vista,
-Win7, etc), Log::Fine::Formatters::Template will use the following
+Win7, etc.), Log::Fine::Formatters::Template will use the following
 environment variables for determining user and group information:
 
 =over
