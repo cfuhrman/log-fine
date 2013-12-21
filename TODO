@@ -227,7 +227,10 @@
 
    - Put some logic behind email address validation
 
-* TODO Add CAVEAT about Email::Valid
+* DONE Add CAVEAT about Email::Valid
+  CLOSED: [2013-12-21 Sat 11:04]
+  - CLOSING NOTE [2013-12-21 Sat 11:04] \\
+    Done.
 * Footnotes
 
 [fn:1] http://search.cpan.org/=rjbs/MIME-Lite-3.028/lib/MIME/Lite.pm#WAIT!
