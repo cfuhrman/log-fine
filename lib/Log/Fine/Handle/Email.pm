@@ -94,6 +94,25 @@ will take precedence when defining a transport:
 
 See L<Email::Sender::Manual::Quickstart> for further details.
 
+=head2 Email Address Validation
+
+Log::Fine::Handle::Email will validate each email addresses prior to
+use.  Upon initilization, L::F::H::E will search for and use the
+following email address validation modules in the following order of
+preference:
+
+=over
+
+=item  * L<Mail::RFC822::Address>
+
+=item  * L<Email::Valid>
+
+=back
+
+Should neither Mail::RFC822::Address nor Email::Valid be found, then a
+default regex will be used which should work for most instances.  See
+L<CAVEATS> for special considerations.
+
 =head2 Constructor Parameters
 
 The following parameters can be passed to
