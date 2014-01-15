@@ -430,6 +430,10 @@ sub _validate_default
                     );
         }
 
+        #
+        # NOT REACHED
+        #
+
 }          # _validate_default()
 
 ##
@@ -460,6 +464,10 @@ sub _validate_email_valid
                 return undef unless $validator->address($addy);
         }
 
+        #
+        # NOT REACHED
+        #
+
 }          # _validate_email_valid()
 
 ##
@@ -485,6 +493,10 @@ sub _validate_mail_rfc822_address
         } else {
                 return Mail::RFC822::Address::valid($addy);
         }
+
+        #
+        # NOT REACHED
+        #
 
 }          # _validate_mail_rfc822_address()
 
