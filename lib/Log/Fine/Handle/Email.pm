@@ -194,6 +194,8 @@ use Sys::Hostname;
 
 BEGIN {
 
+        # Set email address validation routine depending on what
+        # module is installed on this system
         my @modules = ('Mail::RFC822::Address', 'Email::Valid', 'Default');
 
         foreach my $module (@modules) {
