@@ -451,9 +451,7 @@ sub _validate_default
                     );
         }
 
-        #
-        # NOT REACHED
-        #
+        return 1;
 
 }          # _validate_default()
 
@@ -485,9 +483,7 @@ sub _validate_email_valid
                 return undef unless $validator->address($addy);
         }
 
-        #
-        # NOT REACHED
-        #
+        return 1;
 
 }          # _validate_email_valid()
 
