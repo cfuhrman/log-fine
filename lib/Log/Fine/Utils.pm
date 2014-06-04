@@ -350,7 +350,7 @@ L<http://search.cpan.org/dist/Log-Fine>
 
 =head1 AUTHOR
 
-Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
+Christopher M. Fuhrman, C<< <cfuhrman at pobox.com> >>
 
 =head1 SEE ALSO
 

@@ -14,7 +14,7 @@ use Sys::Syslog 0.13;
 WriteMakefile(
         ABSTRACT      => 'Yet another logging framework',
         NAME          => 'Log::Fine',
-        AUTHOR        => 'Christopher M. Fuhrman <cfuhrman@panix.com>',
+        AUTHOR        => 'Christopher M. Fuhrman <cfuhrman@pobox.com>',
         LICENSE       => 'bsd',
         VERSION_FROM  => 'lib/Log/Fine.pm',
         PL_FILES      => {},

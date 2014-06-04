@@ -520,7 +520,7 @@ L<via email|/AUTHOR>.
 
 =head1 AUTHOR
 
-Christopher M. Fuhrman, C<< <cfuhrman at panix.com> >>
+Christopher M. Fuhrman, C<< <cfuhrman at pobox.com> >>
 
 =head1 SEE ALSO
 
