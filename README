@@ -220,7 +220,7 @@ CONTRIBUTING
     email.
 
 AUTHOR
-    Christopher M. Fuhrman, `<cfuhrman at panix.com>'
+    Christopher M. Fuhrman, `<cfuhrman at pobox.com>'
 
 SEE ALSO
     perl, syslog, Log::Fine::Handle, Log::Fine::Formatter,
