@@ -6,11 +6,16 @@ use Log::Fine::Formatter::Template;
 use Log::Fine::Levels::Syslog qw( :macros :masks );
 use Test::More;
 
+use constant DEFAULT_EMAIL_WAIT_TIME => 5;
+
 {
 
         $ENV{ENABLE_AUTHOR_TESTS} = 0
             unless defined $ENV{ENABLE_AUTHOR_TESTS};
 
+        $ENV{EMAIL_WAIT_TIME} = DEFAULT_EMAIL_WAIT_TIME
+            unless defined $ENV{EMAIL_WAIT_TIME};
+        
         # Check environmental variables
         plan skip_all => "these tests are for testing by the author"
             unless $ENV{ENABLE_AUTHOR_TESTS};
@@ -63,7 +68,7 @@ use Test::More;
         # Create a formatted msg template
         my $msgtmpl = <<EOF;
 This is a test of Log::Fine::Handle::Email.  The following message was
-delivered at %%TIME%%:
+delivered on %%TIME%%:
 
 --------------------------------------------------------------------
 %%MSG%%
@@ -101,12 +106,12 @@ EOF
         # Grab number of messages
         my $msg_t1 = mailGetCount();
 
-        $log->log(DEBG, "Debugging 16-handle-email-smtp.t");
+        $log->log(DEBG, "Debugging $0");
         $log->log(CRIT, "Beware the weeping angels");
 
         # Give sendmail a chance to deliver
-        print STDERR "---- Sleeping for 5 seconds";
-        sleep 5;
+        print STDERR "---- Sleeping for $ENV{EMAIL_WAIT_TIME} seconds";
+        sleep $ENV{EMAIL_WAIT_TIME};
 
         my $msg_t2 = mailGetCount();
 
