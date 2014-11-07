@@ -28,12 +28,14 @@ my $msg =
                     qw/ new bitmaskAll levelToValue maskToValue valueToLevel /);
 
         # Build mask to level map
-        my @levels = $levels->logLevels();
-        my @masks  = $levels->logMasks();
-
-        ok(scalar @levels > 0);
-        ok(scalar @masks > 0);
-
+        my @levels    = $levels->logLevels();
+        my @masks     = $levels->logMasks();
+        my $lvlCount  = scalar @levels;
+        my $maskCount = scalar @masks;
+        
+        ok($lvlCount > 0);
+        ok($maskCount > 0);
+        
         # Make sure levels are in ascending order by val;
         my $val = 0;
         foreach my $level (@levels) {
@@ -53,7 +55,7 @@ my $msg =
         # Variable for holding bitmask
         my $bitmask = 0;
 
-        for (my $i = 0; $i < scalar @levels; $i++) {
+        for (my $i = 0; $i < $lvlCount; $i++) {
                 ok($i == $levels->levelToValue($levels[$i]));
                 ok(&{ $levels[$i] } eq $i);
                 ok(&{ $masks[$i] }  eq $levels->maskToValue($masks[$i]));
@@ -72,12 +74,14 @@ my $msg =
         isa_ok($handle, "Log::Fine::Handle");
 
         # resort levels and masks
-        @levels = sort keys %{$ltov};
-        @masks  = sort keys %{$mtov};
+        @levels    = sort keys %{$ltov};
+        @masks     = sort keys %{$mtov};
+        $lvlCount  = scalar @levels;
+        $maskCount = scalar @masks;
 
-        ok(scalar @levels == scalar @masks);
+        ok($lvlCount == $maskCount);
 
-        for (my $i = 0; $i < scalar @levels; $i++) {
+        for (my $i = 0; $i < $lvlCount; $i++) {
                 $mtolv->{ $mtov->{ $masks[$i] } } = $ltov->{ $levels[$i] };
         }
 
