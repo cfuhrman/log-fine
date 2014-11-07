@@ -1,11 +1,15 @@
 *.bak
 *.tdy
 *~
-Makefile.old
-:2eDS_Store
 .AppleDouble
+:2eDS_Store
+GPATH
+GRTAGS
+GTAGS
 MYMETA.json
 MYMETA.yml
 Makefile
+Makefile.old
+TAGS
 blib
 pm_to_blib
