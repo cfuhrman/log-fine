@@ -183,8 +183,7 @@ sub registerHandle
         } elsif (defined $obj and ref $obj eq 'ARRAY' and scalar @{$obj} > 0) {
 
                 foreach my $handle (@{$obj}) {
-                        $self->_fatal(  "Array ref must contain valid "
-                                      . "Log::Fine::Handle objects")
+                        $self->_fatal("Array ref must contain valid " . "Log::Fine::Handle objects")
                             unless (    defined $handle
                                     and ref $handle
                                     and UNIVERSAL::can($handle, 'isa')

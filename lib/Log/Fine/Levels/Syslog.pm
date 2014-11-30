@@ -194,8 +194,7 @@ sub AUTOLOAD
         croak(
                sprintf("[%s] {%s} FATAL : %s\n",
                        strftime("%c", localtime(time)),
-                       $AUTOLOAD,
-                       "Invalid function name : $name"
+                       $AUTOLOAD, "Invalid function name : $name"
                )) unless (exists $ok_fields{$name});
 
         # Evaluate and return the appropriate level

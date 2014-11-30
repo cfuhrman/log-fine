@@ -30,8 +30,7 @@ BEGIN {
 
                 eval "use Mail::RFC822::Address";
                 skip
-                    "Mail::RFC822::Address required for testing Email delivery",
-                    1
+                    "Mail::RFC822::Address required for testing Email delivery", 1
                     if $@;
 
                 use_ok('Log::Fine::Handle::Email');

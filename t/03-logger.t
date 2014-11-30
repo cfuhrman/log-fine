@@ -71,10 +71,7 @@ use Log::Fine::Logger;
         ok($@ =~ /Loggers need names/);
 
         # Test for no handles defined
-        eval {
-                $badlog->log(INFO,
-                             "It was lightning headaches and sweet avalanche");
-        };
+        eval { $badlog->log(INFO, "It was lightning headaches and sweet avalanche"); };
 
         ok($@ =~ /No handles defined/);
 

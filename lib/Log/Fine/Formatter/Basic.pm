@@ -93,8 +93,7 @@ sub format
         # Return the formatted string
         return
             sprintf("[%s] %-4s %s\n",
-                    $self->_formatTime(), $self->levelMap()->valueToLevel($lvl),
-                    $msg);
+                    $self->_formatTime(), $self->levelMap()->valueToLevel($lvl), $msg);
 
 }          # format()
 

@@ -53,8 +53,7 @@ use Log::Fine::Levels::Syslog;
         can_ok($detailed, "testFormat");
 
         ok($detailed->name() =~ /\w\d+$/);
-        ok($detailed->timeStamp() eq
-            Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
+        ok($detailed->timeStamp() eq Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
 
         # Format a message
         my $log2 = $detailed->format(INFO, $msg, 1);
@@ -71,9 +70,8 @@ use Log::Fine::Levels::Syslog;
 
         my $log4 = $detailed->testFormat(INFO, $msg);
 
-        ok($log4 =~
-/^\[.*?\] \w+ \(Log\:\:Fine\:\:Formatter\:\:testFormat\(\)\:\d+\) $msg/
-        );
+        ok(
+            $log4 =~ /^\[.*?\] \w+ \(Log\:\:Fine\:\:Formatter\:\:testFormat\(\)\:\d+\) $msg/);
 
         #print STDERR "\n$log4\n";
 
@@ -85,8 +83,7 @@ use Log::Fine::Levels::Syslog;
         can_ok($syslog, "timeStamp");
 
         ok($syslog->name() =~ /\w\d+$/);
-        ok($syslog->timeStamp() eq
-            Log::Fine::Formatter::Syslog->LOG_TIMESTAMP_FORMAT);
+        ok($syslog->timeStamp() eq Log::Fine::Formatter::Syslog->LOG_TIMESTAMP_FORMAT);
 
         # Format a message
         my $log5 = $syslog->format(INFO, $msg, 1);

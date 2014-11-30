@@ -202,8 +202,7 @@ BEGIN {
 
                 if ($module eq 'Default') {
                         *_isValid = \&_validate_default;
-                        carp 'Using default email validation.  '
-                            . 'Consider Mail::RFC822::Address\n';
+                        carp 'Using default email validation.  ' . 'Consider Mail::RFC822::Address\n';
                         last;
                 }
 
@@ -250,18 +249,15 @@ sub msgWrite
 
         my $email =
             Email::Simple->create(
-                 header => [
-                        To   => $self->{header_to},
-                        From => $self->{header_from},
-                        Subject =>
-                            $self->{subject_formatter}->format($lvl, "", $skip),
-                 ],
-                 body => $self->{body_formatter}->format($lvl, $msg, $skip),
+                         header => [ To      => $self->{header_to},
+                                     From    => $self->{header_from},
+                                     Subject => $self->{subject_formatter}->format($lvl, "", $skip),
+                         ],
+                         body => $self->{body_formatter}->format($lvl, $msg, $skip),
             );
 
         # Set X-Mailer
-        $email->header_set("X-Mailer",
-                           sprintf("%s ver %s", ref $self, $VERSION));
+        $email->header_set("X-Mailer", sprintf("%s ver %s", ref $self, $VERSION));
 
         $self->_error("Unable to deliver email: $_")
             unless (try_to_sendmail($email, $self->{envelope}));
@@ -290,8 +286,7 @@ sub _init
                     printf("%s@%s", $self->_userName(), $self->_hostName());
         } elsif (defined $self->{header_from}
                  and not $self->_isValid($self->{header_from})) {
-                $self->_fatal(
-                         "{header_from} must be a valid RFC 822 Email Address");
+                $self->_fatal("{header_from} must be a valid RFC 822 Email Address");
         }
 
         # Validate To address
@@ -306,22 +301,20 @@ sub _init
                 if ($self->_isValid($self->{header_to})) {
                         $self->{header_to} = join(",", @{ $self->{header_to} });
                 } else {
-                        $self->_fatal(  "{header_to} must contain valid "
-                                      . "RFC 822 email addresses");
+                        $self->_fatal("{header_to} must contain valid " . "RFC 822 email addresses");
                 }
 
         } elsif (not $self->_isValid($self->{header_to})) {
-                $self->_fatal(  "{header_to} must contain a valid "
-                              . "RFC 822 email address");
+                $self->_fatal("{header_to} must contain a valid " . "RFC 822 email address");
         }
 
         # Validate subject formatter
-        $self->_fatal(  "{subject_formatter} must be a valid "
-                      . "Log::Fine::Formatter object")
-            unless (   defined $self->{subject_formatter}
-                   and ref $self->{subject_formatter}
-                   and UNIVERSAL::can($self->{subject_formatter}, 'isa')
-                   and $self->{subject_formatter}->isa("Log::Fine::Formatter"));
+        $self->_fatal(
+                      "{subject_formatter} must be a valid " . "Log::Fine::Formatter object")
+            unless (    defined $self->{subject_formatter}
+                    and ref $self->{subject_formatter}
+                    and UNIVERSAL::can($self->{subject_formatter}, 'isa')
+                    and $self->{subject_formatter}->isa("Log::Fine::Formatter"));
 
         # Validate body formatter
         $self->_fatal(  "{body_formatter} must be a valid "
@@ -354,18 +347,17 @@ sub _init
 
         # Check envelope from
         if (defined $envelope->{from} and $envelope->{from} =~ /\w/) {
-                $self->_fatal(  "{envelope}->{from} must be a "
-                              . "valid RFC 822 Email Address")
+                $self->_fatal("{envelope}->{from} must be a " . "valid RFC 822 Email Address")
                     unless $self->_isValid($envelope->{from});
         } else {
                 $envelope->{from} = $self->{header_from};
         }
 
         # Validate subject formatter
-        $self->_fatal(  "{subject_formatter} must be a valid "
-                      . "Log::Fine::Formatter object")
+        $self->_fatal(
+                      "{subject_formatter} must be a valid " . "Log::Fine::Formatter object")
             unless (defined $self->{subject_formatter}
-                   and $self->{subject_formatter}->isa("Log::Fine::Formatter"));
+                    and $self->{subject_formatter}->isa("Log::Fine::Formatter"));
 
         # Validate body formatter
         $self->_fatal(  "{body_formatter} must be a valid "

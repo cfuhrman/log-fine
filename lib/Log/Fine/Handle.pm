@@ -69,8 +69,7 @@ sub bitmaskListEnabled
         # module ;)
         foreach my $maskname ($map->logMasks()) {
                 push @bitmasks, $maskname
-                    if $self->isLoggable(
-                                log($map->maskToValue($maskname)) / log(2) - 1);
+                    if $self->isLoggable(log($map->maskToValue($maskname)) / log(2) - 1);
         }
 
         return @bitmasks;

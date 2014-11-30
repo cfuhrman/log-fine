@@ -13,8 +13,7 @@ use Log::Fine::Levels::Syslog;
         eval "use Sys::Syslog qw( :standard :macros )";
 
         if ($@) {
-                plan skip_all =>
-                    "Sys::Syslog 0.13 or above required for testing";
+                plan skip_all => "Sys::Syslog 0.13 or above required for testing";
         } else {
                 plan tests => 12;
         }
@@ -32,8 +31,7 @@ use Log::Fine::Levels::Syslog;
         ok($log->name() =~ /\w\d+$/);
 
         # Add a handle.  Note we use the default formatter.
-        my $handle =
-            Log::Fine::Handle::Syslog->new(facility => Sys::Syslog->LOG_USER);
+        my $handle = Log::Fine::Handle::Syslog->new(facility => Sys::Syslog->LOG_USER);
 
         # Do some validation
         ok($handle->isa("Log::Fine::Handle"));
@@ -58,17 +56,16 @@ use Log::Fine::Levels::Syslog;
         # Make sure we can't define more than one handle
         eval {
 
-               # Note: this may or may not work under Windows
-               if ($^O eq "MSWin32") {
-                       open STDERR, "> NUL";
-               } else {
-                       open STDERR, "> /dev/null";
-               }
+                # Note: this may or may not work under Windows
+                if ($^O eq "MSWin32") {
+                        open STDERR, "> NUL";
+                } else {
+                        open STDERR, "> /dev/null";
+                }
 
-               my $console =
-                   Log::Fine::Handle::Syslog->new(
-                                            facility => Sys::Syslog->LOG_LOCAL0,
-                                            ident    => "badhandle");
+                my $console =
+                    Log::Fine::Handle::Syslog->new(facility => Sys::Syslog->LOG_LOCAL0,
+                                                   ident    => "badhandle");
         };
 
         # Restore original STDERR

@@ -34,7 +34,7 @@ use POSIX qw( strftime );
 
         # File-specific attributes
         ok($handle->{file} eq $base);
-        ok($handle->{dir}  eq "./");
+        ok($handle->{dir} eq "./");
         ok($handle->{autoflush} == 1);
 
         # Remove the file if it exists so as not to confuse ourselves

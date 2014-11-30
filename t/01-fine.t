@@ -35,8 +35,8 @@ use Log::Fine::Levels;
         ok($log->levelMap and $log->levelMap->isa("Log::Fine::Levels"));
 
         # Check default level map
-        ok( ref $log->levelMap eq "Log::Fine::Levels::"
-                . Log::Fine::Levels->DEFAULT_LEVELMAP);
+        ok(
+            ref $log->levelMap eq "Log::Fine::Levels::" . Log::Fine::Levels->DEFAULT_LEVELMAP);
 
         # See if object supports listLoggers
         ok($log->can("listLoggers"));
@@ -49,10 +49,8 @@ use Log::Fine::Levels;
         # Test error callback
         my $counter = 0;
         my $cbname  = "with_callback";
-        my $fine2 = Log::Fine->new(
-                             name         => $cbname,
-                             err_callback => sub { my $msg = shift; ++$counter }
-        );
+        my $fine2 = Log::Fine->new(name         => $cbname,
+                                   err_callback => sub { my $msg = shift; ++$counter });
 
         isa_ok($fine2, "Log::Fine");
         can_ok($fine2, "_error");
@@ -65,11 +63,7 @@ use Log::Fine::Levels;
         ok($counter == 2);
 
         # Make sure we cannot pass a non-code ref
-        eval {
-                my $fine3 =
-                    Log::Fine->new(name         => "badcb",
-                                   err_callback => $counter);
-        };
+        eval { my $fine3 = Log::Fine->new(name => "badcb", err_callback => $counter); };
 
         ok($@ =~ /must be a valid code ref/);
 

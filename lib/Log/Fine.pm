@@ -145,9 +145,7 @@ To install Log::Fine:
                      and not $levelmap) {
                         $levelmap = $map;
                 } elsif (defined $map and not $levelmap) {
-                        _fatal(
-                                sprintf("Invalid Value: \"%s\"",
-                                        $map || "{undef}"));
+                        _fatal(sprintf("Invalid Value: \"%s\"", $map || "{undef}"));
                 }
 
                 return $levelmap;

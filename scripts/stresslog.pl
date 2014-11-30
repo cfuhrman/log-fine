@@ -44,10 +44,8 @@ my $linecount = 0;
         # Create a template logger to a file
         my $formatter =
             Log::Fine::Formatter::Template->new(
-                      template =>
-                          "[%%TIME%%] %%USER%%@%%HOSTSHORT%% %%LEVEL%% %%MSG%%",
-                      timestamp_format => "%b %e %T"
-            );
+                              template => "[%%TIME%%] %%USER%%@%%HOSTSHORT%% %%LEVEL%% %%MSG%%",
+                              timestamp_format => "%b %e %T");
 
         my $handle =
             Log::Fine::Handle::File->new(file      => basename($output),
@@ -91,17 +89,16 @@ my $linecount = 0;
                 my $linecountfile = sprintf("%s-lines.txt", $output);
                 my $counter = 0;
                 my $lineno =
-                    Log::Fine::Formatter::Template->new(
-                             template            => "%%LINENO%% %%MSG%%",
-                             custom_placeholders => { lineno => \&linetracker, }
-                    );
+                    Log::Fine::Formatter::Template->new(template            => "%%LINENO%% %%MSG%%",
+                                                        custom_placeholders => {
+                                                                                 lineno => \&linetracker,
+                                                        });
 
                 my $linehandle =
-                    Log::Fine::Handle::File->new(
-                                               file => basename($linecountfile),
-                                               dir  => dirname($linecountfile),
-                                               autoflush => 1,
-                                               formatter => $lineno
+                    Log::Fine::Handle::File->new(file      => basename($linecountfile),
+                                                 dir       => dirname($linecountfile),
+                                                 autoflush => 1,
+                                                 formatter => $lineno
                     );
 
                 $out->log(INFO, "Output will be directed to $linecountfile");
@@ -121,10 +118,10 @@ my $linecount = 0;
 
                 $linehandle->fileHandle->close();
                 $out->log(INFO,
-                         sprintf("%d lines were written to %s in %0.5f seconds",
-                                 scalar @lines,
-                                 $linecountfile, $l3
-                         ));
+                          sprintf("%d lines were written to %s in %0.5f seconds",
+                                  scalar @lines,
+                                  $linecountfile, $l3
+                          ));
 
         }
 

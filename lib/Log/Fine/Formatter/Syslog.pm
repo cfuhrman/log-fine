@@ -95,8 +95,7 @@ sub format
         my $self = shift;
         my $lvl  = shift;
         my $msg  = shift;
-        my $skip =
-            (defined $_[0]) ? shift : Log::Fine::Logger->LOG_SKIP_DEFAULT;
+        my $skip = (defined $_[0]) ? shift : Log::Fine::Logger->LOG_SKIP_DEFAULT;
 
         my $host = (split(/\./, hostname))[0];
 

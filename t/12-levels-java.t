@@ -24,15 +24,14 @@ my $msg =
 
         # Validate methods
         can_ok($levels, $_)
-            foreach (
-                    qw/ new bitmaskAll levelToValue maskToValue valueToLevel /);
+            foreach (qw/ new bitmaskAll levelToValue maskToValue valueToLevel /);
 
         # Build mask to level map
         my @levels    = $levels->logLevels();
         my @masks     = $levels->logMasks();
         my $lvlCount  = scalar @levels;
         my $maskCount = scalar @masks;
-        
+
         ok($lvlCount > 0);
         ok($maskCount > 0);
 
@@ -58,7 +57,7 @@ my $msg =
         for (my $i = 0; $i < $lvlCount; $i++) {
                 ok($i == $levels->levelToValue($levels[$i]));
                 ok(&{ $levels[$i] } eq $i);
-                ok(&{ $masks[$i] }  eq $levels->maskToValue($masks[$i]));
+                ok(&{ $masks[$i] } eq $levels->maskToValue($masks[$i]));
 
                 $bitmask |= $levels->maskToValue($masks[$i]);
         }

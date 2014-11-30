@@ -47,10 +47,8 @@ my $counter = 0;
         # package
         my $log_package =
             Log::Fine::Formatter::Template->new(
-                     template =>
-                         "[%%TIME%%] %%LEVEL%% %%PACKAGE%% %%SUBROUT%% %%MSG%%",
-                     timestamp_format => "%H:%M:%S"
-            );
+                             template => "[%%TIME%%] %%LEVEL%% %%PACKAGE%% %%SUBROUT%% %%MSG%%",
+                             timestamp_format => "%H:%M:%S");
         isa_ok($log_package, "Log::Fine::Formatter::Template");
         can_ok($log_package, "name");
         can_ok($log_package, "format");
@@ -60,10 +58,8 @@ my $counter = 0;
         # filename & lineno
         my $log_filename =
             Log::Fine::Formatter::Template->new(
-                     template =>
-                         "[%%TIME%%] %%LEVEL%% %%FILENAME%%:%%LINENO%% %%MSG%%",
-                     timestamp_format => "%H:%M:%S"
-            );
+                             template => "[%%TIME%%] %%LEVEL%% %%FILENAME%%:%%LINENO%% %%MSG%%",
+                             timestamp_format => "%H:%M:%S");
         isa_ok($log_filename, "Log::Fine::Formatter::Template");
         can_ok($log_filename, "name");
         can_ok($log_filename, "format");
@@ -72,7 +68,7 @@ my $counter = 0;
 
         # Short hostname
         my $log_shorthost =
-            Log::Fine::Formatter::Template->new(template => "%%HOSTSHORT%%",
+            Log::Fine::Formatter::Template->new(template         => "%%HOSTSHORT%%",
                                                 timestamp_format => "%Y%m%d");
         isa_ok($log_shorthost, "Log::Fine::Formatter::Template");
         can_ok($log_shorthost, "name");
@@ -82,7 +78,7 @@ my $counter = 0;
 
         # long hostname
         my $log_longhost =
-            Log::Fine::Formatter::Template->new(template => "%%HOSTLONG%%",
+            Log::Fine::Formatter::Template->new(template         => "%%HOSTLONG%%",
                                                 timestamp_format => "%Y%m%d");
         isa_ok($log_longhost, "Log::Fine::Formatter::Template");
         can_ok($log_longhost, "name");
@@ -112,24 +108,23 @@ my $counter = 0;
 
         # custom template
         my $log_custom =
-            Log::Fine::Formatter::Template->new(
-                               template            => "%%FOOBAR%%",
-                               timestamp_format    => "%Y%m%d",
-                               custom_placeholders => { foobar => \&countplus, }
-            );
+            Log::Fine::Formatter::Template->new(template            => "%%FOOBAR%%",
+                                                timestamp_format    => "%Y%m%d",
+                                                custom_placeholders => {
+                                                                         foobar => \&countplus,
+                                                });
 
         ok($log_custom->name() =~ /\w\d+$/);
 
         eval {
 
-               my $log_badcustom =
-                   Log::Fine::Formatter::Template->new(
-                                            template => "%%FOOBAR%% %%FooBar%%",
-                                            timestamp_format    => "%Y%m%d",
-                                            custom_placeholders => {
-                                                          foobar => \&countplus,
-                                                          FooBar => \&countplus,
-                                            });
+                my $log_badcustom =
+                    Log::Fine::Formatter::Template->new(template            => "%%FOOBAR%% %%FooBar%%",
+                                                        timestamp_format    => "%Y%m%d",
+                                                        custom_placeholders => {
+                                                                                 foobar => \&countplus,
+                                                                                 FooBar => \&countplus,
+                                                        });
         };
 
         ok($@ =~ /^Duplicate placeholder/);
@@ -148,23 +143,19 @@ my $counter = 0;
         # that would occur at the end of every month.
 
         # Validate
-        ok($log_time->format(INFO, $msg, 0) eq
-            strftime("%Y%m", localtime(time)));
+        ok($log_time->format(INFO, $msg, 0) eq strftime("%Y%m", localtime(time)));
         ok($log_level->format(INFO, $msg, 0) eq "INFO");
         ok($log_msg->format(INFO, $msg, 0) eq $msg);
 
         # Validate call within main
-        ok($log_package->format(INFO, $msg, 0) =~
-            /^\[.*?\] INFO main main $msg/);
-        ok($log_filename->format(INFO, $msg, 0) =~
-            /^\[.*?\] INFO .*?\.t\:\d+ $msg/);
+        ok($log_package->format(INFO, $msg, 0) =~ /^\[.*?\] INFO main main $msg/);
+        ok($log_filename->format(INFO, $msg, 0) =~ /^\[.*?\] INFO .*?\.t\:\d+ $msg/);
 
         #printf STDERR "\n%s\n", $log_package->format(CRIT, $msg, 0);
         #printf STDERR "%s\n", $log_filename->format(DEBG, $msg, 0);
 
         # Validate call within function
-        ok(myfunc($log_package, $msg) =~
-            /^\[.*?\] INFO main main\:\:myfunc $msg/);
+        ok(myfunc($log_package,  $msg) =~ /^\[.*?\] INFO main main\:\:myfunc $msg/);
         ok(myfunc($log_filename, $msg) =~ /^\[.*?\] INFO .*?\.t\:\d+ $msg/);
 
         #printf STDERR "%s\n", myfunc($log_package, $msg);
@@ -173,8 +164,7 @@ my $counter = 0;
         # Validate call within Package
         ok(This::Test::doIt($log_package, $msg) =~
             /^\[.*?\] WARN This\:\:Test This\:\:Test\:\:doIt $msg/);
-        ok(This::Test::doIt($log_filename, $msg) =~
-            /^\[.*?\] WARN .*?\.t\:\d+ $msg/);
+        ok(This::Test::doIt($log_filename, $msg) =~ /^\[.*?\] WARN .*?\.t\:\d+ $msg/);
 
         #printf STDERR "%s\n", This::Test::doIt($log_package, $msg);
         #printf STDERR "%s\n", This::Test::doIt($log_filename, $msg);
@@ -190,21 +180,19 @@ my $counter = 0;
     SKIP: {
 
                 skip
-"Cannot accurately test user and group placeholders under MSWin32",
-                    2
+                    "Cannot accurately test user and group placeholders under MSWin32", 2
                     if ($^O =~ /MSWin32/);
 
                 ok($log_user->format(INFO, $msg, 0) eq getpwuid($<));
-                ok($log_group->format(INFO, $msg, 0) eq
-                    getgrgid((split(" ", $())[0]));
+                ok($log_group->format(INFO, $msg, 0) eq getgrgid((split(" ", $())[0]));
 
         }
 
         # Now test a combination string for good measure
         my $log_basic =
             Log::Fine::Formatter::Template->new(
-                  template         => "[%%time%%] %%level%% %%msg%%",
-                  timestamp_format => Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT
+                                  template         => "[%%time%%] %%level%% %%msg%%",
+                                  timestamp_format => Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT
             );
         isa_ok($log_basic, "Log::Fine::Formatter::Template");
         can_ok($log_basic, "name");
@@ -228,14 +216,13 @@ my $counter = 0;
 
         my $handle =
             Log::Fine::Handle::File->new(
-                file      => $logfile,
-                autoflush => 1,
-                formatter =>
-                    Log::Fine::Formatter::Template->new(
-                        template =>
-"[%%TIME%%] %%LEVEL%% %%SUBROUT%%:%%LINENO%% %%MSG%%\n",
-                        timestamp_format => "%H:%M:%S"
-                    ));
+                    file      => $logfile,
+                    autoflush => 1,
+                    formatter =>
+                        Log::Fine::Formatter::Template->new(
+                                    template => "[%%TIME%%] %%LEVEL%% %%SUBROUT%%:%%LINENO%% %%MSG%%\n",
+                                    timestamp_format => "%H:%M:%S"
+                        ));
         isa_ok($handle, "Log::Fine::Handle::File");
         can_ok($handle, "name");
 

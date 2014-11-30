@@ -18,7 +18,7 @@ use Test::More;
 
         if ($@) {
                 plan skip_all =>
-"Email::Sender is not installed.  Unable to test Log::Fine::Handle::Email";
+                    "Email::Sender is not installed.  Unable to test Log::Fine::Handle::Email";
         } else {
                 plan tests => 9;
         }
@@ -41,8 +41,8 @@ use Test::More;
         # Create a formatter for subject line
         my $subjfmt =
             Log::Fine::Formatter::Template->new(
-                      name     => 'email-subject',
-                      template => "%%LEVEL%% : Test of Log::Fine::Handle::Email"
+                                      name     => 'email-subject',
+                                      template => "%%LEVEL%% : Test of Log::Fine::Handle::Email"
             );
 
         # Create a formatted msg template
@@ -69,13 +69,12 @@ EOF
 
         # Register an email handle
         my $handle =
-            Log::Fine::Handle::Email->new(
-                           name => 'email11',
-                           mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT,
-                           subject_formatter => $subjfmt,
-                           body_formatter    => $bodyfmt,
-                           header_from       => $user,
-                           header_to         => $user,
+            Log::Fine::Handle::Email->new(name => 'email11',
+                                          mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT,
+                                          subject_formatter => $subjfmt,
+                                          body_formatter    => $bodyfmt,
+                                          header_from       => $user,
+                                          header_to         => $user,
             );
 
         isa_ok($handle, "Log::Fine::Handle::Email");

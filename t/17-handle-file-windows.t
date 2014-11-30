@@ -22,18 +22,16 @@ use POSIX qw(strftime);
 
         if ($^O ne "MSWin32") {
                 my $not_cygwin = ($^O ne "cygwin") ? "" : "(not cygwin) ";
-                plan skip_all =>
-                    "Tests for MSWin32 ${not_cygwin}environment only";
+                plan skip_all => "Tests for MSWin32 ${not_cygwin}environment only";
         } else {
                 plan tests => 5;
         }
 
-        my $tempfh = File::Temp->new(
-                              TEMPLATE => 'LFXXXXXX',
-                              DIR => ($ENV{TEMP} =~ /^([-\@\w.\\:]+)$/ && -d $1)
-                              ? $1
-                              : 'C:\\WINDOWS\\Temp',
-                              SUFFIX => '.log'
+        my $tempfh = File::Temp->new(TEMPLATE => 'LFXXXXXX',
+                                     DIR      => ($ENV{TEMP} =~ /^([-\@\w.\\:]+)$/ && -d $1)
+                                     ? $1
+                                     : 'C:\\WINDOWS\\Temp',
+                                     SUFFIX => '.log'
         );
 
         my $file = $tempfh->filename();

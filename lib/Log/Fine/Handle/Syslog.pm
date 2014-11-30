@@ -121,9 +121,8 @@ sub _init
         $self->SUPER::_init();
 
         # Make sure we have one and only one syslog object defined
-        $self->_fatal(
-                      sprintf("One and _only_ one %s object may be defined",
-                              ref $self)) if _flag();
+        $self->_fatal(sprintf("One and _only_ one %s object may be defined", ref $self))
+            if _flag();
 
         # Set ident
         $self->{ident} = basename $0;

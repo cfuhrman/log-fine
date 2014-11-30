@@ -99,8 +99,7 @@ sub format
         my $self = shift;
         my $lvl  = shift;
         my $msg  = shift;
-        my $skip =
-            (defined $_[0]) ? shift : Log::Fine::Logger->LOG_SKIP_DEFAULT;
+        my $skip = (defined $_[0]) ? shift : Log::Fine::Logger->LOG_SKIP_DEFAULT;
 
         # Variable(s)
         my $str;
@@ -109,23 +108,18 @@ sub format
         # Formatted string returned depends on outcome of caller()
         if (scalar @c == 0) {
                 $str = sprintf("[%s] %-4s (%s) %s\n",
-                               $self->_formatTime(),
-                               $self->levelMap()->valueToLevel($lvl),
+                               $self->_formatTime(), $self->levelMap()->valueToLevel($lvl),
                                basename($0), $msg);
         } elsif (defined $c[0] and $c[0] eq "main") {
-                $str =
-                    sprintf("[%s] %-4s (%s:%d) %s\n",
-                            $self->_formatTime(),
-                            $self->levelMap()->valueToLevel($lvl),
-                            basename($c[1]), $c[2], $msg);
+                $str = sprintf("[%s] %-4s (%s:%d) %s\n",
+                               $self->_formatTime(), $self->levelMap()->valueToLevel($lvl),
+                               basename($c[1]), $c[2], $msg);
         } else {
                 $str = sprintf("[%s] %-4s (%s():%d) %s\n",
                                $self->_formatTime(),
                                $self->levelMap()->valueToLevel($lvl),
                                (caller($skip + 1))[3] || "{undef}",
-                               $c[2] || 0,
-                               $msg
-                );
+                               $c[2] || 0, $msg);
         }
 
         return $str;

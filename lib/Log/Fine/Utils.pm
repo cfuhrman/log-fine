@@ -187,8 +187,8 @@ sub Log
         my $log = _logger();
 
         # Validate logger has been set
-        Log::Fine->_fatal(  "Logging system has not been set up "
-                          . "(See Log::Fine::Utils::OpenLog())")
+        Log::Fine->_fatal(
+                    "Logging system has not been set up " . "(See Log::Fine::Utils::OpenLog())")
             unless (    defined $log
                     and ref $log
                     and UNIVERSAL::can($log, 'isa')
@@ -259,8 +259,7 @@ sub OpenLog
         # Should no Log::Fine object be defined, generate one
         _logfine(
                  Log::Fine->new(name     => "Utils",
-                                levelmap => $data{levelmap}
-                                    || Log::Fine::Levels->DEFAULT_LEVELMAP,
+                                levelmap => $data{levelmap} || Log::Fine::Levels->DEFAULT_LEVELMAP,
                                 no_croak => $data{no_croak} || 0
                  ))
             unless (    defined _logfine()

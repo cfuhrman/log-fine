@@ -15,7 +15,7 @@ use Log::Fine::Levels::Syslog;
 
         if ($@) {
                 plan skip_all =>
-"Time::HiRes is not installed.  High precision logging not possible";
+                    "Time::HiRes is not installed.  High precision logging not possible";
         } else {
                 plan tests => 19;
         }
@@ -28,8 +28,7 @@ use Log::Fine::Levels::Syslog;
         can_ok($basic, "timeStamp");
 
         ok($basic->name() =~ /\w\d+$/);
-        ok($basic->timeStamp() eq
-            Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT_PRECISE);
+        ok($basic->timeStamp() eq Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT_PRECISE);
 
         # Format a message
         my $msg = "Stop by this disaster town";
@@ -54,8 +53,8 @@ use Log::Fine::Levels::Syslog;
         can_ok($detailed, "timeStamp");
 
         ok($detailed->name() =~ /\w\d+$/);
-        ok($detailed->timeStamp() eq
-            Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT_PRECISE);
+        ok(
+            $detailed->timeStamp() eq Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT_PRECISE);
 
         # Format a message
         my $log2 = $detailed->format(INFO, $msg, 1);
@@ -67,10 +66,9 @@ use Log::Fine::Levels::Syslog;
         ok($log3 =~ /^\[.*?\] \w+ \(.*?\:\d+\) $msg/);
 
         my $precise =
-            Log::Fine::Formatter::Basic->new(
-                                 hires            => 1,
-                                 precision        => 10,
-                                 timestamp_format => "%d %b %H:%M:%S.%%Millis%%"
+            Log::Fine::Formatter::Basic->new(hires            => 1,
+                                             precision        => 10,
+                                             timestamp_format => "%d %b %H:%M:%S.%%Millis%%"
             );
 
         isa_ok($precise, "Log::Fine::Formatter::Basic");

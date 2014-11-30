@@ -22,8 +22,7 @@ use Log::Fine::Levels::Syslog qw( :macros :masks );
         # First we create a handle
         my $handle =
             Log::Fine::Handle::String->new(
-                            mask => LOGMASK_EMERG | LOGMASK_CRIT | LOGMASK_ERR |
-                                LOGMASK_WARNING);
+                          mask => LOGMASK_EMERG | LOGMASK_CRIT | LOGMASK_ERR | LOGMASK_WARNING);
 
         # Validate handle types
         isa_ok($handle,              "Log::Fine::Handle");
@@ -48,10 +47,7 @@ use Log::Fine::Levels::Syslog qw( :macros :masks );
 
         foreach my $mask (@enabledmasks) {
                 ok(
-                    $handle->isLoggable(
-                                  log($handle->levelMap()->maskToValue($mask)) /
-                                      log(2) - 1
-                    ));
+                    $handle->isLoggable(log($handle->levelMap()->maskToValue($mask)) / log(2) - 1));
         }
 
         # Get difference of arrays
@@ -60,23 +56,19 @@ use Log::Fine::Levels::Syslog qw( :macros :masks );
         foreach my $element (@masks, @enabledmasks) { $count{$element}++ }
         foreach my $element (keys %count) {
                 push @union, $element;
-                push @{ $count{$element} > 1 ? \@intersection : \@difference },
-                    $element;
+                push @{ $count{$element} > 1 ? \@intersection : \@difference }, $element;
         }
 
         foreach my $mask (@difference) {
                 ok(
-                    !$handle->isLoggable(
-                                  log($handle->levelMap()->maskToValue($mask)) /
-                                      log(2) - 1
-                    ));
+                    !$handle->isLoggable(log($handle->levelMap()->maskToValue($mask)) / log(2) - 1));
         }
 
         eval {
 
-               my $badhandle = Log::Fine::Handle->new();
+                my $badhandle = Log::Fine::Handle->new();
 
-               $badhandle->msgWrite(INFO, "This test should choke");
+                $badhandle->msgWrite(INFO, "This test should choke");
 
         };
 

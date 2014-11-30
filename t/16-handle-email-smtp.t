@@ -15,7 +15,7 @@ use constant DEFAULT_EMAIL_WAIT_TIME => 5;
 
         $ENV{EMAIL_WAIT_TIME} = DEFAULT_EMAIL_WAIT_TIME
             unless defined $ENV{EMAIL_WAIT_TIME};
-        
+
         # Check environmental variables
         plan skip_all => "these tests are for testing by the author"
             unless $ENV{ENABLE_AUTHOR_TESTS};
@@ -23,8 +23,7 @@ use constant DEFAULT_EMAIL_WAIT_TIME => 5;
             if (($^O eq "MSWin32") || ($^O eq "cygwin"));
         plan skip_all => "Email handle only supported in perl 5.8.3 or above"
             if $^V lt v5.8.3;
-        plan skip_all =>
-            "Unset EMAIL_SENDER_TRANSPORT prior to running this test"
+        plan skip_all => "Unset EMAIL_SENDER_TRANSPORT prior to running this test"
             if defined $ENV{EMAIL_SENDER_TRANSPORT};
 
         # See if we have Email::Sender installed
@@ -32,14 +31,13 @@ use constant DEFAULT_EMAIL_WAIT_TIME => 5;
 
         if ($@) {
                 plan skip_all =>
-"Email::Sender is not installed.  Unable to test Log::Fine::Handle::Email";
+                    "Email::Sender is not installed.  Unable to test Log::Fine::Handle::Email";
         } else {
 
                 eval "require Mail::RFC822::Address";
 
                 if ($@) {
-                        plan skip_all =>
-                            "Mail::RFC822::Address is not installed";
+                        plan skip_all => "Mail::RFC822::Address is not installed";
                 } else {
                         plan tests => 6;
                 }
@@ -60,9 +58,9 @@ use constant DEFAULT_EMAIL_WAIT_TIME => 5;
         # Create a formatter for subject line
         my $subjfmt =
             Log::Fine::Formatter::Template->new(
-                     name     => 'email-subject',
-                     template => "%%LEVEL%% : Test of Log::Fine::Handle::Email",
-                     timestamp_format => '%c',
+                                     name     => 'email-subject',
+                                     template => "%%LEVEL%% : Test of Log::Fine::Handle::Email",
+                                     timestamp_format => '%c',
             );
 
         # Create a formatted msg template
@@ -89,13 +87,12 @@ EOF
 
         # Register an email handle
         my $handle =
-            Log::Fine::Handle::Email->new(
-                           name => 'email11',
-                           mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT,
-                           subject_formatter => $subjfmt,
-                           body_formatter    => $bodyfmt,
-                           header_from       => $user,
-                           header_to         => $user,
+            Log::Fine::Handle::Email->new(name => 'email11',
+                                          mask => LOGMASK_EMERG | LOGMASK_ALERT | LOGMASK_CRIT,
+                                          subject_formatter => $subjfmt,
+                                          body_formatter    => $bodyfmt,
+                                          header_from       => $user,
+                                          header_to         => $user,
             );
 
         isa_ok($handle, "Log::Fine::Handle::Email");
@@ -130,8 +127,8 @@ sub mailGetCount
                 ($^O =~ /solaris/)
                     && do { $count = qx! mailx -H | wc -l !; last SWITCH };
                 ($^O =~ /openbsd/
-                     or ($^O =~ /linux/ and (-f "/etc/debian_version")))
-                    && do { $count = qx! echo "h" | mail | wc -l !; last SWITCH };
+                     or ($^O =~ /linux/ and (-f "/etc/debian_version"))
+                ) && do { $count = qx! echo "h" | mail | wc -l !; last SWITCH };
                 $count = qx! mail -H | wc -l !;
         }
 

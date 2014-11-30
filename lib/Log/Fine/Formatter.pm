@@ -224,8 +224,8 @@ sub _init
         if ($self->{hires}) {
 
                 eval "require Time::HiRes";
-                $self->_fatal(  "Time::HiRes failed to load.  "
-                              . "Please install Time::HiRes via CPAN : $@")
+                $self->_fatal(
+                           "Time::HiRes failed to load.  " . "Please install Time::HiRes via CPAN : $@")
                     if $@;
 
                 # Set {timestamp_format} to default high precision
@@ -239,8 +239,7 @@ sub _init
                     unless (defined $self->{precision}
                             and $self->{precision} =~ /^\d+$/);
 
-                $self->{_precision_format_str} =
-                    "%.0" . $self->{precision} . "f";
+                $self->{_precision_format_str} = "%.0" . $self->{precision} . "f";
 
         } else {
 
@@ -268,8 +267,7 @@ sub _formatTime
         if ($self->{hires}) {
 
                 # use Time::HiRes to get seconds and milliseconds
-                my $time =
-                    sprintf($self->{_precision_format_str}, &Time::HiRes::time);
+                my $time = sprintf($self->{_precision_format_str}, &Time::HiRes::time);
                 my @t = split /\./, $time;
 
                 # and format

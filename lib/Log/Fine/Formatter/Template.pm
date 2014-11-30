@@ -165,8 +165,7 @@ sub format
         my $self = shift;
         my $lvl  = shift;
         my $msg  = shift;
-        my $skip =
-            (defined $_[0]) ? shift : Log::Fine::Logger->LOG_SKIP_DEFAULT;
+        my $skip = (defined $_[0]) ? shift : Log::Fine::Logger->LOG_SKIP_DEFAULT;
 
         my $tmpl    = $self->{template};
         my $v2l     = $self->levelMap()->valueToLevel($lvl);
@@ -339,8 +338,7 @@ sub _placeHolders
                     }
                     if ($tmpl =~ /%%SUBROUT%%/i);
 
-                $placeholders->{hostshort} =
-                    sub { return (split /\./, $self->{_fullHost})[0] }
+                $placeholders->{hostshort} = sub { return (split /\./, $self->{_fullHost})[0] }
                     if ($tmpl =~ /%%HOSTSHORT%%/i);
 
                 $placeholders->{hostlong} = sub { return $self->{_fullHost} }
@@ -355,10 +353,8 @@ sub _placeHolders
                 # Check for custom templates
                 if (defined $self->{custom_placeholders}) {
 
-                        foreach my $placeholder (
-                                       keys %{ $self->{custom_placeholders} }) {
-                                $placeholders->{$placeholder} =
-                                    $self->{custom_placeholders}->{$placeholder}
+                        foreach my $placeholder (keys %{ $self->{custom_placeholders} }) {
+                                $placeholders->{$placeholder} = $self->{custom_placeholders}->{$placeholder}
                                     if ($tmpl =~ /%%${placeholder}%%/i);
                         }
 
@@ -391,21 +387,17 @@ sub _placeholderValidate
         foreach my $placeholder (keys %{ $self->{custom_placeholders} }) {
 
                 $self->_fatal(
-                        sprintf("custom template '%s' must point to "
-                                    . "a valid function ref : %s",
-                                $placeholder,
-                                ref $self->{custom_placeholders}->{$placeholder}
-                        ))
-                    unless ref $self->{custom_placeholders}->{$placeholder} eq
-                            "CODE";
+                            sprintf("custom template '%s' must point to " . "a valid function ref : %s",
+                                    $placeholder, ref $self->{custom_placeholders}->{$placeholder})
+                ) unless ref $self->{custom_placeholders}->{$placeholder} eq "CODE";
 
                 # Check for duplicate placeholders
                 if (defined $holders->{ lc($placeholder) }) {
                         $self->_fatal(
-                                sprintf("Duplicate placeholder '%s' found.  "
-                                            . "Remember, placeholders are case-INsensitive",
-                                        $placeholder
-                                ));
+                                      sprintf("Duplicate placeholder '%s' found.  "
+                                                  . "Remember, placeholders are case-INsensitive",
+                                              $placeholder
+                                      ));
                 } else {
                         $holders->{ lc($placeholder) } = 1;
                 }
