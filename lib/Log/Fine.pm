@@ -395,10 +395,6 @@ sub _fatal
 
         confess $msg;
 
-        #
-        # NOT REACHED
-        #
-
 }          # _fatal()
 
 ##

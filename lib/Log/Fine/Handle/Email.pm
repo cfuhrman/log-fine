@@ -503,10 +503,6 @@ sub _validate_mail_rfc822_address
                 return Mail::RFC822::Address::valid($addy);
         }
 
-        #
-        # NOT REACHED
-        #
-
 }          # _validate_mail_rfc822_address()
 
 =head1 CAVEATS

@@ -130,10 +130,6 @@ sub format
                 $self->_fatal("call to abstract method ${class}::format()");
         }
 
-        #
-        # NOT REACHED
-        #
-
 }          # format()
 
 =head2 testFormat

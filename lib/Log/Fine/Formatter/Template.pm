@@ -366,10 +366,6 @@ sub _placeHolders
 
         }
 
-        #
-        # NOT REACHED
-        #
-
 }          # _placeHolder()
 
 ##
