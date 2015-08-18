@@ -187,8 +187,7 @@ sub Log
         my $log = _logger();
 
         # Validate logger has been set
-        Log::Fine->_fatal(
-                    "Logging system has not been set up " . "(See Log::Fine::Utils::OpenLog())")
+        Log::Fine->_fatal("Logging system has not been set up " . "(See Log::Fine::Utils::OpenLog())")
             unless (    defined $log
                     and ref $log
                     and UNIVERSAL::can($log, 'isa')

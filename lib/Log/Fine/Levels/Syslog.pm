@@ -137,8 +137,7 @@ use constant MASK_MAP => {
                            LOGMASK_WARNING => 2 << LVLTOVAL_MAP->{WARN},
                            LOGMASK_NOTICE  => 2 << LVLTOVAL_MAP->{NOTI},
                            LOGMASK_INFO    => 2 << LVLTOVAL_MAP->{INFO},
-                           LOGMASK_DEBUG   => 2 << LVLTOVAL_MAP->{DEBG}
-};          # MASK_MAP{}
+                           LOGMASK_DEBUG   => 2 << LVLTOVAL_MAP->{DEBG} };          # MASK_MAP{}
 
 # --------------------------------------------------------------------
 

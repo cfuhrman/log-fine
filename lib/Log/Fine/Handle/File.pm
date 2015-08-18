@@ -168,9 +168,7 @@ sub msgWrite
         if ($self->{autoclose}) {
                 $fh->close()
                     || $self->_error(
-                                     sprintf("Unable to close filehandle to %s : %s",
-                                             catdir($self->{dir}, $self->{file}), $!
-                                     ));
+                                 sprintf("Unable to close filehandle to %s : %s", catdir($self->{dir}, $self->{file}), $!));
         }
 
         return $self;

@@ -7,8 +7,7 @@ use Log::Fine::Handle::Console;
 use Log::Fine::Levels::Syslog;
 
 # Set message
-my $msg =
-    "Stop by this disaster town, we put our eyes to the sun and say 'Hello!'";
+my $msg = "Stop by this disaster town, we put our eyes to the sun and say 'Hello!'";
 
 # Add a handle.  Note we use the default formatter.
 my $handle = Log::Fine::Handle::Console->new();
@@ -19,8 +18,7 @@ my $handle = Log::Fine::Handle::Console->new();
         eval "use Test::Output 0.10";
 
         if ($@) {
-                plan skip_all =>
-                    "Test::Output 0.10 or above required for testing Console output";
+                plan skip_all => "Test::Output 0.10 or above required for testing Console output";
         } else {
                 plan tests => 17;
         }

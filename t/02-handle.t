@@ -22,7 +22,7 @@ use Log::Fine::Levels::Syslog qw( :macros :masks );
         # First we create a handle
         my $handle =
             Log::Fine::Handle::String->new(
-                          mask => LOGMASK_EMERG | LOGMASK_CRIT | LOGMASK_ERR | LOGMASK_WARNING);
+                                           mask => LOGMASK_EMERG | LOGMASK_CRIT | LOGMASK_ERR | LOGMASK_WARNING);
 
         # Validate handle types
         isa_ok($handle,              "Log::Fine::Handle");
@@ -31,8 +31,7 @@ use Log::Fine::Levels::Syslog qw( :macros :masks );
         ok($handle->name() =~ /\w\d+$/);
 
         # Make sure all methods are supported
-        can_ok($handle, $_)
-            foreach (qw/ isLoggable msgWrite formatter bitmaskListEnabled /);
+        can_ok($handle, $_) foreach (qw/ isLoggable msgWrite formatter bitmaskListEnabled /);
 
         $handle->formatter(Log::Fine::Formatter::Basic->new());
         ok($handle->formatter()->isa("Log::Fine::Formatter"));
@@ -46,8 +45,7 @@ use Log::Fine::Levels::Syslog qw( :macros :masks );
                                                 # above only has 4 bitor'd masks
 
         foreach my $mask (@enabledmasks) {
-                ok(
-                    $handle->isLoggable(log($handle->levelMap()->maskToValue($mask)) / log(2) - 1));
+                ok($handle->isLoggable(log($handle->levelMap()->maskToValue($mask)) / log(2) - 1));
         }
 
         # Get difference of arrays
@@ -60,8 +58,7 @@ use Log::Fine::Levels::Syslog qw( :macros :masks );
         }
 
         foreach my $mask (@difference) {
-                ok(
-                    !$handle->isLoggable(log($handle->levelMap()->maskToValue($mask)) / log(2) - 1));
+                ok(!$handle->isLoggable(log($handle->levelMap()->maskToValue($mask)) / log(2) - 1));
         }
 
         eval {

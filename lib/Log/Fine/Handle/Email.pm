@@ -249,11 +249,11 @@ sub msgWrite
 
         my $email =
             Email::Simple->create(
-                         header => [ To      => $self->{header_to},
-                                     From    => $self->{header_from},
-                                     Subject => $self->{subject_formatter}->format($lvl, "", $skip),
-                         ],
-                         body => $self->{body_formatter}->format($lvl, $msg, $skip),
+                                  header => [ To      => $self->{header_to},
+                                              From    => $self->{header_from},
+                                              Subject => $self->{subject_formatter}->format($lvl, "", $skip),
+                                  ],
+                                  body => $self->{body_formatter}->format($lvl, $msg, $skip),
             );
 
         # Set X-Mailer
@@ -309,17 +309,16 @@ sub _init
         }
 
         # Validate subject formatter
-        $self->_fatal(
-                      "{subject_formatter} must be a valid " . "Log::Fine::Formatter object")
+        $self->_fatal("{subject_formatter} must be a valid " . "Log::Fine::Formatter object")
             unless (    defined $self->{subject_formatter}
                     and ref $self->{subject_formatter}
                     and UNIVERSAL::can($self->{subject_formatter}, 'isa')
                     and $self->{subject_formatter}->isa("Log::Fine::Formatter"));
 
         # Validate body formatter
-        $self->_fatal(  "{body_formatter} must be a valid "
-                      . "Log::Fine::Formatter object : "
-                      . ref $self->{body_formatter} || "{undef}")
+        $self->_fatal(
+                "{body_formatter} must be a valid " . "Log::Fine::Formatter object : " . ref $self->{body_formatter}
+                    || "{undef}")
             unless (    defined $self->{body_formatter}
                     and ref $self->{body_formatter}
                     and UNIVERSAL::can($self->{body_formatter}, 'isa')
@@ -331,8 +330,8 @@ sub _init
         # Check Envelope Transport
         if (defined $envelope->{transport}) {
                 my $transtype = ref $envelope->{transport};
-                $self->_fatal(  "{envelope}->{transport} must be a valid "
-                              . "Email::Sender::Transport object : $transtype")
+                $self->_fatal(
+                              "{envelope}->{transport} must be a valid " . "Email::Sender::Transport object : $transtype")
                     unless ($transtype =~ /^Email\:\:Sender\:\:Transport/);
         }
 
@@ -354,15 +353,14 @@ sub _init
         }
 
         # Validate subject formatter
-        $self->_fatal(
-                      "{subject_formatter} must be a valid " . "Log::Fine::Formatter object")
+        $self->_fatal("{subject_formatter} must be a valid " . "Log::Fine::Formatter object")
             unless (defined $self->{subject_formatter}
                     and $self->{subject_formatter}->isa("Log::Fine::Formatter"));
 
         # Validate body formatter
-        $self->_fatal(  "{body_formatter} must be a valid "
-                      . "Log::Fine::Formatter object : "
-                      . ref $self->{body_formatter} || "{undef}")
+        $self->_fatal(
+                "{body_formatter} must be a valid " . "Log::Fine::Formatter object : " . ref $self->{body_formatter}
+                    || "{undef}")
             unless (defined $self->{body_formatter}
                     and $self->{body_formatter}->isa("Log::Fine::Formatter"));
 

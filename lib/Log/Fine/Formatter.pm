@@ -220,8 +220,7 @@ sub _init
         if ($self->{hires}) {
 
                 eval "require Time::HiRes";
-                $self->_fatal(
-                           "Time::HiRes failed to load.  " . "Please install Time::HiRes via CPAN : $@")
+                $self->_fatal("Time::HiRes failed to load.  " . "Please install Time::HiRes via CPAN : $@")
                     if $@;
 
                 # Set {timestamp_format} to default high precision

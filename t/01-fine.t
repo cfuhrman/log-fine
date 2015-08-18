@@ -35,8 +35,7 @@ use Log::Fine::Levels;
         ok($log->levelMap and $log->levelMap->isa("Log::Fine::Levels"));
 
         # Check default level map
-        ok(
-            ref $log->levelMap eq "Log::Fine::Levels::" . Log::Fine::Levels->DEFAULT_LEVELMAP);
+        ok(ref $log->levelMap eq "Log::Fine::Levels::" . Log::Fine::Levels->DEFAULT_LEVELMAP);
 
         # See if object supports listLoggers
         ok($log->can("listLoggers"));

@@ -43,9 +43,8 @@ my $linecount = 0;
 
         # Create a template logger to a file
         my $formatter =
-            Log::Fine::Formatter::Template->new(
-                              template => "[%%TIME%%] %%USER%%@%%HOSTSHORT%% %%LEVEL%% %%MSG%%",
-                              timestamp_format => "%b %e %T");
+            Log::Fine::Formatter::Template->new(template => "[%%TIME%%] %%USER%%@%%HOSTSHORT%% %%LEVEL%% %%MSG%%",
+                                                timestamp_format => "%b %e %T");
 
         my $handle =
             Log::Fine::Handle::File->new(file      => basename($output),
@@ -76,10 +75,7 @@ my $linecount = 0;
         $handle->fileHandle->close();
 
         $out->log(INFO,
-                  sprintf("%d lines were written to %s in %0.5f seconds",
-                          scalar @lines,
-                          $output, $t3
-                  ));
+                  sprintf("%d lines were written to %s in %0.5f seconds", scalar @lines, $output, $t3));
 
         # Do custom placeholder test
         if ($docustom) {
@@ -118,10 +114,7 @@ my $linecount = 0;
 
                 $linehandle->fileHandle->close();
                 $out->log(INFO,
-                          sprintf("%d lines were written to %s in %0.5f seconds",
-                                  scalar @lines,
-                                  $linecountfile, $l3
-                          ));
+                          sprintf("%d lines were written to %s in %0.5f seconds", scalar @lines, $linecountfile, $l3));
 
         }
 

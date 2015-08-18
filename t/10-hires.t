@@ -14,8 +14,7 @@ use Log::Fine::Levels::Syslog;
         eval "use Time::HiRes";
 
         if ($@) {
-                plan skip_all =>
-                    "Time::HiRes is not installed.  High precision logging not possible";
+                plan skip_all => "Time::HiRes is not installed.  High precision logging not possible";
         } else {
                 plan tests => 19;
         }
@@ -53,8 +52,7 @@ use Log::Fine::Levels::Syslog;
         can_ok($detailed, "timeStamp");
 
         ok($detailed->name() =~ /\w\d+$/);
-        ok(
-            $detailed->timeStamp() eq Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT_PRECISE);
+        ok($detailed->timeStamp() eq Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT_PRECISE);
 
         # Format a message
         my $log2 = $detailed->format(INFO, $msg, 1);

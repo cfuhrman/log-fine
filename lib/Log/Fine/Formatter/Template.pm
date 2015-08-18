@@ -328,8 +328,7 @@ sub _placeHolders
                 $placeholders->{filename} = sub { return $self->{_fileName} }
                     if ($tmpl =~ /%%FILENAME%%/i);
 
-                $placeholders->{lineno} =
-                    sub { my $skip = shift; return (caller($skip))[2] || 0 }
+                $placeholders->{lineno} = sub { my $skip = shift; return (caller($skip))[2] || 0 }
                     if ($tmpl =~ /%%LINENO%%/i);
 
                 $placeholders->{subrout} = sub {
@@ -383,15 +382,14 @@ sub _placeholderValidate
         foreach my $placeholder (keys %{ $self->{custom_placeholders} }) {
 
                 $self->_fatal(
-                            sprintf("custom template '%s' must point to " . "a valid function ref : %s",
-                                    $placeholder, ref $self->{custom_placeholders}->{$placeholder})
+                              sprintf("custom template '%s' must point to " . "a valid function ref : %s",
+                                      $placeholder, ref $self->{custom_placeholders}->{$placeholder})
                 ) unless ref $self->{custom_placeholders}->{$placeholder} eq "CODE";
 
                 # Check for duplicate placeholders
                 if (defined $holders->{ lc($placeholder) }) {
                         $self->_fatal(
-                                      sprintf("Duplicate placeholder '%s' found.  "
-                                                  . "Remember, placeholders are case-INsensitive",
+                                      sprintf("Duplicate placeholder '%s' found.  " . "Remember, placeholders are case-INsensitive",
                                               $placeholder
                                       ));
                 } else {

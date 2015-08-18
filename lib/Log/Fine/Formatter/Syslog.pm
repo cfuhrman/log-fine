@@ -99,9 +99,7 @@ sub format
 
         my $host = (split(/\./, hostname))[0];
 
-        return
-            sprintf("%s %s %s[%d]: %s\n",
-                    $self->_formatTime(), $host, basename($0), $$, $msg);
+        return sprintf("%s %s %s[%d]: %s\n", $self->_formatTime(), $host, basename($0), $$, $msg);
 
 }          # format()
 

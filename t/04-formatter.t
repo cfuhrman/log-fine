@@ -70,8 +70,7 @@ use Log::Fine::Levels::Syslog;
 
         my $log4 = $detailed->testFormat(INFO, $msg);
 
-        ok(
-            $log4 =~ /^\[.*?\] \w+ \(Log\:\:Fine\:\:Formatter\:\:testFormat\(\)\:\d+\) $msg/);
+        ok($log4 =~ /^\[.*?\] \w+ \(Log\:\:Fine\:\:Formatter\:\:testFormat\(\)\:\d+\) $msg/);
 
         #print STDERR "\n$log4\n";
 
@@ -109,9 +108,8 @@ use Log::Fine::Levels::Syslog;
         # locales on different operating systems, handle our own error
         # reporting.
 
-        if ($log5 =~
-/^\s*([ 1]\d\S+|[^ ]+) [ 0-3][0-9] \d{2}:\d{2}:\d{2} [0-9a-zA-Z\-]+ .*?\[\d+\]: $msg/
-            ) {
+        if ($log5 =~ /^\s*([ 1]\d\S+|[^ ]+) [ 0-3][0-9] \d{2}:\d{2}:\d{2} [0-9a-zA-Z\-]+ .*?\[\d+\]: $msg/)
+        {
                 ok(1);
         } else {
                 print STDERR "\n----------------------------------------\n";

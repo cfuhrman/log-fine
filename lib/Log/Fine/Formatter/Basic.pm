@@ -91,9 +91,7 @@ sub format
         my $skip = shift;          # NOT USED
 
         # Return the formatted string
-        return
-            sprintf("[%s] %-4s %s\n",
-                    $self->_formatTime(), $self->levelMap()->valueToLevel($lvl), $msg);
+        return sprintf("[%s] %-4s %s\n", $self->_formatTime(), $self->levelMap()->valueToLevel($lvl), $msg);
 
 }          # format()
 

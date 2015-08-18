@@ -28,7 +28,7 @@ sub not_in_file_ok
         }
 }
 
-not_in_file_ok(README => "The README is used..." => qr/The README is used/,
+not_in_file_ok(README                       => "The README is used..." => qr/The README is used/,
                "'version information here'" => qr/to provide version information/,);
 
 not_in_file_ok(Changes => "placeholder date/time" => qr(Date/time));
@@ -36,7 +36,7 @@ not_in_file_ok(Changes => "placeholder date/time" => qr(Date/time));
 sub module_boilerplate_ok
 {
         my ($module) = @_;
-        not_in_file_ok($module => 'the great new $MODULENAME' => qr/ - The great new /,
+        not_in_file_ok($module                    => 'the great new $MODULENAME' => qr/ - The great new /,
                        'boilerplate description'  => qr/Quick summary of what the module/,
                        'stub function definition' => qr/function[12]/,
         );

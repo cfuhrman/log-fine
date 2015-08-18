@@ -107,8 +107,7 @@ sub _fileHandle
         # Close existing file handle
         if ($doclose) {
                 $self->{_filehandle}->close()
-                    || $self->_error(
-                                     sprintf("Unable to close file handle to %s : %s", $filename, $!));
+                    || $self->_error(sprintf("Unable to close file handle to %s : %s", $filename, $!));
         }
 
         $self->{_filehandle} = FileHandle->new(">> " . $filename)

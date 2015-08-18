@@ -46,9 +46,8 @@ my $counter = 0;
 
         # package
         my $log_package =
-            Log::Fine::Formatter::Template->new(
-                             template => "[%%TIME%%] %%LEVEL%% %%PACKAGE%% %%SUBROUT%% %%MSG%%",
-                             timestamp_format => "%H:%M:%S");
+            Log::Fine::Formatter::Template->new(template => "[%%TIME%%] %%LEVEL%% %%PACKAGE%% %%SUBROUT%% %%MSG%%",
+                                                timestamp_format => "%H:%M:%S");
         isa_ok($log_package, "Log::Fine::Formatter::Template");
         can_ok($log_package, "name");
         can_ok($log_package, "format");
@@ -57,9 +56,8 @@ my $counter = 0;
 
         # filename & lineno
         my $log_filename =
-            Log::Fine::Formatter::Template->new(
-                             template => "[%%TIME%%] %%LEVEL%% %%FILENAME%%:%%LINENO%% %%MSG%%",
-                             timestamp_format => "%H:%M:%S");
+            Log::Fine::Formatter::Template->new(template => "[%%TIME%%] %%LEVEL%% %%FILENAME%%:%%LINENO%% %%MSG%%",
+                                                timestamp_format => "%H:%M:%S");
         isa_ok($log_filename, "Log::Fine::Formatter::Template");
         can_ok($log_filename, "name");
         can_ok($log_filename, "format");
@@ -162,8 +160,7 @@ my $counter = 0;
         #printf STDERR "%s\n", myfunc($log_filename, $msg);
 
         # Validate call within Package
-        ok(This::Test::doIt($log_package, $msg) =~
-            /^\[.*?\] WARN This\:\:Test This\:\:Test\:\:doIt $msg/);
+        ok(This::Test::doIt($log_package,  $msg) =~ /^\[.*?\] WARN This\:\:Test This\:\:Test\:\:doIt $msg/);
         ok(This::Test::doIt($log_filename, $msg) =~ /^\[.*?\] WARN .*?\.t\:\d+ $msg/);
 
         #printf STDERR "%s\n", This::Test::doIt($log_package, $msg);
@@ -189,10 +186,8 @@ my $counter = 0;
 
         # Now test a combination string for good measure
         my $log_basic =
-            Log::Fine::Formatter::Template->new(
-                                  template         => "[%%time%%] %%level%% %%msg%%",
-                                  timestamp_format => Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT
-            );
+            Log::Fine::Formatter::Template->new(template         => "[%%time%%] %%level%% %%msg%%",
+                                                timestamp_format => Log::Fine::Formatter->LOG_TIMESTAMP_FORMAT);
         isa_ok($log_basic, "Log::Fine::Formatter::Template");
         can_ok($log_basic, "name");
         can_ok($log_basic, "format");
@@ -215,13 +210,13 @@ my $counter = 0;
 
         my $handle =
             Log::Fine::Handle::File->new(
-                    file      => $logfile,
-                    autoflush => 1,
-                    formatter =>
-                        Log::Fine::Formatter::Template->new(
-                                    template => "[%%TIME%%] %%LEVEL%% %%SUBROUT%%:%%LINENO%% %%MSG%%\n",
-                                    timestamp_format => "%H:%M:%S"
-                        ));
+                                        file      => $logfile,
+                                        autoflush => 1,
+                                        formatter =>
+                                            Log::Fine::Formatter::Template->new(
+                                                        template => "[%%TIME%%] %%LEVEL%% %%SUBROUT%%:%%LINENO%% %%MSG%%\n",
+                                                        timestamp_format => "%H:%M:%S"
+                                            ));
         isa_ok($handle, "Log::Fine::Handle::File");
         can_ok($handle, "name");
 

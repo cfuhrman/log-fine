@@ -12,8 +12,7 @@ my $vtol = Log::Fine::Levels::Syslog->VALTOLVL_MAP;
 my $mtov = Log::Fine::Levels::Syslog->MASK_MAP;
 
 # set message
-my $msg =
-    "Stop by this disaster town, we put our eyes to the sun and say 'Hello!'";
+my $msg = "Stop by this disaster town, we put our eyes to the sun and say 'Hello!'";
 
 {
 
@@ -23,8 +22,7 @@ my $msg =
         isa_ok($levels, "Log::Fine::Levels::Syslog");
 
         # validate methods
-        can_ok($levels, $_)
-            foreach (qw/ new bitmaskAll levelToValue maskToValue valueToLevel /);
+        can_ok($levels, $_) foreach (qw/ new bitmaskAll levelToValue maskToValue valueToLevel /);
 
         # Build mask to level map
         my @levels    = $levels->logLevels();

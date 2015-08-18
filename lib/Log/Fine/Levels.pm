@@ -176,8 +176,7 @@ sub logLevels
         my @lvls;
 
         # Construct array sorted by level value (ascending) and return
-        push @lvls, $self->VALTOLVL_MAP->{$_}
-            foreach (sort { $a <=> $b } (keys %{ $self->VALTOLVL_MAP }));
+        push @lvls, $self->VALTOLVL_MAP->{$_} foreach (sort { $a <=> $b } (keys %{ $self->VALTOLVL_MAP }));
 
         return @lvls;
 
