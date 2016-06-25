@@ -1,2207 +1,826 @@
 CHANGELOG
+----------------------
+
+[2015-08-18]
 
-2013-09-17  Christopher M. Fuhrman
-
-      * Correct potential race condition when closing file handle
-        
-        When autoclose is set, be sure to close the active file handle rather
-        than calling $self->fileHandle().  This avoids a potential race
-        condition that could leave a dangling file handle under certain
-        conditions.
-      * Close out leftover file task
-        
-        Files were left over by previous code that was never committed
-
-2013-09-16  Christopher M. Fuhrman
-
-      * Add TODO about file spewage
-        
-        Add a TODO item about leftover files
-      * Optimize fileHandle() method
-        
-        Optimize fileHandle() method by consolidating file handle checks.
-        Introduce a new private method, _fileHandle(), which generates a new
-        file handle and remove the unused fileRotate() method.
-
-2013-09-12  Christopher M. Fuhrman
-
-      * Clean up some commentary
-        
-        Let's be grammatically correct, shall we?
-
-2013-04-30  Christopher M. Fuhrman
-
-      * Close temporary filehandle before checking for assoc. file
-        
-        When checking for the existence of a file, be sure to close the
-        relevant filehandle so as to force a write.  This should hopefully
-        address http://www.cpantesters.org/cpan/report/232fa78c-6c36-1014-9b5a-e713937b1b84
-      * Close out TEMP environment variable task
-      * Use the TEMP environmental variable to get temporary file path
-        
-        Use the Windows TEMP environmental variable to get temporary file
-        path.  While here, switch to using File::Temp->new() to create
-        temporary file for testing.
-        
-        Tested under:
-        
-         - ActiveState Perl v5.14.2
-         - StrawBerry Perl v5.16.3
-      * Add TODO to use TEMP Environmental variable
-        
-        Add a TODO item to use TEMP[1] environmental variable when using
-        Windows.
-        
-        Footnotes:
-        [1]  http://environmentvariables.org/Temp
-
-2013-04-16  Christopher M. Fuhrman
-
-      * Bump version to 0.63
-        
-        Bump version to 0.63 and update Changes accordingly.  Note return of
-        vclog[1] generated Changes file
-        
-        Footnotes:
-        [1]  http://rubyworks.github.io/vclog/
-
-2013-04-15  Christopher M. Fuhrman
-
-      * Properly call mail(1) when using Debian GNU/Linux
-        
-        The mail(1) program under Debian GNU/Linux, like the OpenBSD version,
-        lacks support for the '-H' option, so utilize the same OpenBSD hack to
-        count the number of messages in the mail queue.
-        
-        Note that, interestingly enough, that this does not appear to be the
-        case under the version of mail(1) provided by Ubuntu Linux 12.04,
-        which is Debian-based.
-      * Properly call mail(1) when using OpenBSD
-        
-        Neither the mail(1) nor the mailx(1) program under OpenBSD supports
-        the '-H' (list headers) option, so work around this by simply echoing
-        the appropriate command to mail(1) to list headers.
-        
-        Tested under OpenBSD 5.1
-
-2013-04-12  Christopher M. Fuhrman
-
-      * Remove redundant ABSTRACT_FROM
-        
-        ExtUtils::MakeMaker::WriteMakefile ignores ABSTRACT_FROM when ABSTRACT
-        is present, so remove it from hash arguments.
-      * Correct bullet in item line
-        
-        Bullets in a POD list scope need to be consistent.  For sub-lists,
-        consistently use '+' as a bullet marker.
-        
-        Addresses
-        http://www.cpantesters.org/cpan/report/9f946fe0-7d60-11e2-a980-8d8ee9c07e33
-
-2013-02-10  Christopher M. Fuhrman
-
-      * Use preferred representation for mail body time stamp
-        
-        When formatting the time stamp present in the test message body, use
-        the preferred date and time representation for the current locale.
-        
-        Tested against:
-        
-          - ja_JP.utf8
-          - ko_KR.utf8
-          - en_US.utf8
-          - ru_UA.utf8
-        
-        Also, it's MSWin32, not MsWin32 (See perlport(1))
-
-2013-02-09  Christopher M. Fuhrman
-
-      * :Fine now requires Perl v5.8.3
-      * Minor verbiage to avoid potential confusion
-        
-        Avoid potential confusion by letting the user know that these tests
-        are *not* meant for cygwin, which behaves differently than MSWin32.
-        
-        While here, minor re-arrangement of includes.
-
-2013-02-08  Christopher M. Fuhrman
-
-      * Merge remote-tracking branch 'origin/master'
-        
-        Conflicts:
-        	t/17-handle-file-windows.t
-
-2013-02-08  unknown
-
-      * Use File::Temp::mkstemp() to create temporary file
-        
-        Use File::Temp::mkstemp() to create temporary file under Windows.
-        Also, instead of checking to see if a file is a plain file, just check
-        to see if it exists, which was causing a test to fail.  Finally, add
-        note at top of document to remind myself why these tests exist ;)
-      * Use File::Temp::mkstemp() to create temporary file
-        
-        Use File::Temp::mkstemp() to create temporary file under Windows.
-        
-        Note that Windows-specific tests will probably be made irrevelent in
-        the future
-      * Switch to using tmpnam() from File::Temp
-        
-        Switch to using tmpnam() from File::Temp which is far safer and works
-        better on MSWin32 platforms
-
-2013-01-13  Christopher M. Fuhrman
-
-      * Bump version to 0.62
-        
-        Bump version to 0.62 and update Changes accordingly.  While here,
-        regenerate README.
-        
-        Note, due to the age of the perl 5.6 series, this will be the *last*
-        release of Log::Fine supporting perl 5.6.2.
-      * Remove Revision ID Information
-        
-        Remove Revision Information.  RCS-style keywords are not really
-        encouraged in git, plus don't behave the way I like.
-      * Revert "Remove Sys::Syslog as a requirement"
-        
-        This reverts commit 48ecd748f80821093b4cc8b22962857fe02273e2.
-        
-        Conflicts:
-        	t/07-handle-syslog.t
-        
-        Make sure Sys::Syslog is a requirement now.  This will prevent unit
-        tests failures such as
-        http://www.cpantesters.org/cpan/report/9b093ad4-5662-11e2-9783-bd6e4a79bfbf
-
-2013-01-03  Christopher M. Fuhrman
-
-      * Bump version to 0.61
-        
-        Bump version to 0.61 and update Changes accordingly.  While here,
-        regenerate README as appropriate and bump Copyright.
-        
-        Note that Changes is now produced using git2cl[1].
-        
-        Footnotes:
-        [1]  https://github.com/leftnode/git2cl
-
-2012-12-29  Christopher M. Fuhrman
-
-      * Make tests compatible with Email::Sender version >= 0.120000
-        
-        The behavior Email::Sender::Simple->default_transport->deliveries()
-        was apparently changed between version 0.110001 and 0.120000, so add
-        some logic to handle both versions.
-        
-        While here, be sure to clear deliveries between test runs.
-      * Remove Try::Tiny from recommendations
-        
-        Since I no longer use Try::Tiny, remove it from recommendations
-      * Use try_to_sendmail() method for Email delivery
-        
-        Instead of using the Email::Sender::Simple sendmail() method and doing
-        my own error handling, use try_to_sendmail() instead which does its
-        own error management.
-
-2012-10-17  Christopher M. Fuhrman
-
-      * Switch from using "~" to delimit fixed-width text to "="
-        
-        The version of Org-Mode that ships with GNU Emacs 24.2.1 will render
-        ~some text~ to \verb some text~ when exporting to LaTeX format.
-        Should any text follow the last "~", LaTeX will throw an error, so use
-        =code style=[1] notation to properly render fixed-width text, such as
-        machine names or directories.
-        
-        Footnotes:
-        [1]  http://orgmode.org/org.html#Emphasis-and-monospace
-
-2012-08-25  Christopher M. Fuhrman
-
-      * Initial revision of quick-n-dirty ChangeLog generation script
-        
-        Initial revision of a quick-n-dirty ChangeLog generation script[1].
-        
-        Footnotes:
-        [1]  Source http://stackoverflow.com/questions/2976665/git-changelog-day-by-day
-
-2012-07-16  Christopher M. Fuhrman
-
-      * Close out tasks
-        
-         - (CANCELED) Reorganization of Log::Fine::Handle::Email
-         - (CLOSED) Brainstorm ideas for Log::Fine 1.61
-
-2012-07-04  Christopher M. Fuhrman
-
-      * Do not forget to bump copyright year in necessary files
-        
-        Do not forget to bump copyright year in necessary files
-      * Document {err_callback}
-        
-        Add POD documentation for {err_callback}.  Also, while here:
-        
-         - s/bless\'d/blessed/
-         - Minor documentation tweaks
-      * Add unit tests for {err_callback} functionality
-        
-        Add unit tests for {err_callback} functionality
-
-2012-07-03  Christopher M. Fuhrman
-
-      * Add callback functionality for _error()
-        
-        Allow the definition of a custom callback method that's invoked in
-        lieu of simply calling _fatal().
-        
-        TODO items:
-        
-         1) Write unit tests for this functionality
-         2) Update documentation accordingly
-
-2012-06-29  Christopher M. Fuhrman
-
-      * Call _error() if we are unable to close the file handle
-        
-        Call _error() if we are unable to close the file handle
-      * Code and comment clean-ups
-        
-        Code Clean-ups:
-        
-         - Break apart long strings
-         - Optimize where applicable
-         - Readability changes
-         - Minor perldoc cleanups
-        
-        Comment Clean-ups:
-        
-         - Make sure comments start with a Capital letter
-         - Avoid use of "# [iI]f" in comments as this can be confusing
-         - Make comment verbiage consistent where applicable
-         - Victory is implied ;)
-        
-        Comment and code cleanups
-      * Close out Sys::Syslog and MIME::Lite tasks
-        
-        Close out Sys::Syslog and MIME::Lite tasks
-      * Capture potentially fatal errors
-        
-        Capture potentially fatal errors that may generated by sendmail[1].
-        Also:
-        
-         - Set X-Mailer as appropriate
-         - Document call to _error()
-        
-        Footnotes:
-        [1]  The function, not the program ;)
-      * Add the following TODO items:
-        
-         - Replace MIME::Lite
-         - Optimize msgWrite() (Canceled)
-      * Do not call Sys::Syslog::closelog() on destruction
-        
-        More recent versions of perl (e.g., 5.14.*) appear to produce the
-        following message when Sys::Syslog::closelog() is called:
-        
-          Attempt to free unreferenced scalar: SV 0xa81cc8, Perl interpreter:
-          0x767010 during global destruction.
-        
-        So, on object destruction, do not call closelog().  Tested under
-        OpenSuSE Linux 12.1 using perl 5.14.2.
-      * Be consistent with file handle validation
-        
-        Be consistent with file handle validation.  Additional validation
-        checks result in negligible speed penalty.
-      * Make sure Log() has a valid logging object
-        
-        Make sure Log() has a valid logging object.  While here, clarify
-        comments.
-      * Make testing messages consistent
-        
-        s/greater/above/g
-      * Reference Sys::Syslog macros explicitly
-        
-        Reference Sys::Syslog macros explicitly.  Also, saving STDERR results
-        in perl throwing an "Attempt to free unreferenced scalar" error so do
-        not save STDERR.
-      * Cancel internal logging method
-        
-        Cancel internal logging method task.  Will not implement
-      * Remove Sys::Syslog as a requirement
-        
-        Remove Sys::Syslog as a requirement and make associated unit tests
-        optional.
-      * Reference VALTOLVL_MAP values from LVLTOVAL_MAP
-        
-        Reference VALTOLVL_MAP values from LVLTOVAL_MAP.  This way, I don't
-        have to remember numbers when adding new levels.
-      * Update misleading DESCRIPTION
-        
-        The old description indicated that messages sent via this handle were
-        sent to /dev/null or NUL, which is misleading.  In reality, the module
-        completely ignores any messages given to it.
-      * Add and close null handle creation task
-        
-        Add and close null handle creation task
-      * Cancel enable/disable task
-        
-        Cancel enable/disable task.  This really involves too much work and
-        API changes to implement.  Unless there's demand or I can find a good
-        justifiable use case, then I'm not going to bother.
-      * Initial entry of Null Handle
-        
-        Initial entry of Null Handle and associated unit tests.
-      * Correct bug reporting email address
-        
-        All bug reports should be emailed to bug-log-fine at rt.cpan.org
-      * _error() if we are unable to close file handle
-        
-        _error() should we be unable to close the file handle.  While here,
-        clean up commenting where applicable
-      * Close out TODO items
-        
-        Close out the following TODO items:
-        
-         - registerHandle() modifications
-         - Catch situation where we can't write to a file handle
-         - Addition of _error() method
-      * Add additional sanity checks
-        
-         - Make sure we have valid blessed objects where applicable
-         - Utils.pm: Simplify OpenLog()
-         - Update unit tests accordingly
-        
-        Documentation will need to be cleaned up to reflect new behavior where
-        applicable
-      * registerHandle() can now accept array refs
-        
-        registerHandle() can now accept array refs containing valid
-        Log::Fine::Handle objects in addition to just a Log::Fine::Handle
-        object.  While here, update unit tests accordingly.
-      * Add new method _error()
-        
-        Add a new method, _error(), that is inheritable from other objects and
-        change the default behavior of _fatal().  The new behavior is as
-        follows:
-        
-         - Calls to _error() will, by default, call _fatal() unless the
-           {no_croak} attribute is set.  Should this be the case, then
-           _error() calls cluck[1] instead.
-         - _fatal() no longer honors {no_croak}
-        
-        While here:
-        
-         - Update unit tests accordingly
-         - Convert calls from _fatal() to _error() as appropriate
-         - Call _error() in Handle::File-based objects in the event that we
-           cannot write to a file handle.
-        
-        Footnotes:
-        [1]  See Carp(3pm)
-      * Remove requirement for Test::Output
-        
-        Remove requirement for Test::Output and do not pass {no_croak} during
-        construction.  Note that we do not need to redirect STDERR.
-      * Update TODO list for LOGFINE-0-61
-        
-         - Prioritize where appropriate
-         - Elaborate on existing TODO items
-         - Add new _error() class TODO
-      * Remove older closed TODO items
-        
-        Remove older closed TODO items
-      * Brainstorm ideas for v0.61
-        
-        Brainstorm ideas for v0.61
-      * Use the mailx(1) command for grabbing headers under solaris
-        
-        Use the mailx(1) command for grabbing headers under solaris as the
-        stock mail(1) command does not support the '-H' option.  Tested under
-        OpenSolaris.
-        
-        NOTE: A cursory check of IBM AIX[1] shows that their implementation of
-        mail /does/ support the '-H' option, so no need to check for it
-        there.  The mileage on other SysV-ish systems may vary.
-        
-        Footnotes:
-        [1]  Not to say that Log::Fine officially supports IBM AIX.  The
-        author does not have access to an AIX box with a recent version of
-        perl on it.
-      * Recommend Try::Tiny v0.11
-        
-        Recommend Try::Tiny v0.11
-      * Set object's {_err_str} when _fatal() is called
-        
-        Set object's {_err_str} when _fatal() is called.  Useful for when
-        {no_croak} is set.
-      * Clean up msgWrite() logic
-        
-        Clean up msgWrite() logic as inspired by Log::Fine::Handle::Email
-      * Add blib and pm_to_blib to list of ignored items
-        
-        Add blib and pm_to_blib to list of ignored items so they don't show up
-        in vc-dir
-      * {header_to} option can now be either a string or an array ref
-        
-        {header_to} hash parameter can now either be a string containing a
-        valid RFC 822 email address or an array ref containing a list of RFC
-        822 email addresses
-      * Add new subclassing TODO item
-        
-        Add new subclassing TODO item for Email delivery, canceling the old
-        SMTP TODO in the process.
-
-2011-12-24  Christopher M. Fuhrman
-
-      * Bump version
-        
-        Bump version to 0.59 and update Changes accordingly.  While here,
-        regenerate README
-      * Only save STDERR on newer versions of perl
-        
-        Only save STDERR on newer versions of perl.  Under v5.6.2, it looks
-        like `perl -T` treats STDERR differently
-
-2011-12-15  Christopher M. Fuhrman
-
-      * Update skip message to reflect reality
-        
-        Update skip message to reflect reality.  We *can* accurately test user
-        and group placeholders under cygwin since that environment provides
-        getgrgid() support
-
-2011-12-08  Christopher M. Fuhrman
-
-      * getgrgid() works under cygwin
-        
-        getgrgid() works okay under cygwin.  Update unit tests to reflect this
-      * Correct instance of vivification
-        
-        Correct instance where we stored groupName under wrong hash key, thus
-        causing an instance vivification.
-      * Save and restore original STDERR
-        
-        Save and restore original STDERR after we redirect it
-      * Make sure the Log::Fine::Handle::File filehandle is closed
-        
-        Make sure the Log::Fine::Handle::File filehandle is closed prior to
-        removing log files.  Under MSWin32, not closing the file handle
-        resulted in leftover stale log files generated by unit tests
-      * Use $ENV{GID} and $ENV{EGID} under cygwin
-        
-        Use $ENV{GID} and $ENV{EGID} under cygwin (as well as MSWin32).
-        Update unit tests as appropriate.
-        
-        Tested under MSWin32 (ActiveState Perl) and Cygwin
-      * Check for absolute path under MSWin32
-        
-        Check for absolute path under MSWin32 (e.g., C:\WINDOWS\Temp\foo.log) and
-        add associated unit tests
-        
-        Tested under ActiveState perl on MSWin32
-      * Reduce spewage by checking $ENV{EGID} and $ENV{GID}
-        
-        Reduce spewage by making sure $ENV{EGID} and $ENV{GID} are defined.
-        Tested under MSWin32 using ActiveState perl
-      * Merge branch 'master' of https://github.com/cfuhrman/log-fine
-
-2011-12-02  Christopher M. Fuhrman
-
-      * Oversight
-        
-        Fix oversight on my part
-      * Bump version
-        
-        Bump version to 0.58 and update Changes accordingly
-      * Regen
-      * Sync documentation w/ reality
-        
-        Sync documentation w/ reality
-      * Replace croak with confess when calling ->_fatal()
-        
-        When a call to _fatal() is made, call confess instead of croak which
-        will generate a stack backtrace.  See Carp(3pm) for further details
-      * Close out template tasks
-        
-        Close out template tasks
-      * Clean up function, variable names
-        
-        Clean up function, variable names
-      * Redirect stderr to the bitbucket for bad custom template unit test
-        
-        Redirect stderr to the bitbucket for bad custom template unit test.
-        Note that testing will need to be done under MSWin32 to see if this
-        works okay.
-
-2011-12-01  Christopher M. Fuhrman
-
-      * Add rename method task
-        
-        Remember to rename L::F::H::Template->_templateValidate() to something
-        that has the word 'placeholder' in it.
-      * Update custom placeholder tasks
-        
-        Update custom placeholder tasks
-      * Check for duplicate custom placeholders
-        
-        Check for duplicate custom placeholders (remember, these are
-        case-INsensitive) and add associated unit test.
-        
-        Note that I'll need to remove spewage from associated unit test.
-      * Add another TODO item for storing placeholder keys
-        
-        Add another TODO item for storing placeholder keys
-      * Add key collision TODO
-        
-        Add a TODO to check for key collisions in custom templates
-      * Just use {file} if {dir} is not defined
-        
-        When generating a file name, just use name of file if {dir} is not
-        defined.  This fixes an issue under cygwin whereby a file name with
-        two leading forward slashes (e.g. //tmp/t498.0) is not recognized
-        (LAME!)
-
-2011-12-01  U-ADBRITEINC\cfuhrman
-
-      * Merge branch 'master' of http://github.com/cfuhrman/log-fine
-
-2011-11-28  Christopher M. Fuhrman
-
-      * Bump copyright
-        
-        Bump copyright
-      * :Fine::Handle::File can now accept a file name with absolute path
-        
-        Log::Fine::Handle::File can now accept a file name with an absolute
-        path.  Add associated unit tests and update documentation accordingly
-      * perltidy
-      * Stress test custom placeholder functionality
-        
-        Stress test custom placeholder functionality.  Also, while here, be
-        sure to specify file and directory in L::F::H::F constructor
-      * Correct copyright
-        
-        Correct copyright
-      * Be more consistent with variable names
-        
-        Be more consistent with variable names
-
-2011-11-22  Christopher M. Fuhrman
-
-      * Close out custom template TODO
-        
-        Close out custom template TODO
-      * Update documentation
-        
-        Update documentation to include information about custom placeholders
-      * s/custom_templates/custom_placeholders/
-        
-        Be consistent in terminology so as not to confuse people.
-      * Add support for custom placeholders
-        
-        Add support for custom placeholders.  Developers can now define their
-        own placeholders.
-      * Function refs must be set sans ()
-        
-        Function refs must be set sans ()
-      * Lose redundant code block
-        
-        Lose redundant code block accidentally created via cut-n-paste
-
-2011-11-16  Christopher M. Fuhrman
-
-      * Fill out details
-        
-        Fill out details
-      * Brainstorm custom template macros
-        
-        Brainstorm custom template macros
-
-2011-11-03  Christopher M. Fuhrman
-
-      * Post-pend function names with ()
-        
-        Post-pend function names with () per my personal preference
-
-2011-11-02  Christopher M. Fuhrman
-
-      * Bump Copyright
-        
-        Bump Copyright.  While here correct spelling in comments
-
-2011-10-31  Christopher M. Fuhrman
-
-      * Bump version
-        
-        Bump version to 0.57 and update Changes accordingly
-      * Regen
-
-2011-10-30  Christopher M. Fuhrman
-
-      * Make note that envelope is optional
-        
-        Make note that envelope is optional
-
-2011-10-28  U-ADBRITEINC\cfuhrman
-
-      * Merge branch 'master' of http://github.com/cfuhrman/log-fine
-
-2011-10-28  Christopher M. Fuhrman
-
-      * Note perl 5.8.3 requirement
-        
-        Log::Fine::Handle::Email requires Email::Sender which requires Moose
-        which requires perl 5.8.3 as a minimum so reflect that in unit tests.
-      * Make sure Handle object supports bitmaskListEnabled()
-        
-        Make sure Handle object supports bitmaskListEnabled()
-      * Update log mask TODO item
-        
-        Update log mask TODO item
-      * Add new method, Log::Fine::Handle->bitmaskListEnabled()
-        
-        Add new method, Log::Fine::Handle->bitmaskListEnabled(), which returns
-        an array of enabled masks along with associated unit tests.
-        
-        References:
-         - http://perl.active-venture.com/pod/perlfaq4-dataarrays.html
-      * Add TODO item about bitmaskListEnabled()
-        
-        Add TODO item about bitmaskListEnabled() method in Log::Fine::Handle
-
-2011-10-25  Christopher M. Fuhrman
-
-      * Bump copyright
-        
-        Bump copyright as appropriate
-      * Complete Timestamp TODO
-        
-        Complete Timestamp TODO
-      * :Fine::Handle::File::Timestamp now properly rotates files
-        
-        Properly rotate log files as appropriate to time-stamp.  Now, instead
-        of rotating once per day, file can now be rotated depending on
-        strftime(3) string found in file.
-        
-        For example, given a file string "foo.%Y%m%d%H", the module will now
-        rotate the log file every hour (assuming there is data to be logged).
-        
-        In addition, update unit tests to catch the situation where a filename
-        can change more frequently than once per day.
-      * Add TODO item about timestamped files
-        
-        Add TODO item about timestamped files
-      * Bump version
-        
-        Bump version to 0.56090 and update Changes accordingly
-      * Merge branch 'master' of https://github.com/cfuhrman/log-fine
-      * Skip tests if run under MSWin32 or Cygwin
-        
-        Skip tests if run under MSWin32 or Cygwin
-      * Recommend Throwable
-        
-        Recommend Throwable(3) perl module
-
-2011-10-25  U-ADBRITEINC\cfuhrman
-
-      * Merge branch 'master' of http://github.com/cfuhrman/log-fine
-      * Skip tests if run under MSWin32 or Cygwin
-        
-        Skip tests if run under MSWin32 or Cygwin
-      * Skip tests if run under MSWin32 or Cygwin
-        
-        Skip tests if run under MSWin32 or Cygwin
-
-2011-10-24  Christopher M. Fuhrman
-
-      * Add new handle, Log::Fine::Handle::Email
-        
-        Add new handle, Log::Fine::Handle::Email for the sending of log
-        messages via email and associated unit tests.  Note that
-        Log::Fine::Handle::Email requires use of the following modules:
-        
-         * Email::Sender
-         * Mail::RFC822::Address[2]
-        
-        Email::Sender will require installation of a large number of
-        dependencies.  Installation of this module via your operating system
-        package management system is _strongly_ encouraged to avoid issues and
-        the gnashing of the teeth.
-        
-        Also add my updated TODO items.
-        
-        Footnotes:
-        [1]  http://search.cpan.org/~rjbs/Email-Sender-0.110001/lib/Email/Sender.pm
-        
-        [2]  http://search.cpan.org/~pdwarren/Mail-RFC822-Address-0.3/Address.pm
-      * Sync SYNOPSIS with reality
-        
-         - A value representing all bitmasks bitor'd together can be gotten
-           from the Log::Fine::Levels::*->bitmaskAll() method
-         - Import the appropriate modules
-      * Move isLoggable() regression tests to Log::Fine::Level::* tests
-        
-        Move isLoggable() regression tests from Log::Fine::Handle tests to
-        Log::Fine::Level::* unit tests.  This provides more comprehensive
-        testing of Level/Mask combinations.
-
-2011-10-19  Christopher M. Fuhrman
-
-      * Add RCS-style keyword
-        
-        Add RCS-style keyword
-
-2011-09-29  Christopher M. Fuhrman
-
-      * Optimize methods for speed
-        
-        Optimize methods for speed where applicable by reducing unnecessary
-        shift calls.  Also, be consistent with perl statements
-
-2011-08-04  Christopher M. Fuhrman
-
-      * Merge branch 'master' of https://github.com/cfuhrman/log-fine
-      * Bump version
-        
-        Bump version to 0.56 and update Changes accordingly
-      * Bump version
-        
-        Bump version to 0.55 and update Changes accordingly
-
-2011-07-22  Christopher M. Fuhrman
-
-      * When getting the group IDs, be sure to use the FIRST value returned
-        
-        When getting the list of group IDs, be sure to use the FIRST value
-        returned as $( and $) will both return more than one value.
-        
-        From the perlvar(1) man page:
-        
-               $(      The real gid of this process.  If you are on a machine that supports membership in multiple groups simultaneously, gives a space
-                       separated list of groups you are in.  The first number is the one returned by getgid(), and the subsequent ones by getgroups(), one of
-                       which may be the same as the first number.
-        
-               $)      The effective gid of this process.  If you are on a machine that supports membership in multiple groups simultaneously, gives a space
-                       separated list of groups you are in.  The first number is the one returned by getegid(), and the subsequent ones by getgroups(), one
-                       of which may be the same as the first number.
-        
-        Update unit tests accordingly.
-        
-        This commit addresses the following CPAN reports:
-        
-         * http://www.cpantesters.org/cpan/report/39bae440-b293-11e0-a3e4-843406199dfa
-         * http://www.cpantesters.org/cpan/report/0c50e20c-b211-11e0-8bf3-b951607028a9
-         * http://www.cpantesters.org/cpan/report/f30cba6e-ad92-11e0-b021-a870e3db07b5
-         * http://www.cpantesters.org/cpan/report/2899311e-ad69-11e0-a3e4-76a7cce5fad6
-
-2011-07-12  Christopher M. Fuhrman
-
-      * Grammar
-        
-        Correct grammar nit which was interfering with highlighting
-
-2011-07-06  Christopher M. Fuhrman
-
-      * Use ref to determine object type
-        
-        When storing either a Log::Fine or Log::Fine::Logger object in static
-        space, make sure these objects are the actual objects, not just the
-        descendants of them.
-        
-        Also, minor documentation clean-up while here and bump copyright.
-
-2011-05-18  Christopher M. Fuhrman
-
-      * Bump version
-        
-        Bump version to 0.55 and update Changes Accordingly
-      * Auditing for documentation correctness
-        
-        Auditing for documentation correctness:
-        
-         - object's -> objects
-         - Lose extraneous characters
-         - Correct misspellings where applicable
-
-2011-05-12  Christopher M. Fuhrman
-
-      * Merge branch 'master' of https://github.com/cfuhrman/log-fine
-
-2011-03-28  Christopher M. Fuhrman
-
-      * Update tasks
-        
-        Close out unit test and readme.pod tasks
-      * Merge branch 'UNIT-TEST-CLEANUP-2011'
-      * Merge branch 'readme-pod-format'
-      * perltidy
-      * Switch to Test::More
-        
-        Switch to Test::More and update associated tests accordingly.  While
-        here, clean up and add additional unit tests
-      * Add POD readme branch TODO
-        
-        Add POD readme branch TODO
-      * Add TODO for unit tests
-        
-        Add TODO for unit tests
-      * Provide name() example usage
-        
-        Provide example usage for name() method
-      * Initial entry of README.pod
-        
-        Initial entry of README.pod, which is just a symlink to
-        lib/Log/Fine.pm.  Hopefully, github will render this file properly
-
-2011-03-19  Christopher M. Fuhrman
-
-      * Bump version
-        
-        Bump version to 0.54 and update Changes accordingly
-      * Merge branch 'master' of https://github.com/cfuhrman/log-fine
-      * Cancel todo
-
-2011-03-18  Christopher M. Fuhrman
-
-      * :Fine::_fatal() will croak if called directly
-        
-        Log::Fine::_fatal() will croak if called directly as it is not
-        {no_croak} aware.  Add CAVEAT section to Log::Fine::Utils documenting
-        this
-      * Close out name() task
-      * Test $obj->name()
-        
-        Add unit tests for $obj->name()
-      * Add more unit tests
-        
-        Add more unit tests prior to release
-      * perltidy
-        
-        perltidy before merge to master
-      * Update with LOG-UTIL-LOGTRACKING changes
-      * Remove GetLogName()
-        
-        I have MADE my decision!
-        
-         * CurrentLogger() :: Shantay, you stay
-         * GetLogName()    :: Sashay away
-        
-        Programmers can retrieve the current name of the active
-        Log::Fine::Logger object as so:
-        
-          my $logger_name = CurrentLogger()->name();
-        
-        Also update unit tests and POD accordingly
-      * Implement Log::Fine::Utils::CurrentLogger()
-        
-        Implement Log::Fine::Utils::CurrentLogger(), which returns the
-        currently active Log::Fine::Logger object
-      * Add {no_croak} option to list of parameters accepted by OpenLog()
-        
-        Add {no_croak} (default: 0) option to list of parameters accepted by
-        OpenLog().  While here:
-        
-         * Make sure that the active logger has a name
-         * Code and Spacing clean-ups
-      * Store pointer to current logger
-        
-        Instead of storing the name of the current "active" logger, store a
-        pointer to the logger itself.  Note that I am still determining the
-        fate of GetLogName()
-      * Further brainstorming
-        
-        Further brainstorming about Utils
-      * Implement Log::Fine->name()
-        
-        Implement Log::Fine->name() which returns the name of the object along
-        with an associated unit test.  Note this method is inheritable.
-      * Brainstorming
-        
-        Brainstorm ideas for Utils
-      * Documentation consistency nit
-        
-        Documentation consistency nit
-
-2011-03-11  Christopher M. Fuhrman
-
-      * Elaborate GetLogName() TODO
-      * Add TODO for GetLogName()
-        
-        Add a TODO item for GetLogName()
-      * Merge branches 'master', 'master', 'master', 'master', 'master', 'master', 'master', 'master' and 'master' of https://github.com/cfuhrman/log-fine
-      * Properly match date string when LC_TIME is set to de_DE.utf8
-        
-        Properly match the date string when LC_TIME is set to de_DE.utf8:
-        
-          [11 Mär 14:19:44.3415679932] WARN Stop by this disaster town
-        
-        Note this has also been tested with LC_TIME set to the following:
-        
-          * ar_AE.utf8
-          * cs_CZ.utf8
-          * es_ES.utf8
-          * hi_IN.utf8
-          * ja_JP.utf8
-          * ko_KR.utf8
-          * zh_TW.UTF-8
-          * en_US.utf8
-        
-        This commit addresses the following CPAN Testers Report:
-        
-          http://www.cpantesters.org/cpan/report/3721e9e2-4b67-11e0-b7da-29989dcd942a
-
-2011-02-25  Christopher M. Fuhrman
-
-      * Document GetLogName()
-        
-        Document GetLogName() in SYNOPSIS
-      * Add tests for GetLogName()
-        
-        Add associated unit tests for GetLogName()
-      * Add new function, GetLogName()
-        
-        Add new function, GetLogName(), which returns the name of the
-        currently defined logger
-      * Comment out unused Data::Dumper module
-        
-        Comment out unused Data::Dumper module accidentally left whilst
-        debugging.
-
-2011-02-08  Christopher M. Fuhrman
-
-      * Bump version
-        
-        Bump version to 0.53 and update Changes accordingly
-      * :Fine::Utils now supports multiple loggers
-        
-        Log::Fine::Utils now supports multiple loggers, so stop the
-        documentation from lying.
-
-2011-02-07  Christopher M. Fuhrman
-
-      * Merge branches 'master', 'master', 'master', 'master', 'master', 'master', 'master' and 'master' of https://github.com/cfuhrman/log-fine
-      * Bump version
-        
-        Bump version to 0.52 and update Changes accordingly
-
-2011-02-06  Christopher M. Fuhrman
-
-      * Expand RCS keywords in Makefile.PL
-        
-        Expand RCS keywords in Makefile.PL
-
-2011-02-05  Christopher M. Fuhrman
-
-      * Just require Sys::Syslog 0.13
-        
-        Just require Sys::Syslog 0.13, which will prevent a Makefile from
-        being written unless Sys::Syslog is version 0.13 or above.
-      * No longer need META.yml since it's auto-generated for us
-        
-        Since META.yml is auto-generated by Makefile.PL, then remove the
-        "hand-written" version and remove from MANIFEST (it'll be added there
-        by 'make dist' anyway).  Also, update Checklist as appropriate
-      * Let Makefile.PL generate an appropriate META.yml file
-        
-        Let Makefile.PL generate an appropriate META.yml file for me.  Note
-        META.yml will be generated with some additional information:
-        
-         - resources (includes git repo, bug tracker)
-         - Sys::Syslog requisite
-
-2011-02-02  Christopher M. Fuhrman
-
-      * Regen
-      * Add installation instructions
-        
-        Add instructions for installation
-
-2011-01-30  Christopher M. Fuhrman
-
-      * Minor formatting tweaks
-        
-        Minor formatting tweaks
-
-2011-01-11  Christopher M. Fuhrman
-
-      * Bump version
-        
-        Bump version to 0.51 and update Changes accordingly
-      * Close out multi-logger task
-
-2011-01-10  Christopher M. Fuhrman
-
-      * Update
-        
-        Update with Multi-logger information
-      * Merge branches 'master', 'master', 'master', 'master', 'master', 'master' and 'master' of https://github.com/cfuhrman/log-fine
-      * Regen
-      * perltidy
-      * Merge branch 'LOG-UTIL-MULTILOGGER'
-      * Code optimizations
-        
-         * listLoggers() does not need to shift $self
-         * Reference first parameter directly where applicable
-
-2011-01-09  Christopher M. Fuhrman
-
-      * Document new multi-logger functionality
-        
-         * Provide examples for using the new multi-logger functionality
-         * Update OpenLog() documentation
-         * Minor consistency nits
-      * Make POD documentation more consistent with perlmodstyle(1)
-        
-        Make POD documentation more consistent with perlmodstyle(1)
-        
-        From the docs:
-        
-          The recommended order of sections in Perl module documentation is:
-        
-          o   NAME
-        
-          o   SYNOPSIS
-        
-          o   DESCRIPTION
-        
-          o   One or more sections or subsections giving greater detail of
-              available methods and routines and any other relevant information.
-        
-          o   BUGS/CAVEATS/etc
-        
-          o   AUTHOR
-        
-          o   SEE ALSO
-        
-          o   COPYRIGHT and LICENSE
-
-2011-01-08  Christopher M. Fuhrman
-
-      * Clean up code
-        
-        While here, caught bug with Log() whereby the condition existed
-        whereby an undefined object could be referenced as an object
-        
-        Also, in unit tests, don't close filehandles if we aren't done with
-        them ;)
-      * Store copy of Log::Fine object
-        
-        Store persistent copy of Log::Fine object as well as name of current
-        logger object for tracking purposes.
-        
-        While the code passes unit tests, it needs more testing and clean-up.
-
-2011-01-07  Christopher M. Fuhrman
-
-      * Make sure filehandle is open
-        
-        Add check to see if filehandle is open
-      * Update TODO with Utils task information
-        
-        Update TODO with Utils task information
-      * Initial stab at having Utils support multiple loggers
-        
-        If OpenLog() is called with an already defined logger, then Utils will
-        switch to that logger object.  If the given name is not defined, then
-        it will create a new logging object and switch to that logging object.
-        
-        CAVEAT: If the currently defined logging object is
-        Log::Fine::Handle::File based, then when the logger is switched, the
-        previous File logger goes out of scope and closes down.  One
-        workaround is to set {autoclose} to 1 which forces recreation of the
-        internal file handle.  This will need to be addressed before release,
-        probably by having Utils keep track of its own logging objects or else
-        storing a ref to Log::Fine internally.
-        
-        Other changes:
-        
-         - Add a new function, ListLoggers(), which returns a list of
-           stored loggers.
-        
-         - Have File.pm and children check to make sure the internally stored
-           filehandle is open via fileno.
-      * Add support for listing defined logger objects
-        
-        Add new method, listLoggers() which returns a list of defined logger
-        names as well as corresponding unit tests.
-      * Brainstorm additional ideas
-        
-        Brainstorm additional ideas for adding multiple-logger support to
-        Utils.pm
-
-2011-01-06  Christopher M. Fuhrman
-
-      * Ignore files generated by perltidy and 'make clean'
-        
-        Ignore files generated by perltidy and 'make clean'
-      * Add support for variable-precision high-resolution timestamps
-        
-        Add support for variable-precision high-resolution timestamps and
-        associated unit tests
-      * Properly handle space at beginning of line caused by certain locales
-        
-        Certain locales will generate the following date string (note space at
-        beginning):
-        
-         1  6 20:29:55 cmf-macbook 04-formatter.t[93437]: Stop by this disaster town
-        
-        Properly handle this scenario.  Tested under:
-        
-         * zh_TW.UTF-8
-         * ko_KR.UTF-8
-        
-        Caught under Mac OS X Snow Leopard w/ perl 5.10.0
-      * Merge branches 'master', 'master', 'master', 'master', 'master' and 'master' of https://github.com/cfuhrman/log-fine
-      * Bump Version
-        
-        Bump version to 0.50 and update Changes accordingly.  Apparently, the
-        perl numbering system interprets the string 0.50.0 as 0.05000 so I
-        can't use the three decimal version number notation.
-        
-        Note that the numbering system described in commit 2a13e286 is hereby
-        invalidated.  I will be switching back to the standard #.## numbering
-        notation used in previous releases.
-        
-        Also, as Log::Fine is stabilizing, I will most likely be releasing a
-        1.00 "stable" release.
-      * Bump Version
-        
-        Bump version to 0.50.0 and update Changes accordingly.  Trivial
-        version bump as PAUSE indexer thinks 0.40 is higher than 0.40.1 :/
-      * Bump Version
-        
-        Bump version to 0.40.1 and update Change accordingly.  Note that as of
-        the 0.40 series, I am using a three-digit version notation:
-        
-          +---------+----------+-------------------------------+
-          |Decimal #|Denotation|Notes                          |
-          +---------+----------+-------------------------------+
-          |1        |Major     |Incrementation denotes API     |
-          |         |release   |changes that may break previous|
-          |         |          |releases                       |
-          +---------+----------+-------------------------------+
-          |2        |Minor     |New functionality added        |
-          |         |release   |                               |
-          +---------+----------+-------------------------------+
-          |3        |Bugfix    |Bugfixes/Documentation changes |
-          |         |release   |                               |
-          +---------+----------+-------------------------------+
-      * Merge branches 'master', 'master', 'master', 'master' and 'master' of https://github.com/cfuhrman/log-fine
-
-2011-01-03  Christopher M. Fuhrman
-
-      * Happy New Years!  Bump copyright year as appropriate
-      * Correct invocation to _fatal()
-        
-        While here, allow _fatal() to be called independently.
-      * Add some thoughts on extending Utils
-        
-        Brainstorm some thoughts on extending Utils.pm
-      * Clarify _fatal() documentation
-        
-        While here, minor nit
-      * Merge branches 'master', 'master', 'master' and 'master' of https://github.com/cfuhrman/log-fine
-
-2011-01-02  Christopher M. Fuhrman
-
-      * Spacing
-      * Use _fatal() for croaking
-        
-        When we have to croak, use _fatal()
-
-2010-12-31  Christopher M. Fuhrman
-
-      * Bump version
-        
-        Bump version to 0.40 and update Changes accordingly
-      * Decided against switching to Module::Build so cancel TODO
-      * Close out Formatter template class TODO
-        
-        Update appropriate TODO items, closing Formatter template class TODO
-      * Optimize how $skip is set
-        
-        When setting $skip, make sure the parameter is defined and, if not,
-        set to default.  This way, we check and define it in one step.
-      * Merge branch 'TEMPLATE-OPTIMIZATION'
-        
-        Optimize Template.pm for speed.
-        
-        Conflicts:
-        	lib/Log/Fine/Formatter/Template.pm
-      * Do not call $self->_placeHolders($tmpl) unless we need to
-        
-        While here, standardize hash key names
-
-2010-12-28  Christopher M. Fuhrman
-
-      * perltidy
-      * s/{_used_placeholders}/{_placeholders}/g
-        
-        Shorten hash key to something more reasonable
-      * Relocate placeholder generation to separate getter/setter
-        
-        Relocate placeholder generation to separate getter/setter
-
-2010-12-21  Christopher M. Fuhrman
-
-      * consistency nit
-
-2010-12-16  Christopher M. Fuhrman
-
-      * Merge branches 'master' and 'master' of https://github.com/cfuhrman/log-fine
-
-2010-12-15  Christopher M. Fuhrman
-
-      * Refresh
-      * Stop the unit test from lying to syslog
-        
-        Tell syslog that the test message is generated from the unit tests,
-        not the installation of Log::Fine.
-
-2010-12-12  Christopher M. Fuhrman
-
-      * Bump version
-        
-        Bump version to 0.39 and update Changes accordingly
-      * Correct instance where incorrect stack frame was logged
-        
-        Correct instance where the Detailed formatter would log the incorrect
-        subroutine and update unit tests accordingly.  The issue is that
-        (caller(0))[3] logs the *current* subroutine, not the calling
-        subroutine, so the stack frame needs to be bumped by one to get the
-        desired subroutine information.
-        
-        See perlfunc(1) for details
-        (cherry picked from commit 92d4598d2d0b9d5cc3a76a4806adbcc98c954cfa)
-      * Correct instance where incorrect stack frame was logged
-        
-        Correct instance where the Detailed formatter would log the incorrect
-        subroutine and update unit tests accordingly.  The issue is that
-        (caller(0))[3] logs the *current* subroutine, not the calling
-        subroutine, so the stack frame needs to be bumped by one to get the
-        desired subroutine information.
-        
-        See perlfunc(1) for details
-      * When subroutine name cannot be determined, assume main()
-        
-        When caller() can't determine the subroutine name, assume main has
-        been called.  While here, perltidy.
-      * Add additional tests
-        
-        Add tests for checking output when log() is invoked from within
-        different name spaces.  While here, make test cases more realistic by
-        including message and level information where applicable.
-        (cherry picked from commit 32ceccc8399a5bc7ab86cbc03eb986174c282e6d)
-      * Add debuggery in case I need it
-        
-        Add some debuggery, commented out, in case I need it in the future.
-      * When subroutine name cannot be determined, assume main()
-        
-        When caller() can't determine the subroutine name, assume main has
-        been called.  While here, perltidy.
-      * Add additional tests
-        
-        Add tests for checking output when log() is invoked from within
-        different name spaces.  While here, make test cases more realistic by
-        including message and level information where applicable.
-
-2010-12-11  Christopher M. Fuhrman
-
-      * Correct incorrect stack frame logging issue
-        
-        Correct instance where incorrect stack frame was logged and update
-        unit tests accordingly to catch this scenario.
-      * Correct incorrect stack frame logging issue
-        
-        Correct instance where incorrect stack frame was logged and update
-        unit tests accordingly to catch this scenario.
-
-2010-12-07  Christopher M. Fuhrman
-
-      * Comment verbiage
-        
-        Fix bogus comment
-      * Further Optimizations
-        
-        Caught a bug whereby only the first message & log level were displayed
-        for each line encountered.  Also, optimize output by not calling
-        methods needlessly.
-        
-         | master | 5.61313 |
-         | Before | 6.66252 |
-         | After  | 5.49843 |
-        
-        Approximately equivalent to version of Template.pm found in master
-        branch.  Some more work perhaps?
-
-2010-12-04  Christopher M. Fuhrman
-
-      * First attempt to optimize Template.pm
-        
-        Instead of filling out all potential placeholders for every invocation
-        of format(), determine what placeholders are present in the template
-        string, and then store a function ref for only those placeholders
-        present.
-        
-        Unfortunately, this actually *adds* time to my stress tests, so need
-        to determine what is slowing things up.
-        
-        To print out a total of 65335 lines[1], I get the following results:
-        
-        | Old Version | 5.61313 seconds |
-        | New Version | 6.66252 seconds |
-        
-        Further work will need to be done
-        
-        Footnotes:
-        [1]  Yes, I used War & Peace by Leo Tolstoy
-
-2010-12-03  Christopher M. Fuhrman
-
-      * Update
-        
-        I use vclog and pod2readme now
-
-2010-12-02  Christopher M. Fuhrman
-
-      * Bump version
-        
-        Bump version to 0.38 and update Changes accordingly
-        
-        Note that I'm now using vc-log (http://proutils.github.com/vclog/) to
-        produce Changes file
-        
-          $ vclog -f gnu changelog > Changes
-      * Close out stress test script TODO
-      * Add note about support for log format templates
-        
-        Make sure doc mentions template support
-      * Merge branch 'master' of https://github.com/cfuhrman/log-fine
-      * Ship stresslog.pl
-        
-        Add stresslog.pl script to MANIFEST
-
-2010-12-01  Christopher M. Fuhrman
-
-      * Expand *.pl files
-        
-        Expand ident string in *.pl files
-      * Initial entry
-        
-        Initial entry of script for stress testing template output
-      * Merge branch 'master' into STRESS-SCRIPT
-        
-        Conflicts:
-        	TODO
-      * Add format() example
-        
-        Add format() example to synopsis
-      * Add MICROSOFT WINDOWS CAVEATS section
-        
-        Add information about using Template under Microsoft Windows
-      * Closed out formatter tests TODO
-        
-        Closed out formatter-template tests TODO item
-      * Place L::F::F::Template tests into separate file
-        
-        Place Log::Fine::Formatter::Template unit tests into separate test
-        file
-      * Add TODO about breaking up 04-formatter.t tests
-        
-        Add TODO about breaking up 04-formatter.t tests
-        or %T so use
-        alternate format.
-         getgrgid() or getpwuid()
-      * Overcome MSWin32 strftime(3) deficiencies
-        
-        MSWin32 strftime(3) does not look like it supports %e or %T so use
-        alternate format.
-         getgrgid() or getpwuid()
-      * MSWin32 does not support getgrgid() or getpwuid()
-        
-        MSWin32 (Win95, Win98, WinME, Win2003, XP, Vista, Win7, etc) does not
-        support getgrgid() or getpwuid()
-
-2010-11-28  Christopher M. Fuhrman
-
-      * Update
-        
-        Update with stress test script
-      * Match documentation w/ reality
-        
-        Match documentation with reality
-      * Verbiage
-        
-        Verbiage clean up
-
-2010-11-27  Christopher M. Fuhrman
-
-      * Merge branch 'TEMPLATE-SUPPORT'
-      * Bump version
-        
-        Bump version to 0.37 and update Changes accordingly
-
-2010-11-26  Christopher M. Fuhrman
-
-      * Regen
-        
-        Regen using pod2readme instead of pod2text.
-      * Merge branch 'TEMPLATE-SUPPORT'
-      * Final TODO item about speed
-        
-        Final TODO item about optimization of Template.pm
-      * Add note about speed
-        
-        Add note about speed
-      * %%millis%% placeholder is now case-insensitive
-        
-        %%millis%% placeholder is now case-insensitive so %%MILLIS%% will work
-        just as well as "%%Millis%%".  Be sure to document this.
-      * s/_fullhost/_fullHost/
-      * Reference getter/setters as methods
-        
-        Reference getter/setters as methods
-      * Close out some TODO elements
-        
-        Spent some work and implemented some TODO items.  See
-        https://github.com/cfuhrman/log-fine/commit/c101f8a62b032ed7bfae0f9f3ec39d72b435191a
-      * Update with TODO items
-        
-         * Cache program file name
-         * Make note about lower-case placeholders
-         * Switch to {use_effective_id}
-         * Change some method names
-      * Test combination string and lower-case placeholders
-        
-        Test template containing multiple lower-case placeholders.
-      * More notes
-        
-        Making note that placeholders are case-insensitive
-
-2010-11-25  Christopher M. Fuhrman
-
-      * Make POD documentation more assertive
-        
-        Make POD documentation more assertive
-      * Brainstorming
-        
-        Do some brainstorming about Template class
-      * Correct SYNOPSIS
-        
-        Make example templates a little more logical tot he user
-      * Oops!  Add support for filename and line number
-        
-        Add placeholders for filename and line number.  While here, add
-        associated unit tests.
-      * Update POD documentation
-        
-        Update POD documentation
-      * Update with new Template class
-        
-        Update with Log::Fine::Formatter::Template
-      * Update
-        
-        Update TODO for new Template module
-      * Initial entry
-        
-        Initial entry of Log::Fine::Formatter::Template and associated unit
-        tests.  Note the following template options are supported:
-        
-           | %%TIME%%      | Timestamp            |
-           | %%LEVEL%%     | Log Level            |
-           | %%MSG%%       | Log Message          |
-           | %%PACKAGE%%   | Caller Package       |
-           | %%FILENAME%%  | Caller filename      |
-           | %%LINENO%%    | Caller line number   |
-           | %%SUBROUT%%   | Caller Subroutine    |
-           | %%HOSTSHORT%% | Short Hostname       |
-           | %%HOSTLONG%%  | Long (FQDN) Hostname |
-           | %%LOGIN%%     | User Login           |
-           | %%GROUP%%     | User Group           |
-
-2010-11-24  Christopher M. Fuhrman
-
-      * Regen
-        
-        Sync with Log::Fine
-      * Add Login and Group
-        
-        Add Login and Group Options
-      * Initial ideas for template options
-        
-        Initial list of supported template options
-      * Update TODO entries
-        
-        Update tutorial and documentation TODO items
-      * Switch TODO file to use org-mode
-        
-        Switch TODO file to use the oh-so-übercool org-mode from within Emacs.
-      * Add $VERSION
-        
-        Add $VERSION information for each sub-module
-      * Add CONTRIBUTING section
-        
-        Add section on contributing patches, mentioning the github repository
-      * Add note about template class
-        
-        Add todo item for template class
-      * Bump version
-        
-        Bump version to 0.36 and update Changes accordingly
-      * perltidy
-      * Make sure user can define one and _only_ one L::F::H::S object
-        
-        Attempting to define more than one L::F::H::S object will not have the
-        desired effect and, in the case of perl 5.8.9, will crash the
-        offending program.  Make sure user can define one and _only_ one
-        Log::Fine::Handle::Syslog object.  From the Sys::Syslog(3) man page:
-        
-          The Third Rule of Sys::Syslog is: The program crashes, "die"s, calls
-          "closelog", the log is over.
-        
-        Also add corresponding unit test.
-        
-        Addresses the following CPAN testing reports:
-        
-         * http://www.cpantesters.org/cpan/report/0f9a5224-f617-11df-bb29-ad544afd17af
-         * http://www.cpantesters.org/cpan/report/f20590a0-f6db-11df-bb29-ad544afd17af
-      * Revert "Do not call closelog() if this is perl 5.8.9"
-        
-        This reverts commit 42af360f97c62d9410aa13b5dedd9d0833f79f51.
-      * Revert "Add CAVEATS"
-        
-        This reverts commit a15db9eb8d3ae42e939f1c7f28fe4be79633764b.
-      * Revert "Clarify CAVEATS"
-        
-        This reverts commit 29986e77e81f46109a0115eea2d200602d52cfb1.
-
-2010-11-23  Christopher M. Fuhrman
-
-      * Bump version
-        
-        Bump version to 0.35 and update Changes accordingly
-      * Clarify CAVEATS
-        
-        Further clarification of CAVEATS section
-      * Add CAVEATS
-        
-        Add CAVEATS, making note of perl 5.8.9 issue
-      * Do not call closelog() if this is perl 5.8.9
-        
-        Do not call Sys::Syslog::closelog() if this is perl 5.8.9 otherwise
-        perl will complain about upgrading UNKNOWN during destruction.  See the
-        following CPAN testing reports for examples:
-        
-         * http://www.cpantesters.org/cpan/report/0f9a5224-f617-11df-bb29-ad544afd17af
-         * http://www.cpantesters.org/cpan/report/f20590a0-f6db-11df-bb29-ad544afd17af
-      * Use different ident when testing multiple handles
-        
-        Use different syslog identification when testing multiple handles
-
-2010-11-21  Christopher M. Fuhrman
-
-      * Bump version
-        
-        Bump version to 0.34.2 and update Changes accordingly
-      * Lose RCS-style keywords
-        
-        Git doesn't really encourage the use of RCS-style keywords.
-      * Log failed line
-        
-        Certain operating systems may not be as POSIX-compliant as they claim
-        to be, so if the formatting line fails, display an error for future
-        analysis.
-        
-        This is here to determine the cause of
-        http://www.cpantesters.org/cpan/report/1dfc4b44-f5b6-11df-858d-e879df34a846
-      * Revert "Add rcs-keyword attribute to TODO"
-        
-        This reverts commit f2e9e1f359f70a99d44cb3757a231923c66e816c.
-        
-        Not quite what I wanted.  Will probably add to build system in future.
-      * Add rcs-keyword attribute to TODO
-        
-        To set up the appropriate keywords:
-        
-         $ git config filter.rcs-keyword.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
-         $ git config filter.rcs-keyword.smudge 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date: `date`\\\$/"'
-        
-        Source: http://stackoverflow.com/questions/62264/dealing-with-svn-keyword-expansion-with-git-svn
-      * Initial entry
-        
-        Initial entry.  See gitignore(5) for specifics
-      * Remind myself to tell the world about git
-        
-        Remind myself to add documentation to tell the world I've switched to
-        git for Log::Fine
-      * Bump version
-        
-        Bump version to 0.34.1 and update Changes accordingly
-      * Use a facility that is supported by older versions of perl
-        
-        LOG_CONSOLE isn't supported by the version of Sys::Syslog provided by
-        perl 5.8.9.  Switch to LOG_USER which is more widely supported (tested
-        using OpenSuSE 10.2/perl 5.8.8)
-        
-        This addresses the following CPAN testing reports:
-        
-        - amd64-netbsd / 5.8.9:
-         * FAIL http://www.cpantesters.org/cpan/report/d0eeed40-f383-11df-bb29-ad544afd17af
-        
-        - i386-freebsd-thread-multi-64int / 5.8.9:
-         * FAIL http://www.cpantesters.org/cpan/report/fe5e5fe2-f38b-11df-858d-e879df34a846
-        
-        - i386-netbsd / 5.8.9:
-         * FAIL http://www.cpantesters.org/cpan/report/4c30aea4-f38d-11df-afb0-adca6bb533f3
-        
-        - i86pc-solaris / 5.8.9:
-         * FAIL http://www.cpantesters.org/cpan/report/fe90dac8-f384-11df-afb0-adca6bb533f3
-        
-        - x86_64-linux / 5.8.9:
-         * FAIL http://www.cpantesters.org/cpan/report/1400201e-f388-11df-afb0-adca6bb533f3
-
-2010-11-17  Christopher M. Fuhrman
-
-      * Bump version
-        
-        Bump version to 0.34 and update Changes accordingly
-      * Correct typo
-        
-        Correct typo preventing definition of syslog facility, addressing
-        https://rt.cpan.org/Ticket/Display.html?id=63026.  While here, test
-        for dynamic assignment of Syslog logging facility.
-
-2010-10-02  Christopher M. Fuhrman
-
-      * Add README
-        
-        Add README
-      * regen
-        
-        regen from Log::Fine
-      * Revert "Remove Revision Information"
-        
-        This reverts commit e8d388d170f4125063fe4d1a84180efcf66c9962.
-      * Revert "Remove Revision Information"
-        
-        This reverts commit 84b56cf1b0477c4d5f32618441692d4c40287460.
-      * Initial entry
-        
-        Initial entry of git attributes file
-      * Commenting & Documentation clean-up
-        
-        Minor commenting & documentation clean-up
-
-2010-09-21  Christopher M. Fuhrman
-
-      * Add missing perl modules to test
-        
-        Be sure to use_ok() _ALL_ provided Perl modules
-
-2010-08-30  Christopher Fuhrman
-
-      * Add missing Log::Fine modules
-        
-        Add missing Log::Fine modules.  While here, perltidy
-
-2010-08-30  Christopher M. Fuhrman
-
-      * Remove redundant check
-        
-        Remove redundant check
-      * Add some anti-test-report logic
-        
-        To prevent myself from getting flooded with CPAN Testing reports, exit
-        if Sys::Syslog isn't found
-      * Tell Emacs what to do with itself
-        
-        Tell Emacs what to do with itself.  Seriously.
-      * Explicitly require Sys::Syslog 0.13
-        
-        Explicitly require Sys::Syslog 0.13 in module
-
-2010-08-29  Christopher M. Fuhrman
-
-      * _fatal() has been documented
-        
-        _fatal() has been documented as of LOGFINE-0-33
-
-2010-08-28  Christopher M. Fuhrman
-
-      * Refresh
-        
-        Refresh w/ checked in Log::Fine
-      * Remove Revision Information
-        
-        Remove Revision Information.  RCS-style keywords are not really
-        encouraged in git.
-      * Remove Revision Information
-        
-        Remove Revision Information.  RCS-style keywords are not really
-        encouraged in git.
-      * Bump version
-        
-        Bump version to 0.33 and update Changes accordingly
-
-2010-07-05  Christopher M. Fuhrman
-
-      * Clean up comments where appropriate
-        
-        Clean up potentially ambiguous comments where appropriate
-
-2010-05-10  Christopher M. Fuhrman
-
-      * Optimize code where appropriate
-      * Mollify Perl::Critic
-
-2010-05-09  Christopher M. Fuhrman
-
-      * perltidy
-      * Add support for {autoclose}
-        
-        Update unit tests as appropriate
-      * Document constructor arguments
-      * Explicitly set {autoflush} to 0 unless it is already defined.
-        
-        While here, elaborate on autoflush functionality.
-      * Sync
-      * More verbiage
-      * Verbiage
-      * Minor cleanups
-        
-         * Document no_croak attribute
-         * Optimize _init()
-
-2010-05-08  Christopher M. Fuhrman
-
-      * Document _fatal()
-        
-        Document private method _fatal() in POD documentation.  Note this
-        method can be overridden
-
-2010-04-19  Christopher M. Fuhrman
-
-      * Improve documentation where applicable
-
-2010-04-09  Christopher M. Fuhrman
-
-      * use, don't require Log::Fine::Logger
-      * Commenting
-      * Replace getter/setter functions with single function
-        
-        Replace  internal _setToday() & _getToday() with single getter/setter,
-        _Today()
-
-2010-04-05  Christopher M. Fuhrman
-
-      * Set svn:ignore on sub-directories
-
-2010-03-15  Christopher M. Fuhrman
-
-      * Bump version
-        
-        Bump version to 0.32 and update Changes accordingly
-      * Modified Formatter::Syslog unit tests to support multiple locales.
-        
-        Modified unit tests for Log::Fine::Formatter::Syslog so that multiple
-        locales are supported.  Example strings matched:
-        
-           3月  9 21:30:40 linux-fkpo 04-formatter.t[30148]: Stop by this disaster town
-           3월  9 21:35:26 linux-fkpo 04-formatter.t[30389]: Stop by this disaster town
-          Mär  9 21:29:56 linux-fkpo 04-formatter.t[30010]: Stop by this disaster town
-          Mar  9 21:54:37 linux-fkpo 04-formatter.t[31088]: Stop by this disaster town
-        
-        This addresses the following cpan reports:
-        
-         * http://www.cpantesters.org/cpan/report/6904759
-         * http://www.cpantesters.org/cpan/report/6904522
-
-2010-03-12  Christopher M. Fuhrman
-
-      * Revert -r221
-        
-        Not all systems have the listed supported locales and there isn't an
-        easy way to grab a list of supported locales
-      * Test multiple locales
-
-2010-03-09  Christopher M. Fuhrman
-
-      * Modify regex to handle non-English month representations found in other locales.  This commit addresses the following CPAN Reports:
-        
-         * http://www.cpantesters.org/cpan/report/6904759
-         * http://www.cpantesters.org/cpan/report/6904522
-        
-        Example strings matched:
-        
-         3月  9 21:30:40 linux-fkpo 04-formatter.t[30148]: Stop by this disaster town
-         3월  9 21:35:26 linux-fkpo 04-formatter.t[30389]: Stop by this disaster town
-        Mär  9 21:29:56 linux-fkpo 04-formatter.t[30010]: Stop by this disaster town
-        مار  9 21:38:46 linux-fkpo 04-formatter.t[30573]: Stop by this disaster town
-        Mar  9 21:54:37 linux-fkpo 04-formatter.t[31088]: Stop by this disaster town
-      * Initial shot at supporting Chinese
-      * Branch to address the following:
-        
-         * http://www.cpantesters.org/cpan/report/6904759
-         * http://www.cpantesters.org/cpan/report/6904522
-        
-        The issue is that the locale in these tests was set to zh_TW (Chinese / 
-        Taiwan ) and my regex wasn't properly catching this.
-
-2010-03-06  Christopher M. Fuhrman
-
-      * Remind myself to tag new release based on $Log::Fine::VERSION
-      * Bump version and update Changes
-
-2010-03-03  Christopher M. Fuhrman
-
-      * Add new formatter, Syslog
-        
-        Add a new formatter which formats messages in a style similar to
-        syslog(1).  Unit tests and MANIFEST updated to reflect this.
-      * Refer to LOG_TIMESTAMP_FORMAT* via object
-        
-        Refer to LOG_TIMESTAMP_FORMAT and LOG_TIMESTAMP_FORMAT_PRECISE via
-        object, not directly.  This allows any sub-class to override
-        LOG_TIMESTAMP_FORMAT_PRECISE*
-
-2010-01-03  Christopher M. Fuhrman
-
-      * Add README for changes found in v0.30
-      * Style changes
-      * _formatTime() replaces _getFmtTime()
-      * Update documentation to match reality
-      * Add 0.30 Changes
-      * Regen based on r200 of Fine.pm
-      * Happy New Years!  Bump copyright year as appropriate
-      * Bump version
-      * Add support for configurable levelmaps when using Utils.pm
-        
-        Note that Log::Fine::Utils::OpenLog() now takes a hash as an argument
-        as opposed to an array.  For example:
-        
-        {{{
-            # open the logging subsystem
-            OpenLog( handles  => [ $handle1, [$handle2], ... ],
-                     levelmap => "Syslog");
-        }}}
-      * Use a single private getter/setter, _logger
-      * Merge in changes from ^/branches/LOGCONFIG
-        
-        Add support for configurable log levels.
-      * perltidy before merge to trunk
-      * Revert -r150:148
-        
-        Do not use subversion revision numbers for versioning, rather just
-        stick with manual ones.
-
-2009-12-31  Christopher M. Fuhrman
-
-      * Make sure methods are declared in alphabetical order.
-      * Update
-      * Use bullet points as appropriate
-      * Update documentation
-      * Replace getSkip() with skip()
-        
-        Update unit tests accordingly
-      * Replace getFileHandle() with fileHandle()
-        
-        Update unit tests accordingly
-      * Replace setFormatter() with formatter()
-        
-        Update unit tests accordingly
-      * Replace setTimestamp() and getTimestamp() with timeStamp().
-        
-        Update unit tests accordingly
-      * Add support for java.util.logging levels
-        
-        Add new class Log::Fine::Levels::Java providing log levels and
-        associated unit tests corresponding to those found in
-        http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/Level.html
-      * Add Levels classes and associated unit tests to manifest
-
-2009-12-30  Christopher M. Fuhrman
-
-      * Merge in changes from ERROR_HANDLE branch
-        
-        Add new globally available method, _fatal() for handling situations 
-        where the Log::Fine subsystem hits a fatal error.  Update unit tests 
-        accordingly.
-      * perltidy
-      * Add some negative tests
-      * Add some fine-grained validity checking to Logger.  Also, clean up error message in Formatter.pm
-      * We skip 2 tests, not 3 if Test::Output isn't installed
-      * Test Error handling
-      * Add secret option "no_croak".  I need to document this.
-      * Use Test::Output for trapping error messages
-      * Elaborate on error messages
-      * Add new method, Log::Fine::_fatal() for handling error situations. Note that this can be overridden.
-      * Optimize logLevels()
-      * logMasks() now returns masks in ascending order by mask value
-      * Branch for development of better error handling
-
-2009-12-29  Christopher M. Fuhrman
-
-      * Fix Utils.pm which now passes unit tests.  While here, do some other touch-ups.
-
-2009-12-15  Christopher M. Fuhrman
-
-      * perltidy
-      * Port comprehensive testing from ^/branches/LOGCONFIG branch
-        
-        Mask testing is now comprehensive, testing all possible combinations.
-        This brings the total test count to 1025 tests.
-
-2009-09-29  Christopher M. Fuhrman
-
-      * Switch to new API (s/getLogger/logger/g)
-
-2009-09-28  Christopher M. Fuhrman
-
-      * Make Log::Fine::Levels compatible.
-        
-        Note that Utils is still broken.
-      * Add support for new Log::Fine::Levels to Log::Fine::Handle.  While here:
-        
-         * Update handle unit tests to be more comprehensive
-         * Correct major bug in L:::F::L::Syslog
-        
-        Please note that Handle submodules still need to be updated.
-
-2009-09-22  Christopher M. Fuhrman
-
-      * Add new method, bitmaskAll() for returning a mask with all possible values enabled
-      * Make the following changes to Log::Fine:
-        
-         - Log::Fine no longer exports constants.  That's handled by
-           Log::Fine::Levels
-         - Do not use the [_]*get* style naming for private methods.  Instead
-           make methods act as _both_ getters and setters depending on how
-           they are called
-         - Updated POD documentation and associated unit tests
-        
-        Note that this revision breaks the LOGCONFIG branch
-      * Add Log::Fine::Levels* to tests
-
-2009-09-17  Christopher M. Fuhrman
-
-      * Remove support for clone, which isn't really needed
-
-2009-09-16  Christopher M. Fuhrman
-
-      * Mention that this class is the default for Log::Fine::Levels
-      * Possible TODO: Tutorial for extending Levels class
-      * Fill in SYNOPSIS and DESCRIPTION of pod documentation
-
-2009-09-09  Christopher M. Fuhrman
-
-      * Fill in POD documentation for Syslog module
-
-2009-09-08  Christopher M. Fuhrman
-
-      * :Fine::Levels::Syslog will now export log levels and log masks via Exporter/AutoLoader
-      * Fix tyop
-
-2009-09-07  Christopher M. Fuhrman
-
-      * Set levels when initializing any Log::Fine based class.  Use new Levels class where applicable.  Add new API, getLevels, for getting the stored Levels object
-
-2009-09-03  Christopher M. Fuhrman
-
-      * Correctly match revision number.  Also fix spacing
-      * Use subversion revision for version number
-      * Initial entry of Levels class and associated Syslog class Also added unit test
-      * Directory for holding level definitions
-      * Branch for development of configurable log levels
-
-2009-08-16  Christopher M. Fuhrman
-
-      * Add ideas about levels and callback.
-
-2009-02-06  Christopher M. Fuhrman
-
-      * Add 10-hires test to manifest.
-      * Optmize high-resolution time calculation
-
-2009-02-05  Christopher M. Fuhrman
-
-      * Minor formatting change
-      * Remind myself to regenerate README when making a release.
-      * Update to latest wish list
-      * regen
-
-2009-02-04  Christopher M. Fuhrman
-
-      * Bump version and copyright date in Fine.pm
-      * Bump copyright date
-      * Update documentation to include information about high-resolution timestamps.
-      * perltidy
-      * Add support for fine-grained logging via the Time::HiRes module.  Also add associated test to make sure things work okay.
-
-2008-12-12  Christopher M. Fuhrman
-
-      * Update date
-      * Oops.  Forgot to include Carp!
-      * Add error checking to Log() and OpenLog().  Also include CAVEATS section.
-
-2008-12-09  Christopher M. Fuhrman
-
-      * Mention Log::Fine::Utils.
-
-2008-12-08  Christopher M. Fuhrman
-
-      * Fix tyop
-      * Bump version to 0.21
-      * perltidy
-      * Add new module, Log::Fine::Utils which provides a functional interface to Log::Fine.  Also add associated test file and update manifest.
-
-2008-08-26  Christopher M. Fuhrman
-
-      * Don't forget to test Log::Fine::Handle::File::Timestamp.  Reorder testing of modules while we're here.
-      * Add item for loadable log levels
-
-2008-07-23  Christopher M. Fuhrman
-
-      * Avoid redundant testing
-      * Be more intelligent about testing mask combinations.  Not completely comprehesive, but getting there.
-
-2008-07-05  Christopher M. Fuhrman
-
-      * Maybe switch to Module::Build?
-      * We can just use Test::Simple for handle tests
-      * Bump version
-      * Make sure we only use Sys::Syslog when we need to
-      * Updated to include bitmask testing
-      * Welcome to 0.20
-      * Implemented
-      * Add test to make sure we don't log when we're not supposed to.  This brings the total number of tests for this file to 132.
-
-2008-07-04  Christopher M. Fuhrman
-
-      * Handles do not need {level} attribute anymore.  Remove from tests while we're at it.
-      * Properly test mask combinations
-
-2008-07-02  Christopher M. Fuhrman
-
-      * Update for version 0.15
-      * Welcome to version 0.15
-      * Add TODO and include in Manifest
-      * Do bitmasking properly.
-
-2008-06-30  Christopher M. Fuhrman
-
-      * Optimize how we grab the class name in _init()
-
-2008-06-07  Christopher M. Fuhrman
-
-      * Update changelog
-
-2008-06-06  Christopher M. Fuhrman
-
-      * regen
-      * Welcome to 0.14
-      * Set continuation indentation to 4 per http://www.openbsd.org/cgi-bin/man.cgi?query=style&apropos=0&sektion=0&manpath=OpenBSD+4.3&arch=i386&format=html
-
-2008-06-03  Christopher M. Fuhrman
-
-      * Grammar fix ;)
-
-2008-05-27  Christopher M. Fuhrman
-
-      * Welcome to 0.13!
-      * Addition of Checklist for when I make commits
-      * Bump version to reflect minor fixes
-      * Version 0.12
-      * Bump version
-      * Require version 0.13 of Sys::Syslog.  Apparently older versions did not export tags we need.
-
-2008-05-25  Christopher M. Fuhrman
-
-      * Final perltidy before release
-      * Make sure Chris Josephs is also mentioned.
-      * Bump version before release
-
-2008-05-24  Christopher M. Fuhrman
-
-      * Effective immediately, Log::Fine is distributed under the 2-clause BSD license.
-      * Link clean-up
-      * Clean up POD for HTML format
-
-2008-05-23  Christopher M. Fuhrman
-
-      * Welcome to 0.05
-      * regen
-      * Proof-read POD documentation.  Clean-ups and elaborations where necessary.
-
-2008-05-22  Christopher M. Fuhrman
-
-      * regen
-      * Audit POD documentation
-      * regen
-      * We are now at version 0.04
-      * Add API for adjusting the timestamp within log messages.  Also add a sanity check for Formatter->format().
-      * Give inspirational credit as appropriate.  Also update documentation here and there.
-
-2008-05-21  Christopher M. Fuhrman
-
-      * Lose redundant logger test
-      * Reference file handle directly in test to avoid confusion.
-      * Fix context leak ;)
-      * Skip tests if Test::Output isn't installed
-      * Use Test::Output to validate printing to STDERR & STDOUT
-      * Lose some redundant POD documentation that slipped in.
-      * Fix small case of context leaking ;)
-      * Replace lib/Log/Fine/Handle/Test.pm with ../String.pm and update references as appropriate
-      * Make sure that a logger object's name doesn't include any funky characters
-
-2008-05-20  Christopher M. Fuhrman
-
-      * Elaborate on cloning
-      * Add cloning capabilities.
-      * Oops.  s/output/console/
-      * Bump version
-      * Add two new shorthand masks: LOGMASK_ALL (for all log masks) and LOGMASK_ERROR (for LOGMASK_ERR and below).
-        
-        Also perltidy the syslog unit tests.
-      * Per suggestion from Dan, rename Output.pm to Console.pm and update references accordingly.
-
-2008-05-16  Christopher M. Fuhrman
-
-      * Add api for adjusting log skip.  Also renamed {skip} to {_skip} indicating that it's a value that shouldn't be touched.
-
-2008-05-15  Christopher M. Fuhrman
-
-      * Make sure we store any new Logger object that's created.  Various pod and code clean-ups while I'm here.
-
-2008-05-09  Christopher M. Fuhrman
-
-      * Add some tests for both log levels and masks.
-      * Bump version
-      * All good boys clean up after themselves!
-
-2008-05-08  Christopher M. Fuhrman
-
-      * Blank meta file so 'make dist' works
-      * Lose $VERSION.  Also add SEE ALSO section
-      * Revert -r12.  Test.pm needed to pass 'make test'
-      * :Fine::Handle::Test is no longer necessary.  Removing.
-      * Lose $VERSION which is only necessary in Fine.pm
-      * Clean up POD documentation
-        
-        Also lose Log::Fine::Handle->getFormatter() which isn't needed.
-
-2008-05-07  Christopher M. Fuhrman
-
-      * new objects now take a regular hash rather than a hash ref.
-        
-        Also make boilerplate tests shut up.
-      * Replace all instances of BSDLog with Fine as appropriate.
-        
-        Passes make test so everything is kosher!
-      * Move BSDLog.pm and friends to Fine to reflect the name of this module: Log::Fine
-      * The great massive perltidy into KNF!
-      * Set svn:keywords as appropriate
-      * Copy imported Log::BSDLog from LOG-BSDLOG vendor tag
-      * Initial import of Log::BSDLog
-      * New repository setup
+[2015-07-21]
+ * perltidy
+ * Perltidy
 
+[2015-06-17]
+ * Remove 'NOT REACHED' comments
+
+[2014-11-30]
+
+[2014-11-07]
+ * Reformat using new perltidy settings
+
+[2014-06-04]
+ * Ignore files generated by tagging programs
+ * Allow wait-time for emails to be configurable
+ * Improve array iteration performance
+
+[2014-01-18]
+ * Regen
+ * Update email address
+
+[2014-01-15]
+ * Set return value as appropriate in validation routines
+ * Document what BEGIN block does
+
+[2013-12-21]
+ * Document Email Address Validation
+ * Comment methods with early return of control
+
+[2013-12-20]
+ * Close out CAVEAT task
+ * Minor punctuation nit
+ * Add CAVEATS section about Email Validation modules
+ * Be sure to clear out $@ in BEGIN loop
+ * Update TODO items to reflect Email work
+ * Add support for Email::Valid
+ * Remove Mail::RFC822::Address checks
+ * Give validation methods object oriented goodness
+ * Dynamically load Mail::RFC822::Address module
+ * Add TODO item for flexible usage of Mail::RFC822::Address
+
+[2013-09-19]
+ * Bump version to 0.64
+
+[2013-09-17]
+
+[2013-09-16]
+ * Correct potential race condition when closing file handle
+ * Close out leftover file task
+ * Add TODO about file spewage
+
+[2013-09-12]
+ * Optimize fileHandle() method
+
+[2013-04-30]
+ * Clean up some commentary
+
+[2013-04-16]
+ * Close temporary filehandle before checking for assoc. file
+ * Close out TEMP environment variable task
+ * Use the TEMP environmental variable to get temporary file path
+ * Add TODO to use TEMP Environmental variable
+ * Bump version to 0.63
+
+[2013-04-15]
+
+[2013-04-12]
+ * Properly call mail(1) when using Debian GNU/Linux
+ * Properly call mail(1) when using OpenBSD
+
+[2013-02-10]
+ * Remove redundant ABSTRACT_FROM
+ * Correct bullet in item line
+
+[2013-02-09]
+ * Use preferred representation for mail body time stamp
+ * Log::Fine now requires Perl v5.8.3
+ * Minor verbiage to avoid potential confusion
+
+[2013-02-08]
+ * Use File::Temp::mkstemp() to create temporary file
+
+[2013-01-13]
+ * Use File::Temp::mkstemp() to create temporary file
+ * Switch to using tmpnam() from File::Temp
+
+[2013-01-03]
+ * Bump version to 0.62
+ * Remove Revision ID Information
+ * Revert "Remove Sys::Syslog as a requirement"
+
+[2012-12-29]
+ * Bump version to 0.61
+ * Make tests compatible with Email::Sender version >= 0.120000
+ * Remove Try::Tiny from recommendations
+ * Use try_to_sendmail() method for Email delivery
+
+[2012-10-17]
+
+[2012-08-25]
+ * Switch from using "~" to delimit fixed-width text to "="
+ * Initial revision of quick-n-dirty ChangeLog generation script
+
+[2012-07-16]
+ * Close out tasks
+
+[2012-07-04]
+
+[2012-07-03]
+ * Do not forget to bump copyright year in necessary files
+ * Document {err_callback}
+ * Add unit tests for {err_callback} functionality
+
+[2012-06-29]
+ * Add callback functionality for _error()
+ * Call _error() if we are unable to close the file handle
+ * Code and comment clean-ups
+ * Close out Sys::Syslog and MIME::Lite tasks
+ * Capture potentially fatal errors
+ * Add the following TODO items:
+ * Do not call Sys::Syslog::closelog() on destruction
+ * Be consistent with file handle validation
+ * Make sure Log() has a valid logging object
+ * Make testing messages consistent
+ * Reference Sys::Syslog macros explicitly
+ * Cancel internal logging method
+ * Remove Sys::Syslog as a requirement
+ * Reference VALTOLVL_MAP values from LVLTOVAL_MAP
+ * Update misleading DESCRIPTION
+ * Add and close null handle creation task
+ * Cancel enable/disable task
+ * Initial entry of Null Handle
+ * Correct bug reporting email address
+ * _error() if we are unable to close file handle
+ * Close out TODO items
+ * Add additional sanity checks
+ * registerHandle() can now accept array refs
+ * Add new method _error()
+ * Remove requirement for Test::Output
+ * Update TODO list for LOGFINE-0-61
+ * Remove older closed TODO items
+ * Brainstorm ideas for v0.61
+ * Use the mailx(1) command for grabbing headers under solaris
+ * Recommend Try::Tiny v0.11
+ * Set object's {_err_str} when _fatal() is called
+ * Clean up msgWrite() logic
+ * Add blib and pm_to_blib to list of ignored items
+ * {header_to} option can now be either a string or an array ref
+ * Add new subclassing TODO item
+
+[2011-12-24]
+
+[2011-12-15]
+ * Bump version
+ * Only save STDERR on newer versions of perl
+
+[2011-12-08]
+ * Update skip message to reflect reality
+ * getgrgid() works under cygwin
+ * Correct instance of vivification
+ * Save and restore original STDERR
+ * Make sure the Log::Fine::Handle::File filehandle is closed
+
+[2011-12-02]
+ * Use $ENV{GID} and $ENV{EGID} under cygwin
+ * Check for absolute path under MSWin32
+ * Reduce spewage by checking $ENV{EGID} and $ENV{GID}
+ * Oversight
+ * Bump version
+ * Regen
+
+[2011-12-01]
+ * Sync documentation w/ reality
+ * Replace croak with confess when calling ->_fatal()
+ * Close out template tasks
+ * Clean up function, variable names
+ * Redirect stderr to the bitbucket for bad custom template unit test
+ * Add rename method task
+ * Update custom placeholder tasks
+ * Check for duplicate custom placeholders
+ * Add another TODO item for storing placeholder keys
+ * Add key collision TODO
+
+[2011-11-28]
+ * Just use {file} if {dir} is not defined
+
+[2011-11-22]
+ * Bump copyright
+ * Log::Fine::Handle::File can now accept a file name with absolute path
+ * perltidy
+ * Stress test custom placeholder functionality
+ * Correct copyright
+ * Be more consistent with variable names
+
+[2011-11-16]
+ * Close out custom template TODO
+ * Update documentation
+ * s/custom_templates/custom_placeholders/
+ * Add support for custom placeholders
+ * Function refs must be set sans ()
+ * Lose redundant code block
+
+[2011-11-03]
+ * Fill out details
+ * Brainstorm custom template macros
+ * Post-pend function names with ()
+
+[2011-11-02]
+ * Bump Copyright
+
+[2011-10-31]
+
+[2011-10-30]
+ * Bump version
+ * Regen
+
+[2011-10-28]
+ * Make note that envelope is optional
+ * Note perl 5.8.3 requirement
+
+[2011-10-25]
+ * Make sure Handle object supports bitmaskListEnabled()
+ * Update log mask TODO item
+ * Add new method, Log::Fine::Handle->bitmaskListEnabled()
+ * Add TODO item about bitmaskListEnabled()
+ * Bump copyright
+ * Complete Timestamp TODO
+ * Log::Fine::Handle::File::Timestamp now properly rotates files
+ * Add TODO item about timestamped files
+
+[2011-10-24]
+ * Bump version
+ * Skip tests if run under MSWin32 or Cygwin
+ * Skip tests if run under MSWin32 or Cygwin
+ * Skip tests if run under MSWin32 or Cygwin
+ * Recommend Throwable
+ * Add new handle, Log::Fine::Handle::Email
+ * Sync SYNOPSIS with reality
+ * Move isLoggable() regression tests to Log::Fine::Level::* tests
+
+[2011-10-19]
+ * Add RCS-style keyword
+
+[2011-09-29]
+
+[2011-08-04]
+ * Optimize methods for speed
+
+[2011-07-22]
+ * Bump version
+ * Bump version
+
+[2011-07-12]
+ * When getting the group IDs, be sure to use the FIRST value returned
+ * Grammar
+
+[2011-07-06]
+
+[2011-05-18]
+ * Use ref to determine object type
+
+[2011-03-28]
+ * Bump version
+ * Auditing for documentation correctness
+ * Update tasks
+ * perltidy
+ * Switch to Test::More
+
+[2011-03-19]
+ * Add POD readme branch TODO
+ * Add TODO for unit tests
+ * Provide name() example usage
+ * Initial entry of README.pod
+
+[2011-03-18]
+ * Bump version
+ * Add unit tests for non-default syslog facilities
+ * Cancel todo
+ * Log::Fine::_fatal() will croak if called directly
+ * Close out name() task
+ * Test $obj->name()
+ * Add more unit tests
+ * perltidy
+ * Update with LOG-UTIL-LOGTRACKING changes
+ * Remove GetLogName()
+ * Implement Log::Fine::Utils::CurrentLogger()
+ * Add {no_croak} option to list of parameters accepted by OpenLog()
+
+[2011-03-11]
+ * Store pointer to current logger
+ * Further brainstorming
+ * Implement Log::Fine->name()
+ * Brainstorming
+ * Documentation consistency nit
+ * Elaborate GetLogName() TODO
+ * Add TODO for GetLogName()
+ * Properly match date string when LC_TIME is set to de_DE.utf8
+
+[2011-02-25]
+ * Document GetLogName()
+ * Add tests for GetLogName()
+ * Add new function, GetLogName()
+ * Comment out unused Data::Dumper module
+
+[2011-02-08]
+
+[2011-02-07]
+ * Bump version
+ * Log::Fine::Utils now supports multiple loggers
+ * Bump version
+
+[2011-02-06]
+ * Expand RCS keywords in Makefile.PL
+
+[2011-02-05]
+
+[2011-02-02]
+ * Just require Sys::Syslog 0.13
+ * No longer need META.yml since it's auto-generated for us
+ * Let Makefile.PL generate an appropriate META.yml file
+
+[2011-01-30]
+ * Regen
+ * Add installation instructions
+
+[2011-01-11]
+ * Minor formatting tweaks
+
+[2011-01-10]
+ * Bump version
+ * Close out multi-logger task
+
+[2011-01-09]
+ * Update
+ * Regen
+ * perltidy
+ * Code optimizations
+
+[2011-01-08]
+ * Document new multi-logger functionality
+ * Make POD documentation more consistent with perlmodstyle(1)
+ * Clean up code
+ * Store copy of Log::Fine object
+
+[2011-01-07]
+ * Make sure filehandle is open
+ * Update TODO with Utils task information
+ * Initial stab at having Utils support multiple loggers
+
+[2011-01-06]
+ * Add support for listing defined logger objects
+ * Brainstorm additional ideas
+ * Ignore files generated by perltidy and 'make clean'
+ * Add support for variable-precision high-resolution timestamps
+ * Properly handle space at beginning of line caused by certain locales
+ * Bump Version
+ * Bump Version
+
+[2011-01-03]
+ * Bump Version
+
+[2011-01-02]
+ * Happy New Years!  Bump copyright year as appropriate
+ * Correct invocation to _fatal()
+ * Add some thoughts on extending Utils
+ * Clarify _fatal() documentation
+
+[2010-12-31]
+ * Spacing
+ * Use _fatal() for croaking
+
+[2010-12-28]
+ * Bump version
+ * Decided against switching to Module::Build so cancel TODO
+ * Close out Formatter template class TODO
+ * Optimize how $skip is set
+ * Do not call $self->_placeHolders($tmpl) unless we need to
+ * perltidy
+ * s/{_used_placeholders}/{_placeholders}/g
+ * Relocate placeholder generation to separate getter/setter
+
+[2010-12-21]
+
+[2010-12-16]
+ * Minor: consistency nit
+ * Merge branches 'master' and 'master' of https://github.com/cfuhrman/log-fine
+
+[2010-12-15]
+ * Refresh
+ * Stop the unit test from lying to syslog
+
+[2010-12-12]
+
+[2010-12-11]
+ * Bump version
+ * Correct instance where incorrect stack frame was logged
+ * Correct instance where incorrect stack frame was logged
+ * When subroutine name cannot be determined, assume main()
+ * Add additional tests
+ * Add debuggery in case I need it
+ * When subroutine name cannot be determined, assume main()
+ * Add additional tests
+ * Correct incorrect stack frame logging issue
+ * Correct incorrect stack frame logging issue
+
+[2010-12-07]
+ * Comment verbiage
+ * Further Optimizations
+
+[2010-12-04]
+
+[2010-12-03]
+ * First attempt to optimize Template.pm
+ * Update
+
+[2010-12-02]
+ * Bump version
+ * Close out stress test script TODO
+
+[2010-12-01]
+ * Add note about support for log format templates
+ * Ship stresslog.pl
+ * Expand *.pl files
+ * Initial entry
+ * Add format() example
+
+[2010-11-28]
+ * Add MICROSOFT WINDOWS CAVEATS section
+ * Closed out formatter tests TODO
+ * Place L::F::F::Template tests into separate file
+ * Add TODO about breaking up 04-formatter.t tests
+ * Overcome MSWin32 strftime(3) deficiencies
+ * MSWin32 does not support getgrgid() or getpwuid()
+
+[2010-11-27]
+ * Update
+ * Match documentation w/ reality
+ * Verbiage
+ * Bump version
+
+[2010-11-26]
+ * Regen
+ * Final TODO item about speed
+ * Add note about speed
+ * %%millis%% placeholder is now case-insensitive
+ * s/_fullhost/_fullHost/
+
+[2010-11-25]
+ * Reference getter/setters as methods
+ * Close out some TODO elements
+ * Update with TODO items
+ * Test combination string and lower-case placeholders
+ * More notes
+ * Make POD documentation more assertive
+ * Brainstorming
+ * Correct SYNOPSIS
+ * Oops!  Add support for filename and line number
+ * Update POD documentation
+ * Update with new Template class
+ * Update
+ * Initial entry
+
+[2010-11-24]
+
+[2010-11-23]
+ * Regen
+ * Add Login and Group
+ * Initial ideas for template options
+ * Update TODO entries
+ * Switch TODO file to use org-mode
+ * Add $VERSION
+ * Add CONTRIBUTING section
+ * Add note about template class
+ * Bump version
+ * perltidy
+ * Make sure user can define one and _only_ one L::F::H::S object
+ * Revert "Do not call closelog() if this is perl 5.8.9"
+ * Revert "Add CAVEATS"
+ * Revert "Clarify CAVEATS"
+ * Bump version
+ * Clarify CAVEATS
+ * Add CAVEATS
+ * Do not call closelog() if this is perl 5.8.9
+ * Use different ident when testing multiple handles
+
+[2010-11-21]
+ * Bump version
+ * Lose RCS-style keywords
+ * Log failed line
+ * Revert "Add rcs-keyword attribute to TODO"
+ * Add rcs-keyword attribute to TODO
+ * Initial entry
+ * Remind myself to tell the world about git
+ * Bump version
+
+[2010-11-17]
+ * Use a facility that is supported by older versions of perl
+
+[2010-10-02]
+ * Bump version
+ * Correct typo
+ * Add README
+ * regen
+ * Revert "Remove Revision Information"
+ * Revert "Remove Revision Information"
+ * Initial entry
+ * Commenting & Documentation clean-up
+
+[2010-09-21]
+
+[2010-08-30]
+ * Add missing perl modules to test
+ * Add missing Log::Fine modules
+ * Remove redundant check
+ * Add some anti-test-report logic
+ * Tell Emacs what to do with itself
+ * Explicitly require Sys::Syslog 0.13
+
+[2010-08-29]
+
+[2010-08-28]
+ * _fatal() has been documented
+
+[2010-07-05]
+ * Refresh
+ * Remove Revision Information
+ * Remove Revision Information
+ * Bump version
+
+[2010-05-10]
+ * Clean up comments where appropriate
+
+[2010-05-09]
+ * Optimize code where appropriate
+ * Mollify Perl::Critic
+
+[2010-05-08]
+ * perltidy
+ * Add support for {autoclose}
+ * Document constructor arguments
+ * Explicitly set {autoflush} to 0 unless it is already defined.
+ * Sync
+ * More verbiage
+ * Verbiage
+ * Minor cleanups
+
+[2010-04-19]
+ * Document _fatal()
+
+[2010-04-09]
+ * Improve documentation where applicable
+
+[2010-04-05]
+ * use, don't require Log::Fine::Logger
+ * Commenting
+ * Replace getter/setter functions with single function
+ * Set svn:ignore on sub-directories
+
+[2010-03-15]
+
+[2010-03-12]
+ * Bump version
+
+[2010-03-10]
+ * Revert -r221
+ * Test multiple locales
+
+[2010-03-06]
+ * Modify regex to handle non-English month representations found in other locales.  This commit addresses the following CPAN Reports:
+ * Initial shot at supporting Chinese
+ * Branch to address the following:
+
+[2010-03-03]
+ * Remind myself to tag new release based on $Log::Fine::VERSION
+ * Bump version and update Changes
+
+[2010-01-03]
+ * Add new formatter, Syslog
+ * Refer to LOG_TIMESTAMP_FORMAT* via object
+
+[2010-01-01]
+ * Add README for changes found in v0.30
+ * Style changes
+ * _formatTime() replaces _getFmtTime()
+ * Update documentation to match reality
+ * Add 0.30 Changes
+ * Regen based on r200 of Fine.pm
+ * Happy New Years!  Bump copyright year as appropriate
+ * Bump version
+ * Add support for configurable levelmaps when using Utils.pm
+ * Use a single private getter/setter, _logger
+ * perltidy before merge to trunk
+ * Revert -r150:148
+
+[2009-12-31]
+ * Make sure methods are declared in alphabetical order.
+ * Update
+ * Use bullet points as appropriate
+ * Update documentation
+ * Replace getSkip() with skip()
+ * Replace getFileHandle() with fileHandle()
+ * Replace setFormatter() with formatter()
+ * Replace setTimestamp() and getTimestamp() with timeStamp().
+
+[2009-12-30]
+ * Add support for java.util.logging levels
+ * Add Levels classes and associated unit tests to manifest
+ * perltidy
+ * Add some negative tests
+ * Add some fine-grained validity checking to Logger.  Also, clean up error message in Formatter.pm
+ * We skip 2 tests, not 3 if Test::Output isn't installed
+ * Test Error handling
+ * Add secret option "no_croak".  I need to document this.
+ * Use Test::Output for trapping error messages
+ * Elaborate on error messages
+ * Add new method, Log::Fine::_fatal() for handling error situations. Note that this can be overridden.
+
+[2009-12-15]
+ * Optimize logLevels()
+ * logMasks() now returns masks in ascending order by mask value
+ * Branch for development of better error handling
+ * Fix Utils.pm which now passes unit tests.  While here, do some other touch-ups.
+ * perltidy
+ * Port comprehensive testing from ^/branches/LOGCONFIG branch
+
+[2009-09-29]
+
+[2009-09-28]
+ * Switch to new API (s/getLogger/logger/g)
+ * Make Log::Fine::Levels compatible.
+
+[2009-09-22]
+ * Add support for new Log::Fine::Levels to Log::Fine::Handle.  While here:
+
+[2009-09-17]
+ * Add new method, bitmaskAll() for returning a mask with all possible values enabled
+ * Make the following changes to Log::Fine:
+ * Add Log::Fine::Levels* to tests
+
+[2009-09-16]
+ * Remove support for clone, which isn't really needed
+ * Mention that this class is the default for Log::Fine::Levels
+ * Possible TODO: Tutorial for extending Levels class
+ * Fill in SYNOPSIS and DESCRIPTION of pod documentation
+
+[2009-09-09]
+
+[2009-09-08]
+ * Fill in POD documentation for Syslog module
+
+[2009-09-03]
+ * Log::Fine::Levels::Syslog will now export log levels and log masks via Exporter/AutoLoader
+ * Fix tyop
+ * Set levels when initializing any Log::Fine based class.  Use new Levels class where applicable.  Add new API, getLevels, for getting the stored Levels object
+
+[2009-08-17]
+ * Correctly match revision number.  Also fix spacing
+ * Use subversion revision for version number
+ * Initial entry of Levels class and associated Syslog class Also added unit test
+ * Directory for holding level definitions
+ * Branch for development of configurable log levels
+
+[2009-02-06]
+ * Add ideas about levels and callback.
+
+[2009-02-05]
+ * Add 10-hires test to manifest.
+ * Optmize high-resolution time calculation
+
+[2009-02-04]
+ * Minor formatting change
+ * Remind myself to regenerate README when making a release.
+ * Update to latest wish list
+ * regen
+ * Bump version and copyright date in Fine.pm
+ * Bump copyright date
+ * Update documentation to include information about high-resolution timestamps.
+
+[2008-12-13]
+ * perltidy
+ * Add support for fine-grained logging via the Time::HiRes module.  Also add associated test to make sure things work okay.
+
+[2008-12-12]
+ * Update date
+ * Oops.  Forgot to include Carp!
+ * Add error checking to Log() and OpenLog().  Also include CAVEATS section.
+
+[2008-12-09]
+
+[2008-12-08]
+ * Mention Log::Fine::Utils.
+
+[2008-08-26]
+ * Fix tyop
+ * Bump version to 0.21
+ * perltidy
+ * Add new module, Log::Fine::Utils which provides a functional interface to Log::Fine.  Also add associated test file and update manifest.
+
+[2008-07-23]
+ * Don't forget to test Log::Fine::Handle::File::Timestamp.  Reorder testing of modules while we're here.
+ * Add item for loadable log levels
+
+[2008-07-05]
+ * Avoid redundant testing
+ * Be more intelligent about testing mask combinations.  Not completely comprehesive, but getting there.
+
+[2008-07-04]
+ * Maybe switch to Module::Build?
+ * We can just use Test::Simple for handle tests
+ * Bump version
+ * Make sure we only use Sys::Syslog when we need to
+ * Updated to include bitmask testing
+ * Welcome to 0.20
+ * Implemented
+ * Add test to make sure we don't log when we're not supposed to.  This brings the total number of tests for this file to 132.
+ * Handles do not need {level} attribute anymore.  Remove from tests while we're at it.
+ * Properly test mask combinations
+
+[2008-07-02]
+ * Update for version 0.15
+ * Welcome to version 0.15
+ * Add TODO and include in Manifest
+ * Do bitmasking properly.
+
+[2008-06-30]
+
+[2008-06-07]
+ * Optimize how we grab the class name in _init()
+
+[2008-06-06]
+ * Update changelog
+
+[2008-06-03]
+ * regen
+ * Welcome to 0.14
+ * Set continuation indentation to 4 per http://www.openbsd.org/cgi-bin/man.cgi?query=style&apropos=0&sektion=0&manpath=OpenBSD+4.3&arch=i386&format=html
+ * Grammar fix ;)
+
+[2008-05-27]
+
+[2008-05-26]
+ * Welcome to 0.13!
+ * Addition of Checklist for when I make commits
+ * Bump version to reflect minor fixes
+ * Version 0.12
+ * Bump version
+ * Require version 0.13 of Sys::Syslog.  Apparently older versions did not export tags we need.
+
+[2008-05-25]
+ * Update META information to match reality.  Also bump version
+ * Final perltidy before release
+ * Make sure Chris Josephs is also mentioned.
+ * Bump version before release
+
+[2008-05-24]
+ * Effective immediately, Log::Fine is distributed under the 2-clause BSD license.
+
+[2008-05-23]
+ * Link clean-up
+ * Clean up POD for HTML format
+
+[2008-05-22]
+ * Welcome to 0.05
+ * regen
+ * Proof-read POD documentation.  Clean-ups and elaborations where necessary.
+ * regen
+ * Audit POD documentation
+
+[2008-05-21]
+ * regen
+ * We are now at version 0.04
+ * Add API for adjusting the timestamp within log messages.  Also add a sanity check for Formatter->format().
+ * Give inspirational credit as appropriate.  Also update documentation here and there.
+ * Lose redundant logger test
+ * Reference file handle directly in test to avoid confusion.
+ * Fix context leak ;)
+
+[2008-05-20]
+ * Skip tests if Test::Output isn't installed
+ * Use Test::Output to validate printing to STDERR & STDOUT
+ * Lose some redundant POD documentation that slipped in.
+ * Fix small case of context leaking ;)
+ * Replace lib/Log/Fine/Handle/Test.pm with ../String.pm and update references as appropriate
+ * Make sure that a logger object's name doesn't include any funky characters
+ * Elaborate on cloning
+
+[2008-05-16]
+ * Add cloning capabilities.
+ * Oops.  s/output/console/
+ * Bump version
+ * Add two new shorthand masks: LOGMASK_ALL (for all log masks) and LOGMASK_ERROR (for LOGMASK_ERR and below).
+ * Per suggestion from Dan, rename Output.pm to Console.pm and update references accordingly.
+ * Add api for adjusting log skip.  Also renamed {skip} to {_skip} indicating that it's a value that shouldn't be touched.
+
+[2008-05-15]
+ * Make sure we store any new Logger object that's created.  Various pod and code clean-ups while I'm here.
+
+[2008-05-10]
+
+[2008-05-09]
+ * Add some tests for both log levels and masks.
+
+[2008-05-08]
+ * Bump version
+ * All good boys clean up after themselves!
+ * Blank meta file so 'make dist' works
+ * Initial entry of Log::Fine::Handle::File::Timestamp and associated unit test.
+
+[2008-05-07]
+ * Lose $VERSION.  Also add SEE ALSO section
+ * Revert -r12.  Test.pm needed to pass 'make test'
+ * Log::Fine::Handle::Test is no longer necessary.  Removing.
+ * Lose $VERSION which is only necessary in Fine.pm
+ * Clean up POD documentation
+ * new objects now take a regular hash rather than a hash ref.
+ * Replace all instances of BSDLog with Fine as appropriate.
+ * Move BSDLog.pm and friends to Fine to reflect the name of this module: Log::Fine
+ * The great massive perltidy into KNF!
+ * Set svn:keywords as appropriate
+ * Initial import of Log::BSDLog
+ * New repository setup
