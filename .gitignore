@@ -2,6 +2,7 @@
 *.tdy
 *~
 .AppleDouble
+/.vscode/
 :2eDS_Store
 GPATH
 GRTAGS
